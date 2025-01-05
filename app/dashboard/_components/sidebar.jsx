@@ -20,21 +20,6 @@ export default function Sidebar() {
             active: true,
         },
         {
-            name: 'createPopups',
-            icon: CheckSquare,
-            iconRight: PlusCircle,
-            link: '/dashboard/popups',
-            active: false,
-        },
-        {
-            name: 'emailList',
-            icon: Mail,
-            iconRight: null,
-            link: '/dashboard/emails',
-            active: false,
-            badge: 0,
-        },
-        {
             name: 'support',
             icon: Users,
             iconRight: null,

@@ -1,0 +1,272 @@
+.fa-chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #0061ff;
+    border-radius: 100px;
+    padding: 12px 24px;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 97, 255, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 999998;
+}
+
+.fa-chat-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 97, 255, 0.3);
+}
+
+.fa-chat-button .wave {
+    display: inline-block;
+    animation: buttonWave 2s infinite;
+    transform-origin: 70% 70%;
+}
+
+@keyframes buttonWave {
+    0% {
+        transform: rotate(0deg);
+    }
+    10% {
+        transform: rotate(14deg);
+    }
+    20% {
+        transform: rotate(-8deg);
+    }
+    30% {
+        transform: rotate(14deg);
+    }
+    40% {
+        transform: rotate(-4deg);
+    }
+    50% {
+        transform: rotate(10deg);
+    }
+    60% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.fa-widget-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 360px;
+    height: 600px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 999999;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fa-widget-container.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.fa-widget-header {
+    background: linear-gradient(135deg, #0061ff 0%, #0047bb 100%);
+    padding: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.fa-widget-avatar {
+    width: 40px;
+    height: 40px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fa-widget-header-text {
+    flex-grow: 1;
+    margin-left: 4px;
+}
+
+.fa-widget-header-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.fa-widget-header-subtitle {
+    font-size: 14px;
+    opacity: 0.9;
+    margin: 4px 0 0 0;
+}
+
+.fa-widget-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.fa-widget-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.fa-widget-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.fa-widget-content::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.fa-widget-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.fa-widget-content {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+}
+
+.fa-widget-message {
+    padding: 12px;
+    background: #f0f0f0;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #1a1a1a;
+}
+
+.fa-widget-input-container {
+    padding: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+}
+
+.fa-widget-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    background: #f5f5f5;
+    transition: background 0.2s;
+}
+
+.fa-widget-input:focus {
+    background: #f0f0f0;
+}
+
+.fa-widget-emoji-btn {
+    padding: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.fa-widget-emoji-btn:hover {
+    background: #f0f0f0;
+}
+
+.fa-widget-send {
+    padding: 8px;
+    background: #0061ff;
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.fa-widget-send:hover {
+    transform: scale(1.05);
+}
+
+.fa-widget-emoji-picker {
+    position: absolute;
+    bottom: 70px;
+    left: 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    display: none;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+    z-index: 1000;
+}
+
+.fa-widget-emoji-picker.active {
+    display: grid;
+}
+
+.fa-widget-emoji {
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.fa-widget-emoji:hover {
+    background: #f0f0f0;
+}
+
+.fa-close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    transition: background-color 0.2s;
+}
+
+.fa-close-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}

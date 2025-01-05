@@ -34,8 +34,12 @@ export default async function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
-                <Script src="https://popup3-vblq.vercel.app/fa.js" data-website-id="266057" data-api-url="https://popup3-vblq.vercel.app" strategy="afterInteractive" />
-            </head>
+            <script 
+        src="http://localhost:3000/fa.js" 
+        data-website-id="918517" 
+        data-api-url="https://popup3-vblq.vercel.app"
+        async
+    ></script>            </head>
             <body className={outfit.className}>
                 <ClientLayout>
                     <ThemeProvider>{children}</ThemeProvider>
