@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 4e4f5c034e3478ddd89acd3a8fe3b172ea200169
 # Logs
 logs
 *.log
@@ -129,6 +132,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+<<<<<<< HEAD
 =======
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
@@ -167,3 +171,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 >>>>>>> a5958f3 (first commit)
+=======
+>>>>>>> 4e4f5c034e3478ddd89acd3a8fe3b172ea200169
