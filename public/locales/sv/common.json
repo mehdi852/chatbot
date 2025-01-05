@@ -1,0 +1,1249 @@
+{
+    "header": {
+        "adminPanel": "Adminpanel",
+        "languages": {
+            "en": "Engelska",
+            "fr": "Franska"
+        }
+    },
+    "navbar": {
+        "home": "Hem",
+        "solutions": "Lösningar",
+        "resources": "Resurser",
+        "pricing": "Prissättning",
+        "adminPortal": "Adminportal",
+        "dashboard": "Instrumentpanel",
+        "signIn": "Logga in",
+        "startFreeTrial": "Starta gratis testperiod",
+        "menu": {
+            "solutions": {
+                "coreFeatures": "Kärnfunktioner",
+                "smartPopups": {
+                    "title": "Smarta Popups",
+                    "desc": "Intelligent konverteringsoptimering"
+                },
+                "analytics": {
+                    "title": "Avancerad Analys",
+                    "desc": "Prestandainsikter i realtid"
+                },
+                "targeting": {
+                    "title": "Målgruppsinriktning",
+                    "desc": "Precisionssegmentering av besökare"
+                },
+                "advancedTools": "Avancerade verktyg",
+                "splitTesting": {
+                    "title": "A/B-testning",
+                    "desc": "Datadriven optimering"
+                },
+                "security": {
+                    "title": "Företagssäkerhet",
+                    "desc": "Avancerade skyddsåtgärder"
+                },
+                "performance": {
+                    "title": "Prestandasuite",
+                    "desc": "Verktyg för hastighetsoptimering"
+                }
+            },
+            "resources": {
+                "supportLearning": "Support och Lärande",
+                "documentation": {
+                    "title": "Dokumentation",
+                    "desc": "Omfattande guider"
+                },
+                "support": {
+                    "title": "Företagssupport",
+                    "desc": "24/7 dedikerad assistans"
+                },
+                "community": {
+                    "title": "Community",
+                    "desc": "Anslut dig till experter"
+                },
+                "integrationHub": "Integrationshubb",
+                "api": {
+                    "title": "API-åtkomst",
+                    "desc": "Anpassade integrationsalternativ"
+                },
+                "devTools": {
+                    "title": "Utvecklarverktyg",
+                    "desc": "Avancerad anpassning"
+                }
+            }
+        }
+    },
+    "welcome": "Välkommen",
+    "gdpr": {
+        "title": "Integritets- och Cookie-meddelande",
+        "description": "Vi använder cookies och liknande tekniker för att förbättra din upplevelse och analysera prestanda. Genom att fortsätta samtycker du till vår",
+        "privacyLink": "Integritetspolicy",
+        "acceptAll": "Acceptera alla",
+        "essentialOnly": "Endast nödvändiga"
+    },
+    "features": {
+        "title": "Företagsfunktioner",
+        "mainHeading": "Allt du behöver för popup-framgång",
+        "description": "Kraftfulla verktyg i företagsklass för att skapa, hantera och optimera dina webbplats-popups. Öka engagemanget och konverteringarna med vår omfattande lösning.",
+        "items": {
+            "management": {
+                "title": "Centraliserad Hantering",
+                "description": "Hantera alla dina webbplats-popups från en intuitiv instrumentpanel. Skapa, redigera och spåra prestanda utan ansträngning."
+            },
+            "types": {
+                "title": "Flera Popup-typer",
+                "description": "Välj mellan olika popup-typer: aviseringar, e-postinsamlare och reklammeddelanden som matchar dina mål."
+            },
+            "targeting": {
+                "title": "Smart Målgruppsinriktning",
+                "description": "Rikta in besökare baserat på beteende, tidpunkt och plats. Visa rätt meddelande vid rätt tidpunkt."
+            }
+        }
+    },
+    "advancedFeatures": {
+        "title": "Avancerade Funktioner",
+        "mainHeading": "Kraftfulla verktyg för bättre resultat",
+        "description": "Ta kontroll över din popup-strategi med avancerade funktioner utformade för att maximera engagemanget och konverteringsfrekvensen",
+        "items": {
+            "builder": {
+                "title": "Visuell Byggare",
+                "description": "Skapa fantastiska popups med vårt intuitiva gränssnitt med dra-och-släpp"
+            },
+            "analytics": {
+                "title": "Smart Analys",
+                "description": "Spåra prestanda med detaljerad analys och insikter"
+            },
+            "timing": {
+                "title": "Smart Tidsinställning",
+                "description": "Perfekt tidsinställning baserat på användarbeteende och triggers"
+            },
+            "integrations": {
+                "title": "Integrationer",
+                "description": "Anslut till dina favoritmarknadsföringsverktyg"
+            }
+        }
+    },
+    "testimonials": {
+        "title": "Kundframgång",
+        "mainHeading": "Älskad av företag världen över",
+        "description": "Upptäck hur företag förbättrar sina konverteringsfrekvenser med vår popup-hanteringsplattform",
+        "items": [
+            {
+                "name": "Sarah Thompson",
+                "role": "Marknadsföringschef",
+                "company": "E-commerce Plus",
+                "quote": "Gränssnittet med dra-och-släpp gör det otroligt enkelt att hantera våra popup-kampanjer. Vi har sett en ökning på 40 % i e-postregistreringar."
+            },
+            {
+                "name": "Alex Rivera",
+                "role": "Tillväxtchef",
+                "company": "TechStart",
+                "quote": "De detaljerade analyserna och smarta målgruppsinriktningsfunktionerna har förvandlat vår popup-strategi. Vi har sett otroliga engagemangsfrekvenser sedan bytet."
+            },
+            {
+                "name": "David Chen",
+                "role": "E-handelschef",
+                "company": "Fashion Store",
+                "quote": "Äntligen en popup-lösning som är både kraftfull och enkel att använda. Målgruppsinriktningsalternativen är precis vad vi behövde."
+            }
+        ]
+    },
+    "statistics": {
+        "items": [
+            {
+                "number": "1M+",
+                "description": "Popups visas dagligen på tusentals webbplatser"
+            },
+            {
+                "number": "5 000+",
+                "description": "Aktiva företagswebbplatser som använder vår plattform"
+            },
+            {
+                "number": "35%",
+                "description": "Genomsnittlig ökning av konverteringsfrekvensen"
+            },
+            {
+                "number": "99,9%",
+                "description": "Tillförlitlighet av drifttid i företagsklass"
+            }
+        ]
+    },
+    "cta": {
+        "heading": "Redo att omvandla din popup-strategi?",
+        "description": "Anslut dig till tusentals framgångsrika företag som använder vår popup-lösning i företagsklass",
+        "button": "Starta gratis företagsutvärdering"
+    },
+    "pricing": {
+        "title": "Prissättning",
+        "heading": "Välj din perfekta plan",
+        "description": "Enkel, transparent prissättning som växer med dig. Prova vilken plan som helst gratis i 30 dagar.",
+        "billing": {
+            "monthly": "Månatlig fakturering",
+            "annual": "Årlig fakturering",
+            "save": "Spara 20 %"
+        },
+        "mostPopular": "Mest populär",
+        "features": "Funktioner",
+        "buttons": {
+            "getStarted": "Kom igång",
+            "contactSales": "Kontakta försäljning"
+        },
+        "loading": "Läser in prisinformation",
+        "error": "Fel vid inläsning av prisinformation",
+        "noPlans": "Inga prenumerationsplaner är tillgängliga för tillfället."
+    },
+    "footer": {
+        "newsletter": {
+            "title": "Nyhetsbrev",
+            "heading": "Håll dig uppdaterad med popup-trender",
+            "description": "Få expertinsikter om konverteringsoptimering och popup-strategier levererade till din inkorg.",
+            "placeholder": "Ange din e-postadress på jobbet",
+            "button": "Prenumerera",
+            "subscribing": "Prenumererar...",
+            "success": "Tack för att du prenumererar! Du kommer att få vårt nästa nyhetsbrev.",
+            "error": "Ett fel inträffade. Försök igen senare."
+        },
+        "company": {
+            "headquarters": "Globalt huvudkontor",
+            "address": "Level 2, 45 Tech Avenue, Melbourne VIC 3000"
+        },
+        "sections": {
+            "sitemap": "Webbplatskarta",
+            "company": "Företag"
+        },
+        "legal": {
+            "copyright": "© {year} YowManage. Alla rättigheter förbehållna.",
+            "privacy": "Integritetspolicy",
+            "terms": "Användarvillkor",
+            "cookies": "Cookie-inställningar"
+        }
+    },
+    "hero": {
+        "title": {
+            "main": "Smart Popup-hantering",
+            "highlight": "Enkelt"
+        },
+        "description": "Skapa, hantera och optimera webbplats-popups från en central instrumentpanel. Öka engagemanget utan att störa användarupplevelsen.",
+        "buttons": {
+            "trial": "Starta gratis testperiod",
+            "demo": "Visa demo"
+        }
+    },
+    "dashboard": {
+        "title": "Instrumentpanel",
+        "websites": {
+            "title": "Dina Webbplatser",
+            "description": "Hantera dina anslutna webbplatser och deras aviseringar",
+            "addButton": "Lägg till webbplats",
+            "addDialog": {
+                "title": "Lägg till ny webbplats",
+                "domain": "Domän",
+                "domainPlaceholder": "exempel.com"
+            },
+            "paths": "Sökvägar",
+            "actions": {
+                "delete": "Ta bort"
+            },
+            "errors": {
+                "subscriptionLimit": "Prenumerationsgränsen nådd",
+                "domainRequired": "Ange ett domännamn",
+                "saveFailed": "Det gick inte att spara ändringarna. Försök igen.",
+                "deleteFailed": "Det gick inte att ta bort webbplatsen. Försök igen.",
+                "loadFailed": "Det gick inte att läsa in ditt projekt. Uppdatera sidan."
+            },
+            "success": {
+                "added": "Webbplats tillagd",
+                "saving": "Sparar dina ändringar",
+                "saved": "Dina ändringar har sparats.",
+                "deleted": "Webbplatsen har tagits bort"
+            }
+        },
+        "integration": {
+            "title": "Webbplatsintegration",
+            "description": "Följ dessa steg för att integrera popups i din webbplats",
+            "step1": {
+                "title": "Lägg till skriptet på din webbplats",
+                "description": "Kopiera och klistra in den här koden i <head>-avsnittet på din webbplats."
+            },
+            "step2": {
+                "title": "Verifiera installation",
+                "description": "När du har lagt till koden visas dina popups automatiskt på din webbplats baserat på din konfiguration.",
+                "checklist": {
+                    "title": "Installationschecklista",
+                    "items": ["Skriptet har lagts till i head-avsnittet", "Webbplatsens domän matchar konfigurationen", "Inga JavaScript-fel i konsolen"]
+                }
+            },
+            "buttons": {
+                "visitSite": "Besök webbplats",
+                "copyCode": "Kopiera kod"
+            },
+            "success": {
+                "codeCopied": "Koden har kopierats!",
+                "codeCopiedDesc": "Integrationskoden har kopierats till urklipp"
+            }
+        },
+        "help": {
+            "title": "Behöver du hjälp?",
+            "description": "Kolla in vår {integrationGuide} eller {contactSupport} om du stöter på problem.",
+            "integrationGuide": "integrationsguide",
+            "contactSupport": "kontakta support"
+        }
+    },
+    "popupManager": {
+        "title": "Popup-hanterare",
+        "saveChanges": "Spara ändringar",
+        "saving": "Sparar...",
+        "resetProject": "Återställ projekt",
+        "success": {
+            "saved": "Dina ändringar har sparats.",
+            "reset": "Ditt projekt har återställts."
+        },
+        "errors": {
+            "loadFailed": "Det gick inte att läsa in data. Uppdatera sidan.",
+            "saveFailed": "Det gick inte att spara ändringarna. Försök igen.",
+            "resetFailed": "Det gick inte att återställa projektet. Försök igen."
+        },
+        "noWebsiteSelected": {
+            "title": "Webbplatsval krävs",
+            "heading": "Ingen webbplats har valts, lägg till en webbplats på startsidan för att börja.",
+            "description": "Välj en webbplats från ovan för att hantera dina popups och skapa engagerande aviseringar för dina besökare.",
+            "features": {
+                "messages": {
+                    "title": "Meddelande-popups",
+                    "description": "Enkla meddelanden för dina besökare"
+                },
+                "email": {
+                    "title": "E-postinsamlare",
+                    "description": "Öka din e-postlista med prenumerationsformulär"
+                },
+                "ads": {
+                    "title": "Annons-popups",
+                    "description": "Marknadsför specialerbjudanden och tillkännagivanden"
+                }
+            }
+        },
+        "popup": {
+            "edit": "Redigera",
+            "editIcon": "Redigera ikon",
+            "iconUrl": "Ikon-URL",
+            "preview": "Förhandsgranska",
+            "cancel": "Avbryt",
+            "save": "Spara",
+            "delete": "Ta bort",
+            "types": {
+                "ad": "Annons",
+                "email": "E-post",
+                "message": "Meddelande"
+            },
+            "errors": {
+                "imageLoad": "Det gick inte att läsa in bilden. Kontrollera URL:en.",
+                "invalidImage": "Ogiltig bild",
+                "invalidUrl": "Den angivna URL:en är inte en giltig bild",
+                "provideValidUrl": "Ange en giltig bild-URL"
+            }
+        },
+        "createPopup": {
+            "title": "Skapa ny popup",
+            "description": "Skapa engagerande popups för att interagera med dina besökare",
+            "steps": {
+                "previous": "Föregående",
+                "next": "Nästa",
+                "cancel": "Avbryt",
+                "create": "Skapa popup",
+                "type": {
+                    "label": "Välj typ",
+                    "description": "Välj vilken typ av popup du vill skapa"
+                },
+                "content": {
+                    "label": "Lägg till innehåll",
+                    "description": "Anpassa popup-innehåll och utseende"
+                },
+                "timing": {
+                    "label": "Ställ in tidpunkt",
+                    "description": "Konfigurera när och hur länge din popup ska visas"
+                },
+                "preview": {
+                    "label": "Förhandsgranska",
+                    "description": "Granska hur din popup kommer att visas för besökare"
+                }
+            },
+            "types": {
+                "title": "Välj popup-typ",
+                "description": "Välj den typ av popup som bäst passar dina behov",
+                "message": {
+                    "title": "Meddelande",
+                    "description": "Enkla aviseringar"
+                },
+                "email": {
+                    "title": "E-postinsamlare",
+                    "description": "Samla in e-postprenumerationer"
+                },
+                "advertising": {
+                    "title": "Annonsering",
+                    "description": "Reklammeddelanden"
+                }
+            },
+            "content": {
+                "iconUrl": "Ikon-URL",
+                "iconUrlPlaceholder": "https://example.com/icon.png",
+                "title": "Titel",
+                "titlePlaceholder": "Ange popup-titel",
+                "message": "Meddelande",
+                "messagePlaceholder": "Ange popup-meddelande",
+                "linkUrl": "Länk-URL",
+                "linkUrlPlaceholder": "Ange destinations-URL",
+                "linkDescription": "Vart användarna kommer att dirigeras när de klickar på popupen",
+                "buttonText": "Knapptext",
+                "buttonTextPlaceholder": "Prenumerera",
+                "inputPlaceholder": "Inmatningsplatshållare",
+                "inputPlaceholderExample": "Ange din e-postadress",
+                "successMessage": "Framgångsmeddelande",
+                "successMessagePlaceholder": "Tack för att du prenumererar!"
+            },
+            "timing": {
+                "title": "Tidsinställningar",
+                "description": "Konfigurera när din popup visas och hur länge den är synlig",
+                "delay": {
+                    "label": "Visningsfördröjning (millisekunder)",
+                    "description": "Hur länge ska man vänta innan popupen visas"
+                },
+                "duration": {
+                    "label": "Visningslängd",
+                    "description": "Hur länge popupen ska vara synlig",
+                    "options": {
+                        "3s": "3 sekunder",
+                        "5s": "5 sekunder",
+                        "7s": "7 sekunder",
+                        "10s": "10 sekunder",
+                        "unlimited": "Obegränsad"
+                    }
+                }
+            },
+            "preview": {
+                "iconAlt": "Förhandsgranskning av popup-ikon",
+                "defaultTitle": "Popup-titel",
+                "defaultMessage": "Ditt meddelande här"
+            }
+        },
+        "websitePopups": {
+            "title": "Webbplats-popups",
+            "description": "Hantera aviseringar för {domain}",
+            "addPath": "Lägg till ny sökväg",
+            "addPathDialog": {
+                "title": "Lägg till ny sökväg",
+                "pathName": "Sökvägsnamn",
+                "pathNamePlaceholder": "t.ex. Produktsida",
+                "pathUrl": "Sökvägs-URL",
+                "pathUrlPlaceholder": "t.ex. /produkter",
+                "addButton": "Lägg till sökväg"
+            },
+            "addPopup": "+ Lägg till en popup",
+            "dropHere": "Släpp objekt här"
+        }
+    },
+    "emailsPage": {
+        "title": "E-postlista",
+        "description": "Hantera dina insamlade e-postadresser",
+        "exportCsv": "Exportera CSV",
+        "search": {
+            "placeholder": "Sök e-postadresser..."
+        },
+        "emailCount": "{count} e-postadresser",
+        "table": {
+            "headers": {
+                "email": "E-post",
+                "source": "Källa",
+                "status": "Status",
+                "date": "Datum",
+                "website": "Webbplats",
+                "path": "Sökväg",
+                "popup": "Popup",
+                "actions": "Åtgärder"
+            }
+        },
+        "pagination": {
+            "rowsPerPage": "Rader per sida:",
+            "pageInfo": "Sida {current} av {total}"
+        },
+        "actions": {
+            "delete": "Ta bort"
+        },
+        "status": {
+            "active": "aktiv"
+        },
+        "messages": {
+            "deleteSuccess": "E-postadressen har tagits bort",
+            "deleteError": "Det gick inte att ta bort e-postadressen",
+            "loadError": "Det gick inte att läsa in e-postlistan"
+        }
+    },
+    "supportPage": {
+        "title": "Mina Ärenden",
+        "search": {
+            "placeholder": "Sök ärenden"
+        },
+        "tabs": {
+            "open": "Öppna",
+            "resolved": "Lösta"
+        },
+        "ticket": {
+            "status": {
+                "open": "Öppet",
+                "resolved": "Löst"
+            },
+            "id": "Ärende #{id}",
+            "noMessages": "Inga meddelanden ännu",
+            "actions": {
+                "resolve": "Lös ärende",
+                "reopen": "Öppna ärende igen",
+                "resolving": "Löser...",
+                "reopening": "Öppnar igen..."
+            }
+        },
+        "messages": {
+            "loading": "Läser in ärenden...",
+            "noTickets": "Inga {status} ärenden hittades",
+            "supportTeam": "Supportteam",
+            "inputPlaceholder": "Skriv ditt meddelande här",
+            "sending": "Skickar...",
+            "send": "Skicka"
+        },
+        "notifications": {
+            "ticketUpdated": "Ärende uppdaterat",
+            "ticketStatusChanged": "Ärendet har {status} slutförts.",
+            "updateError": "Det gick inte att uppdatera ärendestatus. Försök igen."
+        }
+    },
+    "usagePage": {
+        "title": "Användning och Begränsningar",
+        "description": "Övervaka din resursanvändning och prenumerationsstatus",
+        "sections": {
+            "usageLimits": {
+                "title": "Användningsbegränsningar",
+                "description": "Övervaka din resursanvändning för alla funktioner",
+                "totalWebsites": "Totalt antal webbplatser",
+                "paths": "Sökvägar",
+                "popups": "Popups",
+                "features": {
+                    "advertising": "Annons-popups",
+                    "emailCollector": "E-postinsamlare"
+                }
+            }
+        }
+    },
+    "subscriptionStatus": {
+        "title": "Prenumerationsstatus",
+        "freePlan": "Gratisplan",
+        "messages": {
+            "expired": "Din prenumeration har gått ut. Uppgradera nu för att återställa åtkomsten till alla funktioner.",
+            "expiringSoon": "Din prenumeration går ut snart. Förnya nu för att behålla åtkomsten till alla funktioner."
+        },
+        "buttons": {
+            "upgrade": "Uppgradera plan",
+            "renew": "Förnya prenumeration"
+        }
+    },
+    "billingPage": {
+        "title": "Fakturering och Prenumeration",
+        "description": "Hantera din prenumeration och visa faktureringshistorik",
+        "currentPlan": {
+            "title": "Nuvarande plan",
+            "description": "Din nuvarande prenumerationsplan och detaljer",
+            "freePlan": "Gratisplan",
+            "paidPlan": "{name} Plan",
+            "allFeatures": "Alla funktioner ingår",
+            "limitedFeatures": "Begränsade funktioner",
+            "expiresAt": "Går ut: {date}",
+            "buttons": {
+                "manage": "Hantera prenumeration",
+                "upgrade": "Uppgradera till Pro"
+            }
+        },
+        "billingHistory": {
+            "title": "Faktureringshistorik",
+            "description": "Visa och ladda ner dina tidigare fakturor och betalningshistorik",
+            "noHistory": {
+                "title": "Ingen faktureringshistorik tillgänglig",
+                "description": "Din fakturahistorik kommer att visas här när du har gjort en betalning"
+            },
+            "showingTransactions": "Visar {count} senaste transaktioner",
+            "viewAll": "Visa alla transaktioner",
+            "table": {
+                "status": "Status",
+                "invoice": "Faktura",
+                "date": "Datum",
+                "amount": "Belopp",
+                "actions": "Åtgärder"
+            },
+            "status": {
+                "paid": "Betald",
+                "pending": "Väntar"
+            }
+        },
+        "invoice": {
+            "title": "Faktura #{number}",
+            "issueDate": "Utfärdandedatum",
+            "billTo": "Faktura till",
+            "paymentStatus": "Betalningsstatus",
+            "description": "Beskrivning",
+            "amount": "Belopp",
+            "total": "Totalt",
+            "billingPeriod": "Faktureringsperiod: {start} - {end}",
+            "monthlySubscription": "Månatlig prenumeration",
+            "footer": {
+                "payment": "Betalning behandlad via Stripe",
+                "thanks": "Tack för din affär!"
+            },
+            "buttons": {
+                "close": "Stäng",
+                "download": "Ladda ner PDF"
+            }
+        }
+    },
+    "adminPage": {
+        "title": "Instrumentpanelsöversikt",
+        "description": "Övervaka och hantera din plattforms prestanda",
+        "stats": {
+            "totalUsers": {
+                "title": "Totalt antal användare",
+                "loading": "Läser in..."
+            },
+            "activeSubscriptions": {
+                "title": "Aktiva prenumerationer",
+                "loading": "Läser in..."
+            },
+            "supportTickets": {
+                "title": "Supportärenden",
+                "loading": "Läser in..."
+            },
+            "activePopups": {
+                "title": "Aktiva popups",
+                "loading": "Läser in..."
+            }
+        },
+        "users": {
+            "title": "Senaste användarna",
+            "description": "Hantera och övervaka användaraktivitet",
+            "search": "Sök användare...",
+            "table": {
+                "name": "Namn",
+                "email": "E-post",
+                "role": "Roll",
+                "status": "Status",
+                "subscription": "Prenumeration",
+                "subscriptionEnds": "Prenumerationen upphör",
+                "createdAt": "Skapad",
+                "actions": "Åtgärder"
+            },
+            "status": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv",
+                "probation": "Provtjänstgöring",
+                "onboarding": "Introduktion",
+                "onLeave": "Tjänstledig"
+            },
+            "subscription": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv"
+            },
+            "noDate": "---"
+        },
+        "loading": "Läser in...",
+        "error": {
+            "loadingBillingInfo": "Fel vid inläsning av faktureringsinformation. Försök igen senare."
+        },
+        "userEditor": {
+            "menu": {
+                "profile": {
+                    "title": "Användarprofil",
+                    "description": "Personlig information och preferenser"
+                },
+                "billing": {
+                    "title": "Fakturering",
+                    "description": "Betalningsmetoder och historik"
+                },
+                "security": {
+                    "title": "Säkerhet",
+                    "description": "Lösenord och autentisering"
+                },
+                "notifications": {
+                    "title": "Aviseringar",
+                    "description": "E-post- och pushpreferenser"
+                },
+                "activity": {
+                    "title": "Aktivitetslogg",
+                    "description": "Senaste kontoaktivitet"
+                },
+                "deleteAccount": {
+                    "title": "Ta bort konto",
+                    "description": "Ta bort konto permanent"
+                }
+            },
+            "profile": {
+                "title": "Användarprofil",
+                "personalInfo": {
+                    "title": "Personlig Information",
+                    "name": "Namn",
+                    "email": "E-post"
+                },
+                "accountSettings": {
+                    "title": "Kontoinställningar",
+                    "status": "Kontostatus",
+                    "role": "Roll",
+                    "roles": {
+                        "user": "Användare",
+                        "admin": "Admin"
+                    },
+                    "statuses": {
+                        "active": "Aktiv",
+                        "banned": "Bannlyst"
+                    }
+                },
+                "subscriptionStatus": "Prenumeration: {{status}}",
+                "accountCreated": "Konto skapat: {{date}}",
+                "buttons": {
+                    "save": "Spara ändringar",
+                    "saving": "Sparar..."
+                },
+                "messages": {
+                    "updateSuccess": "Användaren har uppdaterats",
+                    "updateError": "Det gick inte att uppdatera användaren"
+                }
+            },
+            "billing": {
+                "title": "Faktureringsredigerare",
+                "subscriptionDetails": {
+                    "title": "Prenumerationsdetaljer",
+                    "status": "Prenumerationsstatus",
+                    "statuses": {
+                        "subscribed": "Prenumererad",
+                        "free": "Gratis"
+                    },
+                    "plan": "Prenumerationsplan",
+                    "selectPlan": "Välj en plan",
+                    "endDate": "Prenumerationens slutdatum",
+                    "pickDate": "Välj ett datum"
+                },
+                "buttons": {
+                    "save": "Spara ändringar",
+                    "saving": "Sparar..."
+                },
+                "messages": {
+                    "selectPlanError": "Välj en prenumerationsplan",
+                    "updateSuccess": "Användarens fakturering har uppdaterats",
+                    "updateError": "Det gick inte att uppdatera användarens fakturering",
+                    "cancelSuccess": "Prenumerationen har avbrutits",
+                    "cancelError": "Det gick inte att avbryta prenumerationen"
+                }
+            },
+            "activity": {
+                "title": "Aktivitetslogg",
+                "exportButton": "Exportera logg",
+                "noActivity": "Ingen aktivitet hittades"
+            },
+            "deleteAccount": {
+                "title": "Ta bort konto",
+                "warning": "Den här åtgärden kan inte ångras",
+                "consequences": {
+                    "title": "När du tar bort ditt konto förlorar du åtkomst till:",
+                    "items": ["Alla dina sparade popups och mallar", "Analys- och spårningsdata", "Faktureringshistorik och fakturor", "Anpassade konfigurationer och inställningar"]
+                },
+                "button": "Ta bort konto permanent"
+            }
+        },
+        "usersManager": {
+            "title": "Användarhanterare",
+            "description": "Hantera dina användare effektivt.",
+            "latestUsers": {
+                "title": "Senaste användarna",
+                "search": {
+                    "placeholder": "Sök",
+                    "button": "Sök"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "email": "E-post",
+                "role": "Roll",
+                "status": "Status",
+                "subscription": "Prenumeration",
+                "subscriptionEnds": "Prenumerationen upphör",
+                "createdAt": "Skapad",
+                "actions": "Åtgärder"
+            },
+            "status": {
+                "active": "Aktiv",
+                "probation": "Provtjänstgöring",
+                "onboarding": "Introduktion",
+                "onLeave": "Tjänstledig"
+            },
+            "subscription": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv"
+            },
+            "noDate": "---",
+            "messages": {
+                "searchNoResults": "Inga användare hittades. Visar alla användare.",
+                "searchError": "Det gick inte att söka användare",
+                "loadError": "Det gick inte att hämta användare"
+            }
+        },
+        "subscriptionsManager": {
+            "title": "Prenumerationshanterare",
+            "description": "Hantera dina prenumerationer effektivt.",
+            "latestSubscriptions": {
+                "title": "Prenumerationer",
+                "search": {
+                    "placeholder": "Sök",
+                    "button": "Sök"
+                }
+            },
+            "table": {
+                "user": "Användare",
+                "plan": "Plan",
+                "status": "Status",
+                "startDate": "Startdatum",
+                "endDate": "Slutdatum",
+                "autoRenew": "Automatisk förnyelse",
+                "actions": "Åtgärder"
+            },
+            "status": {
+                "active": "Aktiv",
+                "cancelled": "Avbruten",
+                "expired": "Utgången"
+            },
+            "autoRenew": {
+                "yes": "Ja",
+                "no": "Nej"
+            },
+            "messages": {
+                "searchNoResults": "Inga prenumerationer hittades. Visar alla prenumerationer.",
+                "searchError": "Det gick inte att söka prenumeration",
+                "loadError": "Det gick inte att hämta prenumerationer"
+            }
+        },
+        "ticketsManager": {
+            "title": "Supportärenden",
+            "description": "Hantera och svara på supportärenden",
+            "messages": {
+                "title": "Meddelanden",
+                "search": {
+                    "placeholder": "Sök efter e-postadress",
+                    "button": "Sök"
+                },
+                "tabs": {
+                    "open": "Öppna ärenden",
+                    "resolved": "Lösta"
+                },
+                "noMessages": "Inga meddelanden ännu",
+                "today": "Idag",
+                "cantReply": "Det går inte att svara på besökarnas ärenden direkt från plattformen, använd direkt e-post istället.",
+                "reply": "Svara",
+                "send": "Skicka"
+            },
+            "ticket": {
+                "supportTicket": "Supportärende",
+                "sender": "Avsändare",
+                "actions": {
+                    "resolveTicket": "Lös ärende"
+                }
+            }
+        },
+        "settings": {
+            "title": "Inställningar",
+            "description": "Hantera dina applikationsinställningar och konfigurationer.",
+            "tabs": {
+                "general": {
+                    "title": "Allmänt",
+                    "description": "Hantera dina webbplatsinställningar och SEO-konfiguration",
+                    "icon": "Inställningar"
+                },
+                "subscriptions": {
+                    "title": "Prenumerationer",
+                    "description": "Konfigurera prenumerationsplaner och prissättning",
+                    "icon": "Kreditkort"
+                },
+                "usageLimits": {
+                    "title": "Användningsbegränsningar",
+                    "description": "Ställ in användningsgränser för olika prenumerationsnivåer",
+                    "icon": "Sköld"
+                },
+                "socialLinks": {
+                    "title": "Sociala länkar",
+                    "description": "Hantera dina sociala medielänkar",
+                    "icon": "Dela"
+                },
+                "footerLinks": {
+                    "title": "Sidfotslänkar",
+                    "description": "Hantera dina sidfotslänkar och sektioner",
+                    "icon": "Länk"
+                }
+            },
+            "general": {
+                "title": "Allmänna inställningar",
+                "description": "Konfigurera din webbplats grundläggande information och SEO-inställningar",
+                "fields": {
+                    "siteTitle": {
+                        "label": "Webbplatstitel",
+                        "tooltip": "Titeln på din webbplats som visas i sökmotorresultat och webbläsarens flikar",
+                        "placeholder": "Ange webbplatstitel"
+                    },
+                    "siteKeywords": {
+                        "label": "Nyckelord",
+                        "tooltip": "Kommaseparerade nyckelord som är relevanta för din webbplats innehåll",
+                        "placeholder": "Ange nyckelord"
+                    },
+                    "googleAnalytics": {
+                        "label": "Google Analytics ID",
+                        "tooltip": "Ditt Google Analytics-spårnings-ID",
+                        "placeholder": "UA-XXXXXXXXX-X"
+                    },
+                    "siteAddress": {
+                        "label": "Webbplatsadress",
+                        "tooltip": "Den fysiska adressen till din webbplats",
+                        "placeholder": "Ange webbplatsadress"
+                    },
+                    "sitePhone": {
+                        "label": "Telefonnummer",
+                        "tooltip": "Ditt företags kontakttelefonnummer",
+                        "placeholder": "Ange telefonnummer"
+                    },
+                    "siteEmail": {
+                        "label": "Kontakt-e-postadress",
+                        "tooltip": "Ditt företags kontakt-e-postadress",
+                        "placeholder": "Ange kontakt-e-postadress"
+                    },
+                    "siteDescription": {
+                        "label": "Webbplatsbeskrivning",
+                        "tooltip": "En kort beskrivning av din webbplats som visas i sökresultaten",
+                        "placeholder": "Ange webbplatsbeskrivning"
+                    },
+                    "logo": {
+                        "label": "Webbplatslogotyp",
+                        "tooltip": "Ladda upp din webbplatslogotyp. Rekommenderad storlek: 200x50px. Maxstorlek: 2 MB",
+                        "button": "Ladda upp logotyp",
+                        "uploading": "Laddar upp...",
+                        "supportedFormats": "Format som stöds: PNG, JPG, GIF"
+                    },
+                    "maintenanceMode": {
+                        "label": "Underhållsläge",
+                        "description": "Aktivera för att visa en underhållssida för besökare medan du arbetar på din webbplats"
+                    }
+                },
+                "buttons": {
+                    "saveChanges": "Spara ändringar"
+                }
+            },
+            "usageLimits": {
+                "title": "Användningsbegränsningar",
+                "description": "Ställ in användningsgränser för olika prenumerationsnivåer",
+                "table": {
+                    "subscription": "Prenumeration",
+                    "maxWebsites": "Max antal webbplatser",
+                    "maxPathsPerWebsite": "Max antal sökvägar per webbplats",
+                    "maxPopupsPerPath": "Max antal popups per sökväg",
+                    "features": "Funktioner"
+                },
+                "features": {
+                    "advertising": "Annonsering",
+                    "emailCollector": "E-postinsamlare"
+                },
+                "buttons": {
+                    "saveChanges": "Spara ändringar"
+                }
+            },
+            "socialLinks": {
+                "title": "Länkar till sociala medier",
+                "description": "Hantera din närvaro i sociala medier genom att lägga till eller ta bort sociala länkar",
+                "form": {
+                    "platformName": {
+                        "label": "Plattformsnamn",
+                        "placeholder": "t.ex. Facebook"
+                    },
+                    "url": {
+                        "label": "URL",
+                        "placeholder": "https://..."
+                    },
+                    "iconUrl": {
+                        "label": "Ikon-URL",
+                        "placeholder": "https://... (ikon-URL)"
+                    }
+                },
+                "table": {
+                    "icon": "Ikon",
+                    "platform": "Plattform",
+                    "url": "URL",
+                    "actions": "Åtgärder"
+                },
+                "buttons": {
+                    "addLink": "Lägg till social länk",
+                    "remove": "Ta bort"
+                }
+            },
+            "footerLinks": {
+                "title": "Hantering av sidfotslänkar",
+                "description": "Hantera länkarna som visas i din webbplats sidfotssektioner",
+                "form": {
+                    "linkName": {
+                        "label": "Länknamn",
+                        "placeholder": "t.ex. Om oss"
+                    },
+                    "url": {
+                        "label": "URL",
+                        "placeholder": "/om"
+                    },
+                    "section": {
+                        "label": "Sektion",
+                        "options": {
+                            "sitemap": "Webbplatskarta",
+                            "company": "Företag"
+                        }
+                    }
+                },
+                "sections": {
+                    "sitemap": {
+                        "title": "Länkar till webbplatskarta"
+                    },
+                    "company": {
+                        "title": "Företagslänkar"
+                    }
+                },
+                "table": {
+                    "name": "Namn",
+                    "url": "URL",
+                    "actions": "Åtgärder"
+                },
+                "buttons": {
+                    "addLink": "Lägg till sidfotslänk",
+                    "remove": "Ta bort"
+                }
+            },
+            "subscriptions": {
+                "title": "Prenumerationshantering",
+                "description": "Hantera dina prenumerationer",
+                "createNew": {
+                    "title": "Skapa ny prenumeration",
+                    "description": "Lägg till en ny prenumeration i ditt system",
+                    "fields": {
+                        "name": {
+                            "label": "Namn",
+                            "placeholder": "Ange prenumerationsnamn"
+                        },
+                        "price": {
+                            "label": "Pris",
+                            "placeholder": "Ange pris"
+                        },
+                        "yearlyPrice": {
+                            "label": "Årligt pris",
+                            "placeholder": "Ange årligt pris"
+                        },
+                        "stripeMonthlyLink": {
+                            "label": "Stripe månadslänk",
+                            "placeholder": "Ange Stripe månadslänk"
+                        },
+                        "stripeYearlyLink": {
+                            "label": "Stripe årlig länk",
+                            "placeholder": "Ange Stripe årlig länk"
+                        },
+                        "stripeMonthlyPriceId": {
+                            "label": "Stripe månatligt pris-ID",
+                            "placeholder": "Ange Stripe månatligt pris-ID"
+                        },
+                        "stripeYearlyPriceId": {
+                            "label": "Stripe årligt pris-ID",
+                            "placeholder": "Ange Stripe årligt pris-ID"
+                        },
+                        "status": {
+                            "label": "Status",
+                            "options": {
+                                "active": "Aktiv",
+                                "inactive": "Inaktiv"
+                            }
+                        }
+                    },
+                    "button": "Skapa prenumeration"
+                },
+                "list": {
+                    "title": "Prenumerationer",
+                    "description": "Hantera dina prenumerationer",
+                    "status": {
+                        "active": "Aktiv",
+                        "inactive": "Inaktiv"
+                    },
+                    "pricing": "Månatlig: {price} | Årlig: {yearlyPrice}",
+                    "actions": {
+                        "label": "Åtgärder",
+                        "edit": "Redigera",
+                        "delete": "Ta bort",
+                        "activate": "Aktivera",
+                        "deactivate": "Inaktivera"
+                    },
+                    "features": {
+                        "addButton": "Lägg till funktion"
+                    }
+                },
+                "edit": {
+                    "title": "Redigera {type}",
+                    "description": "Gör ändringar i {type} här.",
+                    "subscription": {
+                        "fields": {
+                            "name": {
+                                "label": "Namn",
+                                "placeholder": "Ange namn"
+                            },
+                            "price": {
+                                "label": "Pris",
+                                "placeholder": "Ange pris"
+                            },
+                            "yearlyPrice": {
+                                "label": "Årligt pris",
+                                "placeholder": "Ange årligt pris"
+                            },
+                            "stripeMonthlyLink": {
+                                "label": "Stripe månadslänk",
+                                "placeholder": "Ange Stripe månadslänk"
+                            },
+                            "stripeYearlyLink": {
+                                "label": "Stripe årlig länk",
+                                "placeholder": "Ange Stripe årlig länk"
+                            },
+                            "stripeMonthlyPriceId": {
+                                "label": "Stripe månatligt pris-ID",
+                                "placeholder": "Ange Stripe månatligt pris-ID"
+                            },
+                            "stripeYearlyPriceId": {
+                                "label": "Stripe årligt pris-ID",
+                                "placeholder": "Ange Stripe årligt pris-ID"
+                            }
+                        }
+                    },
+                    "feature": {
+                        "fields": {
+                            "name": {
+                                "label": "Funktionsnamn",
+                                "placeholder": "Ange funktionsnamn"
+                            }
+                        }
+                    },
+                    "buttons": {
+                        "save": "Spara ändringar"
+                    }
+                },
+                "messages": {
+                    "success": {
+                        "created": "Prenumeration skapad!",
+                        "createdDesc": "Du skapade en ny prenumeration.",
+                        "updated": "Objektet har uppdaterats!",
+                        "updatedDesc": "Du har uppdaterat objektet.",
+                        "deleted": "{type} har tagits bort!",
+                        "deletedDesc": "Du har tagit bort en {type}.",
+                        "statusChanged": "Prenumerationen har uppdaterats!",
+                        "statusChangedDesc": "Du har uppdaterat prenumerationsstatusen."
+                    },
+                    "error": {
+                        "create": "Det uppstod ett problem när prenumerationen skulle skapas. Försök igen.",
+                        "update": "Det uppstod ett problem när objektet skulle uppdateras. Försök igen.",
+                        "delete": "Det uppstod ett problem när {type} skulle tas bort. Försök igen.",
+                        "statusChange": "Det uppstod ett problem när prenumerationsstatusen skulle uppdateras. Försök igen.",
+                        "fetch": "Det gick inte att hämta prenumerationer"
+                    }
+                }
+            }
+        }
+    },
+    "pageBuilder": {
+        "title": "Sidbyggare",
+        "description": "Skapa och hantera dina sidor med en RTF-redigerare.",
+        "pages": {
+            "title": "Sidor",
+            "newPagePlaceholder": "Nytt sidnamn",
+            "addButton": "Lägg till",
+            "noPageSelected": "Skapa en ny sida eller välj en befintlig för att börja redigera",
+            "saveButton": "Spara",
+            "savingButton": "Sparar...",
+            "deleteButton": "Ta bort"
+        },
+        "editor": {
+            "defaultContent": "Börja skriva ditt innehåll här...",
+            "toolbar": {
+                "insertTable": "Infoga tabell",
+                "addColumnBefore": "Lägg till kolumn före",
+                "addColumnAfter": "Lägg till kolumn efter",
+                "deleteColumn": "Ta bort kolumn",
+                "addRowBefore": "Lägg till rad före",
+                "addRowAfter": "Lägg till rad efter",
+                "deleteRow": "Ta bort rad",
+                "deleteTable": "Ta bort tabell",
+                "addImage": "Ange URL:en till bilden:"
+            }
+        },
+        "messages": {
+            "success": {
+                "save": "Sidan har sparats",
+                "delete": "Sidan har tagits bort"
+            },
+            "error": {
+                "save": "Det gick inte att spara sidan",
+                "delete": "Det gick inte att ta bort sidan",
+                "fetch": "Det gick inte att läsa in sidor"
+            }
+        }
+    },
+    "newsletter": {
+        "title": "Nyhetsbrevsprenumeranter",
+        "description": "Hantera dina nyhetsbrevsprenumeranter",
+        "actions": {
+            "exportCSV": "Exportera CSV",
+            "search": "Sök prenumeranter...",
+            "remove": "Ta bort prenumerant"
+        },
+        "table": {
+            "email": "E-post",
+            "subscribedDate": "Prenumerationsdatum",
+            "actions": "Åtgärder"
+        },
+        "pagination": {
+            "rowsPerPage": "Rader per sida:",
+            "pageOf": "Sida {current} av {total}"
+        },
+        "messages": {
+            "success": {
+                "remove": "E-postadressen har tagits bort"
+            },
+            "error": {
+                "fetch": "Det gick inte att läsa in nyhetsbrevsprenumeranter",
+                "remove": "Det gick inte att ta bort e-postadressen",
+                "export": "Det gick inte att exportera prenumeranter"
+            }
+        }
+    },
+    "sidebar": {
+        "admin": {
+            "title": "Adminpanel",
+            "items": {
+                "home": "Hem",
+                "usersManager": "Användarhanterare",
+                "subscriptions": "Prenumerationer",
+                "tickets": "Ärenden",
+                "settings": "Inställningar",
+                "pageBuilder": "Sidbyggare",
+                "newsletter": "Nyhetsbrev"
+            },
+            "logout": "Logga ut"
+        },
+        "dashboard": {
+            "title": "Instrumentpanel",
+            "items": {
+                "home": "Hem",
+                "createPopups": "Skapa popups",
+                "emailList": "E-postlista",
+                "support": "Support",
+                "usage": "Användning",
+                "billing": "Fakturering"
+            },
+            "upgradeCard": {
+                "title": "Uppgradera till Pro",
+                "description": "Lås upp premiumfunktioner och förbättrade möjligheter",
+                "button": "Uppgradera nu"
+            },
+            "logout": "Logga ut"
+        }
+    }
+}

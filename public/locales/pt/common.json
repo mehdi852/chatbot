@@ -1,0 +1,1249 @@
+{
+    "header": {
+        "adminPanel": "Painel de Administração",
+        "languages": {
+            "en": "Inglês",
+            "fr": "Francês"
+        }
+    },
+    "navbar": {
+        "home": "Início",
+        "solutions": "Soluções",
+        "resources": "Recursos",
+        "pricing": "Preços",
+        "adminPortal": "Portal de Administração",
+        "dashboard": "Painel",
+        "signIn": "Entrar",
+        "startFreeTrial": "Iniciar Teste Gratuito",
+        "menu": {
+            "solutions": {
+                "coreFeatures": "Funcionalidades Principais",
+                "smartPopups": {
+                    "title": "Popups Inteligentes",
+                    "desc": "Otimização de conversão inteligente"
+                },
+                "analytics": {
+                    "title": "Análises Avançadas",
+                    "desc": "Insights de desempenho em tempo real"
+                },
+                "targeting": {
+                    "title": "Segmentação de Público",
+                    "desc": "Segmentação precisa de visitantes"
+                },
+                "advancedTools": "Ferramentas Avançadas",
+                "splitTesting": {
+                    "title": "Teste A/B",
+                    "desc": "Otimização orientada por dados"
+                },
+                "security": {
+                    "title": "Segurança Empresarial",
+                    "desc": "Medidas de proteção avançadas"
+                },
+                "performance": {
+                    "title": "Suíte de Desempenho",
+                    "desc": "Ferramentas de otimização de velocidade"
+                }
+            },
+            "resources": {
+                "supportLearning": "Suporte e Aprendizado",
+                "documentation": {
+                    "title": "Documentação",
+                    "desc": "Guias abrangentes"
+                },
+                "support": {
+                    "title": "Suporte Empresarial",
+                    "desc": "Assistência dedicada 24/7"
+                },
+                "community": {
+                    "title": "Comunidade",
+                    "desc": "Conecte-se com especialistas"
+                },
+                "integrationHub": "Central de Integração",
+                "api": {
+                    "title": "Acesso à API",
+                    "desc": "Opções de integração personalizadas"
+                },
+                "devTools": {
+                    "title": "Ferramentas para Desenvolvedores",
+                    "desc": "Personalização avançada"
+                }
+            }
+        }
+    },
+    "welcome": "Bem-vindo",
+    "gdpr": {
+        "title": "Aviso de Privacidade e Cookies",
+        "description": "Utilizamos cookies e tecnologias semelhantes para melhorar sua experiência e analisar o desempenho. Ao continuar, você concorda com a nossa",
+        "privacyLink": "Política de Privacidade",
+        "acceptAll": "Aceitar Tudo",
+        "essentialOnly": "Apenas Essenciais"
+    },
+    "features": {
+        "title": "Funcionalidades Empresariais",
+        "mainHeading": "Tudo o que você precisa para o sucesso dos popups",
+        "description": "Ferramentas poderosas de nível empresarial para criar, gerenciar e otimizar os popups do seu site. Aumente o engajamento e as conversões com nossa solução abrangente.",
+        "items": {
+            "management": {
+                "title": "Gerenciamento Centralizado",
+                "description": "Gerencie todos os popups do seu site a partir de um painel intuitivo. Crie, edite e acompanhe o desempenho sem esforço."
+            },
+            "types": {
+                "title": "Vários Tipos de Popups",
+                "description": "Escolha entre vários tipos de popups: notificações, coletores de e-mail e mensagens promocionais para corresponder aos seus objetivos."
+            },
+            "targeting": {
+                "title": "Segmentação Inteligente",
+                "description": "Segmente os visitantes com base no comportamento, tempo e localização. Mostre a mensagem certa na hora certa."
+            }
+        }
+    },
+    "advancedFeatures": {
+        "title": "Capacidades Avançadas",
+        "mainHeading": "Ferramentas poderosas para melhores resultados",
+        "description": "Assuma o controle de sua estratégia de popup com recursos avançados projetados para maximizar o engajamento e as taxas de conversão",
+        "items": {
+            "builder": {
+                "title": "Construtor Visual",
+                "description": "Crie popups impressionantes com nossa interface intuitiva de arrastar e soltar"
+            },
+            "analytics": {
+                "title": "Análises Inteligentes",
+                "description": "Acompanhe o desempenho com análises detalhadas e insights"
+            },
+            "timing": {
+                "title": "Tempo Inteligente",
+                "description": "Tempo perfeito com base no comportamento e gatilhos do usuário"
+            },
+            "integrations": {
+                "title": "Integrações",
+                "description": "Conecte-se às suas ferramentas de marketing favoritas"
+            }
+        }
+    },
+    "testimonials": {
+        "title": "Sucesso do Cliente",
+        "mainHeading": "Amado por empresas em todo o mundo",
+        "description": "Descubra como as empresas estão melhorando suas taxas de conversão com nossa plataforma de gerenciamento de popups",
+        "items": [
+            {
+                "name": "Sarah Thompson",
+                "role": "Diretora de Marketing",
+                "company": "E-commerce Plus",
+                "quote": "A interface de arrastar e soltar torna incrivelmente fácil gerenciar nossas campanhas de popup. Vimos um aumento de 40% nas inscrições de e-mail."
+            },
+            {
+                "name": "Alex Rivera",
+                "role": "Gerente de Crescimento",
+                "company": "TechStart",
+                "quote": "As análises detalhadas e os recursos de segmentação inteligente transformaram nossa estratégia de popup. Vimos taxas de engajamento incríveis desde a mudança."
+            },
+            {
+                "name": "David Chen",
+                "role": "Gerente de E-commerce",
+                "company": "Fashion Store",
+                "quote": "Finalmente, uma solução de popup que é poderosa e fácil de usar. As opções de segmentação são exatamente o que precisávamos."
+            }
+        ]
+    },
+    "statistics": {
+        "items": [
+            {
+                "number": "1M+",
+                "description": "Popups exibidos diariamente em milhares de sites"
+            },
+            {
+                "number": "5.000+",
+                "description": "Sites empresariais ativos usando nossa plataforma"
+            },
+            {
+                "number": "35%",
+                "description": "Aumento médio nas taxas de conversão"
+            },
+            {
+                "number": "99,9%",
+                "description": "Confiabilidade de tempo de atividade de nível empresarial"
+            }
+        ]
+    },
+    "cta": {
+        "heading": "Pronto para transformar sua estratégia de popup?",
+        "description": "Junte-se a milhares de empresas de sucesso que usam nossa solução de popup de nível empresarial",
+        "button": "Iniciar Teste Empresarial Gratuito"
+    },
+    "pricing": {
+        "title": "Preços",
+        "heading": "Escolha seu plano perfeito",
+        "description": "Preços simples e transparentes que crescem com você. Experimente qualquer plano gratuitamente por 30 dias.",
+        "billing": {
+            "monthly": "Cobrança mensal",
+            "annual": "Cobrança anual",
+            "save": "Economize 20%"
+        },
+        "mostPopular": "Mais Popular",
+        "features": "Funcionalidades",
+        "buttons": {
+            "getStarted": "Começar",
+            "contactSales": "Contatar Vendas"
+        },
+        "loading": "Carregando informações de preços",
+        "error": "Erro ao carregar informações de preços",
+        "noPlans": "Nenhum plano de assinatura disponível no momento."
+    },
+    "footer": {
+        "newsletter": {
+            "title": "Newsletter",
+            "heading": "Mantenha-se atualizado com as tendências de popup",
+            "description": "Receba insights de especialistas sobre otimização de conversão e estratégias de popup entregues em sua caixa de entrada.",
+            "placeholder": "Digite seu e-mail de trabalho",
+            "button": "Inscrever-se",
+            "subscribing": "Inscrevendo...",
+            "success": "Obrigado por se inscrever! Você receberá nossa próxima newsletter.",
+            "error": "Ocorreu um erro. Por favor, tente novamente mais tarde."
+        },
+        "company": {
+            "headquarters": "Sede Global",
+            "address": "Nível 2, 45 Tech Avenue, Melbourne VIC 3000"
+        },
+        "sections": {
+            "sitemap": "Mapa do Site",
+            "company": "Empresa"
+        },
+        "legal": {
+            "copyright": "© {year} YowManage. Todos os direitos reservados.",
+            "privacy": "Política de Privacidade",
+            "terms": "Termos de Serviço",
+            "cookies": "Configurações de Cookies"
+        }
+    },
+    "hero": {
+        "title": {
+            "main": "Gerenciamento Inteligente de Popups",
+            "highlight": "Simples"
+        },
+        "description": "Crie, gerencie e otimize popups de sites a partir de um painel central. Aumente o engajamento sem interromper a experiência do usuário.",
+        "buttons": {
+            "trial": "Iniciar Teste Gratuito",
+            "demo": "Ver Demonstração"
+        }
+    },
+    "dashboard": {
+        "title": "Painel",
+        "websites": {
+            "title": "Seus Sites",
+            "description": "Gerencie seus sites conectados e suas notificações",
+            "addButton": "Adicionar Site",
+            "addDialog": {
+                "title": "Adicionar Novo Site",
+                "domain": "Domínio",
+                "domainPlaceholder": "exemplo.com"
+            },
+            "paths": "Caminhos",
+            "actions": {
+                "delete": "Excluir"
+            },
+            "errors": {
+                "subscriptionLimit": "Limite de Assinatura Atingido",
+                "domainRequired": "Por favor, digite um nome de domínio",
+                "saveFailed": "Falha ao salvar as alterações. Por favor, tente novamente.",
+                "deleteFailed": "Falha ao excluir o site. Por favor, tente novamente.",
+                "loadFailed": "Falha ao carregar seu projeto. Por favor, atualize a página."
+            },
+            "success": {
+                "added": "Site Adicionado",
+                "saving": "Salvando suas alterações",
+                "saved": "Suas alterações foram salvas.",
+                "deleted": "Site excluído com sucesso"
+            }
+        },
+        "integration": {
+            "title": "Integração do Site",
+            "description": "Siga estas etapas para integrar popups ao seu site",
+            "step1": {
+                "title": "Adicione o script ao seu site",
+                "description": "Copie e cole este código na seção <head> do seu site."
+            },
+            "step2": {
+                "title": "Verificar Instalação",
+                "description": "Depois de adicionar o código, seus popups aparecerão automaticamente em seu site com base em sua configuração.",
+                "checklist": {
+                    "title": "Lista de Verificação de Instalação",
+                    "items": ["O script foi adicionado à seção head", "O domínio do site corresponde à configuração", "Sem erros de JavaScript no console"]
+                }
+            },
+            "buttons": {
+                "visitSite": "Visitar Site",
+                "copyCode": "Copiar Código"
+            },
+            "success": {
+                "codeCopied": "Código Copiado!",
+                "codeCopiedDesc": "O código de integração foi copiado para a área de transferência"
+            }
+        },
+        "help": {
+            "title": "Precisa de Ajuda?",
+            "description": "Confira nosso {integrationGuide} ou {contactSupport} se você tiver algum problema.",
+            "integrationGuide": "guia de integração",
+            "contactSupport": "contatar o suporte"
+        }
+    },
+    "popupManager": {
+        "title": "Gerenciador de Popups",
+        "saveChanges": "Salvar Alterações",
+        "saving": "Salvando...",
+        "resetProject": "Redefinir Projeto",
+        "success": {
+            "saved": "Suas alterações foram salvas.",
+            "reset": "Seu projeto foi redefinido."
+        },
+        "errors": {
+            "loadFailed": "Falha ao carregar dados. Por favor, atualize a página.",
+            "saveFailed": "Falha ao salvar alterações. Por favor, tente novamente.",
+            "resetFailed": "Falha ao redefinir o projeto. Por favor, tente novamente."
+        },
+        "noWebsiteSelected": {
+            "title": "Seleção de Site Necessária",
+            "heading": "Selecione um Site para Começar",
+            "description": "Escolha um site acima para gerenciar seus popups e criar notificações envolventes para seus visitantes.",
+            "features": {
+                "messages": {
+                    "title": "Popups de Mensagens",
+                    "description": "Mensagens de notificação simples para seus visitantes"
+                },
+                "email": {
+                    "title": "Coletores de E-mail",
+                    "description": "Aumente sua lista de e-mail com formulários de inscrição"
+                },
+                "ads": {
+                    "title": "Popups de Anúncios",
+                    "description": "Promova ofertas especiais e anúncios"
+                }
+            }
+        },
+        "popup": {
+            "edit": "Editar",
+            "editIcon": "Editar Ícone",
+            "iconUrl": "URL do Ícone",
+            "preview": "Visualizar",
+            "cancel": "Cancelar",
+            "save": "Salvar",
+            "delete": "Excluir",
+            "types": {
+                "ad": "Anúncio",
+                "email": "E-mail",
+                "message": "Mensagem"
+            },
+            "errors": {
+                "imageLoad": "Falha ao carregar a imagem. Por favor, verifique o URL.",
+                "invalidImage": "Imagem Inválida",
+                "invalidUrl": "O URL fornecido não é uma imagem válida",
+                "provideValidUrl": "Por favor, forneça um URL de imagem válido"
+            }
+        },
+        "createPopup": {
+            "title": "Criar Novo Popup",
+            "description": "Crie popups envolventes para interagir com seus visitantes",
+            "steps": {
+                "previous": "Anterior",
+                "next": "Próximo",
+                "cancel": "Cancelar",
+                "create": "Criar Popup",
+                "type": {
+                    "label": "Escolher Tipo",
+                    "description": "Selecione o tipo de popup que você deseja criar"
+                },
+                "content": {
+                    "label": "Adicionar Conteúdo",
+                    "description": "Personalize o conteúdo e a aparência do seu popup"
+                },
+                "timing": {
+                    "label": "Definir Tempo",
+                    "description": "Configure quando e por quanto tempo exibir seu popup"
+                },
+                "preview": {
+                    "label": "Visualizar",
+                    "description": "Revise como seu popup aparecerá para os visitantes"
+                }
+            },
+            "types": {
+                "title": "Escolha o Tipo de Popup",
+                "description": "Selecione o tipo de popup que melhor se adapta às suas necessidades",
+                "message": {
+                    "title": "Mensagem",
+                    "description": "Popups de notificação simples"
+                },
+                "email": {
+                    "title": "Coletor de E-mail",
+                    "description": "Reúna inscrições de e-mail"
+                },
+                "advertising": {
+                    "title": "Publicidade",
+                    "description": "Mensagens promocionais"
+                }
+            },
+            "content": {
+                "iconUrl": "URL do Ícone",
+                "iconUrlPlaceholder": "https://exemplo.com/icone.png",
+                "title": "Título",
+                "titlePlaceholder": "Digite o título do popup",
+                "message": "Mensagem",
+                "messagePlaceholder": "Digite a mensagem do popup",
+                "linkUrl": "URL do Link",
+                "linkUrlPlaceholder": "Digite o URL de destino",
+                "linkDescription": "Para onde os usuários serão direcionados ao clicar no popup",
+                "buttonText": "Texto do Botão",
+                "buttonTextPlaceholder": "Inscrever-se",
+                "inputPlaceholder": "Placeholder de Entrada",
+                "inputPlaceholderExample": "Digite seu e-mail",
+                "successMessage": "Mensagem de Sucesso",
+                "successMessagePlaceholder": "Obrigado por se inscrever!"
+            },
+            "timing": {
+                "title": "Configurações de Tempo",
+                "description": "Configure quando seu popup aparece e quanto tempo ele permanece visível",
+                "delay": {
+                    "label": "Atraso de Exibição (milisegundos)",
+                    "description": "Quanto tempo esperar antes de mostrar o popup"
+                },
+                "duration": {
+                    "label": "Duração da Exibição",
+                    "description": "Quanto tempo o popup deve permanecer visível",
+                    "options": {
+                        "3s": "3 segundos",
+                        "5s": "5 segundos",
+                        "7s": "7 segundos",
+                        "10s": "10 segundos",
+                        "unlimited": "Ilimitado"
+                    }
+                }
+            },
+            "preview": {
+                "iconAlt": "Visualização do Ícone do Popup",
+                "defaultTitle": "Título do Popup",
+                "defaultMessage": "Sua mensagem aqui"
+            }
+        },
+        "websitePopups": {
+            "title": "Popups do Site",
+            "description": "Gerenciar notificações para {domain}",
+            "addPath": "Adicionar Novo Caminho",
+            "addPathDialog": {
+                "title": "Adicionar Novo Caminho",
+                "pathName": "Nome do Caminho",
+                "pathNamePlaceholder": "por exemplo, Página do Produto",
+                "pathUrl": "URL do Caminho",
+                "pathUrlPlaceholder": "por exemplo, /produtos",
+                "addButton": "Adicionar Caminho"
+            },
+            "addPopup": "+ Adicionar um popup",
+            "dropHere": "Solte os itens aqui"
+        }
+    },
+    "emailsPage": {
+        "title": "Lista de E-mails",
+        "description": "Gerencie seus e-mails coletados",
+        "exportCsv": "Exportar CSV",
+        "search": {
+            "placeholder": "Pesquisar e-mails..."
+        },
+        "emailCount": "{count} E-mails",
+        "table": {
+            "headers": {
+                "email": "E-mail",
+                "source": "Fonte",
+                "status": "Status",
+                "date": "Data",
+                "website": "Site",
+                "path": "Caminho",
+                "popup": "Popup",
+                "actions": "Ações"
+            }
+        },
+        "pagination": {
+            "rowsPerPage": "Linhas por página:",
+            "pageInfo": "Página {current} de {total}"
+        },
+        "actions": {
+            "delete": "Excluir"
+        },
+        "status": {
+            "active": "ativo"
+        },
+        "messages": {
+            "deleteSuccess": "E-mail excluído com sucesso",
+            "deleteError": "Falha ao excluir e-mail",
+            "loadError": "Falha ao carregar lista de e-mails"
+        }
+    },
+    "supportPage": {
+        "title": "Meus Tickets",
+        "search": {
+            "placeholder": "Pesquisar tickets"
+        },
+        "tabs": {
+            "open": "Abertos",
+            "resolved": "Resolvidos"
+        },
+        "ticket": {
+            "status": {
+                "open": "Aberto",
+                "resolved": "Resolvido"
+            },
+            "id": "Ticket #{id}",
+            "noMessages": "Nenhuma mensagem ainda",
+            "actions": {
+                "resolve": "Resolver Ticket",
+                "reopen": "Reabrir Ticket",
+                "resolving": "Resolvendo...",
+                "reopening": "Reabrindo..."
+            }
+        },
+        "messages": {
+            "loading": "Carregando tickets...",
+            "noTickets": "Nenhum ticket {status} encontrado",
+            "supportTeam": "Equipe de Suporte",
+            "inputPlaceholder": "Digite sua mensagem aqui",
+            "sending": "Enviando...",
+            "send": "Enviar"
+        },
+        "notifications": {
+            "ticketUpdated": "Ticket Atualizado",
+            "ticketStatusChanged": "O ticket foi {status} com sucesso.",
+            "updateError": "Falha ao atualizar o status do ticket. Por favor, tente novamente."
+        }
+    },
+    "usagePage": {
+        "title": "Uso e Limites",
+        "description": "Monitore seu uso de recursos e status de assinatura",
+        "sections": {
+            "usageLimits": {
+                "title": "Limites de Uso",
+                "description": "Monitore seu uso de recursos em todas as funcionalidades",
+                "totalWebsites": "Total de Sites",
+                "paths": "Caminhos",
+                "popups": "Popups",
+                "features": {
+                    "advertising": "Popups de Publicidade",
+                    "emailCollector": "Coletores de E-mail"
+                }
+            }
+        }
+    },
+    "subscriptionStatus": {
+        "title": "Status da Assinatura",
+        "freePlan": "Plano Gratuito",
+        "messages": {
+            "expired": "Sua assinatura expirou. Faça upgrade agora para restaurar o acesso a todos os recursos.",
+            "expiringSoon": "Sua assinatura expirará em breve. Renove agora para manter o acesso a todos os recursos."
+        },
+        "buttons": {
+            "upgrade": "Fazer Upgrade do Plano",
+            "renew": "Renovar Assinatura"
+        }
+    },
+    "billingPage": {
+        "title": "Cobrança e Assinatura",
+        "description": "Gerencie sua assinatura e visualize o histórico de cobrança",
+        "currentPlan": {
+            "title": "Plano Atual",
+            "description": "Seu plano de assinatura atual e detalhes",
+            "freePlan": "Plano Gratuito",
+            "paidPlan": "Plano {name}",
+            "allFeatures": "Todos os recursos incluídos",
+            "limitedFeatures": "Recursos limitados",
+            "expiresAt": "Expira: {date}",
+            "buttons": {
+                "manage": "Gerenciar Assinatura",
+                "upgrade": "Fazer Upgrade para Pro"
+            }
+        },
+        "billingHistory": {
+            "title": "Histórico de Cobrança",
+            "description": "Visualize e baixe suas faturas anteriores e histórico de pagamento",
+            "noHistory": {
+                "title": "Nenhum histórico de cobrança disponível",
+                "description": "Seu histórico de faturas aparecerá aqui assim que você efetuar um pagamento"
+            },
+            "showingTransactions": "Exibindo {count} transações recentes",
+            "viewAll": "Visualizar Todas as Transações",
+            "table": {
+                "status": "Status",
+                "invoice": "Fatura",
+                "date": "Data",
+                "amount": "Valor",
+                "actions": "Ações"
+            },
+            "status": {
+                "paid": "Pago",
+                "pending": "Pendente"
+            }
+        },
+        "invoice": {
+            "title": "Fatura #{number}",
+            "issueDate": "Data de Emissão",
+            "billTo": "Cobrar Para",
+            "paymentStatus": "Status do Pagamento",
+            "description": "Descrição",
+            "amount": "Valor",
+            "total": "Total",
+            "billingPeriod": "Período de Cobrança: {start} - {end}",
+            "monthlySubscription": "Assinatura Mensal",
+            "footer": {
+                "payment": "Pagamento processado via Stripe",
+                "thanks": "Obrigado pelo seu negócio!"
+            },
+            "buttons": {
+                "close": "Fechar",
+                "download": "Baixar PDF"
+            }
+        }
+    },
+    "adminPage": {
+        "title": "Visão Geral do Painel",
+        "description": "Monitore e gerencie o desempenho da sua plataforma",
+        "stats": {
+            "totalUsers": {
+                "title": "Total de Usuários",
+                "loading": "Carregando..."
+            },
+            "activeSubscriptions": {
+                "title": "Assinaturas Ativas",
+                "loading": "Carregando..."
+            },
+            "supportTickets": {
+                "title": "Tickets de Suporte",
+                "loading": "Carregando..."
+            },
+            "activePopups": {
+                "title": "Popups Ativos",
+                "loading": "Carregando..."
+            }
+        },
+        "users": {
+            "title": "Usuários Mais Recentes",
+            "description": "Gerencie e monitore a atividade do usuário",
+            "search": "Pesquisar usuários...",
+            "table": {
+                "name": "Nome",
+                "email": "E-mail",
+                "role": "Função",
+                "status": "Status",
+                "subscription": "Assinatura",
+                "subscriptionEnds": "Término da Assinatura",
+                "createdAt": "Criado Em",
+                "actions": "Ações"
+            },
+            "status": {
+                "active": "Ativo",
+                "inactive": "Inativo",
+                "probation": "Em Período de Teste",
+                "onboarding": "Em Integração",
+                 "onLeave": "De Licença"
+            },
+             "subscription": {
+                "active": "Ativo",
+                "inactive": "Inativo"
+            },
+            "noDate": "---"
+        },
+        "loading": "Carregando...",
+        "error": {
+            "loadingBillingInfo": "Erro ao carregar informações de cobrança. Por favor, tente novamente mais tarde."
+        },
+        "userEditor": {
+            "menu": {
+                "profile": {
+                    "title": "Perfil do Usuário",
+                    "description": "Informações pessoais e preferências"
+                },
+                "billing": {
+                    "title": "Cobrança",
+                    "description": "Métodos de pagamento e histórico"
+                },
+                "security": {
+                    "title": "Segurança",
+                    "description": "Senha e autenticação"
+                },
+                "notifications": {
+                    "title": "Notificações",
+                    "description": "Preferências de e-mail e push"
+                },
+                "activity": {
+                    "title": "Registro de Atividade",
+                    "description": "Atividade recente da conta"
+                },
+                 "deleteAccount": {
+                    "title": "Excluir Conta",
+                    "description": "Remover conta permanentemente"
+                }
+            },
+            "profile": {
+                "title": "Perfil do Usuário",
+                "personalInfo": {
+                    "title": "Informações Pessoais",
+                    "name": "Nome",
+                    "email": "E-mail"
+                },
+                "accountSettings": {
+                    "title": "Configurações da Conta",
+                    "status": "Status da conta",
+                    "role": "Função",
+                    "roles": {
+                        "user": "Usuário",
+                        "admin": "Administrador"
+                    },
+                    "statuses": {
+                        "active": "Ativo",
+                        "banned": "Banido"
+                    }
+                },
+                "subscriptionStatus": "Assinatura: {{status}}",
+                "accountCreated": "Conta criada: {{date}}",
+                "buttons": {
+                    "save": "Salvar alterações",
+                    "saving": "Salvando..."
+                },
+                "messages": {
+                    "updateSuccess": "Usuário atualizado com sucesso",
+                    "updateError": "Falha ao atualizar usuário"
+                }
+            },
+            "billing": {
+                "title": "Editor de Cobrança",
+                "subscriptionDetails": {
+                    "title": "Detalhes da Assinatura",
+                    "status": "Status da Assinatura",
+                     "statuses": {
+                        "subscribed": "Inscrito",
+                        "free": "Gratuito"
+                     },
+                     "plan": "Plano de Assinatura",
+                     "selectPlan": "Selecionar um plano",
+                     "endDate": "Data de Término da Assinatura",
+                     "pickDate": "Escolha uma data"
+                },
+                "buttons": {
+                    "save": "Salvar alterações",
+                    "saving": "Salvando..."
+                },
+                "messages": {
+                     "selectPlanError": "Por favor, selecione um plano de assinatura",
+                    "updateSuccess": "Cobrança do usuário atualizada com sucesso",
+                    "updateError": "Falha ao atualizar a cobrança do usuário",
+                     "cancelSuccess": "Assinatura cancelada com sucesso",
+                    "cancelError": "Falha ao cancelar a assinatura"
+                }
+            },
+              "activity": {
+                "title": "Registro de Atividade",
+                 "exportButton": "Exportar Registro",
+                "noActivity": "Nenhuma atividade encontrada"
+              },
+             "deleteAccount": {
+                    "title": "Excluir Conta",
+                    "warning": "Esta ação não pode ser desfeita",
+                      "consequences": {
+                           "title": "Ao excluir sua conta, você perderá o acesso a:",
+                         "items": ["Todos os seus popups e modelos salvos", "Dados de análise e rastreamento", "Histórico de cobrança e faturas", "Configurações e ajustes personalizados"]
+                      },
+                       "button": "Excluir Conta Permanentemente"
+             }
+        },
+           "usersManager": {
+            "title": "Gerenciador de Usuários",
+            "description": "Gerencie seus usuários de forma eficiente.",
+            "latestUsers": {
+                "title": "Usuários Mais Recentes",
+                "search": {
+                    "placeholder": "Pesquisar",
+                    "button": "Pesquisar"
+                }
+            },
+            "table": {
+                "name": "Nome",
+                "email": "E-mail",
+                "role": "Função",
+                "status": "Status",
+                 "subscription": "Assinatura",
+                 "subscriptionEnds": "Término da Assinatura",
+                "createdAt": "Criado Em",
+                "actions": "Ações"
+            },
+             "status": {
+                "active": "Ativo",
+                "probation": "Em Período de Teste",
+                "onboarding": "Em Integração",
+                "onLeave": "De Licença"
+            },
+              "subscription": {
+                "active": "Ativo",
+                "inactive": "Inativo"
+            },
+            "noDate": "---",
+             "messages": {
+                   "searchNoResults": "Nenhum usuário encontrado. Exibindo todos os usuários.",
+                    "searchError": "Falha ao pesquisar usuário",
+                    "loadError": "Falha ao buscar usuários"
+               }
+          },
+        "subscriptionsManager": {
+            "title": "Gerenciador de Assinaturas",
+            "description": "Gerencie suas assinaturas de forma eficiente.",
+            "latestSubscriptions": {
+                "title": "Assinaturas",
+                 "search": {
+                     "placeholder": "Pesquisar",
+                     "button": "Pesquisar"
+                 }
+            },
+            "table": {
+                "user": "Usuário",
+                "plan": "Plano",
+                "status": "Status",
+                "startDate": "Data de Início",
+                "endDate": "Data de Término",
+                 "autoRenew": "Renovação Automática",
+                "actions": "Ações"
+            },
+            "status": {
+                "active": "Ativo",
+                "cancelled": "Cancelado",
+                "expired": "Expirado"
+            },
+            "autoRenew": {
+                "yes": "Sim",
+                "no": "Não"
+            },
+           "messages": {
+               "searchNoResults": "Nenhuma assinatura encontrada. Exibindo todas as assinaturas.",
+               "searchError": "Falha ao pesquisar assinatura",
+                "loadError": "Falha ao buscar assinaturas"
+            }
+        },
+        "ticketsManager": {
+            "title": "Tickets de Suporte",
+             "description": "Gerencie e responda aos tickets de suporte",
+           "messages": {
+               "title": "Mensagens",
+                "search": {
+                    "placeholder": "Pesquisar por e-mail",
+                    "button": "Pesquisar"
+                },
+                 "tabs": {
+                     "open": "Tickets Abertos",
+                     "resolved": "Resolvidos"
+                 },
+                 "noMessages": "Nenhuma mensagem ainda",
+                "today": "Hoje",
+                "cantReply": "Não é possível responder aos tickets dos visitantes diretamente da plataforma, use o e-mail direto.",
+                "reply": "Responder",
+                 "send": "Enviar"
+            },
+              "ticket": {
+                    "supportTicket": "Ticket de Suporte",
+                     "sender": "Remetente",
+                    "actions": {
+                        "resolveTicket": "Resolver Ticket"
+                    }
+               }
+        },
+        "settings": {
+            "title": "Configurações",
+             "description": "Gerencie as configurações e configurações do seu aplicativo.",
+            "tabs": {
+                "general": {
+                    "title": "Geral",
+                    "description": "Gerencie as configurações do seu site e a configuração de SEO",
+                    "icon": "Configurações"
+                },
+                  "subscriptions": {
+                    "title": "Assinaturas",
+                     "description": "Configure planos de assinatura e preços",
+                     "icon": "Cartão de Crédito"
+                    },
+                    "usageLimits": {
+                        "title": "Limites de Uso",
+                        "description": "Defina limites de uso para diferentes níveis de assinatura",
+                        "icon": "Escudo"
+                    },
+                      "socialLinks": {
+                         "title": "Links Sociais",
+                         "description": "Gerencie seus links de mídia social",
+                          "icon": "Compartilhar"
+                      },
+                      "footerLinks": {
+                        "title": "Links do Rodapé",
+                        "description": "Gerencie seus links e seções do rodapé",
+                        "icon": "Link"
+                      }
+                },
+                 "general": {
+                     "title": "Configurações Gerais",
+                    "description": "Configure as informações básicas do seu site e as configurações de SEO",
+                   "fields": {
+                       "siteTitle": {
+                            "label": "Título do Site",
+                            "tooltip": "O título do seu site que aparece nos resultados de mecanismos de pesquisa e nas guias do navegador",
+                             "placeholder": "Digite o título do site"
+                       },
+                       "siteKeywords": {
+                          "label": "Palavras-chave",
+                          "tooltip": "Palavras-chave separadas por vírgula relevantes para o conteúdo do seu site",
+                           "placeholder": "Digite palavras-chave"
+                       },
+                       "googleAnalytics": {
+                           "label": "ID do Google Analytics",
+                          "tooltip": "Seu ID de rastreamento do Google Analytics",
+                          "placeholder": "UA-XXXXXXXXX-X"
+                       },
+                       "siteAddress": {
+                           "label": "Endereço do Site",
+                           "tooltip": "O endereço físico do seu site",
+                           "placeholder": "Digite o endereço do site"
+                       },
+                         "sitePhone": {
+                            "label": "Número de Telefone",
+                            "tooltip": "O número de telefone de contato da sua empresa",
+                            "placeholder": "Digite o número de telefone"
+                        },
+                        "siteEmail": {
+                           "label": "E-mail de Contato",
+                            "tooltip": "O endereço de e-mail de contato da sua empresa",
+                           "placeholder": "Digite o e-mail de contato"
+                        },
+                          "siteDescription": {
+                             "label": "Descrição do Site",
+                            "tooltip": "Uma breve descrição do seu site que aparece nos resultados de pesquisa",
+                              "placeholder": "Digite a descrição do site"
+                        },
+                         "logo": {
+                           "label": "Logo do Site",
+                            "tooltip": "Faça o upload do logo do seu site. Tamanho recomendado: 200x50px. Tamanho máximo: 2MB",
+                              "button": "Upload Logo",
+                              "uploading": "Enviando...",
+                             "supportedFormats": "Formatos suportados: PNG, JPG, GIF"
+                         },
+                         "maintenanceMode": {
+                             "label": "Modo de Manutenção",
+                             "description": "Ative para mostrar uma página de manutenção aos visitantes enquanto você trabalha no seu site"
+                         }
+                   },
+                    "buttons": {
+                        "saveChanges": "Salvar Alterações"
+                    }
+                },
+                "usageLimits": {
+                     "title": "Limites de Uso",
+                      "description": "Defina limites de uso para diferentes níveis de assinatura",
+                   "table": {
+                      "subscription": "Assinatura",
+                      "maxWebsites": "Máximo de Sites",
+                      "maxPathsPerWebsite": "Máximo de Caminhos por Site",
+                      "maxPopupsPerPath": "Máximo de Popups por Caminho",
+                        "features": "Funcionalidades"
+                     },
+                    "features": {
+                        "advertising": "Publicidade",
+                        "emailCollector": "Coletor de E-mail"
+                    },
+                    "buttons": {
+                        "saveChanges": "Salvar Alterações"
+                    }
+                },
+                "socialLinks": {
+                     "title": "Links de Mídia Social",
+                   "description": "Gerencie sua presença nas mídias sociais adicionando ou removendo links sociais",
+                  "form": {
+                        "platformName": {
+                           "label": "Nome da Plataforma",
+                            "placeholder": "por exemplo, Facebook"
+                        },
+                        "url": {
+                           "label": "URL",
+                            "placeholder": "https://..."
+                         },
+                         "iconUrl": {
+                             "label": "URL do Ícone",
+                             "placeholder": "https://... (URL do ícone)"
+                         }
+                   },
+                     "table": {
+                        "icon": "Ícone",
+                        "platform": "Plataforma",
+                        "url": "URL",
+                       "actions": "Ações"
+                   },
+                    "buttons": {
+                        "addLink": "Adicionar Link Social",
+                         "remove": "Remover"
+                     }
+                 },
+                 "footerLinks": {
+                     "title": "Gerenciamento de Links do Rodapé",
+                    "description": "Gerencie os links que aparecem nas seções de rodapé do seu site",
+                      "form": {
+                           "linkName": {
+                                "label": "Nome do Link",
+                                 "placeholder": "por exemplo, Sobre Nós"
+                           },
+                          "url": {
+                            "label": "URL",
+                               "placeholder": "/sobre"
+                           },
+                           "section": {
+                                 "label": "Seção",
+                                "options": {
+                                    "sitemap": "Mapa do Site",
+                                    "company": "Empresa"
+                               }
+                           }
+                     },
+                   "sections": {
+                       "sitemap": {
+                             "title": "Links do Mapa do Site"
+                        },
+                        "company": {
+                             "title": "Links da Empresa"
+                        }
+                     },
+                    "table": {
+                        "name": "Nome",
+                        "url": "URL",
+                        "actions": "Ações"
+                    },
+                    "buttons": {
+                        "addLink": "Adicionar Link do Rodapé",
+                        "remove": "Remover"
+                    }
+                 },
+                 "subscriptions": {
+                    "title": "Gerenciamento de Assinaturas",
+                    "description": "Gerencie suas assinaturas",
+                    "createNew": {
+                         "title": "Criar Nova Assinatura",
+                          "description": "Adicione uma nova assinatura ao seu sistema",
+                           "fields": {
+                             "name": {
+                                "label": "Nome",
+                                "placeholder": "Digite o nome da assinatura"
+                             },
+                             "price": {
+                                 "label": "Preço",
+                                "placeholder": "Digite o preço"
+                             },
+                             "yearlyPrice": {
+                                "label": "Preço Anual",
+                                "placeholder": "Digite o preço anual"
+                               },
+                               "stripeMonthlyLink": {
+                                   "label": "Link Mensal do Stripe",
+                                   "placeholder": "Digite o link mensal do Stripe"
+                               },
+                                "stripeYearlyLink": {
+                                    "label": "Link Anual do Stripe",
+                                    "placeholder": "Digite o link anual do Stripe"
+                                },
+                                 "stripeMonthlyPriceId": {
+                                     "label": "ID do Preço Mensal do Stripe",
+                                    "placeholder": "Digite o ID do preço mensal do Stripe"
+                               },
+                                "stripeYearlyPriceId": {
+                                    "label": "ID do Preço Anual do Stripe",
+                                   "placeholder": "Digite o ID do preço anual do Stripe"
+                                },
+                                 "status": {
+                                      "label": "Status",
+                                        "options": {
+                                            "active": "Ativo",
+                                           "inactive": "Inativo"
+                                       }
+                               }
+                           },
+                           "button": "Criar Assinatura"
+                    },
+                    "list": {
+                       "title": "Assinaturas",
+                      "description": "Gerencie suas assinaturas",
+                        "status": {
+                             "active": "Ativo",
+                            "inactive": "Inativo"
+                        },
+                      "pricing": "Mensal: {price} | Anual: {yearlyPrice}",
+                        "actions": {
+                            "label": "Ações",
+                             "edit": "Editar",
+                            "delete": "Excluir",
+                             "activate": "Ativar",
+                             "deactivate": "Desativar"
+                        },
+                        "features": {
+                            "addButton": "Adicionar Funcionalidade"
+                        }
+                     },
+                    "edit": {
+                        "title": "Editar {type}",
+                        "description": "Faça alterações no {type} aqui.",
+                         "subscription": {
+                           "fields": {
+                             "name": {
+                                "label": "Nome",
+                                "placeholder": "Digite o nome"
+                               },
+                              "price": {
+                                 "label": "Preço",
+                                "placeholder": "Digite o preço"
+                              },
+                             "yearlyPrice": {
+                                "label": "Preço Anual",
+                                 "placeholder": "Digite o preço anual"
+                             },
+                             "stripeMonthlyLink": {
+                                   "label": "Link Mensal do Stripe",
+                                   "placeholder": "Digite o link mensal do Stripe"
+                             },
+                                "stripeYearlyLink": {
+                                    "label": "Link Anual do Stripe",
+                                    "placeholder": "Digite o link anual do Stripe"
+                                },
+                                "stripeMonthlyPriceId": {
+                                    "label": "ID do Preço Mensal do Stripe",
+                                    "placeholder": "Digite o ID do preço mensal do Stripe"
+                               },
+                               "stripeYearlyPriceId": {
+                                     "label": "ID do Preço Anual do Stripe",
+                                     "placeholder": "Digite o ID do preço anual do Stripe"
+                                }
+                           }
+                     },
+                      "feature": {
+                           "fields": {
+                                "name": {
+                                  "label": "Nome da Funcionalidade",
+                                   "placeholder": "Digite o nome da funcionalidade"
+                                }
+                           }
+                       },
+                        "buttons": {
+                            "save": "Salvar alterações"
+                        }
+                    },
+                    "messages": {
+                        "success": {
+                            "created": "Assinatura criada!",
+                             "createdDesc": "Você criou uma nova assinatura com sucesso.",
+                            "updated": "Item atualizado!",
+                             "updatedDesc": "Você atualizou o item com sucesso.",
+                             "deleted": "{type} excluído!",
+                               "deletedDesc": "Você excluiu um {type} com sucesso.",
+                            "statusChanged": "Assinatura atualizada!",
+                            "statusChangedDesc": "Você atualizou o status da assinatura com sucesso."
+                       },
+                       "error": {
+                            "create": "Houve um problema ao criar a assinatura. Por favor, tente novamente.",
+                            "update": "Houve um problema ao atualizar o item. Por favor, tente novamente.",
+                             "delete": "Houve um problema ao excluir o {type}. Por favor, tente novamente.",
+                            "statusChange": "Houve um problema ao atualizar o status da assinatura. Por favor, tente novamente.",
+                             "fetch": "Falha ao buscar assinaturas"
+                         }
+                    }
+                }
+            }
+        },
+          "pageBuilder": {
+             "title": "Construtor de Páginas",
+             "description": "Crie e gerencie suas páginas com um editor de texto avançado.",
+               "pages": {
+                    "title": "Páginas",
+                     "newPagePlaceholder": "Nome da nova página",
+                    "addButton": "Adicionar",
+                    "noPageSelected": "Crie uma nova página ou selecione uma existente para começar a editar",
+                     "saveButton": "Salvar",
+                      "savingButton": "Salvando...",
+                     "deleteButton": "Excluir"
+               },
+              "editor": {
+                   "defaultContent": "Comece a digitar seu conteúdo aqui...",
+                   "toolbar": {
+                       "insertTable": "Inserir Tabela",
+                        "addColumnBefore": "Adicionar Coluna Antes",
+                        "addColumnAfter": "Adicionar Coluna Depois",
+                      "deleteColumn": "Excluir Coluna",
+                         "addRowBefore": "Adicionar Linha Antes",
+                         "addRowAfter": "Adicionar Linha Depois",
+                        "deleteRow": "Excluir Linha",
+                         "deleteTable": "Excluir Tabela",
+                        "addImage": "Digite o URL da imagem:"
+                  }
+               },
+             "messages": {
+                    "success": {
+                          "save": "Página salva com sucesso",
+                          "delete": "Página excluída com sucesso"
+                    },
+                    "error": {
+                           "save": "Falha ao salvar página",
+                          "delete": "Falha ao excluir página",
+                          "fetch": "Falha ao carregar páginas"
+                   }
+               }
+        },
+        "newsletter": {
+            "title": "Inscritos na Newsletter",
+            "description": "Gerencie seus inscritos na newsletter",
+            "actions": {
+                "exportCSV": "Exportar CSV",
+               "search": "Pesquisar inscritos...",
+                "remove": "Remover inscrito"
+            },
+             "table": {
+                  "email": "E-mail",
+                  "subscribedDate": "Data de Inscrição",
+                 "actions": "Ações"
+            },
+            "pagination": {
+                "rowsPerPage": "Linhas por página:",
+                "pageOf": "Página {current} de {total}"
+            },
+          "messages": {
+                "success": {
+                    "remove": "E-mail removido com sucesso"
+                },
+                "error": {
+                    "fetch": "Falha ao carregar inscritos na newsletter",
+                     "remove": "Falha ao remover e-mail",
+                      "export": "Falha ao exportar inscritos"
+                }
+           }
+       },
+        "sidebar": {
+             "admin": {
+                "title": "Painel de Administração",
+                 "items": {
+                       "home": "Início",
+                       "usersManager": "Gerenciador de Usuários",
+                        "subscriptions": "Assinaturas",
+                         "tickets": "Tickets",
+                        "settings": "Configurações",
+                       "pageBuilder": "Construtor de Páginas",
+                         "newsletter": "Newsletter"
+                   },
+                   "logout": "Sair"
+             },
+             "dashboard": {
+                 "title": "Painel",
+                 "items": {
+                       "home": "Início",
+                        "createPopups": "Criar Popups",
+                       "emailList": "Lista de E-mails",
+                        "support": "Suporte",
+                        "usage": "Uso",
+                       "billing": "Cobrança"
+                 },
+                "upgradeCard": {
+                    "title": "Fazer Upgrade para Pro",
+                    "description": "Desbloqueie funcionalidades premium e recursos aprimorados",
+                     "button": "Fazer Upgrade Agora"
+                 },
+                "logout": "Sair"
+             }
+        }
+    }

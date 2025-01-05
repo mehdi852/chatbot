@@ -1,0 +1,1249 @@
+{
+    "header": {
+        "adminPanel": "Administratorska ploča",
+        "languages": {
+            "en": "Engleski",
+            "fr": "Francuski"
+        }
+    },
+    "navbar": {
+        "home": "Početna",
+        "solutions": "Rješenja",
+        "resources": "Resursi",
+        "pricing": "Cijene",
+        "adminPortal": "Admin Portal",
+        "dashboard": "Nadzorna ploča",
+        "signIn": "Prijava",
+        "startFreeTrial": "Započni besplatnu probu",
+        "menu": {
+            "solutions": {
+                "coreFeatures": "Glavne značajke",
+                "smartPopups": {
+                    "title": "Pametni skočni prozori",
+                    "desc": "Inteligentna optimizacija konverzije"
+                },
+                "analytics": {
+                    "title": "Napredna analitika",
+                    "desc": "Uvid u izvedbu u stvarnom vremenu"
+                },
+                "targeting": {
+                    "title": "Ciljanje publike",
+                    "desc": "Precizna segmentacija posjetitelja"
+                },
+                "advancedTools": "Napredni alati",
+                "splitTesting": {
+                    "title": "A/B testiranje",
+                    "desc": "Optimizacija na temelju podataka"
+                },
+                "security": {
+                    "title": "Sigurnost tvrtke",
+                    "desc": "Napredne mjere zaštite"
+                },
+                "performance": {
+                    "title": "Paket za performanse",
+                    "desc": "Alati za optimizaciju brzine"
+                }
+            },
+            "resources": {
+                "supportLearning": "Podrška i učenje",
+                "documentation": {
+                    "title": "Dokumentacija",
+                    "desc": "Sveobuhvatni vodiči"
+                },
+                "support": {
+                    "title": "Podrška za tvrtke",
+                    "desc": "24/7 namjenska pomoć"
+                },
+                "community": {
+                    "title": "Zajednica",
+                    "desc": "Povežite se sa stručnjacima"
+                },
+                "integrationHub": "Središte za integraciju",
+                "api": {
+                    "title": "API pristup",
+                    "desc": "Opcije prilagođene integracije"
+                },
+                "devTools": {
+                    "title": "Alati za razvojne programere",
+                    "desc": "Napredna prilagodba"
+                }
+            }
+        }
+    },
+    "welcome": "Dobrodošli",
+    "gdpr": {
+        "title": "Obavijest o privatnosti i kolačićima",
+        "description": "Koristimo kolačiće i slične tehnologije za poboljšanje vašeg iskustva i analizu performansi. Nastavkom pristajete na naše",
+        "privacyLink": "Pravila o privatnosti",
+        "acceptAll": "Prihvati sve",
+        "essentialOnly": "Samo osnovni"
+    },
+    "features": {
+        "title": "Značajke tvrtke",
+        "mainHeading": "Sve što vam treba za uspjeh skočnih prozora",
+        "description": "Snažni alati za tvrtke za stvaranje, upravljanje i optimizaciju skočnih prozora vaše web stranice. Povećajte angažman i konverzije uz naše sveobuhvatno rješenje.",
+        "items": {
+            "management": {
+                "title": "Centralizirano upravljanje",
+                "description": "Upravljajte svim skočnim prozorima vaše web stranice s jedne intuitivne nadzorne ploče. Stvarajte, uređujte i pratite performanse bez napora."
+            },
+            "types": {
+                "title": "Više vrsta skočnih prozora",
+                "description": "Birajte između različitih vrsta skočnih prozora: obavijesti, sakupljači e-pošte i promotivne poruke koje odgovaraju vašim ciljevima."
+            },
+            "targeting": {
+                "title": "Pametno ciljanje",
+                "description": "Ciljajte posjetitelje na temelju ponašanja, vremena i lokacije. Prikažite pravu poruku u pravo vrijeme."
+            }
+        }
+    },
+    "advancedFeatures": {
+        "title": "Napredne mogućnosti",
+        "mainHeading": "Snažni alati za bolje rezultate",
+        "description": "Preuzmite kontrolu nad svojom strategijom skočnih prozora s naprednim značajkama dizajniranima za maksimiziranje angažmana i stope konverzije",
+        "items": {
+            "builder": {
+                "title": "Vizualni graditelj",
+                "description": "Stvorite zadivljujuće skočni prozore pomoću našeg intuitivnog sučelja povuci i ispusti"
+            },
+            "analytics": {
+                "title": "Pametna analitika",
+                "description": "Pratite performanse s detaljnom analitikom i uvidima"
+            },
+            "timing": {
+                "title": "Pametno mjerenje vremena",
+                "description": "Savršeno mjerenje vremena na temelju ponašanja korisnika i okidača"
+            },
+            "integrations": {
+                "title": "Integracije",
+                "description": "Povežite se sa svojim omiljenim marketinškim alatima"
+            }
+        }
+    },
+    "testimonials": {
+        "title": "Uspjeh korisnika",
+        "mainHeading": "Obožavaju ga tvrtke diljem svijeta",
+        "description": "Otkrijte kako poduzeća poboljšavaju svoje stope konverzije s našom platformom za upravljanje skočnim prozorima",
+        "items": [
+            {
+                "name": "Sarah Thompson",
+                "role": "Direktorica marketinga",
+                "company": "E-commerce Plus",
+                "quote": "Sučelje povuci i ispusti nevjerojatno olakšava upravljanje našim kampanjama skočnih prozora. Primijetili smo povećanje broja prijava putem e-pošte za 40%."
+            },
+            {
+                "name": "Alex Rivera",
+                "role": "Voditelj rasta",
+                "company": "TechStart",
+                "quote": "Detaljna analitika i pametne značajke ciljanja transformirale su našu strategiju skočnih prozora. Primijetili smo nevjerojatne stope angažmana od prelaska."
+            },
+            {
+                "name": "David Chen",
+                "role": "Voditelj e-trgovine",
+                "company": "Modna trgovina",
+                "quote": "Konačno, rješenje skočnih prozora koje je snažno i jednostavno za korištenje. Opcije ciljanja su upravo ono što nam je trebalo."
+            }
+        ]
+    },
+    "statistics": {
+        "items": [
+            {
+                "number": "1M+",
+                "description": "Skočni prozori se prikazuju svakodnevno na tisućama web stranica"
+            },
+            {
+                "number": "5,000+",
+                "description": "Aktivne web stranice poduzeća koje koriste našu platformu"
+            },
+            {
+                "number": "35%",
+                "description": "Prosječno povećanje stope konverzije"
+            },
+            {
+                "number": "99.9%",
+                "description": "Pouzdanost rada za tvrtke"
+            }
+        ]
+    },
+    "cta": {
+        "heading": "Jeste li spremni transformirati svoju strategiju skočnih prozora?",
+        "description": "Pridružite se tisućama uspješnih tvrtki koje koriste naše rješenje za skočni prozore za tvrtke",
+        "button": "Započni besplatnu probu za tvrtke"
+    },
+    "pricing": {
+        "title": "Cijene",
+        "heading": "Odaberite svoj savršeni plan",
+        "description": "Jednostavne, transparentne cijene koje rastu s vama. Isprobajte bilo koji plan besplatno 30 dana.",
+        "billing": {
+            "monthly": "Mjesečno naplaćivanje",
+            "annual": "Godišnje naplaćivanje",
+            "save": "Uštedite 20%"
+        },
+        "mostPopular": "Najpopularnije",
+        "features": "Značajke",
+        "buttons": {
+            "getStarted": "Započnite",
+            "contactSales": "Kontaktirajte prodaju"
+        },
+        "loading": "Učitavanje informacija o cijenama",
+        "error": "Pogreška pri učitavanju informacija o cijenama",
+        "noPlans": "Trenutno nisu dostupni planovi pretplate."
+    },
+    "footer": {
+        "newsletter": {
+            "title": "Bilten",
+            "heading": "Budite u tijeku s trendovima skočnih prozora",
+            "description": "Primajte stručne uvide o optimizaciji konverzija i strategijama skočnih prozora izravno u svoj sandučić e-pošte.",
+            "placeholder": "Unesite svoju poslovnu e-poštu",
+            "button": "Pretplati se",
+            "subscribing": "Pretplata...",
+            "success": "Hvala vam što ste se pretplatili! Primit ćete naš sljedeći bilten.",
+            "error": "Došlo je do pogreške. Molimo pokušajte ponovno kasnije."
+        },
+        "company": {
+            "headquarters": "Globalno sjedište",
+            "address": "Razina 2, 45 Tech Avenue, Melbourne VIC 3000"
+        },
+        "sections": {
+            "sitemap": "Mapa web stranice",
+            "company": "Tvrtka"
+        },
+        "legal": {
+            "copyright": "© {year} YowManage. Sva prava pridržana.",
+            "privacy": "Pravila o privatnosti",
+            "terms": "Uvjeti pružanja usluge",
+            "cookies": "Postavke kolačića"
+        }
+    },
+    "hero": {
+        "title": {
+            "main": "Pametno upravljanje skočnim prozorima",
+            "highlight": "Jednostavno"
+        },
+        "description": "Stvorite, upravljajte i optimizirajte skočni prozore web stranice s jedne središnje nadzorne ploče. Povećajte angažman bez narušavanja korisničkog iskustva.",
+        "buttons": {
+            "trial": "Započni besplatnu probu",
+            "demo": "Pogledaj demo"
+        }
+    },
+    "dashboard": {
+        "title": "Nadzorna ploča",
+        "websites": {
+            "title": "Vaše web stranice",
+            "description": "Upravljajte svojim povezanim web stranicama i njihovim obavijestima",
+            "addButton": "Dodaj web stranicu",
+            "addDialog": {
+                "title": "Dodaj novu web stranicu",
+                "domain": "Domena",
+                "domainPlaceholder": "example.com"
+            },
+            "paths": "Putevi",
+            "actions": {
+                "delete": "Izbriši"
+            },
+            "errors": {
+                "subscriptionLimit": "Dosegnuto je ograničenje pretplate",
+                "domainRequired": "Molimo unesite naziv domene",
+                "saveFailed": "Spremanje promjena nije uspjelo. Molimo pokušajte ponovno.",
+                "deleteFailed": "Brisanje web stranice nije uspjelo. Molimo pokušajte ponovno.",
+                "loadFailed": "Učitavanje vašeg projekta nije uspjelo. Osvježite stranicu."
+            },
+            "success": {
+                "added": "Web stranica dodana",
+                "saving": "Spremanje vaših promjena",
+                "saved": "Vaše promjene su spremljene.",
+                "deleted": "Web stranica uspješno izbrisana"
+            }
+        },
+        "integration": {
+            "title": "Integracija web stranice",
+            "description": "Slijedite ove korake da biste integrirali skočni prozore na svoju web stranicu",
+            "step1": {
+                "title": "Dodajte skriptu na svoju web stranicu",
+                "description": "Kopirajte i zalijepite ovaj kod u odjeljak <head> vaše web stranice."
+            },
+            "step2": {
+                "title": "Provjerite instalaciju",
+                "description": "Nakon dodavanja koda, skočni prozori automatski će se pojaviti na vašoj web stranici na temelju vaše konfiguracije.",
+                "checklist": {
+                    "title": "Kontrolni popis instalacije",
+                    "items": ["Skripta je dodana u odjeljak head", "Domena web stranice odgovara konfiguraciji", "Nema JavaScript pogrešaka u konzoli"]
+                }
+            },
+            "buttons": {
+                "visitSite": "Posjetite stranicu",
+                "copyCode": "Kopiraj kod"
+            },
+            "success": {
+                "codeCopied": "Kod je kopiran!",
+                "codeCopiedDesc": "Integracijski kod kopiran je u međuspremnik"
+            }
+        },
+        "help": {
+            "title": "Trebate pomoć?",
+            "description": "Pogledajte naš {integrationGuide} ili {contactSupport} ako naiđete na bilo kakve probleme.",
+            "integrationGuide": "vodič za integraciju",
+            "contactSupport": "kontaktiraj podršku"
+        }
+    },
+    "popupManager": {
+        "title": "Upravitelj skočnih prozora",
+        "saveChanges": "Spremi promjene",
+        "saving": "Spremanje...",
+        "resetProject": "Poništi projekt",
+        "success": {
+            "saved": "Vaše promjene su spremljene.",
+            "reset": "Vaš projekt je poništen."
+        },
+        "errors": {
+            "loadFailed": "Učitavanje podataka nije uspjelo. Osvježite stranicu.",
+            "saveFailed": "Spremanje promjena nije uspjelo. Molimo pokušajte ponovno.",
+            "resetFailed": "Poništavanje projekta nije uspjelo. Molimo pokušajte ponovno."
+        },
+        "noWebsiteSelected": {
+            "title": "Potreban je odabir web stranice",
+            "heading": "Nije odabrana web stranica, molimo dodajte web stranicu na početnoj stranici za početak.",
+            "description": "Odaberite web stranicu s gornje strane za upravljanje svojim skočnim prozorima i stvaranje zanimljivih obavijesti za svoje posjetitelje.",
+            "features": {
+                "messages": {
+                    "title": "Skočni prozori s porukama",
+                    "description": "Jednostavne poruke obavijesti za vaše posjetitelje"
+                },
+                "email": {
+                    "title": "Sakupljači e-pošte",
+                    "description": "Proširite svoj popis e-pošte s obrascima za pretplatu"
+                },
+                "ads": {
+                    "title": "Skočni prozori s oglasima",
+                    "description": "Promovirajte posebne ponude i najave"
+                }
+            }
+        },
+        "popup": {
+            "edit": "Uredi",
+            "editIcon": "Uredi ikonu",
+            "iconUrl": "URL ikone",
+            "preview": "Pregled",
+            "cancel": "Odustani",
+            "save": "Spremi",
+            "delete": "Izbriši",
+            "types": {
+                "ad": "Oglas",
+                "email": "E-pošta",
+                "message": "Poruka"
+            },
+            "errors": {
+                "imageLoad": "Učitavanje slike nije uspjelo. Provjerite URL.",
+                "invalidImage": "Neispravna slika",
+                "invalidUrl": "Navedeni URL nije valjana slika",
+                "provideValidUrl": "Molimo navedite valjan URL slike"
+            }
+        },
+        "createPopup": {
+            "title": "Stvori novi skočni prozor",
+            "description": "Stvorite zanimljive skočni prozore za interakciju s posjetiteljima",
+            "steps": {
+                "previous": "Prethodno",
+                "next": "Sljedeće",
+                "cancel": "Odustani",
+                "create": "Stvori skočni prozor",
+                "type": {
+                    "label": "Odaberite vrstu",
+                    "description": "Odaberite vrstu skočnog prozora koji želite stvoriti"
+                },
+                "content": {
+                    "label": "Dodaj sadržaj",
+                    "description": "Prilagodite sadržaj i izgled skočnog prozora"
+                },
+                "timing": {
+                    "label": "Postavi vrijeme",
+                    "description": "Konfigurirajte kada i koliko dugo će se prikazivati vaš skočni prozor"
+                },
+                "preview": {
+                    "label": "Pregled",
+                    "description": "Pregledajte kako će se vaš skočni prozor prikazivati posjetiteljima"
+                }
+            },
+            "types": {
+                "title": "Odaberite vrstu skočnog prozora",
+                "description": "Odaberite vrstu skočnog prozora koja najbolje odgovara vašim potrebama",
+                "message": {
+                    "title": "Poruka",
+                    "description": "Jednostavni skočni prozori s obavijestima"
+                },
+                "email": {
+                    "title": "Sakupljač e-pošte",
+                    "description": "Prikupljajte pretplate putem e-pošte"
+                },
+                "advertising": {
+                    "title": "Oglašavanje",
+                    "description": "Promotivne poruke"
+                }
+            },
+            "content": {
+                "iconUrl": "URL ikone",
+                "iconUrlPlaceholder": "https://example.com/icon.png",
+                "title": "Naslov",
+                "titlePlaceholder": "Unesite naslov skočnog prozora",
+                "message": "Poruka",
+                "messagePlaceholder": "Unesite poruku skočnog prozora",
+                "linkUrl": "URL veze",
+                "linkUrlPlaceholder": "Unesite odredišni URL",
+                "linkDescription": "Kamo će korisnici biti usmjereni kada kliknu skočni prozor",
+                "buttonText": "Tekst gumba",
+                "buttonTextPlaceholder": "Pretplati se",
+                "inputPlaceholder": "Mjesto unosa",
+                "inputPlaceholderExample": "Unesite svoju e-poštu",
+                "successMessage": "Poruka o uspjehu",
+                "successMessagePlaceholder": "Hvala na pretplati!"
+            },
+            "timing": {
+                "title": "Postavke vremena",
+                "description": "Konfigurirajte kada će se vaš skočni prozor pojaviti i koliko će dugo biti vidljiv",
+                "delay": {
+                    "label": "Odgoda prikaza (milisekunde)",
+                    "description": "Koliko dugo čekati prije prikaza skočnog prozora"
+                },
+                "duration": {
+                    "label": "Trajanje prikaza",
+                    "description": "Koliko dugo bi skočni prozor trebao ostati vidljiv",
+                    "options": {
+                        "3s": "3 sekunde",
+                        "5s": "5 sekundi",
+                        "7s": "7 sekundi",
+                        "10s": "10 sekundi",
+                        "unlimited": "Neograničeno"
+                    }
+                }
+            },
+            "preview": {
+                "iconAlt": "Pregled ikone skočnog prozora",
+                "defaultTitle": "Naslov skočnog prozora",
+                "defaultMessage": "Vaša poruka ovdje"
+            }
+        },
+        "websitePopups": {
+            "title": "Skočni prozori web stranice",
+            "description": "Upravljajte obavijestima za {domain}",
+            "addPath": "Dodaj novi put",
+            "addPathDialog": {
+                "title": "Dodaj novi put",
+                "pathName": "Naziv puta",
+                "pathNamePlaceholder": "npr. Stranica proizvoda",
+                "pathUrl": "URL puta",
+                "pathUrlPlaceholder": "npr. /proizvodi",
+                "addButton": "Dodaj put"
+            },
+            "addPopup": "+ Dodaj skočni prozor",
+            "dropHere": "Ispustite stavke ovdje"
+        }
+    },
+    "emailsPage": {
+        "title": "Popis e-pošte",
+        "description": "Upravljajte prikupljenim e-porukama",
+        "exportCsv": "Izvezi CSV",
+        "search": {
+            "placeholder": "Pretraži e-poštu..."
+        },
+        "emailCount": "{count} e-poruka",
+        "table": {
+            "headers": {
+                "email": "E-pošta",
+                "source": "Izvor",
+                "status": "Status",
+                "date": "Datum",
+                "website": "Web stranica",
+                "path": "Put",
+                "popup": "Skočni prozor",
+                "actions": "Radnje"
+            }
+        },
+        "pagination": {
+            "rowsPerPage": "Redaka po stranici:",
+            "pageInfo": "Stranica {current} od {total}"
+        },
+        "actions": {
+            "delete": "Izbriši"
+        },
+        "status": {
+            "active": "aktivan"
+        },
+        "messages": {
+            "deleteSuccess": "E-pošta uspješno izbrisana",
+            "deleteError": "Brisanje e-pošte nije uspjelo",
+            "loadError": "Učitavanje popisa e-pošte nije uspjelo"
+        }
+    },
+    "supportPage": {
+        "title": "Moji zahtjevi",
+        "search": {
+            "placeholder": "Pretraži zahtjeve"
+        },
+        "tabs": {
+            "open": "Otvoreno",
+            "resolved": "Riješeno"
+        },
+        "ticket": {
+            "status": {
+                "open": "Otvoreno",
+                "resolved": "Riješeno"
+            },
+            "id": "Zahtjev #{id}",
+            "noMessages": "Još nema poruka",
+            "actions": {
+                "resolve": "Riješi zahtjev",
+                "reopen": "Ponovno otvori zahtjev",
+                "resolving": "Rješavanje...",
+                "reopening": "Ponovno otvaranje..."
+            }
+        },
+        "messages": {
+            "loading": "Učitavanje zahtjeva...",
+            "noTickets": "Nisu pronađeni {status} zahtjevi",
+            "supportTeam": "Tim za podršku",
+            "inputPlaceholder": "Upišite svoju poruku ovdje",
+            "sending": "Slanje...",
+            "send": "Pošalji"
+        },
+        "notifications": {
+            "ticketUpdated": "Zahtjev ažuriran",
+            "ticketStatusChanged": "Status zahtjeva uspješno je promijenjen u {status}.",
+            "updateError": "Ažuriranje statusa zahtjeva nije uspjelo. Molimo pokušajte ponovno."
+        }
+    },
+    "usagePage": {
+        "title": "Upotreba i ograničenja",
+        "description": "Pratite upotrebu resursa i status pretplate",
+        "sections": {
+            "usageLimits": {
+                "title": "Ograničenja upotrebe",
+                "description": "Pratite upotrebu resursa u svim značajkama",
+                "totalWebsites": "Ukupno web stranica",
+                "paths": "Putevi",
+                "popups": "Skočni prozori",
+                "features": {
+                    "advertising": "Skočni prozori za oglašavanje",
+                    "emailCollector": "Sakupljači e-pošte"
+                }
+            }
+        }
+    },
+    "subscriptionStatus": {
+        "title": "Status pretplate",
+        "freePlan": "Besplatni plan",
+        "messages": {
+            "expired": "Vaša pretplata je istekla. Nadogradite sada za vraćanje pristupa svim značajkama.",
+            "expiringSoon": "Vaša pretplata uskoro ističe. Obnovite sada da biste zadržali pristup svim značajkama."
+        },
+        "buttons": {
+            "upgrade": "Nadogradite plan",
+            "renew": "Obnovi pretplatu"
+        }
+    },
+    "billingPage": {
+        "title": "Naplata i pretplata",
+        "description": "Upravljajte svojom pretplatom i pogledajte povijest naplate",
+        "currentPlan": {
+            "title": "Trenutni plan",
+            "description": "Vaš trenutni plan pretplate i detalji",
+            "freePlan": "Besplatni plan",
+            "paidPlan": "{name} plan",
+            "allFeatures": "Sve značajke uključene",
+            "limitedFeatures": "Ograničene značajke",
+            "expiresAt": "Istječe: {date}",
+            "buttons": {
+                "manage": "Upravljaj pretplatom",
+                "upgrade": "Nadogradite na Pro"
+            }
+        },
+        "billingHistory": {
+            "title": "Povijest naplate",
+            "description": "Pogledajte i preuzmite svoje prošle fakture i povijest plaćanja",
+            "noHistory": {
+                "title": "Nema dostupne povijesti naplate",
+                "description": "Vaša povijest faktura pojavit će se ovdje nakon što izvršite uplatu"
+            },
+            "showingTransactions": "Prikazivanje {count} nedavnih transakcija",
+            "viewAll": "Pogledaj sve transakcije",
+            "table": {
+                "status": "Status",
+                "invoice": "Faktura",
+                "date": "Datum",
+                "amount": "Iznos",
+                "actions": "Radnje"
+            },
+            "status": {
+                "paid": "Plaćeno",
+                "pending": "Na čekanju"
+            }
+        },
+        "invoice": {
+            "title": "Faktura #{number}",
+            "issueDate": "Datum izdavanja",
+            "billTo": "Naplati",
+            "paymentStatus": "Status plaćanja",
+            "description": "Opis",
+            "amount": "Iznos",
+            "total": "Ukupno",
+            "billingPeriod": "Razdoblje naplate: {start} - {end}",
+            "monthlySubscription": "Mjesečna pretplata",
+            "footer": {
+                "payment": "Plaćanje je obrađeno putem Stripe",
+                "thanks": "Hvala vam na suradnji!"
+            },
+            "buttons": {
+                "close": "Zatvori",
+                "download": "Preuzmi PDF"
+            }
+        }
+    },
+    "adminPage": {
+        "title": "Pregled nadzorne ploče",
+        "description": "Pratite i upravljajte performansama svoje platforme",
+        "stats": {
+            "totalUsers": {
+                "title": "Ukupno korisnika",
+                "loading": "Učitavanje..."
+            },
+            "activeSubscriptions": {
+                "title": "Aktivne pretplate",
+                "loading": "Učitavanje..."
+            },
+            "supportTickets": {
+                "title": "Zahtjevi za podršku",
+                "loading": "Učitavanje..."
+            },
+            "activePopups": {
+                "title": "Aktivni skočni prozori",
+                "loading": "Učitavanje..."
+            }
+        },
+        "users": {
+            "title": "Najnoviji korisnici",
+            "description": "Upravljajte i pratite aktivnost korisnika",
+            "search": "Pretraži korisnike...",
+            "table": {
+                "name": "Ime",
+                "email": "E-pošta",
+                "role": "Uloga",
+                "status": "Status",
+                "subscription": "Pretplata",
+                "subscriptionEnds": "Pretplata istječe",
+                "createdAt": "Stvoreno u",
+                "actions": "Radnje"
+            },
+            "status": {
+                "active": "Aktivan",
+                "inactive": "Neaktivan",
+                "probation": "Probni rok",
+                "onboarding": "Uvođenje",
+                "onLeave": "Na dopustu"
+            },
+            "subscription": {
+                "active": "Aktivan",
+                "inactive": "Neaktivan"
+            },
+            "noDate": "---"
+        },
+        "loading": "Učitavanje...",
+        "error": {
+            "loadingBillingInfo": "Pogreška pri učitavanju podataka o naplati. Molimo pokušajte ponovno kasnije."
+        },
+        "userEditor": {
+            "menu": {
+                "profile": {
+                    "title": "Korisnički profil",
+                    "description": "Osobni podaci i preferencije"
+                },
+                "billing": {
+                    "title": "Naplata",
+                    "description": "Načini plaćanja i povijest"
+                },
+                "security": {
+                    "title": "Sigurnost",
+                    "description": "Lozinka i autentifikacija"
+                },
+                "notifications": {
+                    "title": "Obavijesti",
+                    "description": "E-pošta i postavke push obavijesti"
+                },
+                "activity": {
+                    "title": "Dnevnik aktivnosti",
+                    "description": "Nedavna aktivnost računa"
+                },
+                "deleteAccount": {
+                    "title": "Izbriši račun",
+                    "description": "Trajno ukloni račun"
+                }
+            },
+            "profile": {
+                "title": "Korisnički profil",
+                "personalInfo": {
+                    "title": "Osobni podaci",
+                    "name": "Ime",
+                    "email": "E-pošta"
+                },
+                "accountSettings": {
+                    "title": "Postavke računa",
+                    "status": "Status računa",
+                    "role": "Uloga",
+                    "roles": {
+                        "user": "Korisnik",
+                        "admin": "Admin"
+                    },
+                    "statuses": {
+                        "active": "Aktivan",
+                        "banned": "Zabranjen"
+                    }
+                },
+                "subscriptionStatus": "Pretplata: {{status}}",
+                "accountCreated": "Račun stvoren: {{date}}",
+                "buttons": {
+                    "save": "Spremi promjene",
+                    "saving": "Spremanje..."
+                },
+                "messages": {
+                    "updateSuccess": "Korisnik uspješno ažuriran",
+                    "updateError": "Ažuriranje korisnika nije uspjelo"
+                }
+            },
+            "billing": {
+                "title": "Uređivač naplate",
+                "subscriptionDetails": {
+                    "title": "Detalji pretplate",
+                    "status": "Status pretplate",
+                    "statuses": {
+                        "subscribed": "Pretplatnik",
+                        "free": "Besplatno"
+                    },
+                    "plan": "Plan pretplate",
+                    "selectPlan": "Odaberite plan",
+                    "endDate": "Datum isteka pretplate",
+                    "pickDate": "Odaberite datum"
+                },
+                "buttons": {
+                    "save": "Spremi promjene",
+                    "saving": "Spremanje..."
+                },
+                "messages": {
+                    "selectPlanError": "Molimo odaberite plan pretplate",
+                    "updateSuccess": "Naplata korisnika uspješno ažurirana",
+                    "updateError": "Ažuriranje naplate korisnika nije uspjelo",
+                    "cancelSuccess": "Pretplata je uspješno otkazana",
+                    "cancelError": "Otkazivanje pretplate nije uspjelo"
+                }
+            },
+            "activity": {
+                "title": "Dnevnik aktivnosti",
+                "exportButton": "Izvezi dnevnik",
+                "noActivity": "Nije pronađena aktivnost"
+            },
+            "deleteAccount": {
+                "title": "Izbriši račun",
+                "warning": "Ova se radnja ne može poništiti",
+                "consequences": {
+                    "title": "Kada izbrišete svoj račun, izgubit ćete pristup:",
+                    "items": ["Svim spremljenim skočnim prozorima i predlošcima", "Podacima o analitici i praćenju", "Povijesti naplate i fakturama", "Prilagođenim konfiguracijama i postavkama"]
+                },
+                "button": "Trajno izbriši račun"
+            }
+        },
+        "usersManager": {
+            "title": "Upravitelj korisnicima",
+            "description": "Učinkovito upravljajte svojim korisnicima.",
+            "latestUsers": {
+                "title": "Najnoviji korisnici",
+                "search": {
+                    "placeholder": "Pretraži",
+                    "button": "Pretraži"
+                }
+            },
+            "table": {
+                "name": "Ime",
+                "email": "E-pošta",
+                "role": "Uloga",
+                "status": "Status",
+                "subscription": "Pretplata",
+                "subscriptionEnds": "Pretplata istječe",
+                "createdAt": "Stvoreno u",
+                "actions": "Radnje"
+            },
+            "status": {
+                "active": "Aktivan",
+                "probation": "Probni rok",
+                "onboarding": "Uvođenje",
+                "onLeave": "Na dopustu"
+            },
+            "subscription": {
+                "active": "Aktivan",
+                "inactive": "Neaktivan"
+            },
+            "noDate": "---",
+            "messages": {
+                "searchNoResults": "Nisu pronađeni korisnici. Prikazuju se svi korisnici.",
+                "searchError": "Pretraživanje korisnika nije uspjelo",
+                "loadError": "Dohvaćanje korisnika nije uspjelo"
+            }
+        },
+        "subscriptionsManager": {
+            "title": "Upravitelj pretplatama",
+            "description": "Učinkovito upravljajte svojim pretplatama.",
+            "latestSubscriptions": {
+                "title": "Pretplate",
+                "search": {
+                    "placeholder": "Pretraži",
+                    "button": "Pretraži"
+                }
+            },
+            "table": {
+                "user": "Korisnik",
+                "plan": "Plan",
+                "status": "Status",
+                "startDate": "Datum početka",
+                "endDate": "Datum završetka",
+                "autoRenew": "Automatska obnova",
+                "actions": "Radnje"
+            },
+            "status": {
+                "active": "Aktivan",
+                "cancelled": "Otkazano",
+                "expired": "Isteklo"
+            },
+            "autoRenew": {
+                "yes": "Da",
+                "no": "Ne"
+            },
+            "messages": {
+                "searchNoResults": "Nisu pronađene pretplate. Prikazuju se sve pretplate.",
+                "searchError": "Pretraživanje pretplate nije uspjelo",
+                "loadError": "Dohvaćanje pretplata nije uspjelo"
+            }
+        },
+        "ticketsManager": {
+            "title": "Zahtjevi za podršku",
+            "description": "Upravljajte i odgovarajte na zahtjeve za podršku",
+            "messages": {
+                "title": "Poruke",
+                "search": {
+                    "placeholder": "Pretraži po e-pošti",
+                    "button": "Pretraži"
+                },
+                "tabs": {
+                    "open": "Otvoreni zahtjevi",
+                    "resolved": "Riješeno"
+                },
+                "noMessages": "Još nema poruka",
+                "today": "Danas",
+                "cantReply": "Ne možete odgovarati na zahtjeve posjetitelja izravno s platforme, umjesto toga koristite izravnu e-poštu.",
+                "reply": "Odgovori",
+                "send": "Pošalji"
+            },
+            "ticket": {
+                "supportTicket": "Zahtjev za podršku",
+                "sender": "Pošiljatelj",
+                "actions": {
+                    "resolveTicket": "Riješi zahtjev"
+                }
+            }
+        },
+        "settings": {
+            "title": "Postavke",
+            "description": "Upravljajte postavkama i konfiguracijama svoje aplikacije.",
+            "tabs": {
+                "general": {
+                    "title": "Općenito",
+                    "description": "Upravljajte postavkama web stranice i SEO konfiguracijom",
+                    "icon": "Postavke"
+                },
+                "subscriptions": {
+                    "title": "Pretplate",
+                    "description": "Konfigurirajte planove pretplate i cijene",
+                    "icon": "Kreditna kartica"
+                },
+                "usageLimits": {
+                    "title": "Ograničenja upotrebe",
+                    "description": "Postavite ograničenja upotrebe za različite razine pretplate",
+                    "icon": "Štit"
+                },
+                "socialLinks": {
+                    "title": "Društvene veze",
+                    "description": "Upravljajte svojim vezama na društvenim mrežama",
+                    "icon": "Dijeli"
+                },
+                "footerLinks": {
+                    "title": "Veze podnožja",
+                    "description": "Upravljajte vezama i odjeljcima podnožja",
+                    "icon": "Veza"
+                }
+            },
+            "general": {
+                "title": "Opće postavke",
+                "description": "Konfigurirajte osnovne informacije i SEO postavke svoje web stranice",
+                "fields": {
+                    "siteTitle": {
+                        "label": "Naslov stranice",
+                        "tooltip": "Naslov vaše web stranice koji se pojavljuje u rezultatima tražilice i karticama preglednika",
+                        "placeholder": "Unesite naslov stranice"
+                    },
+                    "siteKeywords": {
+                        "label": "Ključne riječi",
+                        "tooltip": "Ključne riječi odvojene zarezom koje su relevantne za sadržaj vaše web stranice",
+                        "placeholder": "Unesite ključne riječi"
+                    },
+                    "googleAnalytics": {
+                        "label": "ID Google Analytics",
+                        "tooltip": "Vaš ID za praćenje Google Analytics",
+                        "placeholder": "UA-XXXXXXXXX-X"
+                    },
+                    "siteAddress": {
+                        "label": "Adresa web stranice",
+                        "tooltip": "Fizička adresa vaše web stranice",
+                        "placeholder": "Unesite adresu web stranice"
+                    },
+                    "sitePhone": {
+                        "label": "Telefonski broj",
+                        "tooltip": "Vaš poslovni kontakt telefon",
+                        "placeholder": "Unesite telefonski broj"
+                    },
+                    "siteEmail": {
+                        "label": "Kontakt e-pošta",
+                        "tooltip": "Vaša poslovna kontakt e-adresa",
+                        "placeholder": "Unesite kontakt e-poštu"
+                    },
+                    "siteDescription": {
+                        "label": "Opis web stranice",
+                        "tooltip": "Kratak opis vaše web stranice koji se pojavljuje u rezultatima pretraživanja",
+                        "placeholder": "Unesite opis web stranice"
+                    },
+                    "logo": {
+                        "label": "Logotip stranice",
+                        "tooltip": "Učitajte logotip svoje web stranice. Preporučena veličina: 200x50 piksela. Maksimalna veličina: 2 MB",
+                        "button": "Učitaj logotip",
+                        "uploading": "Učitavanje...",
+                        "supportedFormats": "Podržani formati: PNG, JPG, GIF"
+                    },
+                    "maintenanceMode": {
+                        "label": "Način održavanja",
+                        "description": "Omogućite prikaz stranice za održavanje posjetiteljima dok radite na svojoj web-lokaciji"
+                    }
+                },
+                "buttons": {
+                    "saveChanges": "Spremi promjene"
+                }
+            },
+            "usageLimits": {
+                "title": "Ograničenja upotrebe",
+                "description": "Postavite ograničenja upotrebe za različite razine pretplate",
+                "table": {
+                    "subscription": "Pretplata",
+                    "maxWebsites": "Maks. web stranica",
+                    "maxPathsPerWebsite": "Maks. puteva po web stranici",
+                    "maxPopupsPerPath": "Maks. skočnih prozora po putu",
+                    "features": "Značajke"
+                },
+                "features": {
+                    "advertising": "Oglašavanje",
+                    "emailCollector": "Sakupljač e-pošte"
+                },
+                "buttons": {
+                    "saveChanges": "Spremi promjene"
+                }
+            },
+            "socialLinks": {
+                "title": "Veze na društvenim mrežama",
+                "description": "Upravljajte svojim prisustvom na društvenim medijima dodavanjem ili uklanjanjem veza na društvenim mrežama",
+                "form": {
+                    "platformName": {
+                        "label": "Naziv platforme",
+                        "placeholder": "npr. Facebook"
+                    },
+                    "url": {
+                        "label": "URL",
+                        "placeholder": "https://..."
+                    },
+                    "iconUrl": {
+                        "label": "URL ikone",
+                        "placeholder": "https://... (URL ikone)"
+                    }
+                },
+                "table": {
+                    "icon": "Ikona",
+                    "platform": "Platforma",
+                    "url": "URL",
+                    "actions": "Radnje"
+                },
+                "buttons": {
+                    "addLink": "Dodaj vezu na društvenim mrežama",
+                    "remove": "Ukloni"
+                }
+            },
+            "footerLinks": {
+                "title": "Upravljanje vezama podnožja",
+                "description": "Upravljajte vezama koje se pojavljuju u odjeljcima podnožja vaše web stranice",
+                "form": {
+                    "linkName": {
+                        "label": "Naziv veze",
+                        "placeholder": "npr. O nama"
+                    },
+                    "url": {
+                        "label": "URL",
+                        "placeholder": "/o-nama"
+                    },
+                    "section": {
+                        "label": "Odjeljak",
+                        "options": {
+                            "sitemap": "Mapa web stranice",
+                            "company": "Tvrtka"
+                        }
+                    }
+                },
+                "sections": {
+                    "sitemap": {
+                        "title": "Veze mape web stranice"
+                    },
+                    "company": {
+                        "title": "Veze tvrtke"
+                    }
+                },
+                "table": {
+                    "name": "Naziv",
+                    "url": "URL",
+                    "actions": "Radnje"
+                },
+                "buttons": {
+                    "addLink": "Dodaj vezu podnožja",
+                    "remove": "Ukloni"
+                }
+            },
+            "subscriptions": {
+                "title": "Upravljanje pretplatama",
+                "description": "Upravljajte svojim pretplatama",
+                "createNew": {
+                    "title": "Stvori novu pretplatu",
+                    "description": "Dodajte novu pretplatu u svoj sustav",
+                    "fields": {
+                        "name": {
+                            "label": "Naziv",
+                            "placeholder": "Unesite naziv pretplate"
+                        },
+                        "price": {
+                            "label": "Cijena",
+                            "placeholder": "Unesite cijenu"
+                        },
+                        "yearlyPrice": {
+                            "label": "Godišnja cijena",
+                            "placeholder": "Unesite godišnju cijenu"
+                        },
+                        "stripeMonthlyLink": {
+                            "label": "Mjesečna veza Stripe",
+                            "placeholder": "Unesite mjesečnu vezu Stripe"
+                        },
+                        "stripeYearlyLink": {
+                            "label": "Godišnja veza Stripe",
+                            "placeholder": "Unesite godišnju vezu Stripe"
+                        },
+                        "stripeMonthlyPriceId": {
+                            "label": "ID mjesečne cijene Stripe",
+                            "placeholder": "Unesite ID mjesečne cijene Stripe"
+                        },
+                        "stripeYearlyPriceId": {
+                            "label": "ID godišnje cijene Stripe",
+                            "placeholder": "Unesite ID godišnje cijene Stripe"
+                        },
+                        "status": {
+                            "label": "Status",
+                            "options": {
+                                "active": "Aktivan",
+                                "inactive": "Neaktivan"
+                            }
+                        }
+                    },
+                    "button": "Stvori pretplatu"
+                },
+                "list": {
+                    "title": "Pretplate",
+                    "description": "Upravljajte svojim pretplatama",
+                    "status": {
+                        "active": "Aktivan",
+                        "inactive": "Neaktivan"
+                    },
+                    "pricing": "Mjesečno: {price} | Godišnje: {yearlyPrice}",
+                    "actions": {
+                        "label": "Radnje",
+                        "edit": "Uredi",
+                        "delete": "Izbriši",
+                        "activate": "Aktiviraj",
+                        "deactivate": "Deaktiviraj"
+                    },
+                    "features": {
+                        "addButton": "Dodaj značajku"
+                    }
+                },
+                "edit": {
+                    "title": "Uredi {type}",
+                    "description": "Ovdje unesite izmjene u {type}.",
+                    "subscription": {
+                        "fields": {
+                            "name": {
+                                "label": "Naziv",
+                                "placeholder": "Unesite naziv"
+                            },
+                            "price": {
+                                "label": "Cijena",
+                                "placeholder": "Unesite cijenu"
+                            },
+                            "yearlyPrice": {
+                                "label": "Godišnja cijena",
+                                "placeholder": "Unesite godišnju cijenu"
+                            },
+                            "stripeMonthlyLink": {
+                                "label": "Mjesečna veza Stripe",
+                                "placeholder": "Unesite mjesečnu vezu Stripe"
+                            },
+                            "stripeYearlyLink": {
+                                "label": "Godišnja veza Stripe",
+                                "placeholder": "Unesite godišnju vezu Stripe"
+                            },
+                            "stripeMonthlyPriceId": {
+                                "label": "ID mjesečne cijene Stripe",
+                                "placeholder": "Unesite ID mjesečne cijene Stripe"
+                            },
+                            "stripeYearlyPriceId": {
+                                "label": "ID godišnje cijene Stripe",
+                                "placeholder": "Unesite ID godišnje cijene Stripe"
+                            }
+                        }
+                    },
+                    "feature": {
+                        "fields": {
+                            "name": {
+                                "label": "Naziv značajke",
+                                "placeholder": "Unesite naziv značajke"
+                            }
+                        }
+                    },
+                    "buttons": {
+                        "save": "Spremi promjene"
+                    }
+                },
+                "messages": {
+                    "success": {
+                        "created": "Pretplata stvorena!",
+                        "createdDesc": "Uspješno ste stvorili novu pretplatu.",
+                        "updated": "Stavka ažurirana!",
+                        "updatedDesc": "Uspješno ste ažurirali stavku.",
+                        "deleted": "{type} izbrisan!",
+                        "deletedDesc": "Uspješno ste izbrisali {type}.",
+                        "statusChanged": "Pretplata ažurirana!",
+                        "statusChangedDesc": "Uspješno ste ažurirali status pretplate."
+                    },
+                    "error": {
+                        "create": "Došlo je do problema pri stvaranju pretplate. Molimo pokušajte ponovno.",
+                        "update": "Došlo je do problema pri ažuriranju stavke. Molimo pokušajte ponovno.",
+                        "delete": "Došlo je do problema pri brisanju {type}. Molimo pokušajte ponovno.",
+                        "statusChange": "Došlo je do problema pri ažuriranju statusa pretplate. Molimo pokušajte ponovno.",
+                        "fetch": "Dohvaćanje pretplata nije uspjelo"
+                    }
+                }
+            }
+        }
+    },
+    "pageBuilder": {
+        "title": "Izrada stranica",
+        "description": "Izradite i upravljajte svojim stranicama pomoću uređivača obogaćenog teksta.",
+        "pages": {
+            "title": "Stranice",
+            "newPagePlaceholder": "Naziv nove stranice",
+            "addButton": "Dodaj",
+            "noPageSelected": "Izradite novu stranicu ili odaberite postojeću za početak uređivanja",
+            "saveButton": "Spremi",
+            "savingButton": "Spremanje...",
+            "deleteButton": "Izbriši"
+        },
+        "editor": {
+            "defaultContent": "Ovdje počnite upisivati svoj sadržaj...",
+            "toolbar": {
+                "insertTable": "Umetni tablicu",
+                "addColumnBefore": "Dodaj stupac prije",
+                "addColumnAfter": "Dodaj stupac poslije",
+                "deleteColumn": "Izbriši stupac",
+                "addRowBefore": "Dodaj redak prije",
+                "addRowAfter": "Dodaj redak poslije",
+                "deleteRow": "Izbriši redak",
+                "deleteTable": "Izbriši tablicu",
+                "addImage": "Unesite URL slike:"
+            }
+        },
+        "messages": {
+            "success": {
+                "save": "Stranica uspješno spremljena",
+                "delete": "Stranica uspješno izbrisana"
+            },
+            "error": {
+                "save": "Spremanje stranice nije uspjelo",
+                "delete": "Brisanje stranice nije uspjelo",
+                "fetch": "Učitavanje stranica nije uspjelo"
+            }
+        }
+    },
+    "newsletter": {
+        "title": "Pretplatnici biltena",
+        "description": "Upravljajte svojim pretplatnicima biltena",
+        "actions": {
+            "exportCSV": "Izvezi CSV",
+            "search": "Pretraži pretplatnike...",
+            "remove": "Ukloni pretplatnika"
+        },
+        "table": {
+            "email": "E-pošta",
+            "subscribedDate": "Datum pretplate",
+            "actions": "Radnje"
+        },
+        "pagination": {
+            "rowsPerPage": "Redaka po stranici:",
+            "pageOf": "Stranica {current} od {total}"
+        },
+        "messages": {
+            "success": {
+                "remove": "E-pošta uspješno uklonjena"
+            },
+            "error": {
+                "fetch": "Učitavanje pretplatnika biltena nije uspjelo",
+                "remove": "Uklanjanje e-pošte nije uspjelo",
+                "export": "Izvoz pretplatnika nije uspio"
+            }
+        }
+    },
+    "sidebar": {
+        "admin": {
+            "title": "Administratorska ploča",
+            "items": {
+                "home": "Početna",
+                "usersManager": "Upravitelj korisnicima",
+                "subscriptions": "Pretplate",
+                "tickets": "Zahtjevi",
+                "settings": "Postavke",
+                "pageBuilder": "Izrada stranica",
+                "newsletter": "Bilten"
+            },
+            "logout": "Odjava"
+        },
+        "dashboard": {
+            "title": "Nadzorna ploča",
+            "items": {
+                "home": "Početna",
+                "createPopups": "Izradi skočni prozor",
+                "emailList": "Popis e-pošte",
+                "support": "Podrška",
+                "usage": "Upotreba",
+                "billing": "Naplata"
+            },
+            "upgradeCard": {
+                "title": "Nadogradite na Pro",
+                "description": "Otključajte premium značajke i poboljšane mogućnosti",
+                "button": "Nadogradite odmah"
+            },
+            "logout": "Odjava"
+        }
+    }
+}

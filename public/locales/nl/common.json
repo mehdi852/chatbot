@@ -1,0 +1,1251 @@
+{
+    "header": {
+        "adminPanel": "Adminpaneel",
+        "languages": {
+            "en": "Engels",
+            "fr": "Frans"
+        }
+    },
+    "navbar": {
+        "home": "Home",
+        "solutions": "Oplossingen",
+        "resources": "Bronnen",
+        "pricing": "Prijzen",
+        "adminPortal": "Adminportaal",
+        "dashboard": "Dashboard",
+        "signIn": "Inloggen",
+        "startFreeTrial": "Start Gratis Proefperiode",
+        "menu": {
+            "solutions": {
+                "coreFeatures": "Kernfuncties",
+                "smartPopups": {
+                    "title": "Slimme Popups",
+                    "desc": "Intelligente conversie-optimalisatie"
+                },
+                "analytics": {
+                    "title": "Geavanceerde Analytics",
+                    "desc": "Realtime prestatie-inzichten"
+                },
+                "targeting": {
+                    "title": "Doelgroep Targeting",
+                    "desc": "Precieze bezoekerssegmentatie"
+                },
+                "advancedTools": "Geavanceerde Tools",
+                "splitTesting": {
+                    "title": "Split Testing",
+                    "desc": "Data-gedreven optimalisatie"
+                },
+                "security": {
+                    "title": "Bedrijfsbeveiliging",
+                    "desc": "Geavanceerde beveiligingsmaatregelen"
+                },
+                "performance": {
+                    "title": "Prestatiesuite",
+                    "desc": "Tools voor snelheidsoptimalisatie"
+                }
+            },
+            "resources": {
+                "supportLearning": "Support & Leren",
+                "documentation": {
+                    "title": "Documentatie",
+                    "desc": "Uitgebreide handleidingen"
+                },
+                "support": {
+                    "title": "Bedrijfsondersteuning",
+                    "desc": "24/7 toegewijde assistentie"
+                },
+                "community": {
+                    "title": "Community",
+                    "desc": "Kom in contact met experts"
+                },
+                "integrationHub": "Integratiehub",
+                "api": {
+                    "title": "API-toegang",
+                    "desc": "Aangepaste integratie-opties"
+                },
+                "devTools": {
+                    "title": "Ontwikkelaarstools",
+                    "desc": "Geavanceerde aanpassing"
+                }
+            }
+        }
+    },
+    "welcome": "Welkom",
+    "gdpr": {
+        "title": "Privacy- en Cookieverklaring",
+        "description": "We gebruiken cookies en vergelijkbare technologieën om uw ervaring te verbeteren en prestaties te analyseren. Door verder te gaan, stemt u in met ons",
+        "privacyLink": "Privacybeleid",
+        "acceptAll": "Alles Accepteren",
+        "essentialOnly": "Alleen Essentiële",
+         "essentialOnly": "Enkel Essentiële"
+    },
+    "features": {
+        "title": "Bedrijfsfuncties",
+        "mainHeading": "Alles wat u nodig heeft voor popup succes",
+        "description": "Krachtige tools van bedrijfsniveau om uw website popups te creëren, beheren en optimaliseren. Verhoog betrokkenheid en conversies met onze uitgebreide oplossing.",
+        "items": {
+            "management": {
+                "title": "Gecentraliseerd Beheer",
+                "description": "Beheer al uw website popups vanuit één intuïtief dashboard. Creëer, bewerk en volg moeiteloos prestaties."
+            },
+            "types": {
+                "title": "Meerdere Popup Types",
+                "description": "Kies uit verschillende popup types: meldingen, e-mail verzamelaars en promotionele berichten die passen bij uw doelen."
+            },
+            "targeting": {
+                "title": "Slimme Targeting",
+                "description": "Target bezoekers op basis van gedrag, timing en locatie. Toon de juiste boodschap op het juiste moment."
+            }
+        }
+    },
+    "advancedFeatures": {
+        "title": "Geavanceerde Mogelijkheden",
+        "mainHeading": "Krachtige tools voor betere resultaten",
+        "description": "Neem de controle over uw popup strategie met geavanceerde functies ontworpen om betrokkenheid en conversiepercentages te maximaliseren",
+        "items": {
+            "builder": {
+                "title": "Visuele Bouwer",
+                "description": "Creëer prachtige popups met onze intuïtieve drag-and-drop interface"
+            },
+            "analytics": {
+                "title": "Slimme Analytics",
+                "description": "Volg prestaties met gedetailleerde analytics en inzichten"
+            },
+            "timing": {
+                "title": "Slimme Timing",
+                "description": "Perfecte timing op basis van gebruikersgedrag en triggers"
+            },
+             "integrations": {
+                "title": "Integraties",
+                "description": "Verbind met uw favoriete marketing tools"
+             }
+        }
+    },
+    "testimonials": {
+        "title": "Klant Succes",
+        "mainHeading": "Geliefd bij bedrijven wereldwijd",
+        "description": "Ontdek hoe bedrijven hun conversiepercentages verbeteren met ons popup beheerplatform",
+        "items": [
+            {
+                "name": "Sarah Thompson",
+                "role": "Marketing Directeur",
+                "company": "E-commerce Plus",
+                "quote": "De drag-and-drop interface maakt het ongelooflijk eenvoudig om onze popup campagnes te beheren. We hebben een toename van 40% gezien in e-mail aanmeldingen."
+            },
+            {
+                "name": "Alex Rivera",
+                "role": "Groei Manager",
+                "company": "TechStart",
+                "quote": "De gedetailleerde analytics en slimme targeting functies hebben onze popup strategie getransformeerd. We hebben ongelooflijke betrokkenheidspercentages gezien sinds de overstap."
+            },
+            {
+                "name": "David Chen",
+                "role": "E-commerce Manager",
+                "company": "Fashion Store",
+                "quote": "Eindelijk een popup oplossing die zowel krachtig als gemakkelijk te gebruiken is. De targeting opties zijn precies wat we nodig hadden."
+            }
+        ]
+    },
+    "statistics": {
+        "items": [
+            {
+                "number": "1M+",
+                "description": "Popups dagelijks weergegeven op duizenden websites"
+            },
+            {
+                "number": "5.000+",
+                "description": "Actieve enterprise websites die ons platform gebruiken"
+            },
+            {
+                "number": "35%",
+                "description": "Gemiddelde toename in conversiepercentages"
+            },
+            {
+                "number": "99.9%",
+                "description": "Betrouwbaarheid van bedrijfsniveau uptime"
+            }
+        ]
+    },
+    "cta": {
+        "heading": "Klaar om uw popup strategie te transformeren?",
+        "description": "Sluit u aan bij duizenden succesvolle bedrijven die onze enterprise-grade popup oplossing gebruiken",
+        "button": "Start Gratis Enterprise Proefperiode"
+    },
+    "pricing": {
+        "title": "Prijzen",
+        "heading": "Kies uw perfecte plan",
+        "description": "Eenvoudige, transparante prijzen die met u meegroeien. Probeer elk plan 30 dagen gratis.",
+        "billing": {
+            "monthly": "Maandelijkse facturering",
+            "annual": "Jaarlijkse facturering",
+            "save": "Bespaar 20%"
+        },
+        "mostPopular": "Meest Populair",
+        "features": "Functies",
+        "buttons": {
+            "getStarted": "Aan de slag",
+             "contactSales": "Neem contact op met Sales"
+        },
+        "loading": "Prijzen informatie laden",
+        "error": "Fout bij het laden van prijsinformatie",
+        "noPlans": "Er zijn momenteel geen abonnementsplannen beschikbaar."
+    },
+    "footer": {
+        "newsletter": {
+            "title": "Nieuwsbrief",
+            "heading": "Blijf op de hoogte van popup trends",
+            "description": "Ontvang deskundige inzichten over conversie-optimalisatie en popup strategieën rechtstreeks in uw inbox.",
+            "placeholder": "Voer uw werk e-mailadres in",
+            "button": "Abonneren",
+            "subscribing": "Abonneren...",
+            "success": "Bedankt voor uw abonnement! U ontvangt onze volgende nieuwsbrief.",
+            "error": "Er is een fout opgetreden. Probeer het later opnieuw."
+        },
+        "company": {
+            "headquarters": "Globaal Hoofdkantoor",
+            "address": "Level 2, 45 Tech Avenue, Melbourne VIC 3000"
+        },
+        "sections": {
+            "sitemap": "Sitemap",
+            "company": "Bedrijf"
+        },
+        "legal": {
+            "copyright": "© {year} YowManage. Alle rechten voorbehouden.",
+            "privacy": "Privacybeleid",
+            "terms": "Servicevoorwaarden",
+            "cookies": "Cookie instellingen"
+        }
+    },
+    "hero": {
+        "title": {
+            "main": "Slim Popup Beheer",
+            "highlight": "Eenvoudig"
+        },
+        "description": "Creëer, beheer en optimaliseer website popups vanuit één centraal dashboard. Verhoog de betrokkenheid zonder de gebruikerservaring te verstoren.",
+        "buttons": {
+            "trial": "Start Gratis Proefperiode",
+            "demo": "Bekijk Demo"
+        }
+    },
+    "dashboard": {
+         "title": "Dashboard",
+        "websites": {
+            "title": "Uw Websites",
+            "description": "Beheer uw verbonden websites en hun meldingen",
+            "addButton": "Website Toevoegen",
+            "addDialog": {
+                "title": "Nieuwe Website Toevoegen",
+                "domain": "Domein",
+                "domainPlaceholder": "voorbeeld.com"
+             },
+            "paths": "Paden",
+            "actions": {
+                "delete": "Verwijderen"
+            },
+             "errors": {
+                 "subscriptionLimit": "Abonnementslimiet Bereikt",
+                 "domainRequired": "Voer een domeinnaam in",
+                 "saveFailed": "Opslaan mislukt. Probeer het opnieuw.",
+                 "deleteFailed": "Verwijderen van website mislukt. Probeer het opnieuw.",
+                  "loadFailed": "Het laden van uw project is mislukt. Vernieuw de pagina."
+             },
+            "success": {
+                "added": "Website Toegevoegd",
+                "saving": "Uw wijzigingen opslaan",
+                "saved": "Uw wijzigingen zijn opgeslagen.",
+                 "deleted": "Website succesvol verwijderd"
+            }
+        },
+         "integration": {
+             "title": "Website Integratie",
+             "description": "Volg deze stappen om popups in uw website te integreren",
+             "step1": {
+                 "title": "Voeg het script toe aan uw website",
+                 "description": "Kopieer en plak deze code in het <head> gedeelte van uw website."
+             },
+            "step2": {
+                "title": "Verifieer Installatie",
+                "description": "Nadat de code is toegevoegd, verschijnen uw popups automatisch op uw website op basis van uw configuratie.",
+                "checklist": {
+                    "title": "Installatie Checklist",
+                    "items": ["Script is toegevoegd aan het head gedeelte", "Website domein komt overeen met configuratie", "Geen JavaScript fouten in de console"]
+                }
+            },
+             "buttons": {
+                "visitSite": "Bezoek Site",
+                "copyCode": "Code Kopiëren"
+             },
+             "success": {
+                "codeCopied": "Code Gekopieerd!",
+                "codeCopiedDesc": "Integratiecode is naar het klembord gekopieerd"
+             }
+         },
+         "help": {
+            "title": "Hulp Nodig?",
+            "description": "Bekijk onze {integrationGuide} of {contactSupport} als u problemen ondervindt.",
+             "integrationGuide": "integratiehandleiding",
+             "contactSupport": "neem contact op met support"
+         }
+    },
+    "popupManager": {
+        "title": "Popup Beheer",
+        "saveChanges": "Wijzigingen Opslaan",
+        "saving": "Opslaan...",
+        "resetProject": "Project Resetten",
+         "success": {
+            "saved": "Uw wijzigingen zijn opgeslagen.",
+            "reset": "Uw project is gereset."
+         },
+        "errors": {
+            "loadFailed": "Het laden van gegevens is mislukt. Vernieuw de pagina.",
+            "saveFailed": "Opslaan mislukt. Probeer het opnieuw.",
+            "resetFailed": "Het resetten van het project is mislukt. Probeer het opnieuw."
+        },
+         "noWebsiteSelected": {
+            "title": "Website Selectie Vereist",
+             "heading": "Selecteer een Website om te Beginnen",
+             "description": "Kies een website van hierboven om uw popups te beheren en boeiende meldingen te creëren voor uw bezoekers.",
+             "features": {
+                "messages": {
+                    "title": "Bericht Popups",
+                    "description": "Eenvoudige meldingsberichten voor uw bezoekers"
+                 },
+                 "email": {
+                     "title": "E-mail Verzamelaars",
+                     "description": "Groei uw e-maillijst met abonnementsformulieren"
+                 },
+                "ads": {
+                   "title": "Advertentie Popups",
+                    "description": "Promoot speciale aanbiedingen en aankondigingen"
+                }
+            }
+        },
+        "popup": {
+            "edit": "Bewerken",
+            "editIcon": "Pictogram Bewerken",
+            "iconUrl": "Pictogram URL",
+            "preview": "Voorbeeld",
+            "cancel": "Annuleren",
+            "save": "Opslaan",
+            "delete": "Verwijderen",
+            "types": {
+                "ad": "Advertentie",
+                "email": "E-mail",
+                "message": "Bericht"
+            },
+            "errors": {
+                "imageLoad": "Afbeelding laden mislukt. Controleer de URL.",
+                "invalidImage": "Ongeldige Afbeelding",
+                "invalidUrl": "De opgegeven URL is geen geldige afbeelding",
+                 "provideValidUrl": "Geef een geldige afbeeldings URL op"
+            }
+        },
+         "createPopup": {
+            "title": "Nieuwe Popup Creëren",
+            "description": "Creëer boeiende popups om met uw bezoekers te communiceren",
+            "steps": {
+                "previous": "Vorige",
+                "next": "Volgende",
+                 "cancel": "Annuleren",
+                "create": "Popup Creëren",
+                "type": {
+                     "label": "Kies Type",
+                    "description": "Selecteer het type popup dat u wilt creëren"
+                },
+                "content": {
+                   "label": "Inhoud Toevoegen",
+                   "description": "Pas uw popup inhoud en uiterlijk aan"
+                 },
+                "timing": {
+                    "label": "Timing Instellen",
+                    "description": "Configureer wanneer en hoe lang uw popup moet worden weergegeven"
+                },
+                "preview": {
+                     "label": "Voorbeeld",
+                     "description": "Bekijk hoe uw popup er voor bezoekers uitziet"
+                }
+            },
+             "types": {
+               "title": "Kies Popup Type",
+                 "description": "Selecteer het type popup dat het beste bij uw behoeften past",
+                "message": {
+                   "title": "Bericht",
+                     "description": "Eenvoudige notificatie popups"
+                 },
+                "email": {
+                    "title": "E-mail Verzamelaar",
+                    "description": "Verzamel e-mail abonnementen"
+                },
+               "advertising": {
+                    "title": "Advertenties",
+                    "description": "Promotionele berichten"
+                 }
+             },
+            "content": {
+                 "iconUrl": "Pictogram URL",
+                 "iconUrlPlaceholder": "https://voorbeeld.com/icon.png",
+                 "title": "Titel",
+                 "titlePlaceholder": "Voer popup titel in",
+                "message": "Bericht",
+                 "messagePlaceholder": "Voer popup bericht in",
+                "linkUrl": "Link URL",
+                 "linkUrlPlaceholder": "Voer bestemmings URL in",
+                "linkDescription": "Waar gebruikers naartoe worden geleid wanneer ze op de popup klikken",
+                "buttonText": "Knop Tekst",
+                "buttonTextPlaceholder": "Abonneren",
+                "inputPlaceholder": "Input Placeholder",
+                 "inputPlaceholderExample": "Voer uw e-mailadres in",
+                "successMessage": "Succes Bericht",
+                "successMessagePlaceholder": "Bedankt voor uw abonnement!"
+            },
+            "timing": {
+                "title": "Timing Instellingen",
+                 "description": "Configureer wanneer uw popup verschijnt en hoe lang deze zichtbaar blijft",
+                 "delay": {
+                     "label": "Weergave Vertraging (milliseconden)",
+                     "description": "Hoe lang te wachten voordat de popup wordt weergegeven"
+                 },
+                "duration": {
+                   "label": "Weergave Duur",
+                    "description": "Hoe lang de popup zichtbaar moet blijven",
+                   "options": {
+                      "3s": "3 seconden",
+                       "5s": "5 seconden",
+                       "7s": "7 seconden",
+                        "10s": "10 seconden",
+                       "unlimited": "Onbeperkt"
+                  }
+                }
+            },
+            "preview": {
+                "iconAlt": "Popup Pictogram Voorbeeld",
+                "defaultTitle": "Popup Titel",
+                "defaultMessage": "Uw bericht hier"
+            }
+        },
+         "websitePopups": {
+            "title": "Website Popups",
+             "description": "Beheer meldingen voor {domain}",
+             "addPath": "Nieuw Pad Toevoegen",
+             "addPathDialog": {
+                "title": "Nieuw Pad Toevoegen",
+                 "pathName": "Padnaam",
+                 "pathNamePlaceholder": "bijv., Productpagina",
+                "pathUrl": "Pad URL",
+                 "pathUrlPlaceholder": "bijv., /producten",
+                 "addButton": "Pad Toevoegen"
+             },
+             "addPopup": "+ Popup toevoegen",
+             "dropHere": "Sleep items hierheen"
+         }
+    },
+    "emailsPage": {
+         "title": "E-mail Lijst",
+         "description": "Beheer uw verzamelde e-mails",
+         "exportCsv": "CSV Exporteren",
+         "search": {
+            "placeholder": "Zoek e-mails..."
+         },
+        "emailCount": "{count} E-mails",
+         "table": {
+            "headers": {
+                "email": "E-mail",
+                "source": "Bron",
+                "status": "Status",
+               "date": "Datum",
+                 "website": "Website",
+                "path": "Pad",
+                "popup": "Popup",
+                 "actions": "Acties"
+            }
+         },
+         "pagination": {
+            "rowsPerPage": "Rijen per pagina:",
+            "pageInfo": "Pagina {current} van {total}"
+         },
+         "actions": {
+            "delete": "Verwijderen"
+         },
+         "status": {
+            "active": "actief"
+        },
+        "messages": {
+            "deleteSuccess": "E-mail succesvol verwijderd",
+            "deleteError": "E-mail verwijderen mislukt",
+            "loadError": "Het laden van de e-maillijst is mislukt"
+         }
+     },
+     "supportPage": {
+        "title": "Mijn Tickets",
+         "search": {
+            "placeholder": "Zoek tickets"
+         },
+         "tabs": {
+             "open": "Open",
+             "resolved": "Opgelost"
+         },
+        "ticket": {
+           "status": {
+                "open": "Open",
+                "resolved": "Opgelost"
+            },
+            "id": "Ticket #{id}",
+             "noMessages": "Nog geen berichten",
+            "actions": {
+                "resolve": "Ticket Oplossen",
+                 "reopen": "Ticket Heropenen",
+                "resolving": "Oplossen...",
+                 "reopening": "Heropenen..."
+             }
+         },
+        "messages": {
+            "loading": "Tickets laden...",
+            "noTickets": "Geen {status} tickets gevonden",
+             "supportTeam": "Support Team",
+             "inputPlaceholder": "Typ hier uw bericht",
+             "sending": "Verzenden...",
+             "send": "Verzenden"
+         },
+         "notifications": {
+            "ticketUpdated": "Ticket Bijgewerkt",
+            "ticketStatusChanged": "Ticket is succesvol {status}.",
+             "updateError": "Het bijwerken van de ticketstatus is mislukt. Probeer het opnieuw."
+         }
+     },
+    "usagePage": {
+        "title": "Gebruik & Limieten",
+         "description": "Monitor uw resourcegebruik en abonnementsstatus",
+        "sections": {
+            "usageLimits": {
+                "title": "Gebruikslimieten",
+                "description": "Monitor uw resourcegebruik over alle functies",
+                 "totalWebsites": "Totaal Websites",
+                 "paths": "Paden",
+                 "popups": "Popups",
+                 "features": {
+                    "advertising": "Advertentie Popups",
+                     "emailCollector": "E-mail Verzamelaars"
+                 }
+            }
+        }
+    },
+    "subscriptionStatus": {
+        "title": "Abonnementsstatus",
+         "freePlan": "Gratis Plan",
+         "messages": {
+            "expired": "Uw abonnement is verlopen. Upgrade nu om de toegang tot alle functies te herstellen.",
+             "expiringSoon": "Uw abonnement verloopt binnenkort. Vernieuw nu om de toegang tot alle functies te behouden."
+         },
+        "buttons": {
+            "upgrade": "Plan Upgraden",
+             "renew": "Abonnement Vernieuwen"
+        }
+     },
+     "billingPage": {
+         "title": "Facturering & Abonnement",
+         "description": "Beheer uw abonnement en bekijk de factureringsgeschiedenis",
+         "currentPlan": {
+            "title": "Huidig Plan",
+             "description": "Uw huidige abonnementsplan en details",
+            "freePlan": "Gratis Plan",
+            "paidPlan": "{name} Plan",
+             "allFeatures": "Alle functies inbegrepen",
+            "limitedFeatures": "Beperkte functies",
+            "expiresAt": "Verloopt: {date}",
+             "buttons": {
+                 "manage": "Abonnement Beheren",
+                 "upgrade": "Upgraden naar Pro"
+             }
+        },
+        "billingHistory": {
+            "title": "Factureringsgeschiedenis",
+             "description": "Bekijk en download uw eerdere facturen en betalingsgeschiedenis",
+             "noHistory": {
+                "title": "Geen factureringsgeschiedenis beschikbaar",
+                 "description": "Uw factuurgeschiedenis verschijnt hier zodra u een betaling doet"
+            },
+            "showingTransactions": "Toont {count} recente transacties",
+             "viewAll": "Alle Transacties Bekijken",
+             "table": {
+               "status": "Status",
+               "invoice": "Factuur",
+                 "date": "Datum",
+                "amount": "Bedrag",
+               "actions": "Acties"
+            },
+            "status": {
+               "paid": "Betaald",
+               "pending": "In afwachting"
+            }
+         },
+         "invoice": {
+            "title": "Factuur #{number}",
+             "issueDate": "Uitgiftedatum",
+            "billTo": "Factuur Aan",
+            "paymentStatus": "Betalingsstatus",
+            "description": "Beschrijving",
+            "amount": "Bedrag",
+            "total": "Totaal",
+            "billingPeriod": "Factureringsperiode: {start} - {end}",
+             "monthlySubscription": "Maandelijks Abonnement",
+             "footer": {
+                "payment": "Betaling verwerkt via Stripe",
+                 "thanks": "Bedankt voor uw zaken!"
+            },
+             "buttons": {
+                "close": "Sluiten",
+                "download": "PDF Downloaden"
+            }
+        }
+    },
+     "adminPage": {
+         "title": "Dashboard Overzicht",
+         "description": "Monitor en beheer de prestaties van uw platform",
+        "stats": {
+            "totalUsers": {
+                 "title": "Totaal Gebruikers",
+                 "loading": "Laden..."
+            },
+             "activeSubscriptions": {
+                "title": "Actieve Abonnementen",
+                "loading": "Laden..."
+             },
+            "supportTickets": {
+                 "title": "Support Tickets",
+                "loading": "Laden..."
+            },
+            "activePopups": {
+               "title": "Actieve Popups",
+                 "loading": "Laden..."
+            }
+        },
+         "users": {
+            "title": "Nieuwste Gebruikers",
+            "description": "Beheer en monitor gebruikersactiviteit",
+            "search": "Zoek gebruikers...",
+             "table": {
+                 "name": "Naam",
+                 "email": "E-mail",
+                 "role": "Rol",
+                 "status": "Status",
+                "subscription": "Abonnement",
+                "subscriptionEnds": "Abonnement Eindigt",
+                 "createdAt": "Gemaakt Op",
+                 "actions": "Acties"
+            },
+             "status": {
+                "active": "Actief",
+               "inactive": "Inactief",
+                "probation": "Proeftijd",
+                "onboarding": "Onboarding",
+                 "onLeave": "Verlof"
+             },
+             "subscription": {
+                 "active": "Actief",
+                 "inactive": "Inactief"
+            },
+            "noDate": "---"
+        },
+         "loading": "Laden...",
+        "error": {
+             "loadingBillingInfo": "Fout bij het laden van factuurgegevens. Probeer het later opnieuw."
+        },
+        "userEditor": {
+            "menu": {
+                 "profile": {
+                    "title": "Gebruikersprofiel",
+                   "description": "Persoonlijke gegevens en voorkeuren"
+                 },
+                "billing": {
+                    "title": "Facturering",
+                     "description": "Betalingsmethoden en geschiedenis"
+                },
+                "security": {
+                     "title": "Beveiliging",
+                    "description": "Wachtwoord en authenticatie"
+                 },
+                 "notifications": {
+                    "title": "Meldingen",
+                     "description": "E-mail en push voorkeuren"
+                 },
+                 "activity": {
+                     "title": "Activiteitenlogboek",
+                    "description": "Recente accountactiviteit"
+                 },
+                "deleteAccount": {
+                    "title": "Account Verwijderen",
+                    "description": "Account permanent verwijderen"
+                 }
+             },
+            "profile": {
+                "title": "Gebruikersprofiel",
+               "personalInfo": {
+                    "title": "Persoonlijke Informatie",
+                     "name": "Naam",
+                     "email": "E-mail"
+                },
+               "accountSettings": {
+                    "title": "Accountinstellingen",
+                     "status": "Accountstatus",
+                     "role": "Rol",
+                     "roles": {
+                       "user": "Gebruiker",
+                         "admin": "Admin"
+                     },
+                    "statuses": {
+                        "active": "Actief",
+                        "banned": "Verbannen"
+                    }
+                 },
+               "subscriptionStatus": "Abonnement: {{status}}",
+                "accountCreated": "Account aangemaakt: {{date}}",
+                "buttons": {
+                    "save": "Wijzigingen opslaan",
+                     "saving": "Opslaan..."
+                },
+                 "messages": {
+                     "updateSuccess": "Gebruiker succesvol bijgewerkt",
+                     "updateError": "Gebruiker bijwerken mislukt"
+                }
+            },
+            "billing": {
+                 "title": "Facturering Bewerken",
+                 "subscriptionDetails": {
+                    "title": "Abonnementsdetails",
+                     "status": "Abonnementsstatus",
+                    "statuses": {
+                        "subscribed": "Geabonneerd",
+                         "free": "Gratis"
+                    },
+                     "plan": "Abonnementsplan",
+                     "selectPlan": "Selecteer een plan",
+                    "endDate": "Abonnement Einddatum",
+                    "pickDate": "Kies een datum"
+                },
+                "buttons": {
+                   "save": "Wijzigingen opslaan",
+                     "saving": "Opslaan..."
+                 },
+                 "messages": {
+                     "selectPlanError": "Selecteer een abonnementsplan",
+                    "updateSuccess": "Gebruikersfacturering succesvol bijgewerkt",
+                     "updateError": "Gebruikersfacturering bijwerken mislukt",
+                    "cancelSuccess": "Abonnement succesvol geannuleerd",
+                     "cancelError": "Abonnement annuleren mislukt"
+                }
+            },
+             "activity": {
+                "title": "Activiteitenlogboek",
+                 "exportButton": "Logboek Exporteren",
+                 "noActivity": "Geen activiteit gevonden"
+             },
+             "deleteAccount": {
+                "title": "Account Verwijderen",
+                 "warning": "Deze actie kan niet ongedaan gemaakt worden",
+                 "consequences": {
+                    "title": "Wanneer u uw account verwijderd, verliest u toegang tot:",
+                    "items": ["Al uw opgeslagen popups en templates", "Analytics en trackinggegevens", "Factuurgeschiedenis en facturen", "Aangepaste configuraties en instellingen"]
+                },
+                 "button": "Account Permanent Verwijderen"
+            }
+         },
+         "usersManager": {
+            "title": "Gebruikersbeheer",
+             "description": "Beheer uw gebruikers efficiënt.",
+             "latestUsers": {
+               "title": "Nieuwste Gebruikers",
+                "search": {
+                     "placeholder": "Zoeken",
+                    "button": "Zoeken"
+                }
+             },
+             "table": {
+                "name": "Naam",
+                "email": "E-mail",
+                 "role": "Rol",
+                 "status": "Status",
+                "subscription": "Abonnement",
+                "subscriptionEnds": "Abonnement Eindigt",
+                "createdAt": "Gemaakt Op",
+                 "actions": "Acties"
+            },
+            "status": {
+                "active": "Actief",
+                "probation": "Proeftijd",
+                 "onboarding": "Onboarding",
+                "onLeave": "Verlof"
+            },
+            "subscription": {
+                 "active": "Actief",
+                 "inactive": "Inactief"
+            },
+            "noDate": "---",
+             "messages": {
+                 "searchNoResults": "Geen gebruikers gevonden. Toont alle gebruikers.",
+                "searchError": "Gebruiker zoeken mislukt",
+                 "loadError": "Ophalen van gebruikers mislukt"
+            }
+        },
+         "subscriptionsManager": {
+           "title": "Abonnementenbeheer",
+            "description": "Beheer uw abonnementen efficiënt.",
+           "latestSubscriptions": {
+                "title": "Abonnementen",
+               "search": {
+                    "placeholder": "Zoeken",
+                    "button": "Zoeken"
+                }
+            },
+            "table": {
+                "user": "Gebruiker",
+                "plan": "Plan",
+                "status": "Status",
+                 "startDate": "Startdatum",
+                "endDate": "Einddatum",
+                 "autoRenew": "Automatisch Vernieuwen",
+                "actions": "Acties"
+            },
+           "status": {
+               "active": "Actief",
+                "cancelled": "Geannuleerd",
+                 "expired": "Verlopen"
+            },
+            "autoRenew": {
+                "yes": "Ja",
+                "no": "Nee"
+             },
+            "messages": {
+               "searchNoResults": "Geen abonnementen gevonden. Toont alle abonnementen.",
+               "searchError": "Abonnement zoeken mislukt",
+               "loadError": "Ophalen van abonnementen mislukt"
+            }
+        },
+       "ticketsManager": {
+           "title": "Support Tickets",
+            "description": "Beheer en reageer op support tickets",
+             "messages": {
+                "title": "Berichten",
+                 "search": {
+                    "placeholder": "Zoeken op e-mail",
+                     "button": "Zoeken"
+                },
+               "tabs": {
+                  "open": "Open Tickets",
+                     "resolved": "Opgelost"
+                 },
+                "noMessages": "Nog geen berichten",
+                "today": "Vandaag",
+                 "cantReply": "Het is niet mogelijk om tickets van bezoekers direct vanaf het platform te beantwoorden, gebruik in plaats daarvan een direct e-mail.",
+                 "reply": "Beantwoorden",
+                 "send": "Verzenden"
+            },
+            "ticket": {
+                "supportTicket": "Support Ticket",
+                "sender": "Verzender",
+                "actions": {
+                   "resolveTicket": "Ticket Oplossen"
+                 }
+             }
+         },
+        "settings": {
+            "title": "Instellingen",
+            "description": "Beheer uw applicatie instellingen en configuraties.",
+            "tabs": {
+                "general": {
+                    "title": "Algemeen",
+                    "description": "Beheer uw website instellingen en SEO configuratie",
+                    "icon": "Instellingen"
+                },
+                "subscriptions": {
+                    "title": "Abonnementen",
+                    "description": "Configureer abonnementsplannen en prijzen",
+                    "icon": "Creditcard"
+                },
+                "usageLimits": {
+                    "title": "Gebruikslimieten",
+                    "description": "Stel gebruikslimieten in voor verschillende abonnementsniveaus",
+                    "icon": "Schild"
+                },
+                "socialLinks": {
+                    "title": "Sociale Links",
+                    "description": "Beheer uw sociale media links",
+                    "icon": "Delen"
+                },
+                 "footerLinks": {
+                    "title": "Footer Links",
+                    "description": "Beheer uw footer links en secties",
+                     "icon": "Link"
+                }
+            },
+            "general": {
+               "title": "Algemene Instellingen",
+                "description": "Configureer de basisinformatie en SEO instellingen van uw website",
+               "fields": {
+                    "siteTitle": {
+                        "label": "Site Titel",
+                        "tooltip": "De titel van uw website die wordt weergegeven in de zoekresultaten van zoekmachines en browsertabs",
+                        "placeholder": "Voer site titel in"
+                   },
+                    "siteKeywords": {
+                        "label": "Zoekwoorden",
+                        "tooltip": "Komma-gescheiden zoekwoorden die relevant zijn voor de inhoud van uw website",
+                         "placeholder": "Voer zoekwoorden in"
+                    },
+                   "googleAnalytics": {
+                        "label": "Google Analytics ID",
+                         "tooltip": "Uw Google Analytics tracking ID",
+                        "placeholder": "UA-XXXXXXXXX-X"
+                    },
+                    "siteAddress": {
+                        "label": "Site Adres",
+                       "tooltip": "Het fysieke adres van uw website",
+                        "placeholder": "Voer site adres in"
+                    },
+                    "sitePhone": {
+                        "label": "Telefoonnummer",
+                        "tooltip": "Uw zakelijke contact telefoonnummer",
+                        "placeholder": "Voer telefoonnummer in"
+                    },
+                   "siteEmail": {
+                       "label": "Contact E-mail",
+                        "tooltip": "Uw zakelijke contact e-mailadres",
+                       "placeholder": "Voer contact e-mail in"
+                    },
+                    "siteDescription": {
+                       "label": "Site Beschrijving",
+                        "tooltip": "Een korte beschrijving van uw website die in de zoekresultaten wordt weergegeven",
+                         "placeholder": "Voer site beschrijving in"
+                    },
+                   "logo": {
+                       "label": "Site Logo",
+                        "tooltip": "Upload uw website logo. Aanbevolen formaat: 200x50px. Maximale grootte: 2MB",
+                         "button": "Logo Uploaden",
+                         "uploading": "Uploaden...",
+                        "supportedFormats": "Ondersteunde formaten: PNG, JPG, GIF"
+                    },
+                     "maintenanceMode": {
+                        "label": "Onderhoudsmodus",
+                         "description": "Schakel in om een onderhoudspagina aan bezoekers te tonen terwijl u aan uw site werkt"
+                     }
+               },
+               "buttons": {
+                    "saveChanges": "Wijzigingen Opslaan"
+                }
+            },
+             "usageLimits": {
+                "title": "Gebruikslimieten",
+                "description": "Stel gebruikslimieten in voor verschillende abonnementsniveaus",
+                 "table": {
+                    "subscription": "Abonnement",
+                     "maxWebsites": "Max Websites",
+                     "maxPathsPerWebsite": "Max Paden per Website",
+                    "maxPopupsPerPath": "Max Popups per Pad",
+                   "features": "Functies"
+                },
+                "features": {
+                    "advertising": "Advertenties",
+                     "emailCollector": "E-mail Verzamelaar"
+                },
+                "buttons": {
+                   "saveChanges": "Wijzigingen Opslaan"
+                }
+             },
+            "socialLinks": {
+                "title": "Sociale Media Links",
+                 "description": "Beheer uw sociale media aanwezigheid door sociale links toe te voegen of te verwijderen",
+                 "form": {
+                    "platformName": {
+                         "label": "Platform Naam",
+                         "placeholder": "bijv., Facebook"
+                     },
+                    "url": {
+                        "label": "URL",
+                        "placeholder": "https://..."
+                    },
+                     "iconUrl": {
+                        "label": "Pictogram URL",
+                        "placeholder": "https://... (pictogram URL)"
+                     }
+                 },
+                 "table": {
+                     "icon": "Pictogram",
+                     "platform": "Platform",
+                     "url": "URL",
+                     "actions": "Acties"
+                 },
+                 "buttons": {
+                   "addLink": "Sociale Link Toevoegen",
+                    "remove": "Verwijderen"
+                }
+             },
+             "footerLinks": {
+                "title": "Footer Links Beheer",
+                "description": "Beheer de links die verschijnen in de footer secties van uw website",
+                 "form": {
+                    "linkName": {
+                         "label": "Link Naam",
+                         "placeholder": "bijv., Over Ons"
+                    },
+                   "url": {
+                       "label": "URL",
+                       "placeholder": "/over"
+                    },
+                     "section": {
+                        "label": "Sectie",
+                        "options": {
+                            "sitemap": "Sitemap",
+                            "company": "Bedrijf"
+                        }
+                     }
+                 },
+                "sections": {
+                     "sitemap": {
+                        "title": "Sitemap Links"
+                    },
+                     "company": {
+                        "title": "Bedrijfslinks"
+                     }
+                 },
+                "table": {
+                    "name": "Naam",
+                    "url": "URL",
+                     "actions": "Acties"
+                },
+                 "buttons": {
+                     "addLink": "Footer Link Toevoegen",
+                     "remove": "Verwijderen"
+                 }
+             },
+            "subscriptions": {
+               "title": "Abonnementenbeheer",
+                "description": "Beheer uw abonnementen",
+                "createNew": {
+                     "title": "Nieuw Abonnement Creëren",
+                    "description": "Voeg een nieuw abonnement aan uw systeem toe",
+                   "fields": {
+                        "name": {
+                            "label": "Naam",
+                            "placeholder": "Voer abonnementsnaam in"
+                        },
+                        "price": {
+                           "label": "Prijs",
+                           "placeholder": "Voer prijs in"
+                        },
+                         "yearlyPrice": {
+                           "label": "Jaarlijkse Prijs",
+                           "placeholder": "Voer jaarlijkse prijs in"
+                        },
+                         "stripeMonthlyLink": {
+                           "label": "Stripe Maandelijkse Link",
+                            "placeholder": "Voer Stripe maandelijkse link in"
+                        },
+                         "stripeYearlyLink": {
+                             "label": "Stripe Jaarlijkse Link",
+                             "placeholder": "Voer Stripe jaarlijkse link in"
+                        },
+                         "stripeMonthlyPriceId": {
+                           "label": "Stripe Maandelijkse Prijs ID",
+                           "placeholder": "Voer Stripe maandelijkse prijs ID in"
+                         },
+                        "stripeYearlyPriceId": {
+                             "label": "Stripe Jaarlijkse Prijs ID",
+                           "placeholder": "Voer Stripe jaarlijkse prijs ID in"
+                        },
+                        "status": {
+                             "label": "Status",
+                           "options": {
+                                "active": "Actief",
+                                "inactive": "Inactief"
+                           }
+                         }
+                    },
+                   "button": "Abonnement Creëren"
+                 },
+                 "list": {
+                     "title": "Abonnementen",
+                     "description": "Beheer uw abonnementen",
+                     "status": {
+                        "active": "Actief",
+                        "inactive": "Inactief"
+                    },
+                    "pricing": "Maandelijks: {price} | Jaarlijks: {yearlyPrice}",
+                    "actions": {
+                        "label": "Acties",
+                        "edit": "Bewerken",
+                        "delete": "Verwijderen",
+                        "activate": "Activeren",
+                        "deactivate": "Deactiveren"
+                    },
+                    "features": {
+                       "addButton": "Functie Toevoegen"
+                    }
+                },
+                 "edit": {
+                    "title": "Bewerk {type}",
+                    "description": "Breng hier wijzigingen aan in de {type}.",
+                     "subscription": {
+                        "fields": {
+                             "name": {
+                                "label": "Naam",
+                                 "placeholder": "Voer naam in"
+                            },
+                            "price": {
+                                "label": "Prijs",
+                                "placeholder": "Voer prijs in"
+                            },
+                            "yearlyPrice": {
+                                "label": "Jaarlijkse Prijs",
+                               "placeholder": "Voer jaarlijkse prijs in"
+                            },
+                            "stripeMonthlyLink": {
+                                "label": "Stripe Maandelijkse Link",
+                                 "placeholder": "Voer Stripe maandelijkse link in"
+                            },
+                             "stripeYearlyLink": {
+                                 "label": "Stripe Jaarlijkse Link",
+                                "placeholder": "Voer Stripe jaarlijkse link in"
+                            },
+                             "stripeMonthlyPriceId": {
+                                "label": "Stripe Maandelijkse Prijs ID",
+                               "placeholder": "Voer Stripe maandelijkse prijs ID in"
+                            },
+                            "stripeYearlyPriceId": {
+                                "label": "Stripe Jaarlijkse Prijs ID",
+                                "placeholder": "Voer Stripe jaarlijkse prijs ID in"
+                            }
+                         }
+                   },
+                     "feature": {
+                         "fields": {
+                             "name": {
+                                "label": "Functie Naam",
+                                "placeholder": "Voer functie naam in"
+                           }
+                        }
+                     },
+                    "buttons": {
+                        "save": "Wijzigingen opslaan"
+                   }
+                },
+                "messages": {
+                    "success": {
+                       "created": "Abonnement aangemaakt!",
+                        "createdDesc": "U heeft succesvol een nieuw abonnement aangemaakt.",
+                        "updated": "Item bijgewerkt!",
+                        "updatedDesc": "U heeft succesvol het item bijgewerkt.",
+                         "deleted": "{type} verwijderd!",
+                       "deletedDesc": "U heeft succesvol een {type} verwijderd.",
+                        "statusChanged": "Abonnement bijgewerkt!",
+                        "statusChangedDesc": "U heeft succesvol de abonnementsstatus bijgewerkt."
+                    },
+                   "error": {
+                        "create": "Er is een probleem opgetreden bij het aanmaken van het abonnement. Probeer het opnieuw.",
+                       "update": "Er is een probleem opgetreden bij het bijwerken van het item. Probeer het opnieuw.",
+                       "delete": "Er is een probleem opgetreden bij het verwijderen van de {type}. Probeer het opnieuw.",
+                       "statusChange": "Er is een probleem opgetreden bij het bijwerken van de abonnementsstatus. Probeer het opnieuw.",
+                       "fetch": "Ophalen van abonnementen mislukt"
+                  }
+               }
+            }
+        }
+    },
+    "pageBuilder": {
+        "title": "Pagina Bouwer",
+        "description": "Creëer en beheer uw pagina's met een rich text editor.",
+        "pages": {
+            "title": "Pagina's",
+             "newPagePlaceholder": "Nieuwe paginanaam",
+            "addButton": "Toevoegen",
+             "noPageSelected": "Creëer een nieuwe pagina of selecteer een bestaande pagina om te beginnen met bewerken",
+            "saveButton": "Opslaan",
+             "savingButton": "Opslaan...",
+            "deleteButton": "Verwijderen"
+        },
+        "editor": {
+             "defaultContent": "Begin hier met het typen van uw inhoud...",
+            "toolbar": {
+                "insertTable": "Tabel Invoegen",
+                "addColumnBefore": "Kolom Toevoegen Voor",
+                 "addColumnAfter": "Kolom Toevoegen Na",
+                "deleteColumn": "Kolom Verwijderen",
+                "addRowBefore": "Rij Toevoegen Voor",
+                 "addRowAfter": "Rij Toevoegen Na",
+                 "deleteRow": "Rij Verwijderen",
+                "deleteTable": "Tabel Verwijderen",
+                 "addImage": "Voer de URL van de afbeelding in:"
+            }
+        },
+        "messages": {
+           "success": {
+                "save": "Pagina succesvol opgeslagen",
+                 "delete": "Pagina succesvol verwijderd"
+            },
+            "error": {
+                "save": "Pagina opslaan mislukt",
+               "delete": "Pagina verwijderen mislukt",
+                 "fetch": "Het laden van pagina's is mislukt"
+            }
+        }
+    },
+    "newsletter": {
+        "title": "Nieuwsbrief Abonnees",
+        "description": "Beheer uw nieuwsbrief abonnees",
+        "actions": {
+            "exportCSV": "CSV Exporteren",
+            "search": "Zoek abonnees...",
+            "remove": "Abonnee Verwijderen"
+        },
+        "table": {
+            "email": "E-mail",
+            "subscribedDate": "Abonneerdatum",
+            "actions": "Acties"
+        },
+        "pagination": {
+            "rowsPerPage": "Rijen per pagina:",
+            "pageOf": "Pagina {current} van {total}"
+        },
+        "messages": {
+            "success": {
+                "remove": "E-mail succesvol verwijderd"
+            },
+            "error": {
+                "fetch": "Het laden van nieuwsbrief abonnees is mislukt",
+                "remove": "E-mail verwijderen mislukt",
+                 "export": "Exporteren van abonnees mislukt"
+            }
+        }
+    },
+    "sidebar": {
+        "admin": {
+            "title": "Adminpaneel",
+            "items": {
+                "home": "Home",
+                 "usersManager": "Gebruikersbeheer",
+                "subscriptions": "Abonnementen",
+                "tickets": "Tickets",
+                 "settings": "Instellingen",
+                "pageBuilder": "Pagina Bouwer",
+                 "newsletter": "Nieuwsbrief"
+            },
+            "logout": "Uitloggen"
+        },
+        "dashboard": {
+            "title": "Dashboard",
+            "items": {
+                 "home": "Home",
+                "createPopups": "Popups Maken",
+                "emailList": "E-maillijst",
+                 "support": "Support",
+                 "usage": "Gebruik",
+                 "billing": "Facturering"
+            },
+            "upgradeCard": {
+                "title": "Upgrade naar Pro",
+                "description": "Ontgrendel premium functies en verbeterde mogelijkheden",
+                "button": "Nu Upgraden"
+            },
+            "logout": "Uitloggen"
+        }
+    }
+}
+         

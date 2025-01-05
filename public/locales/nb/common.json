@@ -1,0 +1,1249 @@
+{
+    "header": {
+        "adminPanel": "Adminpanel",
+        "languages": {
+            "en": "Engelsk",
+            "fr": "Fransk"
+        }
+    },
+    "navbar": {
+        "home": "Hjem",
+        "solutions": "Løsninger",
+        "resources": "Ressurser",
+        "pricing": "Priser",
+        "adminPortal": "Adminportal",
+        "dashboard": "Dashboard",
+        "signIn": "Logg inn",
+        "startFreeTrial": "Start gratis prøveperiode",
+        "menu": {
+            "solutions": {
+                "coreFeatures": "Kjernefunksjoner",
+                "smartPopups": {
+                    "title": "Smarte popup-vinduer",
+                    "desc": "Intelligent konverteringsoptimalisering"
+                },
+                "analytics": {
+                    "title": "Avansert analyse",
+                    "desc": "Sanntidsinnsikt i ytelse"
+                },
+                "targeting": {
+                    "title": "Målgruppeinnretting",
+                    "desc": "Presis segmentering av besøkende"
+                },
+                "advancedTools": "Avanserte verktøy",
+                "splitTesting": {
+                    "title": "Splittesting",
+                    "desc": "Datadrevet optimalisering"
+                },
+                "security": {
+                    "title": "Bedriftssikkerhet",
+                    "desc": "Avanserte beskyttelsestiltak"
+                },
+                "performance": {
+                    "title": "Ytelsespakke",
+                    "desc": "Verktøy for hastighetsoptimalisering"
+                }
+            },
+            "resources": {
+                "supportLearning": "Støtte og læring",
+                "documentation": {
+                    "title": "Dokumentasjon",
+                    "desc": "Omfattende veiledninger"
+                },
+                "support": {
+                    "title": "Bedriftsstøtte",
+                    "desc": "24/7 dedikert assistanse"
+                },
+                "community": {
+                    "title": "Fellesskap",
+                    "desc": "Koble deg til eksperter"
+                },
+                "integrationHub": "Integrasjonshub",
+                "api": {
+                    "title": "API-tilgang",
+                    "desc": "Tilpassede integrasjonsalternativer"
+                },
+                "devTools": {
+                    "title": "Utviklerverktøy",
+                    "desc": "Avansert tilpasning"
+                }
+            }
+        }
+    },
+    "welcome": "Velkommen",
+    "gdpr": {
+        "title": "Merknad om personvern og informasjonskapsler",
+        "description": "Vi bruker informasjonskapsler og lignende teknologier for å forbedre din opplevelse og analysere ytelse. Ved å fortsette samtykker du til våre",
+        "privacyLink": "Personvernregler",
+        "acceptAll": "Godta alle",
+        "essentialOnly": "Kun nødvendige"
+    },
+    "features": {
+        "title": "Bedriftsfunksjoner",
+        "mainHeading": "Alt du trenger for popup-suksess",
+        "description": "Kraftige verktøy i bedriftsklasse for å opprette, administrere og optimalisere nettside-popupene dine. Øk engasjementet og konverteringene med vår omfattende løsning.",
+        "items": {
+            "management": {
+                "title": "Sentralisert administrasjon",
+                "description": "Administrer alle dine nettside-popup-vinduer fra ett intuitivt dashbord. Opprett, rediger og spor ytelse uten problemer."
+            },
+            "types": {
+                "title": "Flere popup-typer",
+                "description": "Velg mellom ulike popup-typer: varsler, e-postsamlere og salgsfremmende meldinger som passer dine mål."
+            },
+            "targeting": {
+                "title": "Smart målretting",
+                "description": "Målrett besøkende basert på atferd, timing og plassering. Vis riktig melding til rett tid."
+            }
+        }
+    },
+    "advancedFeatures": {
+        "title": "Avanserte funksjoner",
+        "mainHeading": "Kraftige verktøy for bedre resultater",
+        "description": "Ta kontroll over popup-strategien din med avanserte funksjoner designet for å maksimere engasjement og konverteringsfrekvens",
+        "items": {
+            "builder": {
+                "title": "Visuell bygger",
+                "description": "Lag fantastiske popup-vinduer med vårt intuitive dra-og-slipp-grensesnitt"
+            },
+            "analytics": {
+                "title": "Smart analyse",
+                "description": "Spor ytelse med detaljert analyse og innsikt"
+            },
+            "timing": {
+                "title": "Smart timing",
+                "description": "Perfekt timing basert på brukeratferd og triggere"
+            },
+            "integrations": {
+                "title": "Integrasjoner",
+                "description": "Koble til favorittmarkedsføringsverktøyene dine"
+            }
+        }
+    },
+    "testimonials": {
+        "title": "Kundesuksess",
+        "mainHeading": "Elsket av bedrifter over hele verden",
+        "description": "Oppdag hvordan bedrifter forbedrer konverteringsfrekvensen med vår plattform for popup-administrasjon",
+        "items": [
+            {
+                "name": "Sarah Thompson",
+                "role": "Markedsdirektør",
+                "company": "E-commerce Plus",
+                "quote": "Dra-og-slipp-grensesnittet gjør det utrolig enkelt å administrere popup-kampanjene våre. Vi har sett en økning på 40 % i e-postregistreringer."
+            },
+            {
+                "name": "Alex Rivera",
+                "role": "Vekstansvarlig",
+                "company": "TechStart",
+                "quote": "Den detaljerte analysen og de smarte målrettingsfunksjonene har transformert popup-strategien vår. Vi har sett utrolige engasjementsrater siden vi byttet."
+            },
+            {
+                "name": "David Chen",
+                "role": "E-handelsansvarlig",
+                "company": "Fashion Store",
+                "quote": "Endelig en popup-løsning som er både kraftig og enkel å bruke. Målrettingsalternativene er akkurat det vi trengte."
+            }
+        ]
+    },
+    "statistics": {
+        "items": [
+            {
+                "number": "1M+",
+                "description": "Popup-vinduer vises daglig på tusenvis av nettsteder"
+            },
+            {
+                "number": "5,000+",
+                "description": "Aktive bedriftsnettsteder som bruker plattformen vår"
+            },
+            {
+                "number": "35%",
+                "description": "Gjennomsnittlig økning i konverteringsfrekvenser"
+            },
+            {
+                "number": "99.9%",
+                "description": "Driftssikkerhet i bedriftsklasse"
+            }
+        ]
+    },
+    "cta": {
+        "heading": "Klar til å transformere popup-strategien din?",
+        "description": "Bli med tusenvis av vellykkede bedrifter som bruker vår popup-løsning i bedriftsklasse",
+        "button": "Start gratis bedriftsprøveperiode"
+    },
+    "pricing": {
+        "title": "Priser",
+        "heading": "Velg din perfekte plan",
+        "description": "Enkel, gjennomsiktig prising som vokser med deg. Prøv en hvilken som helst plan gratis i 30 dager.",
+        "billing": {
+            "monthly": "Månedlig fakturering",
+            "annual": "Årlig fakturering",
+            "save": "Spar 20 %"
+        },
+        "mostPopular": "Mest populær",
+        "features": "Funksjoner",
+        "buttons": {
+            "getStarted": "Kom i gang",
+            "contactSales": "Kontakt salg"
+        },
+        "loading": "Laster inn prisinformasjon",
+        "error": "Feil ved innlasting av prisinformasjon",
+        "noPlans": "Ingen abonnementsplaner er tilgjengelige for øyeblikket."
+    },
+    "footer": {
+        "newsletter": {
+            "title": "Nyhetsbrev",
+            "heading": "Hold deg oppdatert med popup-trender",
+            "description": "Få ekspertinnsikt om konverteringsoptimalisering og popup-strategier levert til innboksen din.",
+            "placeholder": "Skriv inn e-postadressen din",
+            "button": "Abonner",
+            "subscribing": "Abonnerer...",
+            "success": "Takk for at du abonnerte! Du vil motta vårt neste nyhetsbrev.",
+            "error": "Det oppsto en feil. Prøv igjen senere."
+        },
+        "company": {
+            "headquarters": "Globalt hovedkvarter",
+            "address": "Nivå 2, 45 Tech Avenue, Melbourne VIC 3000"
+        },
+        "sections": {
+            "sitemap": "Nettstedskart",
+            "company": "Selskap"
+        },
+        "legal": {
+            "copyright": "© {year} YowManage. Alle rettigheter forbeholdt.",
+            "privacy": "Personvernregler",
+            "terms": "Vilkår for bruk",
+            "cookies": "Cookieinnstillinger"
+        }
+    },
+    "hero": {
+        "title": {
+            "main": "Smart popup-administrasjon",
+            "highlight": "Enkelt"
+        },
+        "description": "Opprett, administrer og optimaliser popup-vinduer på nettstedet fra ett sentralt dashbord. Øk engasjementet uten å forstyrre brukeropplevelsen.",
+        "buttons": {
+            "trial": "Start gratis prøveperiode",
+            "demo": "Vis demo"
+        }
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "websites": {
+            "title": "Dine nettsteder",
+            "description": "Administrer dine tilkoblede nettsteder og deres varsler",
+            "addButton": "Legg til nettsted",
+            "addDialog": {
+                "title": "Legg til nytt nettsted",
+                "domain": "Domene",
+                "domainPlaceholder": "example.com"
+            },
+            "paths": "Stier",
+            "actions": {
+                "delete": "Slett"
+            },
+            "errors": {
+                "subscriptionLimit": "Abonnementsgrensen er nådd",
+                "domainRequired": "Vennligst skriv inn et domenenavn",
+                "saveFailed": "Kunne ikke lagre endringer. Prøv igjen.",
+                "deleteFailed": "Kunne ikke slette nettstedet. Prøv igjen.",
+                "loadFailed": "Kunne ikke laste inn prosjektet ditt. Oppdater siden."
+            },
+            "success": {
+                "added": "Nettsted lagt til",
+                "saving": "Lagrer endringene dine",
+                "saved": "Endringene dine er lagret.",
+                "deleted": "Nettstedet ble slettet"
+            }
+        },
+        "integration": {
+            "title": "Nettsideintegrasjon",
+            "description": "Følg disse trinnene for å integrere popup-vinduer på nettstedet ditt",
+            "step1": {
+                "title": "Legg til skriptet på nettstedet ditt",
+                "description": "Kopier og lim inn denne koden i <head>-delen av nettstedet ditt."
+            },
+            "step2": {
+                "title": "Bekreft installasjon",
+                "description": "Etter at du har lagt til koden, vil popup-vinduene dine automatisk vises på nettstedet ditt basert på konfigurasjonen din.",
+                "checklist": {
+                    "title": "Installasjonskontrolliste",
+                    "items": ["Skriptet er lagt til i head-delen", "Nettstedsdomenet samsvarer med konfigurasjonen", "Ingen JavaScript-feil i konsollen"]
+                }
+            },
+            "buttons": {
+                "visitSite": "Besøk nettstedet",
+                "copyCode": "Kopier kode"
+            },
+            "success": {
+                "codeCopied": "Kode kopiert!",
+                "codeCopiedDesc": "Integrasjonskoden er kopiert til utklippstavlen"
+            }
+        },
+        "help": {
+            "title": "Trenger du hjelp?",
+            "description": "Sjekk ut vår {integrationGuide} eller {contactSupport} hvis du støter på problemer.",
+            "integrationGuide": "integrasjonsveiledning",
+            "contactSupport": "kontakt support"
+        }
+    },
+    "popupManager": {
+        "title": "Popup Manager",
+        "saveChanges": "Lagre endringer",
+        "saving": "Lagrer...",
+        "resetProject": "Tilbakestill prosjekt",
+        "success": {
+            "saved": "Endringene dine er lagret.",
+            "reset": "Prosjektet ditt er tilbakestilt."
+        },
+        "errors": {
+            "loadFailed": "Kunne ikke laste inn data. Oppdater siden.",
+            "saveFailed": "Kunne ikke lagre endringer. Prøv igjen.",
+            "resetFailed": "Kunne ikke tilbakestille prosjektet. Prøv igjen."
+        },
+        "noWebsiteSelected": {
+            "title": "Nettstedvalg kreves",
+            "heading": "Ingen nettsted er valgt, vennligst legg til et nettsted på startsiden for å begynne.",
+            "description": "Velg et nettsted ovenfra for å administrere popup-vinduene dine og opprette engasjerende varsler for de besøkende.",
+            "features": {
+                "messages": {
+                    "title": "Meldingspopup-vinduer",
+                    "description": "Enkle varslingsmeldinger for dine besøkende"
+                },
+                "email": {
+                    "title": "E-postsamlere",
+                    "description": "Utvid e-postlisten din med abonnementsskjemaer"
+                },
+                "ads": {
+                    "title": "Annonsepopup-vinduer",
+                    "description": "Promoter spesialtilbud og kunngjøringer"
+                }
+            }
+        },
+        "popup": {
+            "edit": "Rediger",
+            "editIcon": "Rediger ikon",
+            "iconUrl": "Ikon-URL",
+            "preview": "Forhåndsvisning",
+            "cancel": "Avbryt",
+            "save": "Lagre",
+            "delete": "Slett",
+            "types": {
+                "ad": "Annonse",
+                "email": "E-post",
+                "message": "Melding"
+            },
+            "errors": {
+                "imageLoad": "Kunne ikke laste inn bildet. Sjekk URL-en.",
+                "invalidImage": "Ugyldig bilde",
+                "invalidUrl": "Den oppgitte URL-en er ikke et gyldig bilde",
+                "provideValidUrl": "Oppgi en gyldig bilde-URL"
+            }
+        },
+        "createPopup": {
+            "title": "Opprett nytt popup-vindu",
+            "description": "Opprett engasjerende popup-vinduer for å samhandle med de besøkende",
+            "steps": {
+                "previous": "Forrige",
+                "next": "Neste",
+                "cancel": "Avbryt",
+                "create": "Opprett popup",
+                "type": {
+                    "label": "Velg type",
+                    "description": "Velg typen popup-vindu du vil opprette"
+                },
+                "content": {
+                    "label": "Legg til innhold",
+                    "description": "Tilpass popup-innholdet og utseendet"
+                },
+                "timing": {
+                    "label": "Angi timing",
+                    "description": "Konfigurer når og hvor lenge popup-vinduet skal vises"
+                },
+                "preview": {
+                    "label": "Forhåndsvisning",
+                    "description": "Se gjennom hvordan popup-vinduet vil vises for besøkende"
+                }
+            },
+            "types": {
+                "title": "Velg popup-type",
+                "description": "Velg den typen popup-vindu som passer best for dine behov",
+                "message": {
+                    "title": "Melding",
+                    "description": "Enkle popup-vinduer med varsler"
+                },
+                "email": {
+                    "title": "E-postsamler",
+                    "description": "Samle e-postabonnementer"
+                },
+                "advertising": {
+                    "title": "Annonsering",
+                    "description": "Salgsfremmende meldinger"
+                }
+            },
+            "content": {
+                "iconUrl": "Ikon-URL",
+                "iconUrlPlaceholder": "https://example.com/icon.png",
+                "title": "Tittel",
+                "titlePlaceholder": "Skriv inn popup-tittel",
+                "message": "Melding",
+                "messagePlaceholder": "Skriv inn popup-melding",
+                "linkUrl": "Link-URL",
+                "linkUrlPlaceholder": "Skriv inn destinasjons-URL",
+                "linkDescription": "Hvor brukere blir omdirigert når de klikker på popup-vinduet",
+                "buttonText": "Knappetekst",
+                "buttonTextPlaceholder": "Abonner",
+                "inputPlaceholder": "Input Placeholder",
+                "inputPlaceholderExample": "Skriv inn e-posten din",
+                "successMessage": "Suksessmelding",
+                "successMessagePlaceholder": "Takk for at du abonnerer!"
+            },
+            "timing": {
+                "title": "Tidsinnstillinger",
+                "description": "Konfigurer når popup-vinduet skal vises og hvor lenge det skal være synlig",
+                "delay": {
+                    "label": "Visningsforsinkelse (millisekunder)",
+                    "description": "Hvor lenge du skal vente før du viser popup-vinduet"
+                },
+                "duration": {
+                    "label": "Visningsvarighet",
+                    "description": "Hvor lenge popup-vinduet skal være synlig",
+                    "options": {
+                        "3s": "3 sekunder",
+                        "5s": "5 sekunder",
+                        "7s": "7 sekunder",
+                        "10s": "10 sekunder",
+                        "unlimited": "Ubegrenset"
+                    }
+                }
+            },
+            "preview": {
+                "iconAlt": "Forhåndsvisning av popup-ikon",
+                "defaultTitle": "Popup-tittel",
+                "defaultMessage": "Din melding her"
+            }
+        },
+        "websitePopups": {
+            "title": "Nettside-popup-vinduer",
+            "description": "Administrer varsler for {domain}",
+            "addPath": "Legg til ny sti",
+            "addPathDialog": {
+                "title": "Legg til ny sti",
+                "pathName": "Stinavn",
+                "pathNamePlaceholder": "f.eks. Produktside",
+                "pathUrl": "Sti-URL",
+                "pathUrlPlaceholder": "f.eks. /produkter",
+                "addButton": "Legg til sti"
+            },
+            "addPopup": "+ Legg til en popup",
+            "dropHere": "Slipp elementer her"
+        }
+    },
+    "emailsPage": {
+        "title": "E-postliste",
+        "description": "Administrer dine innsamlede e-poster",
+        "exportCsv": "Eksporter CSV",
+        "search": {
+            "placeholder": "Søk i e-poster..."
+        },
+        "emailCount": "{count} e-poster",
+        "table": {
+            "headers": {
+                "email": "E-post",
+                "source": "Kilde",
+                "status": "Status",
+                "date": "Dato",
+                "website": "Nettside",
+                "path": "Sti",
+                "popup": "Popup",
+                "actions": "Handlinger"
+            }
+        },
+        "pagination": {
+            "rowsPerPage": "Rader per side:",
+            "pageInfo": "Side {current} av {total}"
+        },
+        "actions": {
+            "delete": "Slett"
+        },
+        "status": {
+            "active": "aktiv"
+        },
+        "messages": {
+            "deleteSuccess": "E-post slettet",
+            "deleteError": "Kunne ikke slette e-post",
+            "loadError": "Kunne ikke laste inn e-postlisten"
+        }
+    },
+    "supportPage": {
+        "title": "Mine billetter",
+        "search": {
+            "placeholder": "Søk i billetter"
+        },
+        "tabs": {
+            "open": "Åpen",
+            "resolved": "Løst"
+        },
+        "ticket": {
+            "status": {
+                "open": "Åpen",
+                "resolved": "Løst"
+            },
+            "id": "Billett #{id}",
+            "noMessages": "Ingen meldinger ennå",
+            "actions": {
+                "resolve": "Løs billett",
+                "reopen": "Gjenåpne billett",
+                "resolving": "Løser...",
+                "reopening": "Gjenåpner..."
+            }
+        },
+        "messages": {
+            "loading": "Laster inn billetter...",
+            "noTickets": "Ingen {status}-billetter funnet",
+            "supportTeam": "Supportteam",
+            "inputPlaceholder": "Skriv meldingen din her",
+            "sending": "Sender...",
+            "send": "Send"
+        },
+        "notifications": {
+            "ticketUpdated": "Billett oppdatert",
+            "ticketStatusChanged": "Billetten er satt til {status} med suksess.",
+            "updateError": "Kunne ikke oppdatere billettstatus. Prøv igjen."
+        }
+    },
+    "usagePage": {
+        "title": "Bruk og grenser",
+        "description": "Overvåk ressursbruken og abonnementsstatusen",
+        "sections": {
+            "usageLimits": {
+                "title": "Bruksgrenser",
+                "description": "Overvåk ressursbruken på tvers av alle funksjoner",
+                "totalWebsites": "Totalt antall nettsteder",
+                "paths": "Stier",
+                "popups": "Popup-vinduer",
+                "features": {
+                    "advertising": "Annonse-popup-vinduer",
+                    "emailCollector": "E-postsamlere"
+                }
+            }
+        }
+    },
+    "subscriptionStatus": {
+        "title": "Abonnementsstatus",
+        "freePlan": "Gratis plan",
+        "messages": {
+            "expired": "Abonnementet ditt er utløpt. Oppgrader nå for å gjenopprette tilgangen til alle funksjonene.",
+            "expiringSoon": "Abonnementet ditt utløper snart. Forny nå for å opprettholde tilgangen til alle funksjonene."
+        },
+        "buttons": {
+            "upgrade": "Oppgrader plan",
+            "renew": "Forny abonnement"
+        }
+    },
+    "billingPage": {
+        "title": "Fakturering og abonnement",
+        "description": "Administrer abonnementet ditt og se faktureringshistorikken",
+        "currentPlan": {
+            "title": "Nåværende plan",
+            "description": "Din nåværende abonnementsplan og detaljer",
+            "freePlan": "Gratis plan",
+            "paidPlan": "{name}-plan",
+            "allFeatures": "Alle funksjoner inkludert",
+            "limitedFeatures": "Begrensede funksjoner",
+            "expiresAt": "Utløper: {date}",
+            "buttons": {
+                "manage": "Administrer abonnement",
+                "upgrade": "Oppgrader til Pro"
+            }
+        },
+        "billingHistory": {
+            "title": "Faktureringshistorikk",
+            "description": "Vis og last ned tidligere fakturaer og betalingshistorikk",
+            "noHistory": {
+                "title": "Ingen faktureringshistorikk tilgjengelig",
+                "description": "Fakturahistorikken din vises her når du har foretatt en betaling"
+            },
+            "showingTransactions": "Viser {count} nylige transaksjoner",
+            "viewAll": "Vis alle transaksjoner",
+            "table": {
+                "status": "Status",
+                "invoice": "Faktura",
+                "date": "Dato",
+                "amount": "Beløp",
+                "actions": "Handlinger"
+            },
+            "status": {
+                "paid": "Betalt",
+                "pending": "Venter"
+            }
+        },
+        "invoice": {
+            "title": "Faktura #{number}",
+            "issueDate": "Utstedelsesdato",
+            "billTo": "Faktura til",
+            "paymentStatus": "Betalingsstatus",
+            "description": "Beskrivelse",
+            "amount": "Beløp",
+            "total": "Totalt",
+            "billingPeriod": "Faktureringsperiode: {start} - {end}",
+            "monthlySubscription": "Månedlig abonnement",
+            "footer": {
+                "payment": "Betaling behandlet via Stripe",
+                "thanks": "Takk for handelen!"
+            },
+            "buttons": {
+                "close": "Lukk",
+                "download": "Last ned PDF"
+            }
+        }
+    },
+    "adminPage": {
+        "title": "Oversikt over dashbord",
+        "description": "Overvåk og administrer plattformens ytelse",
+        "stats": {
+            "totalUsers": {
+                "title": "Totalt antall brukere",
+                "loading": "Laster..."
+            },
+            "activeSubscriptions": {
+                "title": "Aktive abonnementer",
+                "loading": "Laster..."
+            },
+            "supportTickets": {
+                "title": "Supportbilletter",
+                "loading": "Laster..."
+            },
+            "activePopups": {
+                "title": "Aktive popup-vinduer",
+                "loading": "Laster..."
+            }
+        },
+        "users": {
+            "title": "Siste brukere",
+            "description": "Administrer og overvåk brukeraktivitet",
+            "search": "Søk brukere...",
+            "table": {
+                "name": "Navn",
+                "email": "E-post",
+                "role": "Rolle",
+                "status": "Status",
+                "subscription": "Abonnement",
+                "subscriptionEnds": "Abonnement avsluttes",
+                "createdAt": "Opprettet den",
+                "actions": "Handlinger"
+            },
+            "status": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv",
+                "probation": "Prøvetid",
+                "onboarding": "Opplæring",
+                "onLeave": "I permisjon"
+            },
+            "subscription": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv"
+            },
+            "noDate": "---"
+        },
+        "loading": "Laster...",
+        "error": {
+            "loadingBillingInfo": "Feil ved lasting av faktureringsinformasjon. Prøv igjen senere."
+        },
+        "userEditor": {
+            "menu": {
+                "profile": {
+                    "title": "Brukerprofil",
+                    "description": "Personlig informasjon og preferanser"
+                },
+                "billing": {
+                    "title": "Fakturering",
+                    "description": "Betalingsmetoder og historikk"
+                },
+                "security": {
+                    "title": "Sikkerhet",
+                    "description": "Passord og autentisering"
+                },
+                "notifications": {
+                    "title": "Varsler",
+                    "description": "E-post og push-preferanser"
+                },
+                "activity": {
+                    "title": "Aktivitetslogg",
+                    "description": "Nylig kontoaktivitet"
+                },
+                "deleteAccount": {
+                    "title": "Slett konto",
+                    "description": "Fjern kontoen permanent"
+                }
+            },
+            "profile": {
+                "title": "Brukerprofil",
+                "personalInfo": {
+                    "title": "Personlig informasjon",
+                    "name": "Navn",
+                    "email": "E-post"
+                },
+                "accountSettings": {
+                    "title": "Kontoinnstillinger",
+                    "status": "Kontostatus",
+                    "role": "Rolle",
+                    "roles": {
+                        "user": "Bruker",
+                        "admin": "Admin"
+                    },
+                    "statuses": {
+                        "active": "Aktiv",
+                        "banned": "Utestengt"
+                    }
+                },
+                "subscriptionStatus": "Abonnement: {{status}}",
+                "accountCreated": "Konto opprettet: {{date}}",
+                "buttons": {
+                    "save": "Lagre endringer",
+                    "saving": "Lagrer..."
+                },
+                "messages": {
+                    "updateSuccess": "Bruker oppdatert",
+                    "updateError": "Kunne ikke oppdatere brukeren"
+                }
+            },
+            "billing": {
+                "title": "Fakturaeditor",
+                "subscriptionDetails": {
+                    "title": "Abonnementsdetaljer",
+                    "status": "Abonnementsstatus",
+                    "statuses": {
+                        "subscribed": "Abonnert",
+                        "free": "Gratis"
+                    },
+                    "plan": "Abonnementsplan",
+                    "selectPlan": "Velg en plan",
+                    "endDate": "Abonnementets sluttdato",
+                    "pickDate": "Velg en dato"
+                },
+                "buttons": {
+                    "save": "Lagre endringer",
+                    "saving": "Lagrer..."
+                },
+                "messages": {
+                    "selectPlanError": "Velg en abonnementsplan",
+                    "updateSuccess": "Brukerfakturering oppdatert",
+                    "updateError": "Kunne ikke oppdatere brukerfakturering",
+                    "cancelSuccess": "Abonnementet ble avbestilt",
+                    "cancelError": "Kunne ikke avbestille abonnementet"
+                }
+            },
+            "activity": {
+                "title": "Aktivitetslogg",
+                "exportButton": "Eksporter logg",
+                "noActivity": "Ingen aktivitet funnet"
+            },
+            "deleteAccount": {
+                "title": "Slett konto",
+                "warning": "Denne handlingen kan ikke angres",
+                "consequences": {
+                    "title": "Når du sletter kontoen din, mister du tilgangen til:",
+                    "items": ["Alle dine lagrede popup-vinduer og maler", "Analyse- og sporingsdata", "Faktureringshistorikk og fakturaer", "Egendefinerte konfigurasjoner og innstillinger"]
+                },
+                "button": "Slett konto permanent"
+            }
+        },
+        "usersManager": {
+            "title": "Brukeradministrator",
+            "description": "Administrer brukerne dine effektivt.",
+            "latestUsers": {
+                "title": "Siste brukere",
+                "search": {
+                    "placeholder": "Søk",
+                    "button": "Søk"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "email": "E-post",
+                "role": "Rolle",
+                "status": "Status",
+                "subscription": "Abonnement",
+                "subscriptionEnds": "Abonnement avsluttes",
+                "createdAt": "Opprettet den",
+                "actions": "Handlinger"
+            },
+            "status": {
+                "active": "Aktiv",
+                "probation": "Prøvetid",
+                "onboarding": "Opplæring",
+                "onLeave": "I permisjon"
+            },
+            "subscription": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv"
+            },
+            "noDate": "---",
+            "messages": {
+                "searchNoResults": "Ingen brukere funnet. Viser alle brukere.",
+                "searchError": "Kunne ikke søke etter bruker",
+                "loadError": "Kunne ikke hente brukere"
+            }
+        },
+        "subscriptionsManager": {
+            "title": "Abonnementsadministrator",
+            "description": "Administrer abonnementene dine effektivt.",
+            "latestSubscriptions": {
+                "title": "Abonnementer",
+                "search": {
+                    "placeholder": "Søk",
+                    "button": "Søk"
+                }
+            },
+            "table": {
+                "user": "Bruker",
+                "plan": "Plan",
+                "status": "Status",
+                "startDate": "Startdato",
+                "endDate": "Sluttdato",
+                "autoRenew": "Automatisk fornyelse",
+                "actions": "Handlinger"
+            },
+            "status": {
+                "active": "Aktiv",
+                "cancelled": "Avbestilt",
+                "expired": "Utløpt"
+            },
+            "autoRenew": {
+                "yes": "Ja",
+                "no": "Nei"
+            },
+            "messages": {
+                "searchNoResults": "Ingen abonnementer funnet. Viser alle abonnementer.",
+                "searchError": "Kunne ikke søke etter abonnement",
+                "loadError": "Kunne ikke hente abonnementer"
+            }
+        },
+        "ticketsManager": {
+            "title": "Supportbilletter",
+            "description": "Administrer og svar på supportbilletter",
+            "messages": {
+                "title": "Meldinger",
+                "search": {
+                    "placeholder": "Søk etter e-post",
+                    "button": "Søk"
+                },
+                "tabs": {
+                    "open": "Åpne billetter",
+                    "resolved": "Løst"
+                },
+                "noMessages": "Ingen meldinger ennå",
+                "today": "I dag",
+                "cantReply": "Kan ikke svare på billetter fra besøkende direkte fra plattformen, bruk direkte e-post i stedet.",
+                "reply": "Svar",
+                "send": "Send"
+            },
+            "ticket": {
+                "supportTicket": "Supportbillett",
+                "sender": "Avsender",
+                "actions": {
+                    "resolveTicket": "Løs billett"
+                }
+            }
+        },
+        "settings": {
+            "title": "Innstillinger",
+            "description": "Administrer applikasjonsinnstillingene og konfigurasjonene dine.",
+            "tabs": {
+                "general": {
+                    "title": "Generelt",
+                    "description": "Administrer nettstedinnstillingene og SEO-konfigurasjonen",
+                    "icon": "Innstillinger"
+                },
+                "subscriptions": {
+                    "title": "Abonnementer",
+                    "description": "Konfigurer abonnementsplaner og priser",
+                    "icon": "Kredittkort"
+                },
+                "usageLimits": {
+                    "title": "Bruksgrenser",
+                    "description": "Angi bruksgrenser for ulike abonnementsnivåer",
+                    "icon": "Skjold"
+                },
+                "socialLinks": {
+                    "title": "Sosiale linker",
+                    "description": "Administrer dine lenker til sosiale medier",
+                    "icon": "Del"
+                },
+                "footerLinks": {
+                    "title": "Bunntekstlinker",
+                    "description": "Administrer dine bunntekstlinker og seksjoner",
+                    "icon": "Link"
+                }
+            },
+            "general": {
+                "title": "Generelle innstillinger",
+                "description": "Konfigurer nettstedets grunnleggende informasjon og SEO-innstillinger",
+                "fields": {
+                    "siteTitle": {
+                        "label": "Nettstedstittel",
+                        "tooltip": "Tittelen på nettstedet ditt som vises i søkemotorresultater og nettleserfaner",
+                        "placeholder": "Skriv inn nettstedstittel"
+                    },
+                    "siteKeywords": {
+                        "label": "Søkeord",
+                        "tooltip": "Kommaseparerte søkeord som er relevante for innholdet på nettstedet ditt",
+                        "placeholder": "Skriv inn søkeord"
+                    },
+                    "googleAnalytics": {
+                        "label": "Google Analytics ID",
+                        "tooltip": "Din Google Analytics-sporings-ID",
+                        "placeholder": "UA-XXXXXXXXX-X"
+                    },
+                    "siteAddress": {
+                        "label": "Nettstedadresse",
+                        "tooltip": "Den fysiske adressen til nettstedet ditt",
+                        "placeholder": "Skriv inn nettstedadresse"
+                    },
+                    "sitePhone": {
+                        "label": "Telefonnummer",
+                        "tooltip": "Telefonnummeret til din bedriftskontakt",
+                        "placeholder": "Skriv inn telefonnummer"
+                    },
+                    "siteEmail": {
+                        "label": "Kontakt-e-post",
+                        "tooltip": "E-postadressen til din bedriftskontakt",
+                        "placeholder": "Skriv inn kontakt-e-post"
+                    },
+                    "siteDescription": {
+                        "label": "Nettstedsbeskrivelse",
+                        "tooltip": "En kort beskrivelse av nettstedet ditt som vises i søkeresultatene",
+                        "placeholder": "Skriv inn nettstedsbeskrivelse"
+                    },
+                    "logo": {
+                        "label": "Nettstedlogo",
+                        "tooltip": "Last opp nettstedlogoen din. Anbefalt størrelse: 200x50 piksler. Maksimal størrelse: 2 MB",
+                        "button": "Last opp logo",
+                        "uploading": "Laster opp...",
+                        "supportedFormats": "Støttede formater: PNG, JPG, GIF"
+                    },
+                    "maintenanceMode": {
+                        "label": "Vedlikeholdsmodus",
+                        "description": "Aktiver for å vise en vedlikeholdsside til besøkende mens du jobber på nettstedet ditt"
+                    }
+                },
+                "buttons": {
+                    "saveChanges": "Lagre endringer"
+                }
+            },
+            "usageLimits": {
+                "title": "Bruksgrenser",
+                "description": "Angi bruksgrenser for ulike abonnementsnivåer",
+                "table": {
+                    "subscription": "Abonnement",
+                    "maxWebsites": "Maks antall nettsteder",
+                    "maxPathsPerWebsite": "Maks antall stier per nettsted",
+                    "maxPopupsPerPath": "Maks antall popup-vinduer per sti",
+                    "features": "Funksjoner"
+                },
+                "features": {
+                    "advertising": "Annonsering",
+                    "emailCollector": "E-postsamler"
+                },
+                "buttons": {
+                    "saveChanges": "Lagre endringer"
+                }
+            },
+            "socialLinks": {
+                "title": "Lenker til sosiale medier",
+                "description": "Administrer din tilstedeværelse i sosiale medier ved å legge til eller fjerne lenker til sosiale medier",
+                "form": {
+                    "platformName": {
+                        "label": "Plattformnavn",
+                        "placeholder": "f.eks. Facebook"
+                    },
+                    "url": {
+                        "label": "URL",
+                        "placeholder": "https://..."
+                    },
+                    "iconUrl": {
+                        "label": "Ikon-URL",
+                        "placeholder": "https://... (ikon-URL)"
+                    }
+                },
+                "table": {
+                    "icon": "Ikon",
+                    "platform": "Plattform",
+                    "url": "URL",
+                    "actions": "Handlinger"
+                },
+                "buttons": {
+                    "addLink": "Legg til sosial lenke",
+                    "remove": "Fjern"
+                }
+            },
+            "footerLinks": {
+                "title": "Administrasjon av bunntekstlenker",
+                "description": "Administrer lenkene som vises i nettstedets bunntekstseksjoner",
+                "form": {
+                    "linkName": {
+                        "label": "Lenkenavn",
+                        "placeholder": "f.eks. Om oss"
+                    },
+                    "url": {
+                        "label": "URL",
+                        "placeholder": "/om-oss"
+                    },
+                    "section": {
+                        "label": "Seksjon",
+                        "options": {
+                            "sitemap": "Nettstedskart",
+                            "company": "Selskap"
+                        }
+                    }
+                },
+                "sections": {
+                    "sitemap": {
+                        "title": "Nettstedskartlenker"
+                    },
+                    "company": {
+                        "title": "Selskapslenker"
+                    }
+                },
+                "table": {
+                    "name": "Navn",
+                    "url": "URL",
+                    "actions": "Handlinger"
+                },
+                "buttons": {
+                    "addLink": "Legg til bunntekstlink",
+                    "remove": "Fjern"
+                }
+            },
+            "subscriptions": {
+                "title": "Abonnementsadministrasjon",
+                "description": "Administrer abonnementene dine",
+                "createNew": {
+                    "title": "Opprett nytt abonnement",
+                    "description": "Legg til et nytt abonnement i systemet ditt",
+                    "fields": {
+                        "name": {
+                            "label": "Navn",
+                            "placeholder": "Skriv inn abonnementsnavn"
+                        },
+                        "price": {
+                            "label": "Pris",
+                            "placeholder": "Skriv inn pris"
+                        },
+                        "yearlyPrice": {
+                            "label": "Årlig pris",
+                            "placeholder": "Skriv inn årlig pris"
+                        },
+                        "stripeMonthlyLink": {
+                            "label": "Stripe månedlig link",
+                            "placeholder": "Skriv inn Stripe månedlig link"
+                        },
+                        "stripeYearlyLink": {
+                            "label": "Stripe årlig link",
+                            "placeholder": "Skriv inn Stripe årlig link"
+                        },
+                         "stripeMonthlyPriceId": {
+                            "label": "Stripe månedlig pris-ID",
+                            "placeholder": "Skriv inn Stripe månedlig pris-ID"
+                        },
+                         "stripeYearlyPriceId": {
+                            "label": "Stripe årlig pris-ID",
+                            "placeholder": "Skriv inn Stripe årlig pris-ID"
+                        },
+                        "status": {
+                            "label": "Status",
+                            "options": {
+                                "active": "Aktiv",
+                                "inactive": "Inaktiv"
+                            }
+                        }
+                    },
+                    "button": "Opprett abonnement"
+                },
+                "list": {
+                    "title": "Abonnementer",
+                    "description": "Administrer abonnementene dine",
+                    "status": {
+                        "active": "Aktiv",
+                        "inactive": "Inaktiv"
+                    },
+                    "pricing": "Månedlig: {price} | Årlig: {yearlyPrice}",
+                    "actions": {
+                        "label": "Handlinger",
+                        "edit": "Rediger",
+                        "delete": "Slett",
+                        "activate": "Aktiver",
+                        "deactivate": "Deaktiver"
+                    },
+                    "features": {
+                        "addButton": "Legg til funksjon"
+                    }
+                },
+                "edit": {
+                    "title": "Rediger {type}",
+                    "description": "Gjør endringer i {type} her.",
+                    "subscription": {
+                        "fields": {
+                            "name": {
+                                "label": "Navn",
+                                "placeholder": "Skriv inn navn"
+                            },
+                            "price": {
+                                "label": "Pris",
+                                "placeholder": "Skriv inn pris"
+                            },
+                            "yearlyPrice": {
+                                "label": "Årlig pris",
+                                "placeholder": "Skriv inn årlig pris"
+                            },
+                             "stripeMonthlyLink": {
+                                "label": "Stripe månedlig link",
+                                "placeholder": "Skriv inn Stripe månedlig link"
+                            },
+                            "stripeYearlyLink": {
+                                "label": "Stripe årlig link",
+                                "placeholder": "Skriv inn Stripe årlig link"
+                            },
+                            "stripeMonthlyPriceId": {
+                                "label": "Stripe månedlig pris-ID",
+                                "placeholder": "Skriv inn Stripe månedlig pris-ID"
+                            },
+                           "stripeYearlyPriceId": {
+                                "label": "Stripe årlig pris-ID",
+                                "placeholder": "Skriv inn Stripe årlig pris-ID"
+                            }
+                        }
+                    },
+                    "feature": {
+                        "fields": {
+                            "name": {
+                                "label": "Funksjonsnavn",
+                                "placeholder": "Skriv inn funksjonsnavn"
+                            }
+                        }
+                    },
+                    "buttons": {
+                        "save": "Lagre endringer"
+                    }
+                },
+                "messages": {
+                    "success": {
+                        "created": "Abonnement opprettet!",
+                        "createdDesc": "Du opprettet et nytt abonnement.",
+                        "updated": "Element oppdatert!",
+                        "updatedDesc": "Du har oppdatert elementet.",
+                        "deleted": "{type} slettet!",
+                        "deletedDesc": "Du har slettet en {type}.",
+                        "statusChanged": "Abonnement oppdatert!",
+                        "statusChangedDesc": "Du har oppdatert abonnementsstatusen."
+                    },
+                    "error": {
+                        "create": "Det oppsto et problem med å opprette abonnementet. Prøv igjen.",
+                        "update": "Det oppsto et problem med å oppdatere elementet. Prøv igjen.",
+                        "delete": "Det oppsto et problem med å slette {type}. Prøv igjen.",
+                        "statusChange": "Det oppsto et problem med å oppdatere abonnementsstatusen. Prøv igjen.",
+                        "fetch": "Kunne ikke hente abonnementer"
+                    }
+                }
+            }
+        }
+    },
+    "pageBuilder": {
+        "title": "Sidebygger",
+        "description": "Lag og administrer sidene dine med en tekstredigerer med rik tekst.",
+        "pages": {
+            "title": "Sider",
+            "newPagePlaceholder": "Nytt sidenavn",
+            "addButton": "Legg til",
+            "noPageSelected": "Opprett en ny side eller velg en eksisterende for å begynne å redigere",
+            "saveButton": "Lagre",
+            "savingButton": "Lagrer...",
+            "deleteButton": "Slett"
+        },
+        "editor": {
+            "defaultContent": "Begynn å skrive innholdet ditt her...",
+            "toolbar": {
+                "insertTable": "Sett inn tabell",
+                "addColumnBefore": "Legg til kolonne før",
+                "addColumnAfter": "Legg til kolonne etter",
+                "deleteColumn": "Slett kolonne",
+                "addRowBefore": "Legg til rad før",
+                "addRowAfter": "Legg til rad etter",
+                "deleteRow": "Slett rad",
+                "deleteTable": "Slett tabell",
+                "addImage": "Skriv inn URL-en til bildet:"
+            }
+        },
+        "messages": {
+            "success": {
+                "save": "Siden ble lagret",
+                "delete": "Siden ble slettet"
+            },
+            "error": {
+                "save": "Kunne ikke lagre siden",
+                "delete": "Kunne ikke slette siden",
+                "fetch": "Kunne ikke laste inn sider"
+            }
+        }
+    },
+    "newsletter": {
+        "title": "Nyhetsbrevabonnenter",
+        "description": "Administrer dine nyhetsbrevabonnenter",
+        "actions": {
+            "exportCSV": "Eksporter CSV",
+            "search": "Søk abonnenter...",
+            "remove": "Fjern abonnent"
+        },
+        "table": {
+            "email": "E-post",
+            "subscribedDate": "Abonneringsdato",
+            "actions": "Handlinger"
+        },
+        "pagination": {
+            "rowsPerPage": "Rader per side:",
+            "pageOf": "Side {current} av {total}"
+        },
+        "messages": {
+            "success": {
+                "remove": "E-post fjernet"
+            },
+            "error": {
+                "fetch": "Kunne ikke laste inn nyhetsbrevabonnenter",
+                "remove": "Kunne ikke fjerne e-post",
+                "export": "Kunne ikke eksportere abonnenter"
+            }
+        }
+    },
+    "sidebar": {
+        "admin": {
+            "title": "Adminpanel",
+            "items": {
+                "home": "Hjem",
+                "usersManager": "Brukeradministrator",
+                "subscriptions": "Abonnementer",
+                "tickets": "Billetter",
+                "settings": "Innstillinger",
+                "pageBuilder": "Sidebygger",
+                "newsletter": "Nyhetsbrev"
+            },
+            "logout": "Logg ut"
+        },
+        "dashboard": {
+            "title": "Dashboard",
+            "items": {
+                "home": "Hjem",
+                "createPopups": "Opprett popup-vinduer",
+                "emailList": "E-postliste",
+                "support": "Support",
+                "usage": "Bruk",
+                "billing": "Fakturering"
+            },
+            "upgradeCard": {
+                "title": "Oppgrader til Pro",
+                "description": "Lås opp premiumfunksjoner og forbedrede muligheter",
+                "button": "Oppgrader nå"
+            },
+            "logout": "Logg ut"
+        }
+    }
+}

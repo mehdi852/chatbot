@@ -1,0 +1,1249 @@
+{
+    "header": {
+        "adminPanel": "Hallintapaneeli",
+        "languages": {
+            "en": "Englanti",
+            "fr": "Ranska"
+        }
+    },
+    "navbar": {
+        "home": "Koti",
+        "solutions": "Ratkaisut",
+        "resources": "Resurssit",
+        "pricing": "Hinnasto",
+        "adminPortal": "Adminportaali",
+        "dashboard": "Kojelauta",
+        "signIn": "Kirjaudu sisään",
+        "startFreeTrial": "Aloita ilmainen kokeilu",
+        "menu": {
+            "solutions": {
+                "coreFeatures": "Ydinominaisuudet",
+                "smartPopups": {
+                    "title": "Älykkäät ponnahdusikkunat",
+                    "desc": "Älykäs konversiooptimointi"
+                },
+                "analytics": {
+                    "title": "Edistynyt analytiikka",
+                    "desc": "Reaaliaikaiset suorituskykytiedot"
+                },
+                "targeting": {
+                    "title": "Yleisön kohdentaminen",
+                    "desc": "Tarkka vierailijoiden segmentointi"
+                },
+                "advancedTools": "Edistyneet työkalut",
+                "splitTesting": {
+                    "title": "A/B-testaus",
+                    "desc": "Dataohjattu optimointi"
+                },
+                "security": {
+                    "title": "Yritystason tietoturva",
+                    "desc": "Kehittyneet suojatoimenpiteet"
+                },
+                "performance": {
+                    "title": "Suorituskykypaketti",
+                    "desc": "Nopeuden optimointityökalut"
+                }
+            },
+            "resources": {
+                "supportLearning": "Tuki ja oppiminen",
+                "documentation": {
+                    "title": "Dokumentaatio",
+                    "desc": "Kattavat oppaat"
+                },
+                "support": {
+                    "title": "Yritystuki",
+                    "desc": "24/7 omistettu apu"
+                },
+                "community": {
+                    "title": "Yhteisö",
+                    "desc": "Ota yhteyttä asiantuntijoihin"
+                },
+                "integrationHub": "Integrointikeskus",
+                "api": {
+                    "title": "API-käyttö",
+                    "desc": "Mukautetut integrointivaihtoehdot"
+                },
+                "devTools": {
+                    "title": "Kehittäjätyökalut",
+                    "desc": "Edistynyt mukauttaminen"
+                }
+            }
+        }
+    },
+    "welcome": "Tervetuloa",
+    "gdpr": {
+        "title": "Tietosuoja- ja evästeilmoitus",
+        "description": "Käytämme evästeitä ja samankaltaisia tekniikoita parantaaksemme käyttökokemustasi ja analysoidaksemme suorituskykyä. Jatkamalla hyväksyt",
+        "privacyLink": "Tietosuojakäytäntömme",
+        "acceptAll": "Hyväksy kaikki",
+        "essentialOnly": "Vain välttämättömät"
+    },
+    "features": {
+        "title": "Yritysominaisuudet",
+        "mainHeading": "Kaikki mitä tarvitset ponnahdusikkunoiden menestykseen",
+        "description": "Tehokkaat yritystason työkalut verkkosivustosi ponnahdusikkunoiden luomiseen, hallintaan ja optimointiin. Tehosta sitoutumista ja konversioita kattavalla ratkaisullamme.",
+        "items": {
+            "management": {
+                "title": "Keskitetty hallinta",
+                "description": "Hallitse kaikkia verkkosivustosi ponnahdusikkunoita yhdestä intuitiivisesta kojelaudasta. Luo, muokkaa ja seuraa suorituskykyä vaivattomasti."
+            },
+            "types": {
+                "title": "Useita ponnahdusikkunatyyppejä",
+                "description": "Valitse erilaisista ponnahdusikkunatyyypeistä: ilmoitukset, sähköpostin kerääjät ja mainosviestit tavoitteidesi mukaan."
+            },
+            "targeting": {
+                "title": "Älykäs kohdentaminen",
+                "description": "Kohdenna vierailijoita käyttäytymisen, ajoituksen ja sijainnin perusteella. Näytä oikea viesti oikeaan aikaan."
+            }
+        }
+    },
+    "advancedFeatures": {
+        "title": "Edistyneet ominaisuudet",
+        "mainHeading": "Tehokkaat työkalut parempiin tuloksiin",
+        "description": "Ota hallinta ponnahdusikkunastrategiastasi edistyksellisillä ominaisuuksilla, jotka on suunniteltu maksimoimaan sitoutuminen ja konversioaste",
+        "items": {
+            "builder": {
+                "title": "Visuaalinen rakennustyökalu",
+                "description": "Luo upeita ponnahdusikkunoita intuitiivisella vedä ja pudota -käyttöliittymällämme"
+            },
+            "analytics": {
+                "title": "Älykäs analytiikka",
+                "description": "Seuraa suorituskykyä yksityiskohtaisilla analyyseilla ja näkemyksillä"
+            },
+            "timing": {
+                "title": "Älykäs ajoitus",
+                "description": "Täydellinen ajoitus käyttäjän käyttäytymisen ja laukaisijoiden perusteella"
+            },
+            "integrations": {
+                "title": "Integraatiot",
+                "description": "Yhdistä suosikkimarkkinointityökaluihisi"
+            }
+        }
+    },
+    "testimonials": {
+        "title": "Asiakkaiden menestys",
+        "mainHeading": "Liiketoiminnan ystävä maailmanlaajuisesti",
+        "description": "Tutustu, kuinka yritykset parantavat konversioasteitaan ponnahdusikkunoiden hallinta-alustallamme",
+        "items": [
+            {
+                "name": "Sarah Thompson",
+                "role": "Markkinointijohtaja",
+                "company": "E-commerce Plus",
+                "quote": "Vedä ja pudota -käyttöliittymä tekee ponnahdusikkunakampanjoidemme hallinnasta uskomattoman helppoa. Olemme nähneet 40 %:n kasvun sähköpostitilauksissa."
+            },
+            {
+                "name": "Alex Rivera",
+                "role": "Kasvujohtaja",
+                "company": "TechStart",
+                "quote": "Yksityiskohtainen analytiikka ja älykkäät kohdistusominaisuudet ovat muuttaneet ponnahdusikkunastrategiaamme. Olemme nähneet uskomattomat sitoutumisasteet vaihdon jälkeen."
+            },
+            {
+                "name": "David Chen",
+                "role": "Verkkokauppapäällikkö",
+                "company": "Fashion Store",
+                "quote": "Lopultakin ponnahdusikkunaratkaisu, joka on sekä tehokas että helppokäyttöinen. Kohdistusvaihtoehdot ovat juuri sitä, mitä tarvitsimme."
+            }
+        ]
+    },
+    "statistics": {
+        "items": [
+            {
+                "number": "1M+",
+                "description": "Ponnahdusikkunoita näytetään päivittäin tuhansilla verkkosivustoilla"
+            },
+            {
+                "number": "5,000+",
+                "description": "Aktiiviset yritysten verkkosivustot käyttävät alustaamme"
+            },
+            {
+                "number": "35%",
+                "description": "Keskimääräinen kasvu konversioasteissa"
+            },
+            {
+                "number": "99.9%",
+                "description": "Yritystason käytettävyysluotettavuus"
+            }
+        ]
+    },
+    "cta": {
+        "heading": "Oletko valmis muuttamaan ponnahdusikkunastrategiaasi?",
+        "description": "Liity tuhansiin menestyviin yrityksiin, jotka käyttävät yritystason ponnahdusikkunaratkaisuamme",
+        "button": "Aloita ilmainen yrityskokeilu"
+    },
+    "pricing": {
+        "title": "Hinnasto",
+        "heading": "Valitse täydellinen suunnitelmasi",
+        "description": "Yksinkertainen, läpinäkyvä hinnoittelu, joka kasvaa kanssasi. Kokeile mitä tahansa suunnitelmaa ilmaiseksi 30 päivää.",
+        "billing": {
+            "monthly": "Kuukausilaskutus",
+            "annual": "Vuosilaskutus",
+            "save": "Säästä 20 %"
+        },
+        "mostPopular": "Suosituin",
+        "features": "Ominaisuudet",
+        "buttons": {
+            "getStarted": "Aloita",
+            "contactSales": "Ota yhteyttä myyntiin"
+        },
+        "loading": "Ladataan hintatietoja",
+        "error": "Virhe ladattaessa hintatietoja",
+        "noPlans": "Tällä hetkellä ei ole saatavilla tilaussuunnitelmia."
+    },
+    "footer": {
+        "newsletter": {
+            "title": "Uutiskirje",
+            "heading": "Pysy ajan tasalla ponnahdusikkunatrendeistä",
+            "description": "Hanki asiantuntijanäkemyksiä konversiooptimoinnista ja ponnahdusikkunastrategioista suoraan sähköpostiisi.",
+            "placeholder": "Syötä työpaikkasi sähköpostiosoite",
+            "button": "Tilaa",
+            "subscribing": "Tilataan...",
+            "success": "Kiitos tilauksestasi! Saat seuraavan uutiskirjeemme.",
+            "error": "Tapahtui virhe. Yritä uudelleen myöhemmin."
+        },
+        "company": {
+            "headquarters": "Maailmanlaajuinen pääkonttori",
+            "address": "Taso 2, 45 Tech Avenue, Melbourne VIC 3000"
+        },
+        "sections": {
+            "sitemap": "Sivustokartta",
+            "company": "Yritys"
+        },
+        "legal": {
+            "copyright": "© {year} YowManage. Kaikki oikeudet pidätetään.",
+            "privacy": "Tietosuojakäytäntö",
+            "terms": "Palveluehdot",
+            "cookies": "Evästeasetukset"
+        }
+    },
+    "hero": {
+        "title": {
+            "main": "Älykäs ponnahdusikkunoiden hallinta",
+            "highlight": "Yksinkertainen"
+        },
+        "description": "Luo, hallitse ja optimoi verkkosivuston ponnahdusikkunoita yhdestä keskitetystä kojelaudasta. Tehosta sitoutumista häiritsemättä käyttökokemusta.",
+        "buttons": {
+            "trial": "Aloita ilmainen kokeilu",
+            "demo": "Katso demo"
+        }
+    },
+    "dashboard": {
+        "title": "Kojelauta",
+        "websites": {
+            "title": "Verkkosivustosi",
+            "description": "Hallitse yhdistettyjä verkkosivustojasi ja niiden ilmoituksia",
+            "addButton": "Lisää verkkosivusto",
+            "addDialog": {
+                "title": "Lisää uusi verkkosivusto",
+                "domain": "Verkkotunnus",
+                "domainPlaceholder": "example.com"
+            },
+            "paths": "Polut",
+            "actions": {
+                "delete": "Poista"
+            },
+            "errors": {
+                "subscriptionLimit": "Tilausraja saavutettu",
+                "domainRequired": "Anna verkkotunnus",
+                "saveFailed": "Muutosten tallentaminen epäonnistui. Yritä uudelleen.",
+                "deleteFailed": "Verkkosivuston poistaminen epäonnistui. Yritä uudelleen.",
+                "loadFailed": "Projektin lataaminen epäonnistui. Päivitä sivu."
+            },
+            "success": {
+                "added": "Verkkosivusto lisätty",
+                "saving": "Tallennetaan muutoksiasi",
+                "saved": "Muutoksesi on tallennettu.",
+                "deleted": "Verkkosivusto poistettu onnistuneesti"
+            }
+        },
+        "integration": {
+            "title": "Verkkosivuston integrointi",
+            "description": "Noudata näitä ohjeita integroidaksesi ponnahdusikkunat verkkosivustollesi",
+            "step1": {
+                "title": "Lisää skripti verkkosivustollesi",
+                "description": "Kopioi ja liitä tämä koodi verkkosivustosi <head>-osioon."
+            },
+            "step2": {
+                "title": "Vahvista asennus",
+                "description": "Kun olet lisännyt koodin, ponnahdusikkunasi näkyvät automaattisesti verkkosivustollasi määritystesi perusteella.",
+                "checklist": {
+                    "title": "Asennustarkistuslista",
+                    "items": ["Skripti on lisätty head-osioon", "Verkkosivuston verkkotunnus vastaa määrityksiä", "Konsolissa ei ole JavaScript-virheitä"]
+                }
+            },
+            "buttons": {
+                "visitSite": "Vieraile sivustolla",
+                "copyCode": "Kopioi koodi"
+            },
+            "success": {
+                "codeCopied": "Koodi kopioitu!",
+                "codeCopiedDesc": "Integrointikoodi on kopioitu leikepöydälle"
+            }
+        },
+        "help": {
+            "title": "Tarvitsetko apua?",
+            "description": "Tutustu {integrationGuide} -oppaaseemme tai {contactSupport}, jos kohtaat ongelmia.",
+            "integrationGuide": "integrointioppaaseemme",
+            "contactSupport": "ota yhteyttä tukeen"
+        }
+    },
+    "popupManager": {
+        "title": "Ponnahdusikkunoiden hallinta",
+        "saveChanges": "Tallenna muutokset",
+        "saving": "Tallennetaan...",
+        "resetProject": "Nollaa projekti",
+        "success": {
+            "saved": "Muutoksesi on tallennettu.",
+            "reset": "Projektisi on nollattu."
+        },
+        "errors": {
+            "loadFailed": "Tietojen lataaminen epäonnistui. Päivitä sivu.",
+            "saveFailed": "Muutosten tallentaminen epäonnistui. Yritä uudelleen.",
+            "resetFailed": "Projektin nollaaminen epäonnistui. Yritä uudelleen."
+        },
+        "noWebsiteSelected": {
+            "title": "Verkkosivuston valinta vaaditaan",
+            "heading": "Verkkosivustoa ei ole valittu, lisää verkkosivusto aloitussivulla aloittaaksesi.",
+            "description": "Valitse yllä oleva verkkosivusto hallitaksesi ponnahdusikkunoitasi ja luodaksesi kiinnostavia ilmoituksia vierailijoillesi.",
+            "features": {
+                "messages": {
+                    "title": "Viestiponnahdusikkunat",
+                    "description": "Yksinkertaiset ilmoitusviestit vierailijoillesi"
+                },
+                "email": {
+                    "title": "Sähköpostin kerääjät",
+                    "description": "Laajenna sähköpostilistaasi tilauslomakkeilla"
+                },
+                "ads": {
+                    "title": "Mainospopupit",
+                    "description": "Mainosta erikoistarjouksia ja ilmoituksia"
+                }
+            }
+        },
+        "popup": {
+            "edit": "Muokkaa",
+            "editIcon": "Muokkaa kuvaketta",
+            "iconUrl": "Kuvakkeen URL",
+            "preview": "Esikatselu",
+            "cancel": "Peruuta",
+            "save": "Tallenna",
+            "delete": "Poista",
+            "types": {
+                "ad": "Mainos",
+                "email": "Sähköposti",
+                "message": "Viesti"
+            },
+            "errors": {
+                "imageLoad": "Kuvan lataaminen epäonnistui. Tarkista URL.",
+                "invalidImage": "Virheellinen kuva",
+                "invalidUrl": "Annettu URL ei ole kelvollinen kuva",
+                "provideValidUrl": "Anna kelvollinen kuvan URL"
+            }
+        },
+        "createPopup": {
+            "title": "Luo uusi ponnahdusikkuna",
+            "description": "Luo kiinnostavia ponnahdusikkunoita vuorovaikutukseen kävijöidesi kanssa",
+            "steps": {
+                "previous": "Edellinen",
+                "next": "Seuraava",
+                "cancel": "Peruuta",
+                "create": "Luo ponnahdusikkuna",
+                "type": {
+                    "label": "Valitse tyyppi",
+                    "description": "Valitse ponnahdusikkunan tyyppi, jonka haluat luoda"
+                },
+                "content": {
+                    "label": "Lisää sisältö",
+                    "description": "Mukauta ponnahdusikkunasi sisältöä ja ulkoasua"
+                },
+                "timing": {
+                    "label": "Aseta ajoitus",
+                    "description": "Määritä milloin ja kuinka kauan ponnahdusikkunasi näytetään"
+                },
+                "preview": {
+                    "label": "Esikatselu",
+                    "description": "Tarkista, miltä ponnahdusikkunasi näyttää vierailijoille"
+                }
+            },
+            "types": {
+                "title": "Valitse ponnahdusikkunatyyppi",
+                "description": "Valitse tarpeisiisi parhaiten sopiva ponnahdusikkunatyyppi",
+                "message": {
+                    "title": "Viesti",
+                    "description": "Yksinkertaiset ilmoitusponnahdusikkunat"
+                },
+                "email": {
+                    "title": "Sähköpostin kerääjä",
+                    "description": "Kerää sähköpostitilauksia"
+                },
+                "advertising": {
+                    "title": "Mainonta",
+                    "description": "Mainosviestit"
+                }
+            },
+            "content": {
+                "iconUrl": "Kuvakkeen URL",
+                "iconUrlPlaceholder": "https://example.com/icon.png",
+                "title": "Otsikko",
+                "titlePlaceholder": "Syötä ponnahdusikkunan otsikko",
+                "message": "Viesti",
+                "messagePlaceholder": "Syötä ponnahdusikkunaviesti",
+                "linkUrl": "Linkin URL",
+                "linkUrlPlaceholder": "Syötä kohde-URL",
+                "linkDescription": "Minne käyttäjät ohjataan, kun he klikkaavat ponnahdusikkunaa",
+                "buttonText": "Painikkeen teksti",
+                "buttonTextPlaceholder": "Tilaa",
+                "inputPlaceholder": "Syöttökentän paikkamerkki",
+                "inputPlaceholderExample": "Syötä sähköpostiosoitteesi",
+                "successMessage": "Onnistumisviesti",
+                "successMessagePlaceholder": "Kiitos tilauksestasi!"
+            },
+            "timing": {
+                "title": "Ajoitusasetukset",
+                "description": "Määritä milloin ponnahdusikkunasi tulee näkyviin ja kuinka kauan se pysyy näkyvissä",
+                "delay": {
+                    "label": "Näytön viive (millisekuntia)",
+                    "description": "Kuinka kauan odotetaan ennen ponnahdusikkunan näyttämistä"
+                },
+                "duration": {
+                    "label": "Näytön kesto",
+                    "description": "Kuinka kauan ponnahdusikkunan tulisi pysyä näkyvissä",
+                    "options": {
+                        "3s": "3 sekuntia",
+                        "5s": "5 sekuntia",
+                        "7s": "7 sekuntia",
+                        "10s": "10 sekuntia",
+                        "unlimited": "Rajoittamaton"
+                    }
+                }
+            },
+            "preview": {
+                "iconAlt": "Ponnahdusikkunan kuvakkeen esikatselu",
+                "defaultTitle": "Ponnahdusikkunan otsikko",
+                "defaultMessage": "Viestisi tässä"
+            }
+        },
+        "websitePopups": {
+            "title": "Verkkosivuston ponnahdusikkunat",
+            "description": "Hallitse ilmoituksia kohteelle {domain}",
+            "addPath": "Lisää uusi polku",
+            "addPathDialog": {
+                "title": "Lisää uusi polku",
+                "pathName": "Polun nimi",
+                "pathNamePlaceholder": "esim. Tuotesivu",
+                "pathUrl": "Polun URL",
+                "pathUrlPlaceholder": "esim. /tuotteet",
+                "addButton": "Lisää polku"
+            },
+            "addPopup": "+ Lisää ponnahdusikkuna",
+            "dropHere": "Pudota kohteet tähän"
+        }
+    },
+    "emailsPage": {
+        "title": "Sähköpostilista",
+        "description": "Hallitse kerättyjä sähköpostejasi",
+        "exportCsv": "Vie CSV",
+        "search": {
+            "placeholder": "Hae sähköposteja..."
+        },
+        "emailCount": "{count} sähköpostia",
+        "table": {
+            "headers": {
+                "email": "Sähköposti",
+                "source": "Lähde",
+                "status": "Tila",
+                "date": "Päivämäärä",
+                "website": "Verkkosivusto",
+                "path": "Polku",
+                "popup": "Ponnahdusikkuna",
+                "actions": "Toiminnot"
+            }
+        },
+        "pagination": {
+            "rowsPerPage": "Riviä sivulla:",
+            "pageInfo": "Sivu {current}/{total}"
+        },
+        "actions": {
+            "delete": "Poista"
+        },
+        "status": {
+            "active": "aktiivinen"
+        },
+        "messages": {
+            "deleteSuccess": "Sähköposti poistettu onnistuneesti",
+            "deleteError": "Sähköpostin poistaminen epäonnistui",
+            "loadError": "Sähköpostilistan lataaminen epäonnistui"
+        }
+    },
+    "supportPage": {
+        "title": "Omat tukipyynnöt",
+        "search": {
+            "placeholder": "Hae tukipyyntöjä"
+        },
+        "tabs": {
+            "open": "Avoinna",
+            "resolved": "Ratkaistu"
+        },
+        "ticket": {
+            "status": {
+                "open": "Avoinna",
+                "resolved": "Ratkaistu"
+            },
+            "id": "Tukipyyntö #{id}",
+            "noMessages": "Ei viestejä vielä",
+            "actions": {
+                "resolve": "Ratkaise tukipyyntö",
+                "reopen": "Avaa tukipyyntö uudelleen",
+                "resolving": "Ratkaistaan...",
+                "reopening": "Avataan uudelleen..."
+            }
+        },
+        "messages": {
+            "loading": "Ladataan tukipyyntöjä...",
+            "noTickets": "Ei {status}-tukipyyntöjä löytynyt",
+            "supportTeam": "Tukitiimi",
+            "inputPlaceholder": "Kirjoita viestisi tähän",
+            "sending": "Lähetetään...",
+            "send": "Lähetä"
+        },
+        "notifications": {
+            "ticketUpdated": "Tukipyyntö päivitetty",
+            "ticketStatusChanged": "Tukipyynnön tilaksi on muutettu {status} onnistuneesti.",
+            "updateError": "Tukipyynnön tilan päivittäminen epäonnistui. Yritä uudelleen."
+        }
+    },
+    "usagePage": {
+        "title": "Käyttö ja rajoitukset",
+        "description": "Seuraa resurssien käyttöäsi ja tilaustasi",
+        "sections": {
+            "usageLimits": {
+                "title": "Käyttörajoitukset",
+                "description": "Seuraa resurssien käyttöäsi kaikissa ominaisuuksissa",
+                "totalWebsites": "Verkkosivustoja yhteensä",
+                "paths": "Polut",
+                "popups": "Ponnahdusikkunat",
+                "features": {
+                    "advertising": "Mainospopupit",
+                    "emailCollector": "Sähköpostin kerääjät"
+                }
+            }
+        }
+    },
+    "subscriptionStatus": {
+        "title": "Tilaustila",
+        "freePlan": "Ilmainen suunnitelma",
+        "messages": {
+            "expired": "Tilauksesi on vanhentunut. Päivitä nyt palauttaaksesi pääsyn kaikkiin ominaisuuksiin.",
+            "expiringSoon": "Tilauksesi vanhenee pian. Uusi nyt, jotta säilytät pääsyn kaikkiin ominaisuuksiin."
+        },
+        "buttons": {
+            "upgrade": "Päivitä suunnitelma",
+            "renew": "Uusi tilaus"
+        }
+    },
+    "billingPage": {
+        "title": "Laskutus ja tilaus",
+        "description": "Hallitse tilaustasi ja katso laskutushistoriaa",
+        "currentPlan": {
+            "title": "Nykyinen suunnitelma",
+            "description": "Nykyinen tilaussuunnitelmasi ja tiedot",
+            "freePlan": "Ilmainen suunnitelma",
+            "paidPlan": "{name} suunnitelma",
+            "allFeatures": "Kaikki ominaisuudet sisältyvät",
+            "limitedFeatures": "Rajoitetut ominaisuudet",
+            "expiresAt": "Vanhenee: {date}",
+            "buttons": {
+                "manage": "Hallinnoi tilausta",
+                "upgrade": "Päivitä Pro-versioon"
+            }
+        },
+        "billingHistory": {
+            "title": "Laskutushistoria",
+            "description": "Tarkastele ja lataa aikaisempia laskujasi ja maksutietojasi",
+            "noHistory": {
+                "title": "Laskutushistoriaa ei ole saatavilla",
+                "description": "Laskuhistoriasi näkyy tässä, kun olet maksanut"
+            },
+            "showingTransactions": "Näytetään {count} viimeisintä tapahtumaa",
+            "viewAll": "Näytä kaikki tapahtumat",
+            "table": {
+                "status": "Tila",
+                "invoice": "Lasku",
+                "date": "Päivämäärä",
+                "amount": "Määrä",
+                "actions": "Toiminnot"
+            },
+            "status": {
+                "paid": "Maksettu",
+                "pending": "Odottaa"
+            }
+        },
+        "invoice": {
+            "title": "Lasku #{number}",
+            "issueDate": "Myöntämispäivä",
+            "billTo": "Laskutettava",
+            "paymentStatus": "Maksu tila",
+            "description": "Kuvaus",
+            "amount": "Määrä",
+            "total": "Yhteensä",
+            "billingPeriod": "Laskutuskausi: {start} - {end}",
+            "monthlySubscription": "Kuukausitilaus",
+            "footer": {
+                "payment": "Maksu käsitelty Stripen kautta",
+                "thanks": "Kiitos yrityksestänne!"
+            },
+            "buttons": {
+                "close": "Sulje",
+                "download": "Lataa PDF"
+            }
+        }
+    },
+    "adminPage": {
+        "title": "Kojelaudan yleiskatsaus",
+        "description": "Seuraa ja hallitse alustasi suorituskykyä",
+        "stats": {
+            "totalUsers": {
+                "title": "Käyttäjiä yhteensä",
+                "loading": "Ladataan..."
+            },
+            "activeSubscriptions": {
+                "title": "Aktiiviset tilaukset",
+                "loading": "Ladataan..."
+            },
+            "supportTickets": {
+                "title": "Tukipyynnöt",
+                "loading": "Ladataan..."
+            },
+            "activePopups": {
+                "title": "Aktiiviset ponnahdusikkunat",
+                "loading": "Ladataan..."
+            }
+        },
+        "users": {
+            "title": "Viimeisimmät käyttäjät",
+            "description": "Hallitse ja seuraa käyttäjien toimintaa",
+            "search": "Hae käyttäjiä...",
+            "table": {
+                "name": "Nimi",
+                "email": "Sähköposti",
+                "role": "Rooli",
+                "status": "Tila",
+                "subscription": "Tilaus",
+                "subscriptionEnds": "Tilaus päättyy",
+                "createdAt": "Luotu",
+                "actions": "Toiminnot"
+            },
+            "status": {
+                "active": "Aktiivinen",
+                "inactive": "Ei aktiivinen",
+                "probation": "Koekausi",
+                "onboarding": "Perehdytys",
+                "onLeave": "Lomalla"
+            },
+            "subscription": {
+                "active": "Aktiivinen",
+                "inactive": "Ei aktiivinen"
+            },
+            "noDate": "---"
+        },
+        "loading": "Ladataan...",
+        "error": {
+            "loadingBillingInfo": "Virhe ladattaessa laskutustietoja. Yritä uudelleen myöhemmin."
+        },
+        "userEditor": {
+            "menu": {
+                "profile": {
+                    "title": "Käyttäjäprofiili",
+                    "description": "Henkilökohtaiset tiedot ja asetukset"
+                },
+                "billing": {
+                    "title": "Laskutus",
+                    "description": "Maksutavat ja historia"
+                },
+                "security": {
+                    "title": "Turvallisuus",
+                    "description": "Salasana ja todennus"
+                },
+                "notifications": {
+                    "title": "Ilmoitukset",
+                    "description": "Sähköposti- ja push-asetukset"
+                },
+                "activity": {
+                    "title": "Toimintaloki",
+                    "description": "Viimeaikainen tilitapahtuma"
+                },
+                "deleteAccount": {
+                    "title": "Poista tili",
+                    "description": "Poista tili pysyvästi"
+                }
+            },
+            "profile": {
+                "title": "Käyttäjäprofiili",
+                "personalInfo": {
+                    "title": "Henkilökohtaiset tiedot",
+                    "name": "Nimi",
+                    "email": "Sähköposti"
+                },
+                "accountSettings": {
+                    "title": "Tiliasetukset",
+                    "status": "Tilin tila",
+                    "role": "Rooli",
+                    "roles": {
+                        "user": "Käyttäjä",
+                        "admin": "Järjestelmänvalvoja"
+                    },
+                    "statuses": {
+                        "active": "Aktiivinen",
+                        "banned": "Estetty"
+                    }
+                },
+                "subscriptionStatus": "Tilaus: {{status}}",
+                "accountCreated": "Tili luotu: {{date}}",
+                "buttons": {
+                    "save": "Tallenna muutokset",
+                    "saving": "Tallennetaan..."
+                },
+                "messages": {
+                    "updateSuccess": "Käyttäjä päivitetty onnistuneesti",
+                    "updateError": "Käyttäjän päivittäminen epäonnistui"
+                }
+            },
+            "billing": {
+                "title": "Laskutuseditori",
+                "subscriptionDetails": {
+                    "title": "Tilaustiedot",
+                    "status": "Tilaustila",
+                    "statuses": {
+                        "subscribed": "Tilaaja",
+                        "free": "Ilmainen"
+                    },
+                    "plan": "Tilaussuunnitelma",
+                    "selectPlan": "Valitse suunnitelma",
+                    "endDate": "Tilauksen päättymispäivä",
+                    "pickDate": "Valitse päivämäärä"                },
+                    "buttons": {
+                        "save": "Tallenna muutokset",
+                        "saving": "Tallennetaan..."
+                    },
+                    "messages": {
+                        "selectPlanError": "Valitse tilaussuunnitelma",
+                        "updateSuccess": "Käyttäjän laskutus päivitetty onnistuneesti",
+                        "updateError": "Käyttäjän laskutuksen päivittäminen epäonnistui",
+                        "cancelSuccess": "Tilaus peruutettu onnistuneesti",
+                        "cancelError": "Tilauksen peruuttaminen epäonnistui"
+                    }
+                },
+                "activity": {
+                    "title": "Toimintaloki",
+                    "exportButton": "Vie loki",
+                    "noActivity": "Toimintaa ei löytynyt"
+                },
+                "deleteAccount": {
+                    "title": "Poista tili",
+                    "warning": "Tätä toimintoa ei voi kumota",
+                    "consequences": {
+                        "title": "Kun poistat tilisi, menetät pääsyn:",
+                        "items": ["Kaikkiin tallennettuihin ponnahdusikkunoihin ja malleihin", "Analytiikka- ja seurantatietoihin", "Laskutushistoriaan ja laskuihin", "Mukautettuihin määrityksiin ja asetuksiin"]
+                    },
+                    "button": "Poista tili pysyvästi"
+                }
+            },
+            "usersManager": {
+                "title": "Käyttäjähallinta",
+                "description": "Hallitse käyttäjiäsi tehokkaasti.",
+                "latestUsers": {
+                    "title": "Viimeisimmät käyttäjät",
+                    "search": {
+                        "placeholder": "Hae",
+                        "button": "Hae"
+                    }
+                },
+                "table": {
+                    "name": "Nimi",
+                    "email": "Sähköposti",
+                    "role": "Rooli",
+                    "status": "Tila",
+                    "subscription": "Tilaus",
+                    "subscriptionEnds": "Tilaus päättyy",
+                    "createdAt": "Luotu",
+                    "actions": "Toiminnot"
+                },
+                "status": {
+                    "active": "Aktiivinen",
+                    "probation": "Koekausi",
+                    "onboarding": "Perehdytys",
+                    "onLeave": "Lomalla"
+                },
+                "subscription": {
+                    "active": "Aktiivinen",
+                    "inactive": "Ei aktiivinen"
+                },
+                "noDate": "---",
+                "messages": {
+                    "searchNoResults": "Käyttäjiä ei löytynyt. Näytetään kaikki käyttäjät.",
+                    "searchError": "Käyttäjän haku epäonnistui",
+                    "loadError": "Käyttäjien nouto epäonnistui"
+                }
+            },
+            "subscriptionsManager": {
+                "title": "Tilaushallinta",
+                "description": "Hallitse tilauksiasi tehokkaasti.",
+                "latestSubscriptions": {
+                    "title": "Tilaukset",
+                    "search": {
+                        "placeholder": "Hae",
+                        "button": "Hae"
+                    }
+                },
+                "table": {
+                    "user": "Käyttäjä",
+                    "plan": "Suunnitelma",
+                    "status": "Tila",
+                    "startDate": "Aloituspäivä",
+                    "endDate": "Päättymispäivä",
+                    "autoRenew": "Automaattinen uusiminen",
+                    "actions": "Toiminnot"
+                },
+                "status": {
+                    "active": "Aktiivinen",
+                    "cancelled": "Peruutettu",
+                    "expired": "Vanhentunut"
+                },
+                "autoRenew": {
+                    "yes": "Kyllä",
+                    "no": "Ei"
+                },
+                "messages": {
+                    "searchNoResults": "Tilauksia ei löytynyt. Näytetään kaikki tilaukset.",
+                    "searchError": "Tilauksen haku epäonnistui",
+                    "loadError": "Tilausten nouto epäonnistui"
+                }
+            },
+            "ticketsManager": {
+                "title": "Tukipyynnöt",
+                "description": "Hallitse ja vastaa tukipyyntöihin",
+                "messages": {
+                    "title": "Viestit",
+                    "search": {
+                        "placeholder": "Hae sähköpostin perusteella",
+                        "button": "Hae"
+                    },
+                    "tabs": {
+                        "open": "Avoimet tukipyynnöt",
+                        "resolved": "Ratkaistu"
+                    },
+                    "noMessages": "Ei viestejä vielä",
+                    "today": "Tänään",
+                    "cantReply": "Et voi vastata vierailijoiden tukipyyntöihin suoraan alustalta, käytä suoraa sähköpostia sen sijaan.",
+                    "reply": "Vastaa",
+                    "send": "Lähetä"
+                },
+                "ticket": {
+                    "supportTicket": "Tukipyyntö",
+                    "sender": "Lähettäjä",
+                    "actions": {
+                        "resolveTicket": "Ratkaise tukipyyntö"
+                    }
+                }
+            },
+            "settings": {
+                "title": "Asetukset",
+                "description": "Hallitse sovelluksesi asetuksia ja määrityksiä.",
+                "tabs": {
+                    "general": {
+                        "title": "Yleiset",
+                        "description": "Hallitse verkkosivustosi asetuksia ja SEO-määrityksiä",
+                        "icon": "Asetukset"
+                    },
+                    "subscriptions": {
+                        "title": "Tilaukset",
+                        "description": "Määritä tilaussuunnitelmat ja hinnat",
+                        "icon": "Luottokortti"
+                    },
+                    "usageLimits": {
+                        "title": "Käyttörajoitukset",
+                        "description": "Aseta käyttörajoitukset eri tilaustasoille",
+                        "icon": "Kilpi"
+                    },
+                    "socialLinks": {
+                        "title": "Sosiaalisen median linkit",
+                        "description": "Hallitse sosiaalisen median linkkejäsi",
+                        "icon": "Jaa"
+                    },
+                    "footerLinks": {
+                        "title": "Alatunnisteen linkit",
+                        "description": "Hallitse alatunnisteen linkkejä ja osioita",
+                        "icon": "Linkki"
+                    }
+                },
+                "general": {
+                    "title": "Yleiset asetukset",
+                    "description": "Määritä verkkosivustosi perustiedot ja SEO-asetukset",
+                    "fields": {
+                        "siteTitle": {
+                            "label": "Sivuston otsikko",
+                            "tooltip": "Verkkosivustosi otsikko, joka näkyy hakukoneiden tuloksissa ja selainvälilehdissä",
+                            "placeholder": "Syötä sivuston otsikko"
+                        },
+                        "siteKeywords": {
+                            "label": "Avainsanat",
+                            "tooltip": "Pilkulla erotetut avainsanat, jotka ovat olennaisia verkkosivustosi sisällölle",
+                            "placeholder": "Syötä avainsanat"
+                        },
+                        "googleAnalytics": {
+                            "label": "Google Analytics -tunnus",
+                            "tooltip": "Google Analytics -seurantatunnuksesi",
+                            "placeholder": "UA-XXXXXXXXX-X"
+                        },
+                        "siteAddress": {
+                            "label": "Sivuston osoite",
+                            "tooltip": "Verkkosivustosi fyysinen osoite",
+                            "placeholder": "Syötä sivuston osoite"
+                        },
+                        "sitePhone": {
+                            "label": "Puhelinnumero",
+                            "tooltip": "Yrityksesi yhteyspuhelinnumero",
+                            "placeholder": "Syötä puhelinnumero"
+                        },
+                        "siteEmail": {
+                            "label": "Yhteyssähköposti",
+                            "tooltip": "Yrityksesi yhteyssähköpostiosoite",
+                            "placeholder": "Syötä yhteyssähköposti"
+                        },
+                        "siteDescription": {
+                            "label": "Sivuston kuvaus",
+                            "tooltip": "Lyhyt kuvaus verkkosivustostasi, joka näkyy hakutuloksissa",
+                            "placeholder": "Syötä sivuston kuvaus"
+                        },
+                        "logo": {
+                            "label": "Sivuston logo",
+                            "tooltip": "Lataa verkkosivustosi logo. Suositeltu koko: 200 x 50 px. Enimmäiskoko: 2 Mt",
+                            "button": "Lataa logo",
+                            "uploading": "Ladataan...",
+                            "supportedFormats": "Tuetut muodot: PNG, JPG, GIF"
+                        },
+                        "maintenanceMode": {
+                            "label": "Huoltotila",
+                            "description": "Ota käyttöön näyttääksesi huoltosivun vierailijoille, kun työskentelet sivustollasi"
+                        }
+                    },
+                    "buttons": {
+                        "saveChanges": "Tallenna muutokset"
+                    }
+                },
+                "usageLimits": {
+                    "title": "Käyttörajoitukset",
+                    "description": "Aseta käyttörajoitukset eri tilaustasoille",
+                    "table": {
+                        "subscription": "Tilaus",
+                        "maxWebsites": "Verkkosivustoja enintään",
+                        "maxPathsPerWebsite": "Polkuja enintään per verkkosivusto",
+                        "maxPopupsPerPath": "Ponnahdusikkunoita enintään per polku",
+                        "features": "Ominaisuudet"
+                    },
+                    "features": {
+                        "advertising": "Mainonta",
+                        "emailCollector": "Sähköpostin kerääjä"
+                    },
+                    "buttons": {
+                        "saveChanges": "Tallenna muutokset"
+                    }
+                },
+                "socialLinks": {
+                    "title": "Sosiaalisen median linkit",
+                    "description": "Hallitse sosiaalisen median läsnäoloasi lisäämällä tai poistamalla sosiaalisia linkkejä",
+                    "form": {
+                        "platformName": {
+                            "label": "Alustan nimi",
+                            "placeholder": "esim. Facebook"
+                        },
+                        "url": {
+                            "label": "URL",
+                            "placeholder": "https://..."
+                        },
+                        "iconUrl": {
+                            "label": "Kuvakkeen URL",
+                            "placeholder": "https://... (kuvakkeen URL)"
+                        }
+                    },
+                    "table": {
+                        "icon": "Kuvake",
+                        "platform": "Alusta",
+                        "url": "URL",
+                        "actions": "Toiminnot"
+                    },
+                    "buttons": {
+                        "addLink": "Lisää sosiaalinen linkki",
+                        "remove": "Poista"
+                    }
+                },
+                "footerLinks": {
+                    "title": "Alatunnisteen linkkien hallinta",
+                    "description": "Hallitse linkkejä, jotka näkyvät verkkosivustosi alatunnisteosioissa",
+                    "form": {
+                        "linkName": {
+                            "label": "Linkin nimi",
+                            "placeholder": "esim. Tietoja meistä"
+                        },
+                        "url": {
+                            "label": "URL",
+                            "placeholder": "/tietoa-meista"
+                        },
+                        "section": {
+                            "label": "Osio",
+                            "options": {
+                                "sitemap": "Sivustokartta",
+                                "company": "Yritys"
+                            }
+                        }
+                    },
+                    "sections": {
+                        "sitemap": {
+                            "title": "Sivustokarttalinkit"
+                        },
+                        "company": {
+                            "title": "Yrityksen linkit"
+                        }
+                    },
+                    "table": {
+                        "name": "Nimi",
+                        "url": "URL",
+                        "actions": "Toiminnot"
+                    },
+                    "buttons": {
+                        "addLink": "Lisää alatunnisteen linkki",
+                        "remove": "Poista"
+                    }
+                },
+                "subscriptions": {
+                    "title": "Tilausten hallinta",
+                    "description": "Hallitse tilauksiasi",
+                    "createNew": {
+                        "title": "Luo uusi tilaus",
+                        "description": "Lisää uusi tilaus järjestelmääsi",
+                        "fields": {
+                            "name": {
+                                "label": "Nimi",
+                                "placeholder": "Syötä tilauksen nimi"
+                            },
+                            "price": {
+                                "label": "Hinta",
+                                "placeholder": "Syötä hinta"
+                            },
+                            "yearlyPrice": {
+                                "label": "Vuosihinta",
+                                "placeholder": "Syötä vuosihinta"
+                            },
+                            "stripeMonthlyLink": {
+                                "label": "Stripen kuukausittainen linkki",
+                                "placeholder": "Syötä Stripen kuukausittainen linkki"
+                            },
+                            "stripeYearlyLink": {
+                                "label": "Stripen vuosittainen linkki",
+                                "placeholder": "Syötä Stripen vuosittainen linkki"
+                            },
+                            "stripeMonthlyPriceId": {
+                                "label": "Stripen kuukausittainen hintatunnus",
+                                "placeholder": "Syötä Stripen kuukausittainen hintatunnus"
+                            },
+                            "stripeYearlyPriceId": {
+                                "label": "Stripen vuosittainen hintatunnus",
+                                "placeholder": "Syötä Stripen vuosittainen hintatunnus"
+                            },
+                            "status": {
+                                "label": "Tila",
+                                "options": {
+                                    "active": "Aktiivinen",
+                                    "inactive": "Ei aktiivinen"
+                                }
+                            }
+                        },
+                        "button": "Luo tilaus"
+                    },
+                    "list": {
+                        "title": "Tilaukset",
+                        "description": "Hallitse tilauksiasi",
+                        "status": {
+                            "active": "Aktiivinen",
+                            "inactive": "Ei aktiivinen"
+                        },
+                        "pricing": "Kuukausittain: {price} | Vuosittain: {yearlyPrice}",
+                        "actions": {
+                            "label": "Toiminnot",
+                            "edit": "Muokkaa",
+                            "delete": "Poista",
+                            "activate": "Aktivoi",
+                            "deactivate": "Deaktivoi"
+                        },
+                        "features": {
+                            "addButton": "Lisää ominaisuus"
+                        }
+                    },
+                    "edit": {
+                        "title": "Muokkaa {type}",
+                        "description": "Tee muutoksia kohteeseen {type} täällä.",
+                        "subscription": {
+                            "fields": {
+                                "name": {
+                                    "label": "Nimi",
+                                    "placeholder": "Syötä nimi"
+                                },
+                                "price": {
+                                    "label": "Hinta",
+                                    "placeholder": "Syötä hinta"
+                                },
+                                "yearlyPrice": {
+                                    "label": "Vuosihinta",
+                                    "placeholder": "Syötä vuosihinta"
+                                },
+                                "stripeMonthlyLink": {
+                                    "label": "Stripen kuukausittainen linkki",
+                                    "placeholder": "Syötä Stripen kuukausittainen linkki"
+                                },
+                                "stripeYearlyLink": {
+                                    "label": "Stripen vuosittainen linkki",
+                                    "placeholder": "Syötä Stripen vuosittainen linkki"
+                                },
+                                "stripeMonthlyPriceId": {
+                                    "label": "Stripen kuukausittainen hintatunnus",
+                                    "placeholder": "Syötä Stripen kuukausittainen hintatunnus"
+                                },
+                                "stripeYearlyPriceId": {
+                                    "label": "Stripen vuosittainen hintatunnus",
+                                    "placeholder": "Syötä Stripen vuosittainen hintatunnus"
+                                }
+                            }
+                        },
+                        "feature": {
+                            "fields": {
+                                "name": {
+                                    "label": "Ominaisuuden nimi",
+                                    "placeholder": "Syötä ominaisuuden nimi"
+                                }
+                            }
+                        },
+                        "buttons": {
+                            "save": "Tallenna muutokset"
+                        }
+                    },
+                    "messages": {
+                        "success": {
+                            "created": "Tilaus luotu!",
+                            "createdDesc": "Olet luonut uuden tilauksen onnistuneesti.",
+                            "updated": "Kohde päivitetty!",
+                            "updatedDesc": "Olet päivittänyt kohteen onnistuneesti.",
+                            "deleted": "{type} poistettu!",
+                            "deletedDesc": "Olet poistanut kohteen {type} onnistuneesti.",
+                            "statusChanged": "Tilaus päivitetty!",
+                            "statusChangedDesc": "Olet päivittänyt tilauksen tilan onnistuneesti."
+                        },
+                        "error": {
+                            "create": "Tilauksen luomisessa oli ongelma. Yritä uudelleen.",
+                            "update": "Kohteen päivittämisessä oli ongelma. Yritä uudelleen.",
+                            "delete": "Kohteen {type} poistamisessa oli ongelma. Yritä uudelleen.",
+                            "statusChange": "Tilauksen tilan päivittämisessä oli ongelma. Yritä uudelleen.",
+                            "fetch": "Tilausten nouto epäonnistui"
+                        }
+                    }
+                }
+            }
+        },
+        "pageBuilder": {
+            "title": "Sivunrakennustyökalu",
+            "description": "Luo ja hallitse sivujasi tekstieditorilla.",
+            "pages": {
+                "title": "Sivut",
+                "newPagePlaceholder": "Uuden sivun nimi",
+                "addButton": "Lisää",
+                "noPageSelected": "Luo uusi sivu tai valitse olemassa oleva aloittaaksesi muokkauksen",
+                "saveButton": "Tallenna",
+                "savingButton": "Tallennetaan...",
+                "deleteButton": "Poista"
+            },
+            "editor": {
+                "defaultContent": "Aloita kirjoittamalla sisältöäsi tähän...",
+                "toolbar": {
+                    "insertTable": "Lisää taulukko",
+                    "addColumnBefore": "Lisää sarake ennen",
+                    "addColumnAfter": "Lisää sarake jälkeen",
+                    "deleteColumn": "Poista sarake",
+                    "addRowBefore": "Lisää rivi ennen",
+                    "addRowAfter": "Lisää rivi jälkeen",
+                    "deleteRow": "Poista rivi",
+                    "deleteTable": "Poista taulukko",
+                    "addImage": "Syötä kuvan URL:"
+                }
+            },
+            "messages": {
+                "success": {
+                    "save": "Sivu tallennettu onnistuneesti",
+                    "delete": "Sivu poistettu onnistuneesti"
+                },
+                "error": {
+                    "save": "Sivun tallentaminen epäonnistui",
+                    "delete": "Sivun poistaminen epäonnistui",
+                    "fetch": "Sivujen lataaminen epäonnistui"
+                }
+            }
+        },
+        "newsletter": {
+            "title": "Uutiskirjeen tilaajat",
+            "description": "Hallitse uutiskirjeen tilaajiasi",
+            "actions": {
+                "exportCSV": "Vie CSV",
+                "search": "Hae tilaajia...",
+                "remove": "Poista tilaaja"
+            },
+            "table": {
+                "email": "Sähköposti",
+                "subscribedDate": "Tilauspäivä",
+                "actions": "Toiminnot"
+            },
+            "pagination": {
+                "rowsPerPage": "Riviä sivulla:",
+                "pageOf": "Sivu {current}/{total}"
+            },
+            "messages": {
+                "success": {
+                    "remove": "Sähköposti poistettu onnistuneesti"
+                },
+                "error": {
+                    "fetch": "Uutiskirjeen tilaajien lataaminen epäonnistui",
+                    "remove": "Sähköpostin poistaminen epäonnistui",
+                    "export": "Tilaajien vieminen epäonnistui"
+                }
+            }
+        },
+        "sidebar": {
+            "admin": {
+                "title": "Hallintapaneeli",
+                "items": {
+                    "home": "Koti",
+                    "usersManager": "Käyttäjähallinta",
+                    "subscriptions": "Tilaukset",
+                    "tickets": "Tukipyynnöt",
+                    "settings": "Asetukset",
+                    "pageBuilder": "Sivunrakennustyökalu",
+                    "newsletter": "Uutiskirje"
+                },
+                "logout": "Kirjaudu ulos"
+            },
+            "dashboard": {
+                "title": "Kojelauta",
+                "items": {
+                    "home": "Koti",
+                    "createPopups": "Luo ponnahdusikkunoita",
+                    "emailList": "Sähköpostilista",
+                    "support": "Tuki",
+                    "usage": "Käyttö",
+                    "billing": "Laskutus"
+                },
+                "upgradeCard": {
+                    "title": "Päivitä Pro-versioon",
+                    "description": "Avaa premium-ominaisuudet ja parannetut ominaisuudet",
+                    "button": "Päivitä nyt"
+                },
+                "logout": "Kirjaudu ulos"
+            }
+        }
+    }
+                
