@@ -1,5 +1,5 @@
 import { db } from '@/configs/db'; // Your Drizzle DB config
-import { Users, UserTickets, VisitorTicketMessages, TicketMessages, MetaData, Pages, SubscriptionsTypes, SubscritpionsFeatures, Invoices, UsersSubscriptions, WebsitePopups } from '@/configs/schema'; // Your database schema
+import { Users, UserTickets, VisitorTicketMessages, TicketMessages, MetaData, Pages, SubscriptionsTypes, SubscritpionsFeatures, Invoices, UsersSubscriptions } from '@/configs/schema'; // Your database schema
 import { count, gte, eq, desc, or, like } from 'drizzle-orm'; // Import the count function
 import { revalidatePath } from 'next/cache';
 
@@ -999,29 +999,7 @@ const createInvoice = async (userId, amount, date, invoiceNumber, status) => {
     }
 };
 
-/**
- * Fetches the total number of popups in the database
- * @returns {Promise<{totalPopups: number}>} The total number of popups
- * @throws {Error} If there is an error while fetching the total popups count
- */
-async function getTotalPopups() {
-    try {
-        // Use Drizzle's count function
-        const result = await db
-            .select({
-                totalPopups: count(), // Count all rows
-            })
-            .from(WebsitePopups);
 
-        // Access the count from the result
-        const { totalPopups } = result[0];
-
-        return { totalPopups };
-    } catch (error) {
-        console.error('Error fetching total popups:', error);
-        throw error;
-    }
-}
 
 export {
     getTotalUsers, // Fetches the total number of users in the database
@@ -1064,5 +1042,4 @@ export {
     getPageBySlug, // Retrieves a page by its slug
     getTotalTickets, // Retrieves the total number of tickets
     createInvoice, // Creates a new invoice
-    getTotalPopups, // Export the new function
 };

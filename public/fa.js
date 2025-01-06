@@ -38,12 +38,20 @@
                 reconnectionDelay: 1000,
                 timeout: 20000,
                 forceNew: true,
+                query: {
+                    websiteId: websiteId,
+                    visitorId: visitorId,
+                },
             });
 
             let isConnected = false;
 
             socket.on('connect', () => {
-                console.log('Widget connected to socket server', socket.id);
+                console.log('Widget connected to socket server', {
+                    socketId: socket.id,
+                    websiteId: websiteId,
+                    visitorId: visitorId,
+                });
                 isConnected = true;
                 const status = document.querySelector('.fa-widget-status');
                 if (status) {
@@ -159,6 +167,34 @@
                 localStorage.setItem(`fa_chat_${visitorId}`, JSON.stringify(messages));
             };
 
+            // Listen for admin messages (moved outside message sending block)
+            const handleAdminMessage = (data) => {
+                console.log('Received admin message:', data, 'Current IDs:', { websiteId, visitorId });
+                if (data.websiteId === websiteId && data.visitorId === visitorId) {
+                    console.log('Message matches current visitor, displaying...');
+                    const message = document.createElement('div');
+                    message.className = 'fa-widget-message';
+                    message.style.background = '#f0f0f0';
+                    message.style.color = '#000';
+                    message.style.marginRight = 'auto';
+                    message.style.width = 'fit-content';
+                    message.textContent = data.message;
+                    content.appendChild(message);
+                    content.scrollTop = content.scrollHeight;
+
+                    // Save to chat history
+                    saveChatHistory(data.message, 'admin');
+                } else {
+                    console.log('Message does not match current visitor:', {
+                        expected: { websiteId, visitorId },
+                        received: { websiteId: data.websiteId, visitorId: data.visitorId },
+                    });
+                }
+            };
+
+            // Add socket event listener
+            socket.on('visitor-receive-message', handleAdminMessage);
+
             // Toggle chat widget
             chatButton.addEventListener('click', () => {
                 widgetContainer.classList.add('active');
@@ -209,25 +245,17 @@
                         send.click();
                     }
                 });
-
-                // Listen for admin messages
-                socket.on('visitor-receive-message', (data) => {
-                    if (data.websiteId === websiteId && data.visitorId === visitorId) {
-                        const message = document.createElement('div');
-                        message.className = 'fa-widget-message';
-                        message.style.background = '#f0f0f0';
-                        message.style.color = '#000';
-                        message.style.marginRight = 'auto';
-                        message.style.width = 'fit-content';
-                        message.textContent = data.message;
-                        content.appendChild(message);
-                        content.scrollTop = content.scrollHeight;
-
-                        // Save to chat history
-                        saveChatHistory(data.message, 'admin');
-                    }
-                });
             }
+
+            // Cleanup function
+            const cleanup = () => {
+                socket.off('visitor-receive-message', handleAdminMessage);
+                socket.disconnect();
+                container.remove();
+            };
+
+            // Add cleanup to window unload
+            window.addEventListener('unload', cleanup);
 
             // Initialize emoji picker
             const emojiBtn = container.querySelector('.fa-widget-emoji-btn');
