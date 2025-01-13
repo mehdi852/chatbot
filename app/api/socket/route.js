@@ -1,4 +1,7 @@
 import { Server as SocketIOServer } from 'socket.io';
+import { db } from '@/configs/db';
+import { Websites } from '@/configs/schema';
+import { eq } from 'drizzle-orm';
 
 export async function GET(req) {
     try {
@@ -19,56 +22,88 @@ export async function GET(req) {
 
         io.listen(3001);
 
+        // Middleware to authenticate socket connections
+        io.use(async (socket, next) => {
+            try {
+                const { websiteId, userId } = socket.handshake.query;
+
+                if (!websiteId || !userId) {
+                    return next(new Error('Missing required parameters'));
+                }
+
+                // Verify website ownership
+                const website = await db
+                    .select()
+                    .from(Websites)
+                    .where(eq(Websites.id, parseInt(websiteId)))
+                    .limit(1);
+
+                if (!website.length) {
+                    return next(new Error('Website not found'));
+                }
+
+                // For admin connections, verify website ownership
+                if (userId) {
+                    if (website[0].user_id !== parseInt(userId)) {
+                        return next(new Error('Unauthorized'));
+                    }
+                    socket.isAdmin = true;
+                } else {
+                    socket.isAdmin = false;
+                }
+
+                socket.websiteId = websiteId;
+                socket.userId = userId;
+                next();
+            } catch (error) {
+                return next(new Error('Authentication failed'));
+            }
+        });
+
         io.on('connection', (socket) => {
             console.log('Client connected', socket.id);
 
-            // Get websiteId from connection query
-            const { websiteId, userId } = socket.handshake.query;
-            console.log('Connection query:', { websiteId, userId });
+            // Join website-specific room
+            const room = `website_${socket.websiteId}`;
+            socket.join(room);
 
-            if (websiteId) {
-                // Join a room specific to this website
-                const room = `website_${websiteId}`;
-                socket.join(room);
-                console.log(`Client joined room: ${room}`);
-                // Log all rooms this socket is in
-                console.log('Socket rooms:', socket.rooms);
+            // Create admin-specific room if it's an admin
+            if (socket.isAdmin) {
+                const adminRoom = `admin_${socket.websiteId}_${socket.userId}`;
+                socket.join(adminRoom);
             }
 
             socket.on('visitor-message', (data) => {
-                console.log('Visitor message received:', data);
-                const room = `website_${data.websiteId}`;
-                console.log(`Broadcasting to room: ${room}`);
-                // Emit only to the first admin client in the room
-                const roomSockets = io.sockets.adapter.rooms.get(room);
-                if (roomSockets) {
-                    const adminSocket = Array.from(roomSockets).find((socketId) => {
-                        const socket = io.sockets.sockets.get(socketId);
-                        return socket.handshake.query.userId; // Admin sockets have userId in query
+                if (data.websiteId !== socket.websiteId) {
+                    console.error('Website ID mismatch');
+                    return;
+                }
+
+                // Find admin sockets for this website
+                const adminSockets = Array.from(io.sockets.sockets.values()).filter((s) => s.isAdmin && s.websiteId === socket.websiteId);
+
+                if (adminSockets.length > 0) {
+                    // Send to all admin sockets for this website
+                    adminSockets.forEach((adminSocket) => {
+                        io.to(adminSocket.id).emit('admin-receive-message', {
+                            message: data.message,
+                            websiteId: data.websiteId,
+                            visitorId: data.visitorId,
+                            timestamp: new Date(),
+                        });
                     });
-                    if (adminSocket) {
-                        io.to(adminSocket).emit('admin-receive-message', {
-                            message: data.message,
-                            websiteId: data.websiteId,
-                            visitorId: data.visitorId,
-                            timestamp: new Date(),
-                        });
-                    } else {
-                        // If no admin socket found, broadcast to room as fallback
-                        io.to(room).emit('admin-receive-message', {
-                            message: data.message,
-                            websiteId: data.websiteId,
-                            visitorId: data.visitorId,
-                            timestamp: new Date(),
-                        });
-                    }
                 }
             });
 
             socket.on('admin-message', (data) => {
-                console.log('Admin message received:', data);
-                // Emit only to the specific website room
-                io.to(`website_${data.websiteId}`).emit('visitor-receive-message', {
+                if (!socket.isAdmin || data.websiteId !== socket.websiteId) {
+                    console.error('Unauthorized admin message');
+                    return;
+                }
+
+                // Send only to the specific visitor's room
+                const visitorRoom = `website_${data.websiteId}`;
+                io.to(visitorRoom).emit('visitor-receive-message', {
                     message: data.message,
                     websiteId: data.websiteId,
                     visitorId: data.visitorId,
@@ -82,8 +117,11 @@ export async function GET(req) {
 
             socket.on('disconnect', (reason) => {
                 console.log('Client disconnected', socket.id, reason);
-                if (websiteId) {
-                    socket.leave(`website_${websiteId}`);
+                const room = `website_${socket.websiteId}`;
+                socket.leave(room);
+                if (socket.isAdmin) {
+                    const adminRoom = `admin_${socket.websiteId}_${socket.userId}`;
+                    socket.leave(adminRoom);
                 }
             });
         });

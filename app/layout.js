@@ -36,10 +36,10 @@ export default async function RootLayout({ children }) {
             <head>
             <script 
         src="http://localhost:3000/fa.js" 
-        data-website-id="918517" 
-        data-api-url="https://popup3-vblq.vercel.app"
+        data-website-id="613914" 
+        data-api-url="http://localhost:3000"
         async
-    ></script>            </head>
+    ></script>      </head>
             <body className={outfit.className}>
                 <ClientLayout>
                     <ThemeProvider>{children}</ThemeProvider>

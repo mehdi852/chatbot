@@ -4,6 +4,6 @@ export default defineConfig({
     schema: './configs/schema.js',
     out: './drizzle',
     dbCredentials: {
-        url: 'postgresql://neondb_owner:xdHV79qIhnfr@ep-muddy-sun-a5rtfwc4.us-east-2.aws.neon.tech/neondb?sslmode=require',
+        url: 'postgresql://invoiceDb_owner:3Iw9toafUKST@ep-restless-scene-a5azmhl3.us-east-2.aws.neon.tech/invoiceDb?sslmode=require',
     },
 });

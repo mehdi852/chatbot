@@ -18,6 +18,10 @@ const ChatPage = () => {
         isConnected: false,
         isAIEnabled: false,
         isAIResponding: false,
+        activeTab: 'live', // 'live' or 'history'
+        chatHistory: [], // Store past conversations
+        isLoadingHistory: false,
+        historyError: null,
     });
 
     const [inputMessage, setInputMessage] = useState('');
@@ -25,6 +29,9 @@ const ChatPage = () => {
     const socketRef = useRef(null);
     const genAI = useRef(null);
     const isAIEnabledRef = useRef(false);
+
+    // Get current conversation messages
+    const currentMessages = chatState.selectedVisitorId ? chatState.conversations[chatState.selectedVisitorId]?.messages || [] : [];
 
     // Update AI enabled ref when state changes
     useEffect(() => {
@@ -141,9 +148,77 @@ const ChatPage = () => {
         });
     };
 
+    // Add function to load conversation history
+    const loadConversationHistory = async (visitorId, websiteId) => {
+        try {
+            const response = await fetch(`/api/chat/conversation?websiteId=${websiteId}&visitorId=${visitorId}&userId=${dbUser?.id}`);
+            const data = await response.json();
+
+            if (data.messages) {
+                setChatState((prev) => ({
+                    ...prev,
+                    conversations: {
+                        ...prev.conversations,
+                        [visitorId]: {
+                            messages: data.messages.map((msg) => ({
+                                message: msg.message,
+                                type: msg.type,
+                                timestamp: msg.timestamp,
+                            })),
+                            lastRead: new Date(),
+                        },
+                    },
+                }));
+            }
+        } catch (error) {
+            console.error('Failed to load conversation history:', error);
+        }
+    };
+
+    // Modify handleVisitorSelect to load conversation history
+    const handleVisitorSelect = async (visitor) => {
+        setChatState((prev) => ({
+            ...prev,
+            selectedVisitorId: visitor.id,
+            visitors: prev.visitors.map((v) => (v.id === visitor.id ? { ...v, unread: false } : v)),
+        }));
+
+        // Load conversation history when selecting a visitor
+        if (chatState.selectedWebsite) {
+            try {
+                const response = await fetch(`/api/chat/conversation?websiteId=${chatState.selectedWebsite.id}&visitorId=${visitor.id}&userId=${dbUser?.id}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to load conversation');
+                }
+
+                if (data.messages) {
+                    setChatState((prev) => ({
+                        ...prev,
+                        conversations: {
+                            ...prev.conversations,
+                            [visitor.id]: {
+                                messages: data.messages.map((msg) => ({
+                                    message: msg.message,
+                                    type: msg.type,
+                                    timestamp: msg.timestamp,
+                                })),
+                                lastRead: new Date(),
+                            },
+                        },
+                    }));
+                }
+            } catch (error) {
+                console.error('Failed to load conversation:', error);
+                // Optionally show an error message to the user
+            }
+        }
+    };
+
     // Socket initialization
     useEffect(() => {
-        if (chatState.selectedWebsite && !socketRef.current) {
+        if (chatState.selectedWebsite && !socketRef.current && dbUser?.id) {
             const initSocket = async () => {
                 try {
                     await fetch('/api/socket');
@@ -155,10 +230,11 @@ const ChatPage = () => {
                         forceNew: true,
                         query: {
                             websiteId: chatState.selectedWebsite.id,
-                            userId: dbUser?.id,
+                            userId: dbUser.id,
                         },
                     });
 
+                    // Add connection event handlers
                     socketInstance.on('connect', () => {
                         console.log('Connected to socket server');
                         setChatState((prev) => ({ ...prev, isConnected: true }));
@@ -169,15 +245,33 @@ const ChatPage = () => {
                         setChatState((prev) => ({ ...prev, isConnected: false }));
                     });
 
-                    socketInstance.on('admin-receive-message', (data) => {
-                        if (data.websiteId.toString() === chatState.selectedWebsite.id.toString()) {
-                            // Add message to conversation
-                            addMessageToConversation(data.visitorId, data, 'visitor');
+                    socketInstance.on('connect_error', (error) => {
+                        console.error('Socket connection error:', error);
+                        setChatState((prev) => ({ ...prev, isConnected: false }));
+                    });
 
-                            // Update visitors list
+                    socketInstance.on('admin-receive-message', async (data) => {
+                        if (data.websiteId.toString() === chatState.selectedWebsite.id.toString()) {
+                            // Save visitor message to database
+                            try {
+                                await fetch('/api/chat/conversation', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        websiteId: data.websiteId,
+                                        visitorId: data.visitorId,
+                                        message: data.message,
+                                        type: 'visitor',
+                                        userId: dbUser.id, // Add userId for authentication
+                                    }),
+                                });
+                            } catch (error) {
+                                console.error('Failed to save visitor message:', error);
+                            }
+
+                            addMessageToConversation(data.visitorId, data, 'visitor');
                             updateVisitorsList(data.visitorId, data.message, data.websiteId);
 
-                            // Trigger AI response if enabled
                             if (isAIEnabledRef.current) {
                                 handleAIResponse(data.message, {
                                     visitorId: data.visitorId,
@@ -244,18 +338,9 @@ const ChatPage = () => {
         if (!isAIEnabledRef.current || !genAI.current) return;
 
         try {
-            // Get the latest state using a Promise to ensure we have the most recent data
-            const getLatestState = () =>
-                new Promise((resolve) => {
-                    setChatState((prevState) => {
-                        resolve(prevState);
-                        return { ...prevState, isAIResponding: true };
-                    });
-                });
-
-            const currentState = await getLatestState();
+            setChatState((prev) => ({ ...prev, isAIResponding: true }));
             const model = genAI.current.getGenerativeModel({ model: 'models/gemini-2.0-flash-exp' });
-            const currentConversation = currentState.conversations[visitorData.visitorId];
+            const currentConversation = chatState.conversations[visitorData.visitorId];
 
             console.log('Current conversation before AI response:', {
                 visitorId: visitorData.visitorId,
@@ -267,7 +352,7 @@ const ChatPage = () => {
             const allMessages = currentConversation?.messages || [];
             const completeMessageList = [...allMessages, { type: 'visitor', message: visitorMessage, timestamp: new Date().toISOString() }];
 
-            // Format the conversation history with clear separation between messages
+            // Format the conversation history
             const conversationHistory = completeMessageList
                 .map((msg, index) => {
                     const role = msg.type === 'visitor' ? 'Customer' : 'Agent';
@@ -276,9 +361,7 @@ const ChatPage = () => {
                 })
                 .join('\n');
 
-            console.log('Formatted conversation history for AI:', conversationHistory);
-
-            const website = currentState.selectedWebsite;
+        
             const prompt = `You are a friendly and efficient customer service agent for smartpop. Be concise and helpful.
             
 Role: Customer Service Agent
@@ -302,8 +385,8 @@ Response Guidelines:
 3. Don't repeat or reference previous messages
 4. Don't mention the website domain unless relevant
 5. Stay focused on answering the current question
-6. Avoid phrases like "I see you asked about" or "Previously you mentioned"
-7. Just answer directly as a helpful agent would
+6. Avoid phrases like "I see you asked about" or "Previously you mentioned"         
+7. Just answer directly as a helpful agent would    
 8. Never mention what ai model are you, answer that you are an agent for name of the website
 9. Never promise to answer the question, just answer it
 
@@ -312,17 +395,39 @@ Respond naturally and concisely:`;
             const result = await model.generateContent(prompt);
             const aiResponse = result.response.text();
 
-            // Send AI response through socket
-            const messageData = {
-                message: aiResponse,
-                websiteId: visitorData.websiteId.toString(),
-                visitorId: visitorData.visitorId,
-                timestamp: new Date().toISOString(),
-            };
+            // Save AI response to database first
+            try {
+                const response = await fetch('/api/chat/conversation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        websiteId: visitorData.websiteId,
+                        visitorId: visitorData.visitorId,
+                        message: aiResponse,
+                        type: 'admin',
+                        userId: dbUser?.id,
+                        timestamp: new Date().toISOString(),
+                    }),
+                });
 
-            if (socketRef.current?.connected) {
-                socketRef.current.emit('admin-message', messageData);
-                addMessageToConversation(visitorData.visitorId, messageData, 'admin');
+                if (!response.ok) {
+                    throw new Error('Failed to save AI response to database');
+                }
+
+                // Only send through socket and update UI after successful database save
+                const messageData = {
+                    message: aiResponse,
+                    websiteId: visitorData.websiteId,
+                    visitorId: visitorData.visitorId,
+                    timestamp: new Date().toISOString(),
+                };
+
+                if (socketRef.current?.connected) {
+                    socketRef.current.emit('admin-message', messageData);
+                    addMessageToConversation(visitorData.visitorId, messageData, 'admin');
+                }
+            } catch (error) {
+                console.error('Failed to save AI response:', error);
             }
         } catch (error) {
             console.error('AI Response Error:', error);
@@ -331,28 +436,37 @@ Respond naturally and concisely:`;
         }
     };
 
-    const handleSendMessage = (e) => {
+    // Modify handleSendMessage to save messages
+    const handleSendMessage = async (e) => {
         e.preventDefault();
-        if (!inputMessage.trim() || !socketRef.current?.connected || !chatState.selectedVisitorId) return;
+        if (!inputMessage.trim() || !socketRef.current?.connected || !chatState.selectedVisitorId || !dbUser?.id) return;
 
         const messageData = {
             message: inputMessage,
             websiteId: chatState.selectedWebsite.id.toString(),
             visitorId: chatState.selectedVisitorId,
             timestamp: new Date().toISOString(),
+            userId: dbUser.id,
         };
+
+        // Save admin message to database
+        try {
+            await fetch('/api/chat/conversation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...messageData,
+                    type: 'admin',
+                }),
+            });
+        } catch (error) {
+            console.error('Failed to save admin message:', error);
+            return;
+        }
 
         socketRef.current.emit('admin-message', messageData);
         addMessageToConversation(chatState.selectedVisitorId, messageData, 'admin');
         setInputMessage('');
-    };
-
-    const handleVisitorSelect = (visitor) => {
-        setChatState((prev) => ({
-            ...prev,
-            selectedVisitorId: visitor.id,
-            visitors: prev.visitors.map((v) => (v.id === visitor.id ? { ...v, unread: false } : v)),
-        }));
     };
 
     // Scroll to bottom when messages change
@@ -360,13 +474,57 @@ Respond naturally and concisely:`;
         scrollToBottom();
     }, [chatState.conversations]);
 
-    // Get current conversation messages
-    const currentMessages = chatState.selectedVisitorId ? chatState.conversations[chatState.selectedVisitorId]?.messages || [] : [];
+    // Add function to load chat history
+    const loadChatHistory = async () => {
+        if (!chatState.selectedWebsite || !dbUser?.id) return;
+
+        setChatState((prev) => ({ ...prev, isLoadingHistory: true, historyError: null }));
+
+        try {
+            console.log('Fetching chat history for website:', chatState.selectedWebsite.id);
+            const response = await fetch(`/api/chat/history?websiteId=${chatState.selectedWebsite.id}&userId=${dbUser.id}`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to load chat history');
+            }
+
+            console.log('Received chat history:', data);
+
+            if (data.conversations) {
+                setChatState((prev) => ({
+                    ...prev,
+                    chatHistory: data.conversations.map((conv) => ({
+                        id: conv.visitor_id,
+                        lastMessage: conv.last_message,
+                        timestamp: conv.last_message_at,
+                        messageCount: conv.message_count,
+                    })),
+                    isLoadingHistory: false,
+                }));
+            }
+        } catch (error) {
+            console.error('Failed to load chat history:', error);
+            setChatState((prev) => ({
+                ...prev,
+                historyError: error.message,
+                isLoadingHistory: false,
+            }));
+        }
+    };
+
+    // Load chat history when website changes or tab changes to history
+    useEffect(() => {
+        if (chatState.selectedWebsite && chatState.activeTab === 'history') {
+            loadChatHistory();
+        }
+    }, [chatState.selectedWebsite, chatState.activeTab]);
 
     return (
         <div className="flex h-screen bg-gray-50">
-            {/* Websites Selector */}
-            <div className="w-1/4 bg-white border-r border-gray-200">
+            {/* Websites Selector and Chat List */}
+            <div className="w-1/4 bg-white border-r border-gray-200 flex flex-col">
+                {/* Website Selector */}
                 <div className="p-4 border-b border-gray-200">
                     <h2 className="text-lg font-semibold">Your Websites</h2>
                     <select
@@ -409,26 +567,86 @@ Respond naturally and concisely:`;
                     {chatState.isAIResponding && <p className="text-sm text-blue-500 mt-2">AI is responding...</p>}
                 </div>
 
-                {/* Visitors List */}
+                {/* Chat Tabs */}
+                <div className="flex border-b border-gray-200">
+                    <button
+                        className={`flex-1 py-3 text-sm font-medium ${chatState.activeTab === 'live' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
+                        onClick={() => setChatState((prev) => ({ ...prev, activeTab: 'live' }))}>
+                        Live Chats {chatState.visitors.length > 0 && `(${chatState.visitors.length})`}
+                    </button>
+                    <button
+                        className={`flex-1 py-3 text-sm font-medium ${chatState.activeTab === 'history' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
+                        onClick={() => setChatState((prev) => ({ ...prev, activeTab: 'history' }))}>
+                        Chat History
+                    </button>
+                </div>
+
+                {/* Connection Status */}
                 <div className="p-4 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold">Visitors</h2>
                     <p className={`text-sm ${chatState.isConnected ? 'text-green-500' : 'text-red-500'}`}>{chatState.isConnected ? '🟢 Connected' : '🔴 Disconnected'}</p>
                 </div>
-                <div className="divide-y divide-gray-200">
-                    {chatState.visitors.map((visitor) => (
-                        <div
-                            key={visitor.id}
-                            className={`p-4 cursor-pointer hover:bg-gray-50 ${chatState.selectedVisitorId === visitor.id ? 'bg-blue-50' : ''}`}
-                            onClick={() => handleVisitorSelect(visitor)}>
-                            <div className="flex items-center justify-between">
-                                <span className="font-medium">Visitor {visitor.id.split('_')[1]}</span>
-                                {visitor.unread && <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">New</span>}
-                            </div>
-                            <p className="text-sm text-gray-500 truncate">{visitor.lastMessage}</p>
-                            <p className="text-xs text-gray-400">{new Date(visitor.timestamp).toLocaleTimeString()}</p>
+
+                {/* Chat List */}
+                <div className="flex-1 overflow-y-auto">
+                    {chatState.activeTab === 'live' ? (
+                        // Live Visitors
+                        <div className="divide-y divide-gray-200">
+                            {chatState.visitors.map((visitor) => (
+                                <div
+                                    key={visitor.id}
+                                    className={`p-4 cursor-pointer hover:bg-gray-50 ${chatState.selectedVisitorId === visitor.id ? 'bg-blue-50' : ''}`}
+                                    onClick={() => handleVisitorSelect(visitor)}>
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-medium">Visitor {visitor.id.split('_')[1]}</span>
+                                        {visitor.unread && <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">New</span>}
+                                    </div>
+                                    <p className="text-sm text-gray-500 truncate mt-1">{visitor.lastMessage}</p>
+                                    <p className="text-xs text-gray-400 mt-1">{new Date(visitor.timestamp).toLocaleTimeString()}</p>
+                                </div>
+                            ))}
+                            {chatState.visitors.length === 0 && <div className="p-4 text-center text-gray-500">No active visitors</div>}
                         </div>
-                    ))}
-                    {chatState.visitors.length === 0 && <div className="p-4 text-center text-gray-500">No visitors yet</div>}
+                    ) : (
+                        // Updated Chat History section
+                        <div className="divide-y divide-gray-200">
+                            {chatState.isLoadingHistory ? (
+                                <div className="p-4 text-center text-gray-500">
+                                    <div className="animate-spin inline-block w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full mb-2"></div>
+                                    <p>Loading chat history...</p>
+                                </div>
+                            ) : chatState.historyError ? (
+                                <div className="p-4 text-center text-red-500">
+                                    <p>Error: {chatState.historyError}</p>
+                                    <button onClick={loadChatHistory} className="mt-2 text-sm text-blue-500 hover:text-blue-600">
+                                        Try Again
+                                    </button>
+                                </div>
+                            ) : chatState.chatHistory.length === 0 ? (
+                                <div className="p-4 text-center text-gray-500">
+                                    <p>No chat history found</p>
+                                    <button onClick={loadChatHistory} className="mt-2 text-sm text-blue-500 hover:text-blue-600">
+                                        Refresh
+                                    </button>
+                                </div>
+                            ) : (
+                                chatState.chatHistory.map((chat) => (
+                                    <div
+                                        key={chat.id}
+                                        className={`p-4 cursor-pointer hover:bg-gray-50 ${chatState.selectedVisitorId === chat.id ? 'bg-blue-50' : ''}`}
+                                        onClick={() => handleVisitorSelect({ id: chat.id })}>
+                                        <div className="flex items-center justify-between">
+                                            <span className="font-medium">Visitor {chat.id.split('_')[1]}</span>
+                                            <span className="text-xs text-gray-400">{chat.messageCount} messages</span>
+                                        </div>
+                                        <p className="text-sm text-gray-500 truncate mt-1">{chat.lastMessage}</p>
+                                        <p className="text-xs text-gray-400 mt-1">
+                                            {new Date(chat.timestamp).toLocaleDateString()} {new Date(chat.timestamp).toLocaleTimeString()}
+                                        </p>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -438,6 +656,7 @@ Respond naturally and concisely:`;
                     <>
                         <div className="p-4 bg-white border-b border-gray-200">
                             <h2 className="text-lg font-semibold">Chat with Visitor {chatState.selectedVisitorId.split('_')[1]}</h2>
+                            <p className="text-sm text-gray-500">{chatState.activeTab === 'history' ? 'Viewing chat history' : 'Live chat'}</p>
                         </div>
                         <div className="flex-1 overflow-y-auto p-4 space-y-4">
                             {currentMessages.map((msg, idx) => (
@@ -458,19 +677,19 @@ Respond naturally and concisely:`;
                                     onChange={(e) => setInputMessage(e.target.value)}
                                     className="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     placeholder="Type your message..."
-                                    disabled={!chatState.isConnected}
+                                    disabled={!chatState.isConnected || chatState.activeTab === 'history'}
                                 />
                                 <button
                                     type="submit"
                                     className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                                    disabled={!chatState.isConnected || !inputMessage.trim()}>
+                                    disabled={!chatState.isConnected || !inputMessage.trim() || chatState.activeTab === 'history'}>
                                     Send
                                 </button>
                             </div>
                         </form>
                     </>
                 ) : (
-                    <div className="flex-1 flex items-center justify-center text-gray-500">Select a visitor to start chatting</div>
+                    <div className="flex-1 flex items-center justify-center text-gray-500">Select a {chatState.activeTab === 'live' ? 'visitor' : 'chat'} to start viewing</div>
                 )}
             </div>
         </div>

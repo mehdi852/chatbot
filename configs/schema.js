@@ -259,3 +259,26 @@ export const FooterCompanyLinks = pgTable('footer_company_links', {
     name: varchar('name', { length: 255 }).notNull(),
     url: varchar('url', { length: 255 }).notNull(),
 });
+
+// Chat Conversations table
+export const ChatConversations = pgTable('chat_conversations', {
+    id: serial('id').primaryKey(),
+    website_id: integer('website_id')
+        .references(() => Websites.id)
+        .notNull(),
+    visitor_id: varchar('visitor_id').notNull(),
+    last_message_at: timestamp('last_message_at').defaultNow().notNull(),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// Chat Messages table
+export const ChatMessages = pgTable('chat_messages', {
+    id: serial('id').primaryKey(),
+    conversation_id: integer('conversation_id')
+        .references(() => ChatConversations.id)
+        .notNull(),
+    message: text('message').notNull(),
+    type: varchar('type').notNull(), // 'admin' or 'visitor'
+    timestamp: timestamp('timestamp').defaultNow().notNull(),
+});
