@@ -39,7 +39,15 @@ export default async function RootLayout({ children }) {
         data-website-id="613914" 
         data-api-url="http://localhost:3000"
         async
-    ></script>      </head>
+    ></script>   
+    
+    <script 
+        src="https://www.vertexit.xyz/fa.js" 
+        data-website-id="292429" 
+        data-api-url="https://www.vertexit.xyz"
+        async
+    ></script>
+       </head>
             <body className={outfit.className}>
                 <ClientLayout>
                     <ThemeProvider>{children}</ThemeProvider>

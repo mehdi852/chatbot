@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useUserContext } from '@/app/provider';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
-
+import { MessageCircle } from 'lucide-react';
 export default function Sidebar() {
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +18,13 @@ export default function Sidebar() {
             iconRight: null,
             link: '/dashboard',
             active: true,
+        },
+        {
+            name: 'chat',
+            icon: MessageCircle,
+            iconRight: null,
+            link: '/dashboard/chat',
+            active: false,
         },
         {
             name: 'support',

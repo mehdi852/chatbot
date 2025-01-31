@@ -57,7 +57,11 @@ export async function GET(request) {
 
         return NextResponse.json({
             conversation,
-            messages,
+            messages: messages.map((msg) => ({
+                message: msg.message,
+                type: msg.type,
+                timestamp: msg.timestamp,
+            })),
         });
     } catch (error) {
         console.error('Error fetching conversation:', error);

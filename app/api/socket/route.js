@@ -1,115 +1,99 @@
 import { Server as SocketIOServer } from 'socket.io';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { db } from '@/configs/db';
-import { Websites } from '@/configs/schema';
-import { eq } from 'drizzle-orm';
+import { ChatConversations, ChatMessages, Websites } from '@/configs/schema';
+import { eq, and } from 'drizzle-orm';
+import { handleVisitorMessage } from '@/lib/socket/handlers/visitorHandler';
+import { handleAdminMessage } from '@/lib/socket/handlers/adminHandler';
+import { setupSocketAuth } from '@/lib/socket/auth';
+import { initializeSocket } from '@/lib/socket/initialize';
+
+// Initialize Gemini AI
+const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+
+// Helper function to get or create conversation
+async function getOrCreateConversation(websiteId, visitorId) {
+    const conversations = await db
+        .select()
+        .from(ChatConversations)
+        .where(and(eq(ChatConversations.website_id, websiteId), eq(ChatConversations.visitor_id, visitorId)));
+
+    if (conversations.length > 0) {
+        return conversations[0];
+    }
+
+    const [newConversation] = await db
+        .insert(ChatConversations)
+        .values({
+            website_id: websiteId,
+            visitor_id: visitorId,
+        })
+        .returning();
+
+    return newConversation;
+}
+
+// Helper function to save message
+async function saveMessage(conversationId, message, type) {
+    const [savedMessage] = await db
+        .insert(ChatMessages)
+        .values({
+            conversation_id: conversationId,
+            message: message,
+            type: type,
+        })
+        .returning();
+
+    // Update conversation last_message_at
+    await db.update(ChatConversations).set({ last_message_at: new Date() }).where(eq(ChatConversations.id, conversationId));
+
+    return savedMessage;
+}
+
+// Helper function to get website data
+async function getWebsiteData(websiteId) {
+    const websites = await db.select().from(Websites).where(eq(Websites.id, websiteId));
+    return websites[0];
+}
 
 export async function GET(req) {
     try {
+        console.log('Socket server initialization requested');
+
         if (global.io) {
+            console.log('Socket server already running');
             return new Response('Socket is already running');
         }
 
-        const io = new SocketIOServer({
-            cors: {
-                origin: '*',
-                methods: ['GET', 'POST'],
-            },
-            allowEIO3: true,
-            transports: ['websocket', 'polling'],
-            pingTimeout: 60000,
-            pingInterval: 25000,
-        });
-
-        io.listen(3001);
+        const io = await initializeSocket();
 
         // Middleware to authenticate socket connections
-        io.use(async (socket, next) => {
-            try {
-                const { websiteId, userId } = socket.handshake.query;
-
-                if (!websiteId || !userId) {
-                    return next(new Error('Missing required parameters'));
-                }
-
-                // Verify website ownership
-                const website = await db
-                    .select()
-                    .from(Websites)
-                    .where(eq(Websites.id, parseInt(websiteId)))
-                    .limit(1);
-
-                if (!website.length) {
-                    return next(new Error('Website not found'));
-                }
-
-                // For admin connections, verify website ownership
-                if (userId) {
-                    if (website[0].user_id !== parseInt(userId)) {
-                        return next(new Error('Unauthorized'));
-                    }
-                    socket.isAdmin = true;
-                } else {
-                    socket.isAdmin = false;
-                }
-
-                socket.websiteId = websiteId;
-                socket.userId = userId;
-                next();
-            } catch (error) {
-                return next(new Error('Authentication failed'));
-            }
-        });
+        io.use(setupSocketAuth);
 
         io.on('connection', (socket) => {
-            console.log('Client connected', socket.id);
+            console.log('Client connected', {
+                socketId: socket.id,
+                type: socket.type,
+                websiteId: socket.websiteId,
+                visitorId: socket.visitorId,
+                isAdmin: socket.isAdmin,
+            });
 
-            // Join website-specific room
-            const room = `website_${socket.websiteId}`;
-            socket.join(room);
+            // Join website-specific room (for all users)
+            const websiteRoom = `website_${socket.websiteId}`;
+            socket.join(websiteRoom);
 
-            // Create admin-specific room if it's an admin
+            // Join admin room if it's an admin
             if (socket.isAdmin) {
-                const adminRoom = `admin_${socket.websiteId}_${socket.userId}`;
+                const adminRoom = `admin_${socket.websiteId}`;
                 socket.join(adminRoom);
             }
 
-            socket.on('visitor-message', (data) => {
-                if (data.websiteId !== socket.websiteId) {
-                    console.error('Website ID mismatch');
-                    return;
-                }
+            // Handle visitor messages
+            socket.on('visitor-message', (data) => handleVisitorMessage(io, socket, data));
 
-                // Find admin sockets for this website
-                const adminSockets = Array.from(io.sockets.sockets.values()).filter((s) => s.isAdmin && s.websiteId === socket.websiteId);
-
-                if (adminSockets.length > 0) {
-                    // Send to all admin sockets for this website
-                    adminSockets.forEach((adminSocket) => {
-                        io.to(adminSocket.id).emit('admin-receive-message', {
-                            message: data.message,
-                            websiteId: data.websiteId,
-                            visitorId: data.visitorId,
-                            timestamp: new Date(),
-                        });
-                    });
-                }
-            });
-
-            socket.on('admin-message', (data) => {
-                if (!socket.isAdmin || data.websiteId !== socket.websiteId) {
-                    console.error('Unauthorized admin message');
-                    return;
-                }
-
-                // Send only to the specific visitor's room
-                const visitorRoom = `website_${data.websiteId}`;
-                io.to(visitorRoom).emit('visitor-receive-message', {
-                    message: data.message,
-                    websiteId: data.websiteId,
-                    visitorId: data.visitorId,
-                    timestamp: new Date(),
-                });
-            });
+            // Handle admin messages
+            socket.on('admin-message', (data) => handleAdminMessage(io, socket, data));
 
             socket.on('error', (error) => {
                 console.error('Socket error:', error);
@@ -117,11 +101,30 @@ export async function GET(req) {
 
             socket.on('disconnect', (reason) => {
                 console.log('Client disconnected', socket.id, reason);
-                const room = `website_${socket.websiteId}`;
-                socket.leave(room);
+                socket.leave(`website_${socket.websiteId}`);
                 if (socket.isAdmin) {
-                    const adminRoom = `admin_${socket.websiteId}_${socket.userId}`;
-                    socket.leave(adminRoom);
+                    socket.leave(`admin_${socket.websiteId}`);
+                }
+                socket.removeAllListeners();
+            });
+
+            // Handle AI state updates
+            socket.on('update-ai-state', (data) => {
+                if (socket.isAdmin && socket.websiteId === data.websiteId) {
+                    const websiteRoom = `website_${data.websiteId}`;
+                    const sockets = Array.from(io.sockets.sockets.values()).filter((s) => s.websiteId === data.websiteId);
+
+                    sockets.forEach((s) => {
+                        s.websiteData = {
+                            ...s.websiteData,
+                            isAiEnabled: data.isAiEnabled,
+                        };
+                    });
+
+                    io.to(websiteRoom).emit('ai-state-changed', {
+                        websiteId: data.websiteId,
+                        isAiEnabled: data.isAiEnabled,
+                    });
                 }
             });
         });

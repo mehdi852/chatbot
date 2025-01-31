@@ -89,7 +89,7 @@ export default function LandingPage() {
             </AnimatePresence>
 
             <Hero />
-            <TrustedBy />
+            {/* <TrustedBy /> */}
 
             {/* Key Features Section */}
             <section className="py-24 px-4 md:px-6 bg-background">

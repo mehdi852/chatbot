@@ -1,8 +1,8 @@
 List od things todo
 
-1. [x] change the environment  variable in the todo
-2. [x] add the visitor list to the chat state
-3. [x] add the visitor list to the chat state
-4. [x] add the visitor list to the chat state
-5. [x] add the visitor list to the chat state
+1. [v] When the user exists the chat , the history should be removed, rightnow is almost saved in the local storage
+2. [x] if the admin is not connected and ai is not enabled, then a response from the chat should say now  we are not connected to the admin, please try again later
 
+
+
+i need yout to make the widget a 20% longer and 10% wider, for the fa-widget-input-container its is not professional i need the height smaller also i need it to be enterprise level 

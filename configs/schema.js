@@ -140,6 +140,7 @@ export const Websites = pgTable('websites', {
     domain: varchar('domain').notNull(),
     favicon: varchar('favicon').notNull(),
     color: varchar('color').notNull(),
+    isAiEnabled: boolean('is_ai_enabled').notNull().default(false),
     created_at: timestamp('created_at').defaultNow().notNull(),
     updated_at: timestamp('updated_at').defaultNow().notNull(),
 });

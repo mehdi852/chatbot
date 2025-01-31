@@ -5,6 +5,7 @@ import { Users } from '@/configs/schema';
 import { useUser } from '@clerk/nextjs';
 import { eq } from 'drizzle-orm';
 import React, { useEffect, createContext, useContext, useState } from 'react';
+import { ChatProvider } from './contexts/ChatContext';
 
 // Create a context for the user
 const UserContext = createContext(null);
@@ -31,7 +32,11 @@ function Provider({ children }) {
         user && isNewUser();
     }, [user]);
 
-    return <UserContext.Provider value={{ user, dbUser }}>{children}</UserContext.Provider>;
+    return (
+        <UserContext.Provider value={{ user, dbUser }}>
+            <ChatProvider>{children}</ChatProvider>
+        </UserContext.Provider>
+    );
 }
 
 export default Provider;
