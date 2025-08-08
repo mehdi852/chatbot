@@ -234,6 +234,8 @@
             "addButton": "Add Website",
             "addDialog": {
                 "title": "Add New Website",
+                "name": "Website Name",
+                "namePlaceholder": "My Website",
                 "domain": "Domain",
                 "domainPlaceholder": "example.com"
             },
@@ -525,6 +527,16 @@
                     "advertising": "Advertising Popups",
                     "emailCollector": "Email Collectors"
                 }
+            },
+            "chatUsage": {
+                "title": "Chat Usage",
+                "description": "Track your chat conversations and AI responses",
+                "conversations": "Chat Conversations",
+                "conversationsDescription": "Total conversations with visitors",
+                "totalConversations": "Total Conversations",
+                "aiResponses": "AI Responses",
+                "aiResponsesDescription": "Total AI-generated responses",
+                "totalAiResponses": "Total AI Responses"
             }
         }
     },

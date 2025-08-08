@@ -451,3 +451,110 @@ body {
     background: white;
     min-height: 300px;
 }
+
+/* Chat Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slide-in {
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+.animate-pulse-glow {
+    animation: pulseGlow 2s infinite;
+}
+
+/* Chat Message Styles */
+.message-bubble {
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.message-bubble:hover {
+    transform: translateY(-1px);
+}
+
+.message-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 12px;
+    height: 12px;
+    transform: translateY(50%) rotate(45deg);
+    background: inherit;
+    border: inherit;
+    border-width: 0 0 1px 1px;
+}
+
+.message-bubble-visitor::before {
+    left: -6px;
+    border-radius: 0 0 0 3px;
+}
+
+.message-bubble-admin::before,
+.message-bubble-ai::before {
+    right: -6px;
+    border-radius: 0 0 3px 0;
+}
+
+/* Scrollbar Styles */
+.chat-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Input Focus Styles */
+.chat-input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.chat-input:hover {
+    border-color: #94a3b8;
+}

@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { User, CreditCard, Trash2, Settings, Bell, Shield, Activity, KeyRound, History, AlertCircle, Menu } from 'lucide-react';
 import UserEditorProfile from './UserEditorProfile';
 import UserEditorBilling from './UserEditorBilling';
+import UserEditorNotifications from './UserEditorNotifications';
 
 export default function UserEditor({ getTotalUsers, user }) {
     const { t } = useTranslation();
@@ -201,6 +202,7 @@ export default function UserEditor({ getTotalUsers, user }) {
                         <div className="p-4 sm:p-6">
                             {activeSection === 'profile' && <UserEditorProfile getTotalUsers={getTotalUsers} user={user} onUpdateSuccess={handleUpdateSuccess} />}
                             {activeSection === 'billing' && <UserEditorBilling getTotalUsers={getTotalUsers} user={user} onUpdateSuccess={handleUpdateSuccess} />}
+                            {activeSection === 'notifications' && <UserEditorNotifications user={user} onUpdateSuccess={handleUpdateSuccess} />}
                             {activeSection === 'activity' && renderActivityLog()}
                             {activeSection === 'delete-account' && renderDeleteAccount()}
                         </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Plus, MoreVertical, Pencil, Trash2, Loader2, Copy, Code2, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { Plus, MoreVertical, Trash2, Copy, Code2, ExternalLink, CheckCircle2, Sparkles, Globe, Layers, Settings, Info } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -72,28 +72,25 @@ const generateSafeId = () => {
 };
 
 export default function Dashboard() {
-    
     const { t } = useTranslation();
     const { metadata } = useMetadata();
     const [isLoading, setIsLoading] = useState(true);
     const [websites, setWebsites] = useState([]);
-    const [newWebsite, setNewWebsite] = useState({ domain: '', favicon: '' });
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [deleteTarget, setDeleteTarget] = useState(null);
+    const [subscriptionLimits, setSubscriptionLimits] = useState({});
+    const [newWebsite, setNewWebsite] = useState({ name: '', domain: '', favicon: '' });
     const [isSaving, setIsSaving] = useState(false);
-    const [subscriptionLimits, setSubscriptionLimits] = useState(null);
     const { toast } = useToast();
     const { dbUser } = useUserContext();
     const [open, setOpen] = useState(false);
+    const [copied, setCopied] = useState({});
 
     useEffect(() => {
         if (!dbUser) return;
         fetchWebsites();
         fetchSubscriptionLimits();
     }, [dbUser]);
-
-    // useEffect(() => {
-    //     // Update page title when metadata changes
-    //     document.title = `Dashboard - ${metadata.siteTitle}`;
-    // }, [metadata]);
 
     const fetchWebsites = async () => {
         try {
@@ -140,6 +137,15 @@ export default function Dashboard() {
             return;
         }
 
+        if (!newWebsite.name) {
+            toast({
+                title: 'Error',
+                description: 'Please enter a website name',
+                variant: 'destructive',
+            });
+            return;
+        }
+
         if (!newWebsite.domain) {
             toast({
                 title: 'Error',
@@ -152,14 +158,15 @@ export default function Dashboard() {
         const newId = generateSafeId();
         const newWebsiteData = {
             id: newId,
+            name: newWebsite.name,
             domain: newWebsite.domain,
             favicon: newWebsite.favicon || newWebsite.domain[0].toUpperCase(),
-            color: `bg-${['blue', 'pink', 'purple', 'green'][Math.floor(Math.random() * 4)]}-500`,
+            color: `bg-${['blue', 'pink', 'purple', 'green', 'indigo', 'teal'][Math.floor(Math.random() * 6)]}-500`,
             paths: [],
         };
 
         setWebsites((prev) => [...prev, newWebsiteData]);
-        setNewWebsite({ domain: '', favicon: '' });
+        setNewWebsite({ name: '', domain: '', favicon: '' });
 
         toast({
             variant: 'success',
@@ -243,71 +250,6 @@ export default function Dashboard() {
         }
     };
 
-    const handleSave = async () => {
-        if (!dbUser) {
-            toast({
-                title: 'Error',
-                description: 'User not authenticated',
-                variant: 'destructive',
-            });
-            return;
-        }
-
-        if (!websites.length) {
-            toast({
-                title: 'Nothing to save',
-                description: 'Add some websites first',
-                variant: 'destructive',
-            });
-            return;
-        }
-
-        setIsSaving(true);
-        try {
-            const response = await fetch('/api/user/save-project', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    websites: websites.map((website) => ({
-                        ...website,
-                        id: parseInt(website.id),
-                        paths: website.paths.map((path) => ({
-                            ...path,
-                            id: parseInt(path.id),
-                            popups: path.popups.map((popup) => ({
-                                ...popup,
-                                id: parseInt(popup.id),
-                            })),
-                        })),
-                    })),
-                    userId: dbUser.id,
-                }),
-            });
-
-            if (!response.ok) {
-                const error = await response.text();
-                throw new Error(error);
-            }
-
-            toast({
-                variant: 'success',
-                title: 'Success',
-                description: 'Your changes have been saved.',
-            });
-        } catch (error) {
-            console.error('Save error:', error);
-            toast({
-                title: 'Error',
-                description: 'Failed to save changes. Please try again.',
-                variant: 'destructive',
-            });
-        } finally {
-            setIsSaving(false);
-        }
-    };
-
     const getEmbedCode = (websiteId) => {
         const apiUrl = process.env.NEXT_PUBLIC_APP_URL || 'please-add-domain-in-your-environment-variable';
         return `<script 
@@ -319,97 +261,258 @@ export default function Dashboard() {
     };
 
     return (
-        <>
-          
-            <div className="max-w-[1400px] mx-auto p-4 lg:p-6 space-y-6 lg:space-y-8">
-                <DndStyles />
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
-                    <h1 className="text-2xl sm:text-3xl font-bold text-foreground">{t('dashboard.title')}</h1>
-                </div>
+        <div className="min-h-screen bg-gradient-to-b from-background to-background/80">
+            <DndStyles />
 
-                <section className="bg-card rounded-xl border border-border p-4 sm:p-6">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
-                        <div>
-                            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight mb-2 text-foreground">{t('dashboard.websites.title')}</h2>
-                            <p className="text-sm text-muted-foreground">{t('dashboard.websites.description')}</p>
-                        </div>
-                        <Dialog open={open} onOpenChange={setOpen}>
-                            <DialogTrigger asChild>
-                                <Button className="w-full sm:w-auto inline-flex items-center gap-2">
-                                    <Plus className="w-4 h-4" />
-                                    {t('dashboard.websites.addButton')}
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>{t('dashboard.websites.addDialog.title')}</DialogTitle>
-                                </DialogHeader>
-                                <div className="space-y-4 py-4">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="domain">{t('dashboard.websites.addDialog.domain')}</Label>
-                                        <Input
-                                            id="domain"
-                                            placeholder={t('dashboard.websites.addDialog.domainPlaceholder')}
-                                            value={newWebsite.domain}
-                                            onChange={(e) => setNewWebsite((prev) => ({ ...prev, domain: e.target.value }))}
-                                        />
-                                    </div>
-                                    <Button onClick={handleAddWebsite}>{t('dashboard.websites.addButton')}</Button>
-                                </div>
-                            </DialogContent>
-                        </Dialog>
+            {/* Dashboard Header */}
+            <div className="max-w-[1400px] mx-auto pt-8 pb-6 px-4 lg:px-8">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight text-foreground">{t('dashboard.title')}</h1>
+                        <p className="text-muted-foreground mt-1">Manage your websites and integrations</p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-                        {websites.map((website) => (
-                            <div key={website.id} className="flex items-center gap-3 p-4 rounded-xl border border-border bg-card hover:border-primary transition-all hover:shadow-lg">
-                                <div className={`w-10 sm:w-12 h-10 sm:h-12 ${website.color} rounded-xl flex items-center justify-center text-primary-foreground font-semibold shadow-sm`}>
-                                    {website.favicon}
+                    <Dialog open={open} onOpenChange={setOpen}>
+                        <DialogTrigger asChild>
+                            <Button size="default" className="gap-2 shadow-sm">
+                                <Plus className="w-4 h-4" />
+                                {t('dashboard.websites.addButton')}
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-md">
+                            <DialogHeader>
+                                <DialogTitle className="text-xl">{t('dashboard.websites.addDialog.title')}</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4 py-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="name">{t('dashboard.websites.addDialog.name')}</Label>
+                                    <Input
+                                        id="name"
+                                        placeholder={t('dashboard.websites.addDialog.namePlaceholder')}
+                                        value={newWebsite.name}
+                                        onChange={(e) => setNewWebsite((prev) => ({ ...prev, name: e.target.value }))}
+                                        className="focus-visible:ring-primary"
+                                    />
                                 </div>
-                                <div className="flex-1 min-w-0">
-                                    <h3 className="font-medium truncate text-foreground">{website.domain}</h3>
-                                    <p className="text-sm text-muted-foreground">
-                                        {website.paths.length} {t('dashboard.websites.paths')}
-                                    </p>
+                                <div className="space-y-2">
+                                    <Label htmlFor="domain">{t('dashboard.websites.addDialog.domain')}</Label>
+                                    <Input
+                                        id="domain"
+                                        placeholder={t('dashboard.websites.addDialog.domainPlaceholder')}
+                                        value={newWebsite.domain}
+                                        onChange={(e) => setNewWebsite((prev) => ({ ...prev, domain: e.target.value }))}
+                                        className="focus-visible:ring-primary"
+                                    />
                                 </div>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="icon" className="shrink-0">
-                                            <MoreVertical className="w-4 h-4" />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
-                                        <DropdownMenuItem className="text-destructive" onClick={(e) => handleDeleteWebsite(website.id, e)}>
-                                            <Trash2 className="w-4 h-4 mr-2" /> {t('dashboard.websites.actions.delete')}
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                                <Button onClick={handleAddWebsite} className="w-full" disabled={isSaving}>
+                                    {isSaving ? (
+                                        <>
+                                            <span className="animate-spin mr-2">⏳</span>
+                                            {t('common.saving')}
+                                        </>
+                                    ) : (
+                                        t('dashboard.websites.addButton')
+                                    )}
+                                </Button>
                             </div>
-                        ))}
+                        </DialogContent>
+                    </Dialog>
+                </div>
+            </div>
+
+            <div className="max-w-[1400px] mx-auto px-4 lg:px-8 pb-16 space-y-8">
+                {/* Stats Overview */}
+                {websites.length > 0 && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
+                            <CardHeader className="pb-2">
+                                <CardTitle className="text-sm font-medium text-muted-foreground">Total Websites</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex items-center justify-between">
+                                    <div className="text-2xl font-bold">{websites.length}</div>
+                                    <div className="p-2 bg-primary/10 rounded-full">
+                                        <Globe className="h-5 w-5 text-primary" />
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
+                            <CardHeader className="pb-2">
+                                <CardTitle className="text-sm font-medium text-muted-foreground">Total Paths</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex items-center justify-between">
+                                    <div className="text-2xl font-bold">{websites.reduce((acc, website) => acc + website.paths.length, 0)}</div>
+                                    <div className="p-2 bg-primary/10 rounded-full">
+                                        <Layers className="h-5 w-5 text-primary" />
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
+                            <CardHeader className="pb-2">
+                                <CardTitle className="text-sm font-medium text-muted-foreground">Subscription</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex items-center justify-between">
+                                    <div className="text-lg font-bold">{subscriptionLimits?.plan || 'Free'}</div>
+                                    <div className="p-2 bg-primary/10 rounded-full">
+                                        <Sparkles className="h-5 w-5 text-primary" />
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
+                            <CardHeader className="pb-2">
+                                <CardTitle className="text-sm font-medium text-muted-foreground">Settings</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex items-center justify-between">
+                                    <div className="text-lg font-medium">Manage</div>
+                                    <Button variant="ghost" size="icon" className="rounded-full">
+                                        <Settings className="h-5 w-5" />
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                )}
+
+                {/* Websites Section */}
+                <section className="bg-card rounded-xl border border-border/40 shadow-sm overflow-hidden">
+                    <div className="p-6 border-b border-border/40">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+                            <div>
+                                <h2 className="text-xl font-semibold tracking-tight mb-1 text-foreground flex items-center gap-2">
+                                    <Globe className="w-5 h-5 text-primary" />
+                                    {t('dashboard.websites.title')}
+                                </h2>
+                                <p className="text-sm text-muted-foreground">{t('dashboard.websites.description')}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="p-6">
+                        {isLoading ? (
+                            <div className="flex justify-center items-center py-12">
+                                <div className="animate-spin text-primary text-2xl">⏳</div>
+                            </div>
+                        ) : websites.length === 0 ? (
+                            <div className="text-center py-12 px-4">
+                                <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                                    <Globe className="w-8 h-8 text-primary" />
+                                </div>
+                                <h3 className="text-lg font-medium mb-2">No websites yet</h3>
+                                <p className="text-muted-foreground mb-6 max-w-md mx-auto">Add your first website to get started with integrations and tracking.</p>
+                                <Button onClick={() => setOpen(true)} className="gap-2">
+                                    <Plus className="w-4 h-4" />
+                                    Add Website
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+                                {websites.map((website) => (
+                                    <div
+                                        key={website.id}
+                                        className="group relative flex flex-col p-5 rounded-xl border border-border/40 bg-card hover:border-primary/30 transition-all hover:shadow-md">
+                                        <div className="absolute top-3 right-3">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" size="icon" className="h-8 w-8 opacity-70 group-hover:opacity-100">
+                                                        <MoreVertical className="w-4 h-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuItem className="text-destructive" onClick={(e) => handleDeleteWebsite(website.id, e)}>
+                                                        <Trash2 className="w-4 h-4 mr-2" />
+                                                        {t('dashboard.websites.actions.delete')}
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </div>
+
+                                        <div className="flex items-center gap-4 mb-4">
+                                            <div className={`w-12 h-12 ${website.color} rounded-lg flex items-center justify-center text-primary-foreground font-semibold shadow-sm`}>
+                                                {website.favicon}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <h3 className="font-medium truncate text-foreground">{website.domain}</h3>
+                                                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                                    <Layers className="w-3 h-3" />
+                                                    <span>
+                                                        {website.paths.length} {t('dashboard.websites.paths')}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/30">
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="text-xs"
+                                                onClick={() => {
+                                                    navigator.clipboard.writeText(getEmbedCode(website.id));
+                                                    toast({
+                                                        variant: 'success',
+                                                        title: t('dashboard.integration.success.codeCopied'),
+                                                        description: t('dashboard.integration.success.codeCopiedDesc'),
+                                                    });
+                                                }}>
+                                                <Copy className="w-3 h-3 mr-1" />
+                                                Copy Code
+                                            </Button>
+
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="text-xs"
+                                                onClick={() => {
+                                                    window.open(`https://${website.domain}`, '_blank');
+                                                }}>
+                                                <ExternalLink className="w-3 h-3 mr-1" />
+                                                Visit
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </section>
 
+                {/* Integration Section */}
                 {websites.length > 0 && (
-                    <section className="bg-card rounded-xl border border-border">
-                        <div className="p-4 sm:p-6 border-b border-border">
-                            <h2 className="text-lg sm:text-xl font-semibold mb-2 text-foreground">{t('dashboard.integration.title')}</h2>
+                    <section className="bg-card rounded-xl border border-border/40 shadow-sm overflow-hidden">
+                        <div className="p-6 border-b border-border/40">
+                            <h2 className="text-xl font-semibold tracking-tight mb-1 text-foreground flex items-center gap-2">
+                                <Code2 className="w-5 h-5 text-primary" />
+                                {t('dashboard.integration.title')}
+                            </h2>
                             <p className="text-sm text-muted-foreground">{t('dashboard.integration.description')}</p>
                         </div>
 
-                        <div className="p-4 sm:p-6">
-                            <div className="grid gap-6">
-                                <div className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
-                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                        <div className="p-6">
+                            <div className="grid gap-8">
+                                <div className="flex flex-col sm:flex-row items-start gap-4">
+                                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                                         <span className="text-primary font-semibold">1</span>
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="text-base font-medium mb-1 text-foreground">{t('dashboard.integration.step1.title')}</h3>
+                                        <h3 className="text-base font-medium mb-2 text-foreground">{t('dashboard.integration.step1.title')}</h3>
                                         <p className="text-sm text-muted-foreground mb-4">{t('dashboard.integration.step1.description')}</p>
 
                                         <Tabs defaultValue={websites[0].id.toString()} className="w-full">
-                                            <TabsList className="mb-4 flex-wrap">
+                                            <TabsList className="mb-4 flex-wrap bg-muted/50 p-1">
                                                 {websites.map((website) => (
-                                                    <TabsTrigger key={website.id} value={website.id.toString()} className="flex items-center gap-2 text-xs sm:text-sm">
+                                                    <TabsTrigger
+                                                        key={website.id}
+                                                        value={website.id.toString()}
+                                                        className="flex items-center gap-2 text-xs sm:text-sm data-[state=active]:bg-background">
                                                         <div className={`w-3 sm:w-4 h-3 sm:h-4 ${website.color} rounded-full`}></div>
                                                         <span className="truncate max-w-[100px] sm:max-w-none">{website.domain}</span>
                                                     </TabsTrigger>
@@ -418,13 +521,16 @@ export default function Dashboard() {
 
                                             {websites.map((website) => (
                                                 <TabsContent key={website.id} value={website.id.toString()}>
-                                                    <Card>
+                                                    <Card className="border-border/40 shadow-sm">
                                                         <CardHeader className="pb-3">
                                                             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                                                                <CardTitle className="text-sm font-medium">Integration Code</CardTitle>
+                                                                <CardTitle className="text-sm font-medium flex items-center gap-2">
+                                                                    <Code2 className="w-4 h-4 text-primary" />
+                                                                    Integration Code
+                                                                </CardTitle>
                                                                 <div className="flex items-center gap-2 w-full sm:w-auto">
                                                                     <Button
-                                                                        variant="ghost"
+                                                                        variant="outline"
                                                                         size="sm"
                                                                         className="flex-1 sm:flex-none"
                                                                         onClick={() => {
@@ -434,7 +540,7 @@ export default function Dashboard() {
                                                                         {t('dashboard.integration.buttons.visitSite')}
                                                                     </Button>
                                                                     <Button
-                                                                        variant="ghost"
+                                                                        variant="default"
                                                                         size="sm"
                                                                         className="flex-1 sm:flex-none"
                                                                         onClick={() => {
@@ -453,7 +559,7 @@ export default function Dashboard() {
                                                         </CardHeader>
                                                         <CardContent>
                                                             <div className="relative">
-                                                                <pre className="p-4 bg-muted rounded-lg text-xs sm:text-sm overflow-x-auto border border-border">
+                                                                <pre className="p-4 bg-muted/50 rounded-lg text-xs sm:text-sm overflow-x-auto border border-border/40">
                                                                     <code className="text-foreground break-all sm:break-normal">{getEmbedCode(website.id)}</code>
                                                                 </pre>
                                                                 <div className="absolute top-3 right-3">
@@ -468,20 +574,20 @@ export default function Dashboard() {
                                     </div>
                                 </div>
 
-                                <div className="flex items-start space-x-4">
-                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                <div className="flex items-start gap-4">
+                                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                                         <span className="text-primary font-semibold">2</span>
                                     </div>
-                                    <div>
-                                        <h3 className="text-base font-medium mb-1 text-foreground">{t('dashboard.integration.step2.title')}</h3>
+                                    <div className="flex-1">
+                                        <h3 className="text-base font-medium mb-2 text-foreground">{t('dashboard.integration.step2.title')}</h3>
                                         <p className="text-sm text-muted-foreground mb-4">{t('dashboard.integration.step2.description')}</p>
-                                        <Card>
+                                        <Card className="border-border/40 shadow-sm">
                                             <CardContent className="p-4">
-                                                <div className="flex items-center gap-4">
-                                                    <CheckCircle2 className="w-5 h-5 text-primary" />
+                                                <div className="flex items-start gap-4">
+                                                    <CheckCircle2 className="w-5 h-5 text-primary mt-0.5" />
                                                     <div>
                                                         <p className="text-sm font-medium text-foreground">{t('dashboard.integration.step2.checklist.title')}</p>
-                                                        <ul className="text-sm text-muted-foreground list-disc ml-5 mt-2">
+                                                        <ul className="text-sm text-muted-foreground list-disc ml-5 mt-2 space-y-1">
                                                             {t('dashboard.integration.step2.checklist.items', { returnObjects: true }).map((item, index) => (
                                                                 <li key={index}>{item}</li>
                                                             ))}
@@ -494,22 +600,22 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 p-4 bg-primary/10 rounded-lg">
+                            <div className="mt-8 p-4 bg-primary/5 rounded-lg border border-primary/10">
                                 <div className="flex flex-col sm:flex-row items-start gap-3">
-                                    <div className="p-2 bg-primary/20 rounded shrink-0">
-                                        <Code2 className="w-4 h-4 text-primary" />
+                                    <div className="p-2 bg-primary/10 rounded-full shrink-0">
+                                        <Info className="w-4 h-4 text-primary" />
                                     </div>
                                     <div>
                                         <h4 className="text-sm font-medium text-foreground mb-1">{t('dashboard.help.title')}</h4>
                                         <p className="text-sm text-muted-foreground">
                                             {t('dashboard.help.description', {
                                                 integrationGuide: (
-                                                    <a key="guide" href="#" className="underline text-primary hover:text-primary/90">
+                                                    <a key="guide" href="#" className="text-primary hover:text-primary/90 underline underline-offset-4">
                                                         {t('dashboard.help.integrationGuide')}
                                                     </a>
                                                 ),
                                                 contactSupport: (
-                                                    <a key="support" href="#" className="underline text-primary hover:text-primary/90">
+                                                    <a key="support" href="#" className="text-primary hover:text-primary/90 underline underline-offset-4">
                                                         {t('dashboard.help.contactSupport')}
                                                     </a>
                                                 ),
@@ -522,6 +628,6 @@ export default function Dashboard() {
                     </section>
                 )}
             </div>
-        </>
+        </div>
     );
 }

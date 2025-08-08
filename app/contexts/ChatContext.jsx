@@ -10,9 +10,8 @@ export function ChatProvider({ children }) {
     const { dbUser } = useUserContext();
     const socketRef = useRef(null);
 
-    // Unified chat state to prevent inconsistencies
     const [chatState, setChatState] = useState({
-        conversations: {}, // Format: { visitorId: { messages: [], lastRead: timestamp } }
+        conversations: {},
         visitors: [],
         selectedVisitorId: null,
         selectedWebsite: null,
@@ -22,9 +21,36 @@ export function ChatProvider({ children }) {
         chatHistory: [],
         isLoadingHistory: false,
         historyError: null,
+        isSoundMuted: false,
+        typingIndicators: {},
     });
 
-    // Helper function to add message to conversation
+    // remove the conversation from the chatState.conversations AND visitors array
+    const removeConversation = (visitorId) => {
+        setChatState((prev) => {
+            const updatedConversations = Object.keys(prev.conversations)
+                .filter((key) => key !== visitorId)
+                .reduce((obj, key) => {
+                    obj[key] = prev.conversations[key];
+                    return obj;
+                }, {});
+
+            // Filter out the visitor from the visitors array
+            const updatedVisitors = prev.visitors.filter((visitor) => visitor.id !== visitorId);
+
+            // Filter out the conversation from chat history if we're in history mode
+            const updatedChatHistory = prev.chatHistory.filter((chat) => chat.id !== visitorId);
+
+            return {
+                ...prev,
+                conversations: updatedConversations,
+                visitors: updatedVisitors,
+                chatHistory: updatedChatHistory,
+                selectedVisitorId: prev.selectedVisitorId === visitorId ? null : prev.selectedVisitorId,
+            };
+        });
+    };
+    // Helper function to add message to conversation (IDEMPOTENT)
     const addMessageToConversation = (visitorId, message, type) => {
         console.log('Adding message to conversation:', {
             visitorId,
@@ -33,17 +59,38 @@ export function ChatProvider({ children }) {
         });
 
         setChatState((prev) => {
-            const conversation = prev.conversations[visitorId] || { messages: [], lastRead: new Date() };
+            const conversation = prev.conversations[visitorId] || {
+                messages: [],
+                lastRead: new Date(),
+                pagination: { page: 1, hasMore: true },
+            };
 
             const newMessage = {
                 type,
                 message: typeof message === 'string' ? message : message.message,
                 timestamp: message.timestamp || new Date().toISOString(),
+                browser: message.browser || '',
+                country: message.country || '',
             };
+
+            // Check if the message already exists (IDEMPOTENCY CHECK)
+            const messageExists = conversation.messages.some((existingMessage) => existingMessage.timestamp === newMessage.timestamp);
+
+            if (messageExists) {
+                // If the message already exists, don't add it again.
+                return prev;
+            }
+
+            // Add new message at the *END* for real-time messages
+            const updatedMessages = [...conversation.messages, newMessage];
+
+            // Sort messages by timestamp to ensure correct order
+            updatedMessages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 
             const updatedConversation = {
                 ...conversation,
-                messages: [...conversation.messages, newMessage],
+                messages: updatedMessages, // Use sorted messages
+                pagination: conversation.pagination,
             };
 
             return {
@@ -56,7 +103,7 @@ export function ChatProvider({ children }) {
         });
     };
 
-    // Helper function to update visitor list
+    // Helper function to update visitor list (SIMPLIFIED)
     const updateVisitorsList = (visitorId, lastMessage, websiteId) => {
         setChatState((prev) => {
             const existingVisitor = prev.visitors.find((v) => v.id === visitorId);
@@ -81,6 +128,8 @@ export function ChatProvider({ children }) {
                           websiteId,
                       },
                   ];
+
+            // NO INCREMENT LOGIC HERE
 
             return {
                 ...prev,
@@ -152,6 +201,10 @@ export function ChatProvider({ children }) {
                 } catch (error) {
                     console.error('Failed to fetch websites:', error);
                 }
+            } else {
+                // If no user is authenticated, the embedded widget can still work
+                // The socket connection will use the websiteId from the widget script
+                console.log('No authenticated user - embedded widget mode');
             }
         };
         fetchWebsites();
@@ -178,12 +231,31 @@ export function ChatProvider({ children }) {
             setChatState((prev) => ({ ...prev, isConnected: false }));
         });
 
-        // Modified socket event handler for admin-receive-message
+        // Modified socket event handler for admin-receive-message (CORRECTED)
         socketInstance.on('admin-receive-message', async (data) => {
             if (data.websiteId.toString() === chatState.selectedWebsite?.id.toString()) {
                 console.log('Received visitor message:', data);
                 addMessageToConversation(data.visitorId, data, 'visitor');
-                updateVisitorsList(data.visitorId, data.message, data.websiteId);
+                updateVisitorsList(data.visitorId, data.message, data.websiteId); // No isNewConversation
+
+                // Show AI typing indicator ONLY when visitor sends a message and AI is enabled
+                // Use setChatState callback to get current AI state instead of stale closure
+                setChatState((currentState) => {
+                    if (currentState.selectedWebsite?.isAiEnabled) {
+                        // Add a small delay to make it look more natural
+                        setTimeout(() => {
+                            showTypingIndicator(data.visitorId);
+                        }, 500);
+                    }
+                    return currentState; // Return state unchanged
+                });
+
+                // Increment conversation count ONLY if it's a new conversation
+                if (data.isNewConversation && dbUser?.id) {
+                    fetch(`/api/user/increment-stats?userId=${dbUser.id}&stat=conversations`).catch((error) => {
+                        console.error('Failed to increment conversations count:', error);
+                    });
+                }
             }
         });
 
@@ -194,8 +266,16 @@ export function ChatProvider({ children }) {
                 // Only add message if it's AI or from a different admin
                 if (data.type === 'ai' || (data.type === 'admin' && data.userId && parseInt(data.userId) !== dbUser.id)) {
                     const messageType = data.type === 'admin' ? 'admin' : 'ai';
+
+                    // If it's an AI response, just hide typing indicator
+                    // (AI response count is already incremented on the server side)
+                    if (messageType === 'ai') {
+                        // Hide typing indicator when AI responds
+                        hideTypingIndicator(data.visitorId);
+                    }
+
                     addMessageToConversation(data.visitorId, data, messageType);
-                    updateVisitorsList(data.visitorId, data.message, data.websiteId);
+                    updateVisitorsList(data.visitorId, data.message, data.websiteId); // No isNewConversation
                 }
             }
         });
@@ -204,24 +284,33 @@ export function ChatProvider({ children }) {
         socketInstance.on('ai-state-changed', (data) => {
             console.log('Received AI state change:', data);
             if (data.websiteId === chatState.selectedWebsite?.id) {
-                setChatState((prev) => ({
-                    ...prev,
-                    userWebsites: prev.userWebsites.map((website) =>
-                        website.id === data.websiteId
-                            ? {
-                                  ...website,
-                                  isAiEnabled: data.isAiEnabled,
-                              }
-                            : website
-                    ),
-                    selectedWebsite:
-                        prev.selectedWebsite?.id === data.websiteId
-                            ? {
-                                  ...prev.selectedWebsite,
-                                  isAiEnabled: data.isAiEnabled,
-                              }
-                            : prev.selectedWebsite,
-                }));
+                setChatState((prev) => {
+                    const updatedState = {
+                        ...prev,
+                        userWebsites: prev.userWebsites.map((website) =>
+                            website.id === data.websiteId
+                                ? {
+                                      ...website,
+                                      isAiEnabled: data.isAiEnabled,
+                                  }
+                                : website
+                        ),
+                        selectedWebsite:
+                            prev.selectedWebsite?.id === data.websiteId
+                                ? {
+                                      ...prev.selectedWebsite,
+                                      isAiEnabled: data.isAiEnabled,
+                                  }
+                                : prev.selectedWebsite,
+                    };
+                    
+                    // If AI is being disabled, clear all typing indicators
+                    if (!data.isAiEnabled) {
+                        updatedState.typingIndicators = {};
+                    }
+                    
+                    return updatedState;
+                });
             }
         });
 
@@ -259,6 +348,9 @@ export function ChatProvider({ children }) {
 
                     cleanup = setupSocketListeners(socketInstance);
                     socketRef.current = socketInstance;
+                    
+                    // Set global reference for typing events (temporary solution)
+                    window.globalChatSocket = socketInstance;
                 } catch (error) {
                     console.error('Socket initialization failed:', error);
                 }
@@ -278,6 +370,28 @@ export function ChatProvider({ children }) {
         };
     }, [chatState.selectedWebsite, dbUser, chatState.selectedWebsite?.isAiEnabled]);
 
+    // Helper function to show typing indicator for a visitor
+    const showTypingIndicator = (visitorId) => {
+        setChatState((prev) => ({
+            ...prev,
+            typingIndicators: {
+                ...prev.typingIndicators,
+                [visitorId]: true,
+            },
+        }));
+    };
+
+    // Helper function to hide typing indicator for a visitor
+    const hideTypingIndicator = (visitorId) => {
+        setChatState((prev) => ({
+            ...prev,
+            typingIndicators: {
+                ...prev.typingIndicators,
+                [visitorId]: false,
+            },
+        }));
+    };
+
     // Function to send a message
     const sendMessage = async (message, visitorId) => {
         if (!message.trim() || !socketRef.current?.connected || !visitorId || !dbUser?.id) return;
@@ -294,10 +408,61 @@ export function ChatProvider({ children }) {
         try {
             socketRef.current.emit('admin-message', messageData);
             addMessageToConversation(visitorId, messageData, 'admin');
+
+            // Don't show AI typing indicator when admin sends a manual message
+            // AI typing indicator should only be triggered by visitor messages
+
             return true;
         } catch (error) {
             console.error('Failed to send message:', error);
             return false;
+        }
+    };
+
+    // Function to load more messages for a conversation (CORRECTED - for initial load and pagination)
+    const loadMoreMessages = async (visitorId) => {
+        if (!chatState.selectedWebsite || !dbUser?.id || !visitorId) return;
+
+        const conversation = chatState.conversations[visitorId];
+        if (!conversation || !conversation.pagination?.hasMore) return;
+
+        const nextPage = (conversation.pagination?.page || 1) + 1;
+
+        try {
+            const response = await fetch(`/api/chat/conversation?websiteId=${chatState.selectedWebsite.id}&visitorId=${visitorId}&userId=${dbUser.id}&page=${nextPage}&limit=10`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to load more messages');
+            }
+
+            if (data.messages) {
+                setChatState((prev) => {
+                    const existingMessages = prev.conversations[visitorId]?.messages || [];
+                    // Ensure messages are unique and ordered correctly
+                    const newMessages = data.messages.filter((newMessage) => !existingMessages.some((existingMessage) => existingMessage.timestamp === newMessage.timestamp));
+
+                    const updatedMessages = [...existingMessages, ...newMessages]; //Append new messages.
+                    updatedMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)); // sort messages by date
+
+                    return {
+                        ...prev,
+                        conversations: {
+                            ...prev.conversations,
+                            [visitorId]: {
+                                ...prev.conversations[visitorId], // keep other props
+                                messages: updatedMessages,
+                                pagination: {
+                                    page: nextPage,
+                                    hasMore: data.pagination.page < data.pagination.totalPages,
+                                },
+                            },
+                        },
+                    };
+                });
+            }
+        } catch (error) {
+            console.error('Failed to load more messages:', error);
         }
     };
 
@@ -307,12 +472,13 @@ export function ChatProvider({ children }) {
             ...prev,
             selectedVisitorId: visitor.id,
             visitors: prev.visitors.map((v) => (v.id === visitor.id ? { ...v, unread: false } : v)),
+            // Clear any typing indicators when switching visitors
+            typingIndicators: {},
         }));
 
-        // Only load conversation if we don't have it already or if it's from history tab
         if (chatState.selectedWebsite && (!chatState.conversations[visitor.id] || chatState.activeTab === 'history')) {
             try {
-                const response = await fetch(`/api/chat/conversation?websiteId=${chatState.selectedWebsite.id}&visitorId=${visitor.id}&userId=${dbUser?.id}`);
+                const response = await fetch(`/api/chat/conversation?websiteId=${chatState.selectedWebsite.id}&visitorId=${visitor.id}&userId=${dbUser?.id}&page=1&limit=10`);
                 const data = await response.json();
 
                 if (!response.ok) {
@@ -320,17 +486,20 @@ export function ChatProvider({ children }) {
                 }
 
                 if (data.messages) {
+                    // Sort messages from the initial load
+                    const sortedMessages = data.messages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
                     setChatState((prev) => ({
                         ...prev,
                         conversations: {
                             ...prev.conversations,
                             [visitor.id]: {
-                                messages: data.messages.map((msg) => ({
-                                    message: msg.message,
-                                    type: msg.type,
-                                    timestamp: msg.timestamp,
-                                })),
+                                messages: sortedMessages, // Use sorted messages here
                                 lastRead: new Date(),
+                                pagination: {
+                                    page: 1,
+                                    hasMore: data.pagination.page < data.pagination.totalPages,
+                                },
                             },
                         },
                     }));
@@ -349,6 +518,8 @@ export function ChatProvider({ children }) {
             conversations: {},
             visitors: [],
             selectedVisitorId: null,
+            // Clear any typing indicators when switching websites
+            typingIndicators: {},
         }));
 
         if (socketRef.current) {
@@ -416,6 +587,10 @@ export function ChatProvider({ children }) {
         }
     };
 
+    const toggleSound = () => {
+        setChatState((prev) => ({ ...prev, isSoundMuted: !prev.isSoundMuted }));
+    };
+
     return (
         <ChatContext.Provider
             value={{
@@ -426,6 +601,9 @@ export function ChatProvider({ children }) {
                 toggleAI,
                 loadChatHistory,
                 setActiveTab,
+                loadMoreMessages,
+                toggleSound,
+                removeConversation,
             }}>
             {children}
         </ChatContext.Provider>

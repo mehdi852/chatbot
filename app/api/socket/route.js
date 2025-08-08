@@ -56,6 +56,12 @@ async function getWebsiteData(websiteId) {
     return websites[0];
 }
 
+// Helper function to check if any admins are online for a website
+function isAnyAdminOnline(io, websiteId) {
+    const sockets = Array.from(io.sockets.sockets.values());
+    return sockets.some(socket => socket.isAdmin && socket.websiteId === websiteId);
+}
+
 export async function GET(req) {
     try {
         console.log('Socket server initialization requested');
@@ -87,6 +93,15 @@ export async function GET(req) {
             if (socket.isAdmin) {
                 const adminRoom = `admin_${socket.websiteId}`;
                 socket.join(adminRoom);
+                
+                // Notify all visitors in this website that an agent is online
+                socket.to(websiteRoom).emit('agent-status-changed', {
+                    websiteId: socket.websiteId,
+                    online: true,
+                    timestamp: new Date()
+                });
+                
+                console.log(`Agent connected for website ${socket.websiteId} - notifying visitors`);
             }
 
             // Handle visitor messages
@@ -94,6 +109,63 @@ export async function GET(req) {
 
             // Handle admin messages
             socket.on('admin-message', (data) => handleAdminMessage(io, socket, data));
+            
+            // Handle admin typing events
+            socket.on('admin-typing', (data) => {
+                if (socket.isAdmin && data.websiteId === socket.websiteId) {
+                    // Forward typing event to the specific visitor
+                    const visitorRoom = `visitor_${data.visitorId}`;
+                    socket.to(visitorRoom).emit('admin-typing', {
+                        websiteId: data.websiteId,
+                        visitorId: data.visitorId,
+                        timestamp: new Date()
+                    });
+                    
+                    // Also emit to website room for broader visibility
+                    const websiteRoom = `website_${data.websiteId}`;
+                    socket.to(websiteRoom).emit('admin-typing', {
+                        websiteId: data.websiteId,
+                        visitorId: data.visitorId,
+                        timestamp: new Date()
+                    });
+                    
+                    console.log(`Admin typing event forwarded to visitor ${data.visitorId} in website ${data.websiteId}`);
+                }
+            });
+            
+            socket.on('admin-stop-typing', (data) => {
+                if (socket.isAdmin && data.websiteId === socket.websiteId) {
+                    // Forward stop typing event to the specific visitor
+                    const visitorRoom = `visitor_${data.visitorId}`;
+                    socket.to(visitorRoom).emit('admin-stop-typing', {
+                        websiteId: data.websiteId,
+                        visitorId: data.visitorId,
+                        timestamp: new Date()
+                    });
+                    
+                    // Also emit to website room for broader visibility
+                    const websiteRoom = `website_${data.websiteId}`;
+                    socket.to(websiteRoom).emit('admin-stop-typing', {
+                        websiteId: data.websiteId,
+                        visitorId: data.visitorId,
+                        timestamp: new Date()
+                    });
+                    
+                    console.log(`Admin stop typing event forwarded to visitor ${data.visitorId} in website ${data.websiteId}`);
+                }
+            });
+            
+            // Handle agent status check requests
+            socket.on('check-agent-status', (data) => {
+                if (data.websiteId === socket.websiteId) {
+                    const isOnline = isAnyAdminOnline(io, socket.websiteId);
+                    socket.emit('agent-status-changed', {
+                        websiteId: socket.websiteId,
+                        online: isOnline,
+                        timestamp: new Date()
+                    });
+                }
+            });
 
             socket.on('error', (error) => {
                 console.error('Socket error:', error);
@@ -101,10 +173,31 @@ export async function GET(req) {
 
             socket.on('disconnect', (reason) => {
                 console.log('Client disconnected', socket.id, reason);
-                socket.leave(`website_${socket.websiteId}`);
-                if (socket.isAdmin) {
-                    socket.leave(`admin_${socket.websiteId}`);
+                const websiteId = socket.websiteId;
+                const wasAdmin = socket.isAdmin;
+                
+                socket.leave(`website_${websiteId}`);
+                if (wasAdmin) {
+                    socket.leave(`admin_${websiteId}`);
+                    
+                    // Check if any other admins are still online for this website
+                    // We need to check after a short delay to ensure the socket is fully disconnected
+                    setTimeout(() => {
+                        const stillHasAdmins = isAnyAdminOnline(io, websiteId);
+                        if (!stillHasAdmins) {
+                            // No admins online anymore, notify visitors
+                            const websiteRoom = `website_${websiteId}`;
+                            io.to(websiteRoom).emit('agent-status-changed', {
+                                websiteId: websiteId,
+                                online: false,
+                                timestamp: new Date()
+                            });
+                            
+                            console.log(`All agents disconnected for website ${websiteId} - notifying visitors`);
+                        }
+                    }, 100);
                 }
+                
                 socket.removeAllListeners();
             });
 

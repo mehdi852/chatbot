@@ -9,6 +9,9 @@ export const Users = pgTable('users', {
     role: varchar('role').notNull().default('user'),
     subscription: boolean('subscription').notNull().default(false),
     subscription_ends_at: timestamp('subscription_ends_at').default(null),
+    number_of_websites: integer('number_of_websites').notNull().default(0),
+    number_of_conversations: integer('number_of_conversations').notNull().default(0),
+    number_of_ai_responses: integer('number_of_ai_responses').notNull().default(0),
     status: varchar('status').notNull().default('active'),
     created_at: timestamp('created_at').defaultNow().notNull(), // Correct syntax
 });
@@ -137,10 +140,29 @@ export const Websites = pgTable('websites', {
     user_id: integer('user_id')
         .references(() => Users.id)
         .notNull(),
+    name: varchar('name', { length: 255 }).notNull().default('name'),
     domain: varchar('domain').notNull(),
     favicon: varchar('favicon').notNull(),
     color: varchar('color').notNull(),
     isAiEnabled: boolean('is_ai_enabled').notNull().default(false),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// Table for notifications
+export const Notifications = pgTable('notifications', {
+    id: serial('id').primaryKey(),
+    user_id: integer('user_id')
+        .references(() => Users.id)
+        .notNull(),
+    title: varchar('title', { length: 255 }).notNull(),
+    description: text('description').notNull(),
+    type: varchar('type', { length: 50 }).notNull().default('info'), // message, task, system, alert, info
+    priority: varchar('priority', { length: 20 }).notNull().default('low'), // critical, high, medium, low
+    read: boolean('read').notNull().default(false),
+    action_url: varchar('action_url', { length: 255 }),
+    sender_name: varchar('sender_name', { length: 255 }),
+    sender_avatar: varchar('sender_avatar', { length: 255 }),
     created_at: timestamp('created_at').defaultNow().notNull(),
     updated_at: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -214,6 +236,8 @@ export const SubscriptionLimits = pgTable('subscription_limits', {
     max_websites: integer('max_websites').notNull().default(1),
     max_paths_per_website: integer('max_paths_per_website').notNull().default(3),
     max_popups_per_path: integer('max_popups_per_path').notNull().default(5),
+    max_chat_conversations: integer('max_chat_conversations').notNull().default(1),
+    max_ai_responses: integer('max_ai_responses').notNull().default(1),
     allow_advertising: boolean('allow_advertising').notNull().default(false),
     allow_email_collector: boolean('allow_email_collector').notNull().default(false),
     created_at: timestamp('created_at').defaultNow().notNull(),
@@ -282,4 +306,6 @@ export const ChatMessages = pgTable('chat_messages', {
     message: text('message').notNull(),
     type: varchar('type').notNull(), // 'admin' or 'visitor'
     timestamp: timestamp('timestamp').defaultNow().notNull(),
+    browser: varchar('browser', { length: 255 }).notNull().default(''),
+    country: varchar('country', { length: 255 }).notNull().default(''),
 });

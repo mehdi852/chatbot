@@ -13,12 +13,9 @@ export async function POST(req) {
         revalidatePath('/dashboard');
 
         // Get existing websites for this user
-        const existingWebsites = await db
-            .select({ id: Websites.id })
-            .from(Websites)
-            .where(eq(Websites.user_id, userId));
+        const existingWebsites = await db.select({ id: Websites.id }).from(Websites).where(eq(Websites.user_id, userId));
 
-        const existingWebsiteIds = existingWebsites.map(w => w.id);
+        const existingWebsiteIds = existingWebsites.map((w) => w.id);
 
         // For each website in the incoming data
         for (const website of websites) {
@@ -52,35 +49,23 @@ export async function POST(req) {
 
             // Delete existing paths and popups for this website
             if (websiteExists) {
-                const existingPaths = await db
-                    .select({ id: WebsitePaths.id })
-                    .from(WebsitePaths)
-                    .where(eq(WebsitePaths.website_id, websiteId));
+                const existingPaths = await db.select({ id: WebsitePaths.id }).from(WebsitePaths).where(eq(WebsitePaths.website_id, websiteId));
 
                 for (const path of existingPaths) {
                     // Get all popups for this path
-                    const popups = await db
-                        .select({ id: WebsitePopups.id })
-                        .from(WebsitePopups)
-                        .where(eq(WebsitePopups.path_id, path.id));
+                    const popups = await db.select({ id: WebsitePopups.id }).from(WebsitePopups).where(eq(WebsitePopups.path_id, path.id));
 
                     // Delete collected emails for each popup
                     for (const popup of popups) {
-                        await db
-                            .delete(CollectedEmails)
-                            .where(eq(CollectedEmails.popup_id, popup.id));
+                        await db.delete(CollectedEmails).where(eq(CollectedEmails.popup_id, popup.id));
                     }
 
                     // Now safe to delete popups
-                    await db
-                        .delete(WebsitePopups)
-                        .where(eq(WebsitePopups.path_id, path.id));
+                    await db.delete(WebsitePopups).where(eq(WebsitePopups.path_id, path.id));
                 }
 
                 // Finally delete the paths
-                await db
-                    .delete(WebsitePaths)
-                    .where(eq(WebsitePaths.website_id, websiteId));
+                await db.delete(WebsitePaths).where(eq(WebsitePaths.website_id, websiteId));
             }
 
             // Insert new paths and popups
@@ -160,33 +145,22 @@ export async function DELETE(req) {
         // For each path, delete associated popups and collected emails
         for (const path of paths) {
             // Get popups for this path
-            const popups = await db
-                .select({ id: WebsitePopups.id })
-                .from(WebsitePopups)
-                .where(eq(WebsitePopups.path_id, path.id));
+            const popups = await db.select({ id: WebsitePopups.id }).from(WebsitePopups).where(eq(WebsitePopups.path_id, path.id));
 
             // Delete collected emails for each popup
             for (const popup of popups) {
-                await db
-                    .delete(CollectedEmails)
-                    .where(eq(CollectedEmails.popup_id, popup.id));
+                await db.delete(CollectedEmails).where(eq(CollectedEmails.popup_id, popup.id));
             }
 
             // Delete popups
-            await db
-                .delete(WebsitePopups)
-                .where(eq(WebsitePopups.path_id, path.id));
+            await db.delete(WebsitePopups).where(eq(WebsitePopups.path_id, path.id));
         }
 
         // Delete paths
-        await db
-            .delete(WebsitePaths)
-            .where(eq(WebsitePaths.website_id, parseInt(websiteId)));
+        await db.delete(WebsitePaths).where(eq(WebsitePaths.website_id, parseInt(websiteId)));
 
         // Finally delete the website
-        await db
-            .delete(Websites)
-            .where(eq(Websites.id, parseInt(websiteId)));
+        await db.delete(Websites).where(eq(Websites.id, parseInt(websiteId)));
 
         revalidatePath('/dashboard');
 

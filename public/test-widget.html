@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded Chatbot Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: -20px -20px 40px -20px;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .feature {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .cta {
+            background: #007bff;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to Our Website</h1>
+        <p>This is a test page demonstrating the embedded chatbot widget</p>
+    </div>
+
+    <div class="content">
+        <h2>About Our Service</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+
+        <div class="feature">
+            <h3>Feature 1: Real-time Chat</h3>
+            <p>Connect with our support team instantly through our AI-powered chatbot. Get answers to your questions 24/7.</p>
+        </div>
+
+        <div class="feature">
+            <h3>Feature 2: Smart AI Responses</h3>
+            <p>Our chatbot uses advanced AI to understand your questions and provide relevant, helpful responses.</p>
+        </div>
+
+        <div class="feature">
+            <h3>Feature 3: Seamless Integration</h3>
+            <p>The chat widget integrates seamlessly with your website without requiring user authentication.</p>
+        </div>
+
+        <a href="#" class="cta">Try Our Service</a>
+
+        <h2>How to Use</h2>
+        <p>Look for the chat button in the bottom-right corner of this page. Click it to start a conversation with our AI assistant!</p>
+        
+        <h2>Instructions for Testing</h2>
+        <ol>
+            <li>Make sure your chatbot server is running (npm run dev)</li>
+            <li>Make sure you have at least one website configured in your dashboard</li>
+            <li>Replace the data-website-id below with your actual website ID</li>
+            <li>The chatbot should work even when you're not logged in to the admin panel</li>
+            <li>Open your browser's Developer Tools (F12) to see console logs</li>
+            <li>Check the Network tab to see if API calls are being made</li>
+        </ol>
+        <p><strong>Current websiteId:</strong> 613914 (from your error message)</p>
+    </div>
+
+    <!-- Embedded Chatbot Widget -->
+    <!-- Using websiteId from your error message -->
+    <script 
+        src="http://localhost:3002/fa.js" 
+        data-website-id="613914"
+        data-api-url="http://localhost:3002">
+    </script>
+</body>
+</html>

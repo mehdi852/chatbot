@@ -1,6 +1,6 @@
 import { db } from '@/configs/db';
 import { ChatConversations, ChatMessages, Websites } from '@/configs/schema';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, desc, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 // Helper function to verify website ownership
@@ -21,6 +21,9 @@ export async function GET(request) {
         const websiteId = searchParams.get('websiteId');
         const visitorId = searchParams.get('visitorId');
         const userId = searchParams.get('userId');
+        const limit = parseInt(searchParams.get('limit')) || 10;
+        const page = parseInt(searchParams.get('page')) || 1;
+        const offset = (page - 1) * limit;
 
         if (!websiteId || !visitorId || !userId) {
             return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
@@ -52,8 +55,14 @@ export async function GET(request) {
             conversation = newConversation;
         }
 
-        // Get messages for this conversation
-        const messages = await db.select().from(ChatMessages).where(eq(ChatMessages.conversation_id, conversation.id)).orderBy(ChatMessages.timestamp);
+        // Get total message count
+        const [messageCount] = await db
+            .select({ count: sql`count(*)::int` })
+            .from(ChatMessages)
+            .where(eq(ChatMessages.conversation_id, conversation.id));
+
+        // Get messages for this conversation with pagination
+        const messages = await db.select().from(ChatMessages).where(eq(ChatMessages.conversation_id, conversation.id)).orderBy(desc(ChatMessages.timestamp)).limit(limit).offset(offset);
 
         return NextResponse.json({
             conversation,
@@ -61,7 +70,15 @@ export async function GET(request) {
                 message: msg.message,
                 type: msg.type,
                 timestamp: msg.timestamp,
+                browser: msg.browser,
+                country: msg.country,
             })),
+            pagination: {
+                total: messageCount.count,
+                page,
+                limit,
+                totalPages: Math.ceil(messageCount.count / limit),
+            },
         });
     } catch (error) {
         console.error('Error fetching conversation:', error);

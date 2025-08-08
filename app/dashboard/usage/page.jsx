@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, MessageSquare, Users, BarChart2, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useUserContext } from '@/app/provider';
@@ -9,38 +9,22 @@ import { useTranslation } from 'react-i18next';
 import { UsageLimitIndicator } from '@/components/UsageLimitIndicator';
 import { SubscriptionStatus } from '@/components/SubscriptionStatus';
 
-
 export default function UsagePage() {
     const { t } = useTranslation();
-    const [websites, setWebsites] = useState([]);
     const [subscriptionLimits, setSubscriptionLimits] = useState(null);
-    const [expandedWebsites, setExpandedWebsites] = useState({});
-    const [isUsageSectionExpanded, setIsUsageSectionExpanded] = useState(true);
+    const [isChatSectionExpanded, setIsChatSectionExpanded] = useState(true);
+    const [chatStats, setChatStats] = useState({
+        conversations: 0,
+        aiResponses: 0,
+    });
     const { toast } = useToast();
     const { dbUser } = useUserContext();
 
-
     useEffect(() => {
         if (!dbUser) return;
-        fetchWebsites();
         fetchSubscriptionLimits();
+        fetchChatStats();
     }, [dbUser]);
-
-    const fetchWebsites = async () => {
-        try {
-            const response = await fetch(`/api/user/get-project?userId=${dbUser.id}`);
-            if (!response.ok) throw new Error('Failed to fetch project');
-            const data = await response.json();
-            setWebsites(data);
-        } catch (error) {
-            console.error('Fetch error:', error);
-            toast({
-                title: 'Error',
-                description: 'Failed to load your project. Please refresh the page.',
-                variant: 'destructive',
-            });
-        }
-    };
 
     const fetchSubscriptionLimits = async () => {
         if (!dbUser) return;
@@ -59,12 +43,35 @@ export default function UsagePage() {
         }
     };
 
-    const toggleWebsiteExpansion = (websiteId) => {
-        setExpandedWebsites((prev) => ({
-            ...prev,
-            [websiteId]: !prev[websiteId],
-        }));
+    const fetchChatStats = async () => {
+        if (!dbUser) return;
+
+        try {
+            const response = await fetch(`/api/user/get_user_usage?userId=${dbUser.id}`);
+            if (!response.ok) throw new Error('Failed to fetch chat stats');
+            const data = await response.json();
+            setChatStats({
+                conversations: data.number_of_conversations || 0,
+                aiResponses: data.number_of_ai_responses || 0,
+            });
+        } catch (error) {
+            console.error('Failed to fetch chat stats:', error);
+            toast({
+                title: 'Error',
+                description: 'Failed to load chat usage statistics',
+                variant: 'destructive',
+            });
+        }
     };
+
+    // Calculate percentage for progress bars
+    const getPercentage = (current, max) => {
+        if (!max) return 0;
+        return Math.min((current / max) * 100, 100);
+    };
+
+    const conversationsPercentage = getPercentage(chatStats.conversations, subscriptionLimits?.max_chat_conversations || 1);
+    const aiResponsesPercentage = getPercentage(chatStats.aiResponses, subscriptionLimits?.max_ai_responses || 1);
 
     return (
         <div className="max-w-[1400px] mx-auto p-4 lg:p-6 space-y-8">
@@ -74,82 +81,133 @@ export default function UsagePage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                <div className="lg:col-span-2">
-                    <div className="bg-card dark:bg-card/95 rounded-xl border border-border shadow-sm">
+                <div className="lg:col-span-2 space-y-6">
+                    {/* Chat Usage Section */}
+                    <div className="bg-card dark:bg-card/95 rounded-xl border border-border shadow-sm overflow-hidden">
                         <div className="p-6 border-b border-border">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h2 className="text-lg font-semibold text-foreground">{t('usagePage.sections.usageLimits.title')}</h2>
-                                    <p className="text-sm text-muted-foreground mt-1">{t('usagePage.sections.usageLimits.description')}</p>
+                                    <h2 className="text-lg font-semibold text-foreground">{t('usagePage.sections.chatUsage.title', 'Chat Usage')}</h2>
+                                    <p className="text-sm text-muted-foreground mt-1">{t('usagePage.sections.chatUsage.description', 'Track your chat conversations and AI responses')}</p>
                                 </div>
-                                <Button variant="ghost" size="sm" onClick={() => setIsUsageSectionExpanded(!isUsageSectionExpanded)} className="h-8 w-8">
-                                    <ChevronDown className={`w-4 h-4 transition-transform ${isUsageSectionExpanded ? 'transform rotate-180' : ''}`} />
+                                <Button variant="ghost" size="sm" onClick={() => setIsChatSectionExpanded(!isChatSectionExpanded)} className="h-8 w-8">
+                                    <ChevronDown className={`w-4 h-4 transition-transform ${isChatSectionExpanded ? 'transform rotate-180' : ''}`} />
                                 </Button>
                             </div>
                         </div>
-                        {isUsageSectionExpanded && (
-                            <div className="p-6 space-y-6">
-                                <UsageLimitIndicator current={websites.length} max={subscriptionLimits?.max_websites || 0} label="usagePage.sections.usageLimits.totalWebsites" />
-
-                                <div className="space-y-4">
-                                    {websites.map((website) => (
-                                        <div key={website.id} className="border border-border dark:border-border/80 rounded-lg p-4">
-                                            <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleWebsiteExpansion(website.id)}>
-                                                <div className="flex items-center gap-3">
-                                                    <div className={`w-8 h-8 ${website.color} rounded-lg flex items-center justify-center text-white font-semibold`}>{website.favicon}</div>
-                                                    <div>
-                                                        <h3 className="font-medium text-foreground">{website.domain}</h3>
-                                                        <p className="text-sm text-muted-foreground">{website.paths.length} Paths</p>
-                                                    </div>
-                                                </div>
-                                                <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${expandedWebsites[website.id] ? 'transform rotate-180' : ''}`} />
+                        {isChatSectionExpanded && (
+                            <div className="p-6 space-y-8">
+                                {/* Usage Summary Cards */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="bg-background/50 rounded-lg p-5 border border-border/50 hover:shadow-md transition-shadow">
+                                        <div className="flex items-center gap-4 mb-4">
+                                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                                <MessageSquare className="w-6 h-6 text-primary" />
                                             </div>
-
-                                            {expandedWebsites[website.id] && (
-                                                <div className="mt-4 space-y-3 pl-11">
-                                                    <UsageLimitIndicator
-                                                        current={website.paths.length}
-                                                        max={subscriptionLimits?.max_paths_per_website || 0}
-                                                        label="usagePage.sections.usageLimits.paths"
-                                                        size="sm"
-                                                    />
-
-                                                    {website.paths.map((path) => (
-                                                        <div key={path.id} className="pl-4 border-l border-border dark:border-border/60">
-                                                            <p className="text-sm font-medium mb-2 text-foreground">{path.name}</p>
-                                                            <UsageLimitIndicator
-                                                                current={path.popups.length}
-                                                                max={subscriptionLimits?.max_popups_per_path || 0}
-                                                                label="usagePage.sections.usageLimits.popups"
-                                                                size="sm"
-                                                            />
-                                                        </div>
-                                                    ))}
-
-                                                    <div className="pt-2 border-t border-border dark:border-border/60 mt-4">
-                                                        <div className="grid grid-cols-2 gap-2">
-                                                            <div className="flex items-center gap-2">
-                                                                <div
-                                                                    className={`w-2 h-2 rounded-full ${
-                                                                        subscriptionLimits?.allow_advertising ? 'bg-green-500 dark:bg-green-600' : 'bg-gray-300 dark:bg-gray-600'
-                                                                    }`}
-                                                                />
-                                                                <span className="text-sm text-muted-foreground">{t('usagePage.sections.usageLimits.features.advertising')}</span>
-                                                            </div>
-                                                            <div className="flex items-center gap-2">
-                                                                <div
-                                                                    className={`w-2 h-2 rounded-full ${
-                                                                        subscriptionLimits?.allow_email_collector ? 'bg-green-500 dark:bg-green-600' : 'bg-gray-300 dark:bg-gray-600'
-                                                                    }`}
-                                                                />
-                                                                <span className="text-sm text-muted-foreground">{t('usagePage.sections.usageLimits.features.emailCollector')}</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
+                                            <div>
+                                                <h3 className="font-medium text-lg">{t('usagePage.sections.chatUsage.conversations', 'Chat Conversations')}</h3>
+                                                <p className="text-sm text-muted-foreground">{t('usagePage.sections.chatUsage.conversationsDescription', 'Total conversations with visitors')}</p>
+                                            </div>
                                         </div>
-                                    ))}
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between items-center">
+                                                <span className="font-medium text-foreground">{chatStats.conversations}</span>
+                                                <span className="text-sm text-muted-foreground">
+                                                    {t('usagePage.sections.chatUsage.totalConversations', 'Total Conversations')}: {chatStats.conversations} /{' '}
+                                                    {subscriptionLimits?.max_chat_conversations || 0}
+                                                </span>
+                                            </div>
+                                            <div className="h-2 bg-gray-100 dark:bg-secondary rounded-full overflow-hidden">
+                                                <div
+                                                    className={`h-full rounded-full transition-all ${
+                                                        conversationsPercentage > 90
+                                                            ? 'bg-red-500 dark:bg-red-600'
+                                                            : conversationsPercentage > 70
+                                                            ? 'bg-yellow-500 dark:bg-yellow-600'
+                                                            : 'bg-green-500 dark:bg-green-600'
+                                                    }`}
+                                                    style={{ width: `${conversationsPercentage}%` }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-background/50 rounded-lg p-5 border border-border/50 hover:shadow-md transition-shadow">
+                                        <div className="flex items-center gap-4 mb-4">
+                                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                                <Zap className="w-6 h-6 text-primary" />
+                                            </div>
+                                            <div>
+                                                <h3 className="font-medium text-lg">{t('usagePage.sections.chatUsage.aiResponses', 'AI Responses')}</h3>
+                                                <p className="text-sm text-muted-foreground">{t('usagePage.sections.chatUsage.aiResponsesDescription', 'Total AI-generated responses')}</p>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between items-center">
+                                                <span className="font-medium text-foreground">{chatStats.aiResponses}</span>
+                                                <span className="text-sm text-muted-foreground">
+                                                    {t('usagePage.sections.chatUsage.totalAiResponses', 'Total AI Responses')}: {chatStats.aiResponses} / {subscriptionLimits?.max_ai_responses || 0}
+                                                </span>
+                                            </div>
+                                            <div className="h-2 bg-gray-100 dark:bg-secondary rounded-full overflow-hidden">
+                                                <div
+                                                    className={`h-full rounded-full transition-all ${
+                                                        aiResponsesPercentage > 90
+                                                            ? 'bg-red-500 dark:bg-red-600'
+                                                            : aiResponsesPercentage > 70
+                                                            ? 'bg-yellow-500 dark:bg-yellow-600'
+                                                            : 'bg-green-500 dark:bg-green-600'
+                                                    }`}
+                                                    style={{ width: `${aiResponsesPercentage}%` }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Usage Trends */}
+                                <div className="bg-background/50 rounded-lg p-5 border border-border/50">
+                                    <div className="flex items-center gap-4 mb-4">
+                                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                            <BarChart2 className="w-6 h-6 text-primary" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-medium text-lg">Usage Overview</h3>
+                                            <p className="text-sm text-muted-foreground">Summary of your chat usage</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                        <div className="p-4 bg-card rounded-lg border border-border/50">
+                                            <h4 className="text-sm font-medium mb-2">Conversations Usage</h4>
+                                            <div className="flex items-end gap-2">
+                                                <div className="text-2xl font-bold">{Math.round(conversationsPercentage)}%</div>
+                                                <div className="text-sm text-muted-foreground">of limit used</div>
+                                            </div>
+                                            <div className="mt-2 text-xs text-muted-foreground">
+                                                {conversationsPercentage >= 80 ? (
+                                                    <span className="text-amber-500 dark:text-amber-400">You're approaching your limit. Consider upgrading your plan.</span>
+                                                ) : (
+                                                    <span>You have plenty of conversations available.</span>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="p-4 bg-card rounded-lg border border-border/50">
+                                            <h4 className="text-sm font-medium mb-2">AI Responses Usage</h4>
+                                            <div className="flex items-end gap-2">
+                                                <div className="text-2xl font-bold">{Math.round(aiResponsesPercentage)}%</div>
+                                                <div className="text-sm text-muted-foreground">of limit used</div>
+                                            </div>
+                                            <div className="mt-2 text-xs text-muted-foreground">
+                                                {aiResponsesPercentage >= 80 ? (
+                                                    <span className="text-amber-500 dark:text-amber-400">You're approaching your limit. Consider upgrading your plan.</span>
+                                                ) : (
+                                                    <span>You have plenty of AI responses available.</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -157,6 +215,15 @@ export default function UsagePage() {
                 </div>
                 <div className="lg:sticky lg:top-6">
                     <SubscriptionStatus subscription={subscriptionLimits} />
+
+                    {/* Upgrade CTA Card */}
+                    <div className="mt-6 bg-card dark:bg-card/95 rounded-lg border border-border p-5 space-y-4">
+                        <h3 className="font-semibold">Need More Resources?</h3>
+                        <p className="text-sm text-muted-foreground">Upgrade your plan to get more conversations and AI responses for your chat application.</p>
+                        <Button className="w-full" onClick={() => (window.location.href = '/pricing')}>
+                            View Pricing Plans
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>

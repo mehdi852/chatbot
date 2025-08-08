@@ -29,7 +29,7 @@ const Settings = () => {
     const [sitePhone, setSitePhone] = useState('');
     const [siteEmail, setSiteEmail] = useState('');
 
-    const { toast } = useToast();
+    const { toast } = useToast();on
 
     const tabs = [
         {
@@ -264,6 +264,8 @@ const Settings = () => {
                             max_websites: limits.max_websites || 0,
                             max_paths_per_website: limits.max_paths_per_website || 0,
                             max_popups_per_path: limits.max_popups_per_path || 0,
+                            max_chat_conversations: limits.max_chat_conversations || 0,
+                            max_ai_responses: limits.max_ai_responses || 0,
                             allow_advertising: limits.allow_advertising || false,
                             allow_email_collector: limits.allow_email_collector || false,
                         };
@@ -309,6 +311,8 @@ const Settings = () => {
                             max_websites: parseInt(subscription.max_websites) || 0,
                             max_paths_per_website: parseInt(subscription.max_paths_per_website) || 0,
                             max_popups_per_path: parseInt(subscription.max_popups_per_path) || 0,
+                            max_chat_conversations: parseInt(subscription.max_chat_conversations) || 0,
+                            max_ai_responses: parseInt(subscription.max_ai_responses) || 0,
                             allow_advertising: Boolean(subscription.allow_advertising),
                             allow_email_collector: Boolean(subscription.allow_email_collector),
                         }),
@@ -335,85 +339,118 @@ const Settings = () => {
 
         if (isLoading) {
             return (
-                <div className="flex items-center justify-center p-8">
-                    <Loader2 className="w-8 h-8 animate-spin" />
+                <div className="flex items-center justify-center p-10">
+                    <Loader2 className="w-10 h-10 animate-spin text-primary" />
                 </div>
             );
         }
 
         return (
-            <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h3 className="text-lg font-medium">{t('adminPage.settings.usageLimits.title')}</h3>
-                        <p className="text-sm text-muted-foreground">{t('adminPage.settings.usageLimits.description')}</p>
+            <Card className="border-border shadow-sm hover:shadow-md transition-shadow duration-300">
+                <CardHeader className="space-y-2 pb-6">
+                    <CardTitle className="text-2xl font-semibold text-foreground">{t('adminPage.settings.usageLimits.title')}</CardTitle>
+                    <CardDescription className="text-base text-muted-foreground">{t('adminPage.settings.usageLimits.description')}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-8">
+                    <div className="flex justify-end">
+                        <Button 
+                            onClick={handleSaveChanges} 
+                            disabled={!hasChanges}
+                            className={`h-11 px-6 transition-all duration-200 ${hasChanges ? 'bg-primary hover:bg-primary/90' : 'bg-muted text-muted-foreground'}`}
+                        >
+                            {t('adminPage.settings.usageLimits.buttons.saveChanges')}
+                        </Button>
                     </div>
-                    <Button onClick={handleSaveChanges} disabled={!hasChanges}>
-                        {t('adminPage.settings.usageLimits.buttons.saveChanges')}
-                    </Button>
-                </div>
 
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>{t('adminPage.settings.usageLimits.table.subscription')}</TableHead>
-                            <TableHead>{t('adminPage.settings.usageLimits.table.maxWebsites')}</TableHead>
-                            <TableHead>{t('adminPage.settings.usageLimits.table.maxPathsPerWebsite')}</TableHead>
-                            <TableHead>{t('adminPage.settings.usageLimits.table.maxPopupsPerPath')}</TableHead>
-                            <TableHead>{t('adminPage.settings.usageLimits.table.features')}</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {subscriptionTypes.map((subscription) => (
-                            <TableRow key={subscription.id}>
-                                <TableCell className="font-medium">{subscription.name}</TableCell>
-                                <TableCell>
-                                    <Input
-                                        type="number"
-                                        value={subscription.max_websites}
-                                        onChange={(e) => handleLimitChange(subscription.id, 'max_websites', e.target.value)}
-                                        className="w-20"
-                                        min="0"
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <Input
-                                        type="number"
-                                        value={subscription.max_paths_per_website}
-                                        onChange={(e) => handleLimitChange(subscription.id, 'max_paths_per_website', e.target.value)}
-                                        className="w-20"
-                                        min="0"
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <Input
-                                        type="number"
-                                        value={subscription.max_popups_per_path}
-                                        onChange={(e) => handleLimitChange(subscription.id, 'max_popups_per_path', e.target.value)}
-                                        className="w-20"
-                                        min="0"
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-4">
-                                        <div className="flex items-center gap-2">
-                                            <Checkbox checked={subscription.allow_advertising} onCheckedChange={(checked) => handleLimitChange(subscription.id, 'allow_advertising', checked)} />
-                                            <Label>Advertising</Label>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Checkbox
-                                                checked={subscription.allow_email_collector}
-                                                onCheckedChange={(checked) => handleLimitChange(subscription.id, 'allow_email_collector', checked)}
+                    <div className="rounded-lg border border-border overflow-hidden">
+                        <Table>
+                            <TableHeader className="bg-muted">
+                                <TableRow>
+                                    <TableHead className="font-semibold">{t('adminPage.settings.usageLimits.table.subscription')}</TableHead>
+                                    <TableHead className="font-semibold">{t('adminPage.settings.usageLimits.table.maxWebsites')}</TableHead>
+                                    <TableHead className="font-semibold">Max Chat Conversations</TableHead>
+                                    <TableHead className="font-semibold">Max AI Responses</TableHead>
+                                    <TableHead className="font-semibold">{t('adminPage.settings.usageLimits.table.maxPathsPerWebsite')}</TableHead>
+                                    <TableHead className="font-semibold">{t('adminPage.settings.usageLimits.table.maxPopupsPerPath')}</TableHead>
+                                    <TableHead className="font-semibold">{t('adminPage.settings.usageLimits.table.features')}</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {subscriptionTypes.map((subscription, index) => (
+                                    <TableRow key={subscription.id} className={index % 2 === 0 ? 'bg-background' : 'bg-muted/30'}>
+                                        <TableCell className="font-medium text-foreground">{subscription.name}</TableCell>
+                                        <TableCell>
+                                            <Input
+                                                type="number"
+                                                value={subscription.max_websites}
+                                                onChange={(e) => handleLimitChange(subscription.id, 'max_websites', e.target.value)}
+                                                className="w-24 h-10 text-center border-border focus:border-ring transition-all duration-200"
+                                                min="0"
                                             />
-                                            <Label>Email Collector</Label>
-                                        </div>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Input
+                                                type="number"
+                                                value={subscription.max_chat_conversations}
+                                                onChange={(e) => handleLimitChange(subscription.id, 'max_chat_conversations', e.target.value)}
+                                                className="w-24 h-10 text-center border-border focus:border-ring transition-all duration-200"
+                                                min="0"
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Input
+                                                type="number"
+                                                value={subscription.max_ai_responses}
+                                                onChange={(e) => handleLimitChange(subscription.id, 'max_ai_responses', e.target.value)}
+                                                className="w-24 h-10 text-center border-border focus:border-ring transition-all duration-200"
+                                                min="0"
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Input
+                                                type="number"
+                                                value={subscription.max_paths_per_website}
+                                                onChange={(e) => handleLimitChange(subscription.id, 'max_paths_per_website', e.target.value)}
+                                                className="w-24 h-10 text-center border-border focus:border-ring transition-all duration-200"
+                                                min="0"
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Input
+                                                type="number"
+                                                value={subscription.max_popups_per_path}
+                                                onChange={(e) => handleLimitChange(subscription.id, 'max_popups_per_path', e.target.value)}
+                                                className="w-24 h-10 text-center border-border focus:border-ring transition-all duration-200"
+                                                min="0"
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center gap-6">
+                                                <div className="flex items-center gap-2">
+                                                    <Checkbox 
+                                                        checked={subscription.allow_advertising} 
+                                                        onCheckedChange={(checked) => handleLimitChange(subscription.id, 'allow_advertising', checked)}
+                                                        className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                                                    />
+                                                    <Label className="text-sm font-medium">Advertising</Label>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Checkbox
+                                                        checked={subscription.allow_email_collector}
+                                                        onCheckedChange={(checked) => handleLimitChange(subscription.id, 'allow_email_collector', checked)}
+                                                        className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                                                    />
+                                                    <Label className="text-sm font-medium">Email Collector</Label>
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </CardContent>
+            </Card>
         );
     }
 
@@ -508,94 +545,132 @@ const Settings = () => {
 
         if (isLoading) {
             return (
-                <div className="flex items-center justify-center p-8">
-                    <Loader2 className="w-8 h-8 animate-spin" />
+                <div className="flex items-center justify-center p-10">
+                    <Loader2 className="w-10 h-10 animate-spin text-primary" />
                 </div>
             );
         }
 
         return (
-            <Card>
-                <CardHeader>
-                    <CardTitle>{t('adminPage.settings.socialLinks.title')}</CardTitle>
-                    <CardDescription>{t('adminPage.settings.socialLinks.description')}</CardDescription>
+            <Card className="border-border shadow-sm hover:shadow-md transition-shadow duration-300">
+                <CardHeader className="space-y-2 pb-6">
+                    <CardTitle className="text-2xl font-semibold text-foreground">{t('adminPage.settings.socialLinks.title')}</CardTitle>
+                    <CardDescription className="text-base text-muted-foreground">{t('adminPage.settings.socialLinks.description')}</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                    <form onSubmit={handleAddLink} className="space-y-4">
-                        <div className="grid grid-cols-3 gap-4">
-                            <div>
-                                <Label htmlFor="name">{t('adminPage.settings.socialLinks.form.platformName.label')}</Label>
-                                <Input
-                                    id="name"
-                                    value={newLink.name}
-                                    onChange={(e) => setNewLink({ ...newLink, name: e.target.value })}
-                                    placeholder={t('adminPage.settings.socialLinks.form.platformName.placeholder')}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <Label htmlFor="url">{t('adminPage.settings.socialLinks.form.url.label')}</Label>
-                                <Input
-                                    id="url"
-                                    value={newLink.url}
-                                    onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
-                                    placeholder={t('adminPage.settings.socialLinks.form.url.placeholder')}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <Label htmlFor="image_url">{t('adminPage.settings.socialLinks.form.iconUrl.label')}</Label>
-                                <Input
-                                    id="image_url"
-                                    value={newLink.image_url}
-                                    onChange={(e) => setNewLink({ ...newLink, image_url: e.target.value })}
-                                    placeholder={t('adminPage.settings.socialLinks.form.iconUrl.placeholder')}
-                                    required
-                                />
-                            </div>
-                        </div>
-                        <Button type="submit">{t('adminPage.settings.socialLinks.buttons.addLink')}</Button>
-                    </form>
-
-                    <Separator />
-
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>{t('adminPage.settings.socialLinks.table.icon')}</TableHead>
-                                <TableHead>{t('adminPage.settings.socialLinks.table.platform')}</TableHead>
-                                <TableHead>{t('adminPage.settings.socialLinks.table.url')}</TableHead>
-                                <TableHead className="text-right">{t('adminPage.settings.socialLinks.table.actions')}</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {socialLinks.map((link) => (
-                                <TableRow key={link.id}>
-                                    <TableCell>
-                                        <img
-                                            src={link.image_url}
-                                            alt={link.name}
-                                            className="w-6 h-6"
-                                            onError={(e) => {
-                                                e.target.src = '/placeholder-icon.png';
-                                            }}
+                <CardContent className="space-y-8">
+                    <Card className="border-dashed border-border hover:border-ring transition-colors duration-300">
+                        <CardHeader className="pb-4">
+                            <CardTitle className="text-xl">Add New Social Link</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <form onSubmit={handleAddLink} className="space-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="name" className="font-medium">{t('adminPage.settings.socialLinks.form.platformName.label')}</Label>
+                                        <Input
+                                            id="name"
+                                            value={newLink.name}
+                                            onChange={(e) => setNewLink({ ...newLink, name: e.target.value })}
+                                            placeholder={t('adminPage.settings.socialLinks.form.platformName.placeholder')}
+                                            className="h-11 border-border focus:border-ring transition-all duration-200"
+                                            required
                                         />
-                                    </TableCell>
-                                    <TableCell>{link.name}</TableCell>
-                                    <TableCell>
-                                        <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                                            {link.url}
-                                        </a>
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <Button variant="destructive" size="sm" onClick={() => handleRemoveLink(link.id)}>
-                                            {t('Remove')}
-                                        </Button>
-                                    </TableCell>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="url" className="font-medium">{t('adminPage.settings.socialLinks.form.url.label')}</Label>
+                                        <Input
+                                            id="url"
+                                            value={newLink.url}
+                                            onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
+                                            placeholder={t('adminPage.settings.socialLinks.form.url.placeholder')}
+                                            className="h-11 border-border focus:border-ring transition-all duration-200"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="image_url" className="font-medium">{t('adminPage.settings.socialLinks.form.iconUrl.label')}</Label>
+                                        <Input
+                                            id="image_url"
+                                            value={newLink.image_url}
+                                            onChange={(e) => setNewLink({ ...newLink, image_url: e.target.value })}
+                                            placeholder={t('adminPage.settings.socialLinks.form.iconUrl.placeholder')}
+                                            className="h-11 border-border focus:border-ring transition-all duration-200"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex justify-end">
+                                    <Button 
+                                        type="submit" 
+                                        className="bg-primary text-primary-foreground h-11 px-6 hover:bg-primary/90 transition-colors duration-200"
+                                    >
+                                        {t('adminPage.settings.socialLinks.buttons.addLink')}
+                                    </Button>
+                                </div>
+                            </form>
+                        </CardContent>
+                    </Card>
+
+                    <div className="rounded-lg border border-border overflow-hidden">
+                        <Table>
+                            <TableHeader className="bg-muted">
+                                <TableRow>
+                                    <TableHead className="font-semibold w-[80px]">{t('adminPage.settings.socialLinks.table.icon')}</TableHead>
+                                    <TableHead className="font-semibold">{t('adminPage.settings.socialLinks.table.platform')}</TableHead>
+                                    <TableHead className="font-semibold">{t('adminPage.settings.socialLinks.table.url')}</TableHead>
+                                    <TableHead className="text-right font-semibold">{t('adminPage.settings.socialLinks.table.actions')}</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {socialLinks.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
+                                            No social links found. Add your first social link above.
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    socialLinks.map((link, index) => (
+                                        <TableRow key={link.id} className={index % 2 === 0 ? 'bg-background' : 'bg-muted/30'}>
+                                            <TableCell>
+                                                <div className="h-10 w-10 rounded-md bg-muted flex items-center justify-center">
+                                                    <img
+                                                        src={link.image_url}
+                                                        alt={link.name}
+                                                        className="w-6 h-6 object-contain"
+                                                        onError={(e) => {
+                                                            e.target.src = '/placeholder-icon.png';
+                                                        }}
+                                                    />
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="font-medium">{link.name}</TableCell>
+                                            <TableCell>
+                                                <a 
+                                                    href={link.url} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer" 
+                                                    className="text-blue-500 hover:underline flex items-center gap-1"
+                                                >
+                                                    {link.url}
+                                                    <Share2 className="h-3.5 w-3.5" />
+                                                </a>
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <Button 
+                                                    variant="destructive" 
+                                                    size="sm" 
+                                                    onClick={() => handleRemoveLink(link.id)}
+                                                    className="transition-all duration-200"
+                                                >
+                                                    {t('Remove')}
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </CardContent>
             </Card>
         );
@@ -691,145 +766,219 @@ const Settings = () => {
 
         if (isLoading) {
             return (
-                <div className="flex items-center justify-center p-8">
-                    <Loader2 className="w-8 h-8 animate-spin" />
+                <div className="flex items-center justify-center p-10">
+                    <Loader2 className="w-10 h-10 animate-spin text-primary" />
                 </div>
             );
         }
 
         return (
-            <div className="space-y-6">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>{t('adminPage.settings.footerLinks.title')}</CardTitle>
-                        <CardDescription>{t('adminPage.settings.footerLinks.description')}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                        <form onSubmit={handleAddLink} className="space-y-4">
-                            <div className="grid grid-cols-3 gap-4">
-                                <div>
-                                    <Label htmlFor="name">{t('adminPage.settings.footerLinks.form.linkName.label')}</Label>
-                                    <Input
-                                        id="name"
-                                        value={newLink.name}
-                                        onChange={(e) => setNewLink({ ...newLink, name: e.target.value })}
-                                        placeholder={t('adminPage.settings.footerLinks.form.linkName.placeholder')}
-                                        required
-                                    />
+            <Card className="border-border shadow-sm hover:shadow-md transition-shadow duration-300">
+                <CardHeader className="space-y-2 pb-6">
+                    <CardTitle className="text-2xl font-semibold text-foreground">{t('adminPage.settings.footerLinks.title')}</CardTitle>
+                    <CardDescription className="text-base text-muted-foreground">{t('adminPage.settings.footerLinks.description')}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-8">
+                    <Card className="border-dashed border-border hover:border-ring transition-colors duration-300">
+                        <CardHeader className="pb-4">
+                            <CardTitle className="text-xl">Add New Footer Link</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <form onSubmit={handleAddLink} className="space-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="name" className="font-medium">{t('adminPage.settings.footerLinks.form.linkName.label')}</Label>
+                                        <Input
+                                            id="name"
+                                            value={newLink.name}
+                                            onChange={(e) => setNewLink({ ...newLink, name: e.target.value })}
+                                            placeholder={t('adminPage.settings.footerLinks.form.linkName.placeholder')}
+                                            className="h-11 border-border focus:border-ring transition-all duration-200"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="url" className="font-medium">{t('adminPage.settings.footerLinks.form.url.label')}</Label>
+                                        <Input
+                                            id="url"
+                                            value={newLink.url}
+                                            onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
+                                            placeholder={t('adminPage.settings.footerLinks.form.url.placeholder')}
+                                            className="h-11 border-border focus:border-ring transition-all duration-200"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="type" className="font-medium">Link Type</Label>
+                                        <select 
+                                            id="type" 
+                                            value={newLink.type} 
+                                            onChange={(e) => setNewLink({ ...newLink, type: e.target.value })} 
+                                            className="w-full h-11 px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200" 
+                                            required
+                                        >
+                                            <option value="sitemap">Sitemap</option>
+                                            <option value="company">Company</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div>
-                                    <Label htmlFor="url">{t('adminPage.settings.footerLinks.form.url.label')}</Label>
-                                    <Input
-                                        id="url"
-                                        value={newLink.url}
-                                        onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
-                                        placeholder={t('adminPage.settings.footerLinks.form.url.placeholder')}
-                                        required
-                                    />
+                                <div className="flex justify-end">
+                                    <Button 
+                                        type="submit" 
+                                        className="bg-primary text-primary-foreground h-11 px-6 hover:bg-primary/90 transition-colors duration-200"
+                                    >
+                                        Add Footer Link
+                                    </Button>
                                 </div>
-                                <div>
-                                    <Label htmlFor="type">Type</Label>
-                                    <select id="type" value={newLink.type} onChange={(e) => setNewLink({ ...newLink, type: e.target.value })} className="w-full p-2 border rounded-md" required>
-                                        <option value="sitemap">Sitemap</option>
-                                        <option value="company">Company</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <Button type="submit">Add Link</Button>
-                        </form>
+                            </form>
+                        </CardContent>
+                    </Card>
 
-                        <div className="grid grid-cols-2 gap-6">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Sitemap Links</CardTitle>
-                                </CardHeader>
-                                <CardContent>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <Card className="border-border shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <CardHeader className="pb-4">
+                                <CardTitle className="text-xl font-semibold flex items-center gap-2">
+                                    <Link className="h-5 w-5 text-blue-500" />
+                                    Sitemap Links
+                                </CardTitle>
+                                <CardDescription>Navigation links for site structure</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="rounded-lg border border-border overflow-hidden">
                                     <Table>
-                                        <TableHeader>
+                                        <TableHeader className="bg-muted">
                                             <TableRow>
-                                                <TableHead>Name</TableHead>
-                                                <TableHead>URL</TableHead>
-                                                <TableHead className="text-right">Actions</TableHead>
+                                                <TableHead className="font-semibold">Name</TableHead>
+                                                <TableHead className="font-semibold">URL</TableHead>
+                                                <TableHead className="text-right font-semibold">Actions</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
-                                            {sitemapLinks.map((link) => (
-                                                <TableRow key={link.id}>
-                                                    <TableCell>{link.name}</TableCell>
-                                                    <TableCell>
-                                                        <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                                                            {link.url}
-                                                        </a>
-                                                    </TableCell>
-                                                    <TableCell className="text-right">
-                                                        <Button variant="destructive" size="sm" onClick={() => handleRemoveLink(link.id, 'sitemap')}>
-                                                            {t('Remove')}
-                                                        </Button>
+                                            {sitemapLinks.length === 0 ? (
+                                                <TableRow>
+                                                    <TableCell colSpan={3} className="text-center py-6 text-muted-foreground">
+                                                        No sitemap links found. Add your first link above.
                                                     </TableCell>
                                                 </TableRow>
-                                            ))}
+                                            ) : (
+                                                sitemapLinks.map((link, index) => (
+                                                    <TableRow key={link.id} className={index % 2 === 0 ? 'bg-background' : 'bg-muted/30'}>
+                                                        <TableCell className="font-medium">{link.name}</TableCell>
+                                                        <TableCell>
+                                                            <a 
+                                                                href={link.url} 
+                                                                target="_blank" 
+                                                                rel="noopener noreferrer" 
+                                                                className="text-blue-500 hover:underline flex items-center gap-1"
+                                                            >
+                                                                {link.url}
+                                                                <Share2 className="h-3.5 w-3.5" />
+                                                            </a>
+                                                        </TableCell>
+                                                        <TableCell className="text-right">
+                                                            <Button 
+                                                                variant="destructive" 
+                                                                size="sm" 
+                                                                onClick={() => handleRemoveLink(link.id, 'sitemap')}
+                                                                className="transition-all duration-200"
+                                                            >
+                                                                {t('Remove')}
+                                                            </Button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))
+                                            )}
                                         </TableBody>
                                     </Table>
-                                </CardContent>
-                            </Card>
+                                </div>
+                            </CardContent>
+                        </Card>
 
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Company Links</CardTitle>
-                                </CardHeader>
-                                <CardContent>
+                        <Card className="border-border shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <CardHeader className="pb-4">
+                                <CardTitle className="text-xl font-semibold flex items-center gap-2">
+                                    <Info className="h-5 w-5 text-green-500" />
+                                    Company Links
+                                </CardTitle>
+                                <CardDescription>Links to company information pages</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="rounded-lg border border-border overflow-hidden">
                                     <Table>
-                                        <TableHeader>
+                                        <TableHeader className="bg-muted">
                                             <TableRow>
-                                                <TableHead>Name</TableHead>
-                                                <TableHead>URL</TableHead>
-                                                <TableHead className="text-right">Actions</TableHead>
+                                                <TableHead className="font-semibold">Name</TableHead>
+                                                <TableHead className="font-semibold">URL</TableHead>
+                                                <TableHead className="text-right font-semibold">Actions</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
-                                            {companyLinks.map((link) => (
-                                                <TableRow key={link.id}>
-                                                    <TableCell>{link.name}</TableCell>
-                                                    <TableCell>
-                                                        <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                                                            {link.url}
-                                                        </a>
-                                                    </TableCell>
-                                                    <TableCell className="text-right">
-                                                        <Button variant="destructive" size="sm" onClick={() => handleRemoveLink(link.id, 'company')}>
-                                                            {t('Remove')}
-                                                        </Button>
+                                            {companyLinks.length === 0 ? (
+                                                <TableRow>
+                                                    <TableCell colSpan={3} className="text-center py-6 text-muted-foreground">
+                                                        No company links found. Add your first link above.
                                                     </TableCell>
                                                 </TableRow>
-                                            ))}
+                                            ) : (
+                                                companyLinks.map((link, index) => (
+                                                    <TableRow key={link.id} className={index % 2 === 0 ? 'bg-background' : 'bg-muted/30'}>
+                                                        <TableCell className="font-medium">{link.name}</TableCell>
+                                                        <TableCell>
+                                                            <a 
+                                                                href={link.url} 
+                                                                target="_blank" 
+                                                                rel="noopener noreferrer" 
+                                                                className="text-blue-500 hover:underline flex items-center gap-1"
+                                                            >
+                                                                {link.url}
+                                                                <Share2 className="h-3.5 w-3.5" />
+                                                            </a>
+                                                        </TableCell>
+                                                        <TableCell className="text-right">
+                                                            <Button 
+                                                                variant="destructive" 
+                                                                size="sm" 
+                                                                onClick={() => handleRemoveLink(link.id, 'company')}
+                                                                className="transition-all duration-200"
+                                                            >
+                                                                {t('Remove')}
+                                                            </Button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))
+                                            )}
                                         </TableBody>
                                     </Table>
-                                </CardContent>
-                            </Card>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </CardContent>
+            </Card>
         );
     }
 
     return (
-        <div className="ml-72 p-8 bg-background">
-            <div className="mx-auto space-y-6">
-                <div className="space-y-2">
+        <div className="ml-72 p-8 bg-background min-h-screen">
+            <div className="max-w-6xl mx-auto space-y-8">
+                <div className="space-y-3">
                     <h1 className="text-3xl font-bold tracking-tight text-foreground">{t('adminPage.settings.title')}</h1>
-                    <p className="text-muted-foreground">{t('adminPage.settings.description')}</p>
+                    <p className="text-lg text-muted-foreground">{t('adminPage.settings.description')}</p>
                 </div>
 
-                <Separator className="my-6 bg-border" />
+                <Separator className="my-8 bg-border" />
 
-                <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-                    <div className="flex items-center space-x-4 bg-card rounded-lg p-1 border border-border shadow-sm">
-                        <TabsList className="bg-transparent">
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+                    <div className="flex items-center justify-center bg-card rounded-xl p-1.5 border border-border shadow-sm">
+                        <TabsList className="bg-transparent w-full flex justify-between max-w-4xl">
                             {tabs.map((tab) => (
-                                <TabsTrigger key={tab.id} value={tab.id} className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-4 py-2 transition-all">
-                                    <div className="flex items-center space-x-2">
-                                        <div className={`${tab.iconBg} dark:bg-background/10 p-1 rounded-md ${tab.iconColor}`}>{tab.icon}</div>
+                                <TabsTrigger 
+                                    key={tab.id} 
+                                    value={tab.id} 
+                                    className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm px-5 py-2.5 transition-all duration-200 rounded-lg"
+                                >
+                                    <div className="flex items-center space-x-2.5">
+                                        <div className={`${tab.iconBg} dark:bg-background/10 p-1.5 rounded-md ${tab.iconColor}`}>{tab.icon}</div>
                                         <span>{tab.label}</span>
                                     </div>
                                 </TabsTrigger>
@@ -837,16 +986,16 @@ const Settings = () => {
                         </TabsList>
                     </div>
 
-                    <TabsContent value="general">
-                        <Card className="border-border shadow-sm hover:shadow-md transition-shadow">
-                            <CardHeader className="space-y-1">
-                                <CardTitle className="text-2xl text-foreground">{t('adminPage.settings.general.title')}</CardTitle>
-                                <CardDescription className="text-muted-foreground">{t('adminPage.settings.general.description')}</CardDescription>
+                    <TabsContent value="general" className="animate-in fade-in-50 duration-300">
+                        <Card className="border-border shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <CardHeader className="space-y-2 pb-6">
+                                <CardTitle className="text-2xl font-semibold text-foreground">{t('adminPage.settings.general.title')}</CardTitle>
+                                <CardDescription className="text-base text-muted-foreground">{t('adminPage.settings.general.description')}</CardDescription>
                             </CardHeader>
-                            <CardContent className="space-y-6">
-                                <div className="grid grid-cols-2 gap-6">
-                                    <div className="space-y-4">
-                                        <div>
+                            <CardContent className="space-y-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="space-y-6">
+                                        <div className="space-y-2.5">
                                             <LabelWithTooltip
                                                 htmlFor="siteTitle"
                                                 label={t('adminPage.settings.general.fields.siteTitle.label')}
@@ -858,11 +1007,11 @@ const Settings = () => {
                                                 name="siteTitle"
                                                 id="siteTitle"
                                                 placeholder={t('adminPage.settings.general.fields.siteTitle.placeholder')}
-                                                className="mt-1.5 border-border focus:border-ring"
+                                                className="mt-1.5 border-border focus:border-ring h-11 transition-all duration-200"
                                             />
                                         </div>
 
-                                        <div>
+                                        <div className="space-y-2.5">
                                             <LabelWithTooltip
                                                 htmlFor="siteKeywords"
                                                 label={t('adminPage.settings.general.fields.siteKeywords.label')}
@@ -874,11 +1023,11 @@ const Settings = () => {
                                                 name="siteKeywords"
                                                 id="siteKeywords"
                                                 placeholder={t('adminPage.settings.general.fields.siteKeywords.placeholder')}
-                                                className="mt-1.5 border-border focus:border-ring"
+                                                className="mt-1.5 border-border focus:border-ring h-11 transition-all duration-200"
                                             />
                                         </div>
 
-                                        <div>
+                                        <div className="space-y-2.5">
                                             <LabelWithTooltip
                                                 htmlFor="googleAnalytics"
                                                 label={t('adminPage.settings.general.fields.googleAnalytics.label')}
@@ -890,11 +1039,11 @@ const Settings = () => {
                                                 name="googleAnalyticsId"
                                                 id="googleAnalytics"
                                                 placeholder={t('adminPage.settings.general.fields.googleAnalytics.placeholder')}
-                                                className="mt-1.5 border-border focus:border-ring"
+                                                className="mt-1.5 border-border focus:border-ring h-11 transition-all duration-200"
                                             />
                                         </div>
 
-                                        <div>
+                                        <div className="space-y-2.5">
                                             <LabelWithTooltip
                                                 htmlFor="siteAddress"
                                                 label={t('adminPage.settings.general.fields.siteAddress.label')}
@@ -906,11 +1055,11 @@ const Settings = () => {
                                                 name="siteAddress"
                                                 id="siteAddress"
                                                 placeholder={t('adminPage.settings.general.fields.siteAddress.placeholder')}
-                                                className="mt-1.5 border-border focus:border-ring"
+                                                className="mt-1.5 border-border focus:border-ring h-11 transition-all duration-200"
                                             />
                                         </div>
 
-                                        <div>
+                                        <div className="space-y-2.5">
                                             <LabelWithTooltip
                                                 htmlFor="sitePhone"
                                                 label={t('adminPage.settings.general.fields.sitePhone.label')}
@@ -922,11 +1071,11 @@ const Settings = () => {
                                                 name="sitePhone"
                                                 id="sitePhone"
                                                 placeholder={t('adminPage.settings.general.fields.sitePhone.placeholder')}
-                                                className="mt-1.5 border-border focus:border-ring"
+                                                className="mt-1.5 border-border focus:border-ring h-11 transition-all duration-200"
                                             />
                                         </div>
 
-                                        <div>
+                                        <div className="space-y-2.5">
                                             <LabelWithTooltip
                                                 htmlFor="siteEmail"
                                                 label={t('adminPage.settings.general.fields.siteEmail.label')}
@@ -939,13 +1088,13 @@ const Settings = () => {
                                                 id="siteEmail"
                                                 type="email"
                                                 placeholder={t('adminPage.settings.general.fields.siteEmail.placeholder')}
-                                                className="mt-1.5 border-border focus:border-ring"
+                                                className="mt-1.5 border-border focus:border-ring h-11 transition-all duration-200"
                                             />
                                         </div>
                                     </div>
 
-                                    <div className="space-y-4">
-                                        <div>
+                                    <div className="space-y-6">
+                                        <div className="space-y-2.5">
                                             <LabelWithTooltip
                                                 htmlFor="siteDescription"
                                                 label={t('adminPage.settings.general.fields.siteDescription.label')}
@@ -957,40 +1106,40 @@ const Settings = () => {
                                                 name="siteDescription"
                                                 id="siteDescription"
                                                 placeholder={t('adminPage.settings.general.fields.siteDescription.placeholder')}
-                                                className="mt-1.5 h-[120px] border-border focus:border-ring"
+                                                className="mt-1.5 h-[150px] border-border focus:border-ring resize-none transition-all duration-200"
                                             />
                                         </div>
 
-                                        <Card className="border-dashed border-border hover:border-ring transition-colors">
-                                            <CardHeader className="p-4">
+                                        <Card className="border-dashed border-border hover:border-ring transition-colors duration-300">
+                                            <CardHeader className="p-5">
                                                 <LabelWithTooltip
                                                     htmlFor="logo"
                                                     label={t('adminPage.settings.general.fields.logo.label')}
                                                     tooltip={t('adminPage.settings.general.fields.logo.tooltip')}
                                                 />
                                             </CardHeader>
-                                            <CardContent className="p-4 pt-0">
-                                                <div className="flex items-center gap-6">
-                                                    <div className="h-16 w-48 flex items-center justify-center bg-muted rounded-lg border border-border">
+                                            <CardContent className="p-5 pt-0">
+                                                <div className="flex flex-col sm:flex-row items-center gap-6">
+                                                    <div className="h-20 w-56 flex items-center justify-center bg-muted rounded-lg border border-border">
                                                         <img
                                                             id="siteLogo"
                                                             src={logoUrl || '/uploads/logo.png'}
                                                             alt="Current Site Logo"
-                                                            className="h-full object-contain p-2"
+                                                            className="h-full object-contain p-3"
                                                             onError={(e) => {
                                                                 e.target.src = '/uploads/logo.png';
                                                                 e.target.onerror = null;
                                                             }}
                                                         />
                                                     </div>
-                                                    <div>
+                                                    <div className="mt-4 sm:mt-0">
                                                         <Input type="file" id="logo" accept="image/*" onChange={handleLogoUpload} className="hidden" />
                                                         <Button
                                                             type="button"
                                                             variant="outline"
                                                             onClick={() => document.getElementById('logo').click()}
                                                             disabled={isUploading}
-                                                            className="w-[140px] border-border hover:border-ring hover:bg-accent">
+                                                            className="w-[160px] h-11 border-border hover:border-ring hover:bg-accent transition-all duration-200">
                                                             {isUploading ? (
                                                                 <>
                                                                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
@@ -1003,7 +1152,7 @@ const Settings = () => {
                                                                 </>
                                                             )}
                                                         </Button>
-                                                        <p className="text-sm text-muted-foreground mt-2">{t('adminPage.settings.general.fields.logo.supportedFormats')}</p>
+                                                        <p className="text-sm text-muted-foreground mt-3">{t('adminPage.settings.general.fields.logo.supportedFormats')}</p>
                                                     </div>
                                                 </div>
                                             </CardContent>
@@ -1011,19 +1160,19 @@ const Settings = () => {
                                     </div>
                                 </div>
 
-                                <Separator className="my-6 bg-border" />
+                                <Separator className="my-8 bg-border" />
 
-                                <div className="space-y-4 bg-muted p-4 rounded-lg border border-border">
-                                    <div className="flex items-center space-x-2">
+                                <div className="space-y-4 bg-muted p-6 rounded-xl border border-border">
+                                    <div className="flex items-start space-x-3">
                                         <Checkbox
                                             id="maintenanceMode"
                                             name="maintenanceMode"
                                             checked={maintenanceMode}
                                             onCheckedChange={(checked) => setMaintenanceMode(checked)}
-                                            className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                                            className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary mt-1"
                                         />
-                                        <div className="space-y-1">
-                                            <Label htmlFor="maintenanceMode" className="font-medium text-foreground">
+                                        <div className="space-y-1.5">
+                                            <Label htmlFor="maintenanceMode" className="font-medium text-foreground text-base">
                                                 {t('adminPage.settings.general.fields.maintenanceMode.label')}
                                             </Label>
                                             <p className="text-sm text-muted-foreground">{t('adminPage.settings.general.fields.maintenanceMode.description')}</p>
@@ -1031,8 +1180,11 @@ const Settings = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex justify-end">
-                                    <Button onClick={handleGeneralSettingsSubmit} className="bg-primary text-primary-foreground w-[140px] hover:bg-primary/90 transition-colors">
+                                <div className="flex justify-end pt-4">
+                                    <Button 
+                                        onClick={handleGeneralSettingsSubmit} 
+                                        className="bg-primary text-primary-foreground w-[160px] h-11 hover:bg-primary/90 transition-colors duration-200"
+                                    >
                                         {t('adminPage.settings.general.buttons.saveChanges')}
                                     </Button>
                                 </div>
@@ -1062,3 +1214,4 @@ const Settings = () => {
 };
 
 export default Settings;
+              

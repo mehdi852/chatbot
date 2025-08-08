@@ -1,7 +1,7 @@
 'use client';
 // components/Sidebar.js
 import { useEffect, useState } from 'react';
-import { Bell, Users2Icon, ChevronDown, HelpCircle, Home, Layers, CheckSquare,Mail, Users, LogOut, PlusCircle, Settings, Plus, UsersIcon,Inbox,MailWarning, Menu, X } from 'lucide-react';
+import { Bell, Users2Icon, ChevronDown, HelpCircle, Home, Layers, CheckSquare, Mail, Users, LogOut, PlusCircle, Settings, Plus, UsersIcon, Inbox, MailWarning, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -62,16 +62,15 @@ export default function AdminSidebar() {
         },
     ]);
     const [bottomSidebarItems, setBottomSidebarItems] = useState([
-     
         {
             name: 'Log Out',
             icon: LogOut,
             iconRight: null,
             link: '/dashboard/logout',
             active: false,
-        }
+        },
     ]);
-  
+
     // need to check the path of the url and set the active state
 
     useEffect(() => {
@@ -99,22 +98,21 @@ export default function AdminSidebar() {
     return (
         <>
             {!isOpen && (
-                <button
-                    className="lg:hidden fixed top-4 left-4 z-20 p-2 bg-white rounded-md shadow-md"
-                    onClick={toggleSidebar}
-                >
+                <button className="lg:hidden fixed top-4 left-4 z-20 p-2 bg-white rounded-md shadow-md" onClick={toggleSidebar}>
                     <Menu className="w-6 h-6" />
                 </button>
             )}
-            <aside className={`fixed inset-y-0 left-0 z-10 w-64 bg-white p-4 lg:p-6 flex flex-col border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            <aside
+                className={`fixed inset-y-0 left-0 z-10 w-64 bg-white p-4 lg:p-6 flex flex-col border-r border-gray-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+                    isOpen ? 'translate-x-0' : '-translate-x-full'
+                }`}>
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center">
-                       <a href="/"><Image src="/uploads/logo.png" width={100} height={100} alt="Logo" className="mr-2" /></a>
+                        <a href="/">
+                            <Image src="/uploads/logo.png" width={100} height={100} alt="Logo" className="mr-2" />
+                        </a>
                     </div>
-                    <button
-                        className="lg:hidden p-1 rounded-md hover:bg-gray-100"
-                        onClick={toggleSidebar}
-                    >
+                    <button className="lg:hidden p-1 rounded-md hover:bg-gray-100" onClick={toggleSidebar}>
                         <X className="w-6 h-6" />
                     </button>
                 </div>
@@ -135,8 +133,6 @@ export default function AdminSidebar() {
                     ))}
                 </nav>
                 <div className="mt-auto">
-                  
-
                     {bottomSidebarItems.map((item, index) => (
                         <a
                             href={item.link}

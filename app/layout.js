@@ -35,9 +35,9 @@ export default async function RootLayout({ children }) {
         <html lang="en" suppressHydrationWarning>
             <head>
             <script 
-        src="https://chatbot-lac-seven.vercel.app/fa.js" 
+        src="http://localhost:3000/fa.js" 
         data-website-id="613914" 
-        data-api-url="https://chatbot-lac-seven.vercel.app"
+        data-api-url="http://localhost:3000"
         async
     ></script>   
     

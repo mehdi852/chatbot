@@ -5,4 +5,25 @@ List od things todo
 
 
 
-i need yout to make the widget a 20% longer and 10% wider, for the fa-widget-input-container its is not professional i need the height smaller also i need it to be enterprise level 
+
+
+
+
+OKay it half done,  what is hapening now in @fa.js  (the chat widget) 
+
+Current state 
+
+1-  imagine the user exceed  the limit of the chat
+2-  chat doesnt work
+
+but (the problem happening )
+
+if the user is not exceed the limit of the chat
+
+1-  chat works
+2- [x] FIXED: if the visitor exceed limits while chatting, its  still going off limit,  it should be off the moment ai responses finish even in active chat
+3. [x] FIXED: AI response counting was incrementing by 2 or 3 instead of 1 (duplicate counting issue resolved)
+4. [x] FIXED: Widget was completely closed when AI limits exceeded - now only AI is disabled, human agents can still chat
+5. [x] FIXED: Removed "AI response limit reached" message - AI limits are now completely transparent to users
+
+

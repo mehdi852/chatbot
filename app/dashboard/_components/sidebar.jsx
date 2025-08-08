@@ -1,16 +1,19 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { Bell, ChartPie, ChevronDown, HelpCircle, Home, Layers, CheckSquare, Users, LogOut, PlusCircle, Settings, Plus, Menu, X, CreditCard, Mail } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
+import { Bell, ChartPie, ChevronDown, HelpCircle, Home, Layers, CheckSquare, Users, LogOut, PlusCircle, Settings, Plus, Menu, X, CreditCard, Mail, Volume2, VolumeX } from 'lucide-react';
 import Link from 'next/link';
 import { useUserContext } from '@/app/provider';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import { MessageCircle } from 'lucide-react';
+import { useChatContext } from '@/app/contexts/ChatContext';
+
 export default function Sidebar() {
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [openTicketCount, setOpenTicketCount] = useState(0);
     const { dbUser } = useUserContext();
+    const { chatState } = useChatContext();
     const [SidebarTopitems, setSidebarTopItems] = useState([
         {
             name: 'home',
@@ -25,6 +28,7 @@ export default function Sidebar() {
             iconRight: null,
             link: '/dashboard/chat',
             active: false,
+            badge: 0,
         },
         {
             name: 'support',
@@ -57,7 +61,18 @@ export default function Sidebar() {
             link: '/dashboard/logout',
             active: false,
         },
+        {
+            name: 'sound',
+            icon: chatState.isSoundMuted ? VolumeX : Volume2,
+            iconRight: null,
+            link: '#',
+            active: false,
+            onClick: () => chatState.toggleSound(),
+        },
     ]);
+
+    const audioRef = useRef(null);
+    const [prevMessageCount, setPrevMessageCount] = useState(0);
 
     // Fetch open ticket count
     const fetchOpenTicketCount = async () => {
@@ -90,6 +105,34 @@ export default function Sidebar() {
             }))
         );
     }, [dbUser]);
+
+    useEffect(() => {
+        setSidebarTopItems((prevItems) => prevItems.map((item) => (item.name === 'chat' ? { ...item, badge: chatState.visitors.length } : item)));
+    }, [chatState.visitors.length]);
+
+    useEffect(() => {
+        audioRef.current = new Audio('/notification.mp3');
+    }, []);
+
+    useEffect(() => {
+        const totalMessagesCount = Object.values(chatState.conversations).reduce((acc, conv) => acc + conv.messages.length, 0);
+
+        if (totalMessagesCount > prevMessageCount && !chatState.isSoundMuted) {
+            let latestMessage = null;
+            Object.values(chatState.conversations).forEach((conv) => {
+                conv.messages.forEach((msg) => {
+                    if (!latestMessage || new Date(msg.timestamp) > new Date(latestMessage.timestamp)) {
+                        latestMessage = msg;
+                    }
+                });
+            });
+
+            if (latestMessage?.type !== 'admin') {
+                audioRef.current.play().catch(console.error);
+            }
+        }
+        setPrevMessageCount(totalMessagesCount);
+    }, [chatState.conversations, chatState.isSoundMuted]);
 
     const handleSidebarItemClick = (item) => {
         setSidebarTopItems((prevItems) =>
@@ -149,7 +192,7 @@ export default function Sidebar() {
                                     <item.icon className={`w-5 h-5 mr-3 ${item.active ? 'text-primary' : 'text-muted-foreground'}`} />
                                     {t(`sidebar.dashboard.items.${item.name}`)}
                                 </div>
-                                {item.badge > 0 && <span className="bg-destructive/10 text-destructive px-2 py-0.5 rounded-full text-xs">{item.badge}</span>}
+                                {item.badge > 0 && <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs ring-1 ring-blue-200">{item.badge}</span>}
                                 {item.iconRight && <item.iconRight className={`w-4 h-4 ml-auto ${item.active ? 'text-primary' : 'text-muted-foreground'}`} />}
                             </Link>
                         ))}
@@ -161,6 +204,12 @@ export default function Sidebar() {
                             <Link
                                 href={item.link}
                                 key={index}
+                                onClick={(e) => {
+                                    if (item.onClick) {
+                                        e.preventDefault();
+                                        item.onClick();
+                                    }
+                                }}
                                 className={`flex items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-accent ${
                                     item.active ? 'bg-primary/10 text-primary hover:bg-primary/20' : 'text-muted-foreground hover:text-foreground'
                                 }`}>
