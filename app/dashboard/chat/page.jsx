@@ -56,8 +56,14 @@ const ChatPage = () => {
             selectedWebsite: chatState.selectedWebsite?.domain,
             visitorCount: chatState.visitors.length,
             visitors: chatState.visitors,
+            visitorStatuses: chatState.visitorStatuses,
         });
     }, [chatState]);
+    
+    // Debug visitor statuses specifically
+    useEffect(() => {
+        console.log('🎯 Current visitor statuses:', chatState.visitorStatuses);
+    }, [chatState.visitorStatuses]);
 
     // get subscription limits
     const fetchSubscriptionLimits = async () => {
@@ -334,7 +340,11 @@ const ChatPage = () => {
                                             </div>
                                             <div
                                                 className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white ${
-                                                    chatState.isConnected ? 'bg-green-500' : 'bg-gray-400'
+                                                    chatState.visitorStatuses[visitor.id] === 'online' 
+                                                        ? 'bg-green-500' 
+                                                        : chatState.visitorStatuses[visitor.id] === 'away' 
+                                                            ? 'bg-orange-500' 
+                                                            : 'bg-gray-400'
                                                 } shadow-sm`}
                                             />
                                         </div>

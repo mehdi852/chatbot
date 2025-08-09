@@ -13,7 +13,7 @@ export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
     const [openTicketCount, setOpenTicketCount] = useState(0);
     const { dbUser } = useUserContext();
-    const { chatState } = useChatContext();
+    const { chatState, logout } = useChatContext();
     const [SidebarTopitems, setSidebarTopItems] = useState([
         {
             name: 'home',
@@ -58,8 +58,31 @@ export default function Sidebar() {
             name: 'logout',
             icon: LogOut,
             iconRight: null,
-            link: '/dashboard/logout',
+            link: '#',
             active: false,
+            onClick: async () => {
+                try {
+                    // Cleanup chat sockets via context
+                    if (typeof logout === 'function') {
+                        logout();
+                    }
+                    
+                    // Call the logout API to disconnect admin sockets
+                    await fetch('/api/auth/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    
+                    console.log('Admin sockets disconnected');
+                } catch (error) {
+                    console.error('Error during logout:', error);
+                } finally {
+                    // Redirect to sign-in
+                    window.location.href = '/sign-in';
+                }
+            },
         },
         {
             name: 'sound',

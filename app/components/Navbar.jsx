@@ -3,8 +3,9 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Menu, BarChart2, MessageSquare, Target, Split, Puzzle, MessageCircle, Settings, Users, Shield, Zap, BookOpen, HeartHandshake, Globe } from 'lucide-react';
-import { UserButton, useAuth } from '@clerk/nextjs';
+import { CustomUserButton } from '@/components/ui/custom-user-button';
 import { useUserContext } from '@/app/provider';
+import { useAuth } from '@clerk/nextjs';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
@@ -198,7 +199,7 @@ export default function Navbar() {
                         {isSignedIn ? (
                             dbUser?.role === 'admin' ? (
                                 <div className="flex items-center gap-3">
-                                    <UserButton afterSignOutUrl="/" />
+                                    <CustomUserButton afterSignOutUrl="/" />
                                     <Link
                                         href="/admin"
                                         className="text-primary hover:text-primary/90 px-4 py-2 text-sm font-medium rounded-md border border-primary hover:bg-primary/10 transition-all duration-200 hover:shadow-sm">
@@ -212,7 +213,7 @@ export default function Navbar() {
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-3">
-                                    <UserButton afterSignOutUrl="/" />
+                                    <CustomUserButton afterSignOutUrl="/" />
                                     <Link
                                         href="/dashboard"
                                         className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 hover:shadow-md">

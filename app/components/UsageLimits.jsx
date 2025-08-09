@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
-import { HelpCircle, ChevronDown, Activity, X } from 'lucide-react';
+import { HelpCircle, ChevronDown, Activity, X, Globe, MessageCircle, Bot, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    if (!usage || !subscriptionLimits) return null;
+    if (!usage || !subscriptionLimits) {
+        return (
+            <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
+                <div className="flex items-center space-x-2">
+                    <div className="animate-pulse flex space-x-2 items-center w-full">
+                        <div className="w-4 h-4 bg-gray-300 rounded"></div>
+                        <div className="h-4 bg-gray-300 rounded flex-1"></div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     // Map API response keys to component expected keys
     const mappedUsage = {
@@ -15,72 +26,101 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
     };
 
     const calculatePercentage = (used, max) => {
-        if (!used || !max) return 0;
+        if (!max || max === 0) return 0;
         return Math.min((used / max) * 100, 100);
     };
 
     const getProgressColor = (percentage) => {
-        if (percentage >= 90) return 'bg-red-500';
+        if (percentage >= 95) return 'bg-red-500';
+        if (percentage >= 85) return 'bg-orange-500';
         if (percentage >= 70) return 'bg-yellow-500';
-        return 'bg-blue-500';
+        return 'bg-green-500';
     };
 
-    // Find the highest usage percentage to determine the overall status
-    const getHighestUsage = () => {
+    const getStatusInfo = (percentage) => {
+        if (percentage >= 95) return { color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-200', status: 'Critical', icon: AlertTriangle };
+        if (percentage >= 85) return { color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-200', status: 'High', icon: AlertTriangle };
+        if (percentage >= 70) return { color: 'text-yellow-600', bg: 'bg-yellow-50', border: 'border-yellow-200', status: 'Medium', icon: Clock };
+        return { color: 'text-green-600', bg: 'bg-green-50', border: 'border-green-200', status: 'Good', icon: CheckCircle };
+    };
+
+    // Get the most critical usage status
+    const getCriticalStatus = () => {
         const percentages = [
-            calculatePercentage(mappedUsage.websites, subscriptionLimits.max_websites),
-            calculatePercentage(mappedUsage.chats, subscriptionLimits.max_chat_conversations),
-            calculatePercentage(mappedUsage.aiResponses, subscriptionLimits.max_ai_responses),
+            { name: 'Websites', percentage: calculatePercentage(liveWebsites, subscriptionLimits.max_websites) },
+            { name: 'Chats', percentage: calculatePercentage(mappedUsage.chats, subscriptionLimits.max_chat_conversations) },
+            { name: 'AI Responses', percentage: calculatePercentage(mappedUsage.aiResponses, subscriptionLimits.max_ai_responses) },
         ];
-        return Math.max(...percentages);
+        return percentages.reduce((max, current) => current.percentage > max.percentage ? current : max);
     };
 
-    const getStatusColor = (percentage) => {
-        if (percentage >= 90) return 'text-red-500';
-        if (percentage >= 70) return 'text-yellow-500';
-        return 'text-blue-500';
-    };
+    const criticalStatus = getCriticalStatus();
+    const statusInfo = getStatusInfo(criticalStatus.percentage);
 
     const metrics = [
         {
             label: 'Websites',
             used: liveWebsites,
             max: subscriptionLimits.max_websites,
-            tooltip: 'Number of websites you can add to your account',
+            tooltip: 'Active websites with chat widgets installed',
+            icon: Globe,
+            color: 'text-blue-600',
+            bgColor: 'bg-blue-50',
         },
         {
-            label: 'Chats',
+            label: 'Conversations',
             used: mappedUsage.chats,
             max: subscriptionLimits.max_chat_conversations,
-            tooltip: 'Total number of chat conversations allowed',
+            tooltip: 'Total chat conversations this billing period',
+            icon: MessageCircle,
+            color: 'text-purple-600',
+            bgColor: 'bg-purple-50',
         },
         {
             label: 'AI Responses',
             used: mappedUsage.aiResponses,
             max: subscriptionLimits.max_ai_responses,
-            tooltip: 'Number of AI-generated responses available',
+            tooltip: 'AI-generated responses this billing period',
+            icon: Bot,
+            color: 'text-indigo-600',
+            bgColor: 'bg-indigo-50',
         },
     ];
-
-    const highestUsage = getHighestUsage();
-    const statusColor = getStatusColor(highestUsage);
 
     return (
         <TooltipProvider>
             <div className="relative">
-                {/* Compact Button */}
+                {/* Enhanced Status Header */}
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-full px-4 py-2 border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors duration-200 flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                        <Activity className={`w-4 h-4 ${statusColor}`} />
-                        <span className="text-sm font-medium text-gray-700">Usage & Limits</span>
-                        <span
-                            className={`text-xs px-2 py-0.5 rounded-full ${
-                                highestUsage >= 90 ? 'bg-red-100 text-red-700' : highestUsage >= 70 ? 'bg-yellow-100 text-yellow-700' : 'bg-blue-100 text-blue-700'
-                            }`}>
-                            {highestUsage.toFixed(0)}% Used
-                        </span>
+                    className={`w-full px-4 py-3 border-b border-gray-200 transition-all duration-200 flex items-center justify-between ${
+                        statusInfo.bg
+                    } hover:opacity-90`}>
+                    <div className="flex items-center space-x-3">
+                        <div className={`p-2 rounded-lg ${statusInfo.bgColor || 'bg-gray-100'}`}>
+                            <statusInfo.icon className={`w-4 h-4 ${statusInfo.color}`} />
+                        </div>
+                        <div className="flex-1">
+                            <div className="flex items-center space-x-2">
+                                <span className="text-sm font-semibold text-gray-900">Plan Usage</span>
+                                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                                    criticalStatus.percentage >= 95 ? 'bg-red-100 text-red-700' :
+                                    criticalStatus.percentage >= 85 ? 'bg-orange-100 text-orange-700' :
+                                    criticalStatus.percentage >= 70 ? 'bg-yellow-100 text-yellow-700' :
+                                    'bg-green-100 text-green-700'
+                                }`}>
+                                    {statusInfo.status}
+                                </span>
+                            </div>
+                            <p className="text-xs text-gray-600 mt-0.5">
+                                {criticalStatus.percentage >= 95 ? 
+                                    `${criticalStatus.name} limit almost reached` :
+                                    criticalStatus.percentage >= 70 ?
+                                    `${criticalStatus.name} usage: ${criticalStatus.percentage.toFixed(0)}%` :
+                                    `${subscriptionLimits.subscription_name} Plan Active`
+                                }
+                            </p>
+                        </div>
                     </div>
                     <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
                 </button>
@@ -91,55 +131,124 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
                         {/* Backdrop */}
                         <div className="fixed inset-0 bg-black/20 z-40" onClick={() => setIsOpen(false)} />
 
-                        {/* Panel */}
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 z-50 p-4 animate-in slide-in-from-top-2 duration-200">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center space-x-2">
-                                    <h3 className="font-semibold text-gray-900">Resource Usage</h3>
-                                    <span className="px-2.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">{subscriptionLimits.subscription_name}</span>
+                        {/* Enhanced Panel */}
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 animate-in slide-in-from-top-2 duration-200 overflow-hidden">
+                            {/* Header */}
+                            <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-3">
+                                        <div className="p-2 bg-white rounded-lg shadow-sm">
+                                            <Activity className="w-5 h-5 text-blue-600" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-bold text-gray-900 text-lg">Usage Dashboard</h3>
+                                            <p className="text-sm text-gray-600">{subscriptionLimits.subscription_name} Plan</p>
+                                        </div>
+                                    </div>
+                                    <button 
+                                        onClick={() => setIsOpen(false)} 
+                                        className="p-2 hover:bg-white/80 rounded-lg transition-colors text-gray-400 hover:text-gray-600"
+                                    >
+                                        <X className="w-5 h-5" />
+                                    </button>
                                 </div>
-                                <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-gray-500">
-                                    <X className="w-4 h-4" />
-                                </button>
                             </div>
 
-                            <div className="space-y-4">
+                            {/* Metrics Grid */}
+                            <div className="p-6 space-y-6">
                                 {metrics.map((metric) => {
                                     const percentage = calculatePercentage(metric.used, metric.max);
                                     const progressColor = getProgressColor(percentage);
+                                    const metricStatusInfo = getStatusInfo(percentage);
+                                    const remaining = Math.max(0, metric.max - metric.used);
 
                                     return (
-                                        <div key={metric.label} className="group">
-                                            <div className="flex items-center justify-between mb-1">
-                                                <div className="flex items-center space-x-1.5">
-                                                    <span className="text-sm font-medium text-gray-700">{metric.label}</span>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <HelpCircle className="w-4 h-4 text-gray-400 cursor-help hover:text-gray-500" />
-                                                        </TooltipTrigger>
-                                                        <TooltipContent>
-                                                            <p>{metric.tooltip}</p>
-                                                        </TooltipContent>
-                                                    </Tooltip>
+                                        <div key={metric.label} className={`p-4 rounded-xl border-2 ${metricStatusInfo.border} ${metricStatusInfo.bg} hover:shadow-md transition-all duration-200`}>
+                                            {/* Metric Header */}
+                                            <div className="flex items-center justify-between mb-3">
+                                                <div className="flex items-center space-x-3">
+                                                    <div className={`p-2.5 rounded-lg ${metric.bgColor} shadow-sm`}>
+                                                        <metric.icon className={`w-5 h-5 ${metric.color}`} />
+                                                    </div>
+                                                    <div>
+                                                        <h4 className="font-semibold text-gray-900 flex items-center gap-2">
+                                                            {metric.label}
+                                                            <Tooltip>
+                                                                <TooltipTrigger asChild>
+                                                                    <HelpCircle className="w-4 h-4 text-gray-400 cursor-help hover:text-gray-600" />
+                                                                </TooltipTrigger>
+                                                                <TooltipContent className="max-w-xs">
+                                                                    <p>{metric.tooltip}</p>
+                                                                </TooltipContent>
+                                                            </Tooltip>
+                                                        </h4>
+                                                        <p className="text-sm text-gray-600">
+                                                            {remaining > 0 ? `${remaining} remaining` : 'Limit reached'}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div className="flex items-center space-x-2">
-                                                    <span className="text-sm text-gray-600">
-                                                        {metric.used} / {metric.max}
-                                                    </span>
-                                                    <span
-                                                        className={`text-xs px-1.5 py-0.5 rounded-full ${
-                                                            percentage >= 90 ? 'bg-red-100 text-red-700' : percentage >= 70 ? 'bg-yellow-100 text-yellow-700' : 'bg-blue-100 text-blue-700'
-                                                        }`}>
+                                                <div className="text-right">
+                                                    <div className={`px-3 py-1 rounded-full text-sm font-bold ${
+                                                        percentage >= 95 ? 'bg-red-100 text-red-700' :
+                                                        percentage >= 85 ? 'bg-orange-100 text-orange-700' :
+                                                        percentage >= 70 ? 'bg-yellow-100 text-yellow-700' :
+                                                        'bg-green-100 text-green-700'
+                                                    }`}>
                                                         {percentage.toFixed(0)}%
-                                                    </span>
+                                                    </div>
+                                                    <p className="text-xs text-gray-500 mt-1">
+                                                        {metric.used} / {metric.max}
+                                                    </p>
                                                 </div>
                                             </div>
-                                            <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden">
-                                                <div className={`absolute left-0 top-0 h-full transition-all duration-300 ${progressColor}`} style={{ width: `${percentage}%` }} />
+
+                                            {/* Enhanced Progress Bar */}
+                                            <div className="relative">
+                                                <div className="h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+                                                    <div 
+                                                        className={`h-full transition-all duration-500 ease-out ${progressColor} relative overflow-hidden`}
+                                                        style={{ width: `${percentage}%` }}
+                                                    >
+                                                        {/* Shimmer effect */}
+                                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
+                                                    </div>
+                                                </div>
+                                                {/* Progress markers */}
+                                                <div className="absolute top-0 left-0 w-full h-3 flex justify-between items-center px-1">
+                                                    <div className="w-px h-2 bg-white/50" />
+                                                    <div className="w-px h-2 bg-white/50" />
+                                                    <div className="w-px h-2 bg-white/50" />
+                                                    <div className="w-px h-2 bg-white/50" />
+                                                </div>
                                             </div>
+
+                                            {/* Status Message */}
+                                            {percentage >= 85 && (
+                                                <div className="mt-3 p-2 bg-white/50 rounded-lg border border-white/80">
+                                                    <p className={`text-xs font-medium flex items-center gap-1 ${
+                                                        percentage >= 95 ? 'text-red-700' : 'text-orange-700'
+                                                    }`}>
+                                                        <AlertTriangle className="w-3 h-3" />
+                                                        {percentage >= 95 ?
+                                                            'Almost at limit! Consider upgrading your plan.' :
+                                                            'Approaching limit. Monitor usage closely.'
+                                                        }
+                                                    </p>
+                                                </div>
+                                            )}
                                         </div>
                                     );
                                 })}
+
+                                {/* Quick Actions */}
+                                <div className="pt-4 border-t border-gray-200">
+                                    <div className="flex items-center justify-between text-xs text-gray-500">
+                                        <span>Need more resources?</span>
+                                        <button className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
+                                            Upgrade Plan
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </>

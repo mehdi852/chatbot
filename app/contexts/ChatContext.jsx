@@ -23,6 +23,7 @@ export function ChatProvider({ children }) {
         historyError: null,
         isSoundMuted: false,
         typingIndicators: {},
+        visitorStatuses: {}, // Track visitor statuses: visitorId -> 'online'|'away'|'offline'
     });
 
     // remove the conversation from the chatState.conversations AND visitors array
@@ -129,11 +130,16 @@ export function ChatProvider({ children }) {
                       },
                   ];
 
-            // NO INCREMENT LOGIC HERE
+            // Initialize visitor status as online when they send a message
+            const updatedStatuses = {
+                ...prev.visitorStatuses,
+                [visitorId]: 'online'
+            };
 
             return {
                 ...prev,
                 visitors: updatedVisitors,
+                visitorStatuses: updatedStatuses,
             };
         });
     };
@@ -310,6 +316,51 @@ export function ChatProvider({ children }) {
                     }
                     
                     return updatedState;
+                });
+            }
+        });
+
+        // Listen for visitor status changes
+        socketInstance.on('visitor-status-changed', (data) => {
+            console.log('🔔 Received visitor status change:', {
+                visitorId: data.visitorId,
+                status: data.status,
+                websiteId: data.websiteId
+            });
+            
+            if (data.websiteId === chatState.selectedWebsite?.id) {
+                setChatState((prev) => {
+                    let updatedVisitors = prev.visitors;
+                    
+                    if (data.status === 'offline') {
+                        console.log(`🗑️ Removing visitor ${data.visitorId} from list (offline)`);
+                        // Remove visitor from list when they go offline
+                        updatedVisitors = prev.visitors.filter(v => v.id !== data.visitorId);
+                    } else {
+                        console.log(`📊 Updating visitor ${data.visitorId} status to: ${data.status}`);
+                        // Update visitor status (online or away)
+                        updatedVisitors = prev.visitors.map(v => 
+                            v.id === data.visitorId 
+                                ? { ...v, status: data.status }
+                                : v
+                        );
+                    }
+                    
+                    const newState = {
+                        ...prev,
+                        visitors: updatedVisitors,
+                        visitorStatuses: {
+                            ...prev.visitorStatuses,
+                            [data.visitorId]: data.status,
+                        },
+                        // Clear selected visitor if they went offline
+                        selectedVisitorId: data.status === 'offline' && prev.selectedVisitorId === data.visitorId 
+                            ? null 
+                            : prev.selectedVisitorId,
+                    };
+                    
+                    console.log('📝 Updated visitor statuses:', newState.visitorStatuses);
+                    return newState;
                 });
             }
         });
@@ -591,6 +642,25 @@ export function ChatProvider({ children }) {
         setChatState((prev) => ({ ...prev, isSoundMuted: !prev.isSoundMuted }));
     };
 
+    // Function to cleanup sockets on logout
+    const logout = () => {
+        if (socketRef.current) {
+            console.log('Disconnecting admin socket on logout');
+            socketRef.current.removeAllListeners();
+            socketRef.current.disconnect();
+            socketRef.current = null;
+        }
+        // Clear all chat state
+        setChatState((prev) => ({
+            ...prev,
+            conversations: {},
+            visitors: [],
+            selectedVisitorId: null,
+            typingIndicators: {},
+            isConnected: false,
+        }));
+    };
+
     return (
         <ChatContext.Provider
             value={{
@@ -604,6 +674,7 @@ export function ChatProvider({ children }) {
                 loadMoreMessages,
                 toggleSound,
                 removeConversation,
+                logout,
             }}>
             {children}
         </ChatContext.Provider>

@@ -1,5 +1,5 @@
 'use client';
-import { UserButton } from '@clerk/nextjs';
+import { CustomUserButton } from '@/components/ui/custom-user-button';
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { Bell, MessageSquare, CheckCircle2, Info, AlertCircle, MoreHorizontal, Check, ChevronDown, Filter, Clock, ArrowUpRight, ArrowRight } from 'lucide-react';
@@ -474,7 +474,7 @@ function Header() {
                         Admin
                     </Button>
                 )}
-                <UserButton
+                <CustomUserButton
                     appearance={{
                         elements: {
                             avatarBox: 'w-8 h-8',

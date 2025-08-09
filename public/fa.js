@@ -352,6 +352,16 @@
                     // Remove all typing indicators
                     hideTypingIndicator();
 
+                    // Notify server that visitor is going away
+                    if (socket && isConnected) {
+                        socket.emit('visitor-away', {
+                            websiteId: websiteIdNum,
+                            visitorId: visitorId,
+                            timestamp: new Date()
+                        });
+                        console.log('Visitor going away, notifying server');
+                    }
+
                     // Clear chat history but keep visitor ID
                     localStorage.removeItem(`fa_chat_${visitorId}`);
                     content.innerHTML = ''; // Clear chat messages from DOM

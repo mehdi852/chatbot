@@ -59,7 +59,59 @@ async function getWebsiteData(websiteId) {
 // Helper function to check if any admins are online for a website
 function isAnyAdminOnline(io, websiteId) {
     const sockets = Array.from(io.sockets.sockets.values());
-    return sockets.some(socket => socket.isAdmin && socket.websiteId === websiteId);
+    return sockets.some(socket => {
+        // Check if socket is admin, for the right website, and actually connected
+        return socket.isAdmin && 
+               socket.websiteId === websiteId && 
+               socket.connected && 
+               !socket.disconnected;
+    });
+}
+
+// Store visitor statuses in memory (in production, use Redis or database)
+const visitorStatuses = new Map(); // visitorId -> { status: 'online'|'away'|'offline', lastSeen: Date, timeoutId: number }
+
+// Helper function to set visitor status
+function setVisitorStatus(io, websiteId, visitorId, status) {
+    const key = `${websiteId}_${visitorId}`;
+    
+    // Clear existing timeout if any
+    if (visitorStatuses.has(key) && visitorStatuses.get(key).timeoutId) {
+        clearTimeout(visitorStatuses.get(key).timeoutId);
+    }
+    
+    // Update status
+    visitorStatuses.set(key, {
+        status,
+        lastSeen: new Date(),
+        websiteId,
+        visitorId
+    });
+    
+    // Notify admins about status change
+    const adminRoom = `admin_${websiteId}`;
+    io.to(adminRoom).emit('visitor-status-changed', {
+        websiteId,
+        visitorId,
+        status,
+        timestamp: new Date()
+    });
+    
+    console.log(`Visitor ${visitorId} status changed to: ${status}`);
+    
+    // If visitor is away, set timeout to remove them after 3 minutes
+    if (status === 'away') {
+        const timeoutId = setTimeout(() => {
+            console.log(`Removing visitor ${visitorId} after timeout`);
+            setVisitorStatus(io, websiteId, visitorId, 'offline');
+            visitorStatuses.delete(key);
+        }, 3 * 60 * 1000); // 3 minutes
+        
+        visitorStatuses.set(key, {
+            ...visitorStatuses.get(key),
+            timeoutId
+        });
+    }
 }
 
 export async function GET(req) {
@@ -104,8 +156,25 @@ export async function GET(req) {
                 console.log(`Agent connected for website ${socket.websiteId} - notifying visitors`);
             }
 
+            // Set visitor as online when they connect
+            if (!socket.isAdmin && socket.visitorId) {
+                setVisitorStatus(io, socket.websiteId, socket.visitorId, 'online');
+            }
+
             // Handle visitor messages
-            socket.on('visitor-message', (data) => handleVisitorMessage(io, socket, data));
+            socket.on('visitor-message', (data) => {
+                // Update visitor status to online when they send a message
+                setVisitorStatus(io, socket.websiteId, socket.visitorId, 'online');
+                handleVisitorMessage(io, socket, data);
+            });
+
+            // Handle visitor going away
+            socket.on('visitor-away', (data) => {
+                if (data.websiteId === socket.websiteId && data.visitorId === socket.visitorId) {
+                    setVisitorStatus(io, data.websiteId, data.visitorId, 'away');
+                    console.log(`Visitor ${data.visitorId} is now away`);
+                }
+            });
 
             // Handle admin messages
             socket.on('admin-message', (data) => handleAdminMessage(io, socket, data));
@@ -175,8 +244,10 @@ export async function GET(req) {
                 console.log('Client disconnected', socket.id, reason);
                 const websiteId = socket.websiteId;
                 const wasAdmin = socket.isAdmin;
+                const visitorId = socket.visitorId;
                 
                 socket.leave(`website_${websiteId}`);
+                
                 if (wasAdmin) {
                     socket.leave(`admin_${websiteId}`);
                     
@@ -196,6 +267,10 @@ export async function GET(req) {
                             console.log(`All agents disconnected for website ${websiteId} - notifying visitors`);
                         }
                     }, 100);
+                } else if (visitorId && !socket.isAdmin) {
+                    // Visitor disconnected - set them as away immediately
+                    console.log(`Visitor ${visitorId} disconnected, setting as away`);
+                    setVisitorStatus(io, websiteId, visitorId, 'away');
                 }
                 
                 socket.removeAllListeners();
