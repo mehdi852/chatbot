@@ -113,7 +113,9 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
                                 </span>
                             </div>
                             <p className="text-xs text-gray-600 mt-0.5">
-                                {criticalStatus.percentage >= 95 ? 
+                                {criticalStatus.percentage >= 100 ? 
+                                    `${criticalStatus.name} limit reached` :
+                                    criticalStatus.percentage >= 95 ?
                                     `${criticalStatus.name} limit almost reached` :
                                     criticalStatus.percentage >= 70 ?
                                     `${criticalStatus.name} usage: ${criticalStatus.percentage.toFixed(0)}%` :
@@ -226,10 +228,13 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
                                             {percentage >= 85 && (
                                                 <div className="mt-3 p-2 bg-white/50 rounded-lg border border-white/80">
                                                     <p className={`text-xs font-medium flex items-center gap-1 ${
+                                                        percentage >= 100 ? 'text-red-800' :
                                                         percentage >= 95 ? 'text-red-700' : 'text-orange-700'
                                                     }`}>
                                                         <AlertTriangle className="w-3 h-3" />
-                                                        {percentage >= 95 ?
+                                                        {percentage >= 100 ?
+                                                            'Limit reached! Upgrade your plan to continue.' :
+                                                            percentage >= 95 ?
                                                             'Almost at limit! Consider upgrading your plan.' :
                                                             'Approaching limit. Monitor usage closely.'
                                                         }

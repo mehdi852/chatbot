@@ -71,6 +71,26 @@ function isAnyAdminOnline(io, websiteId) {
 // Store visitor statuses in memory (in production, use Redis or database)
 const visitorStatuses = new Map(); // visitorId -> { status: 'online'|'away'|'offline', lastSeen: Date, timeoutId: number }
 
+// Cleanup old visitor statuses to prevent memory leaks
+const cleanupOldVisitorStatuses = () => {
+    const now = new Date();
+    const CLEANUP_THRESHOLD = 24 * 60 * 60 * 1000; // 24 hours
+    
+    for (const [key, statusData] of visitorStatuses.entries()) {
+        if (now - statusData.lastSeen > CLEANUP_THRESHOLD) {
+            // Clear any pending timeout
+            if (statusData.timeoutId) {
+                clearTimeout(statusData.timeoutId);
+            }
+            visitorStatuses.delete(key);
+            console.log(`Cleaned up old visitor status for: ${key}`);
+        }
+    }
+};
+
+// Run cleanup every hour
+setInterval(cleanupOldVisitorStatuses, 60 * 60 * 1000);
+
 // Helper function to set visitor status
 function setVisitorStatus(io, websiteId, visitorId, status) {
     const key = `${websiteId}_${visitorId}`;
@@ -297,6 +317,35 @@ export async function GET(req) {
             });
         });
 
+        // Global cleanup function for server shutdown
+        const cleanup = () => {
+            console.log('Cleaning up socket server...');
+            
+            // Clear all visitor status timeouts
+            for (const [key, statusData] of visitorStatuses.entries()) {
+                if (statusData.timeoutId) {
+                    clearTimeout(statusData.timeoutId);
+                }
+            }
+            visitorStatuses.clear();
+            
+            // Disconnect all sockets
+            if (io) {
+                io.disconnectSockets(true);
+                io.close();
+            }
+            
+            global.io = null;
+            console.log('Socket server cleanup completed');
+        };
+        
+        // Store cleanup function globally for external access
+        global.socketCleanup = cleanup;
+        
+        // Handle process termination
+        process.on('SIGTERM', cleanup);
+        process.on('SIGINT', cleanup);
+        
         global.io = io;
         return new Response('Socket is running');
     } catch (error) {

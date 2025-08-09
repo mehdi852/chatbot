@@ -393,9 +393,18 @@
 
             // Cleanup function
             const cleanup = () => {
-                socket.off('visitor-receive-message', handleAdminMessage);
-                socket.disconnect();
-                container.remove();
+                if (socket) {
+                    // Remove all event listeners before disconnecting
+                    socket.removeAllListeners();
+                    socket.disconnect(true); // Force disconnect
+                    console.log('Widget socket cleaned up and disconnected');
+                    socket = null;
+                }
+                if (container && container.parentNode) {
+                    container.remove();
+                }
+                // Clear any stored references
+                isConnected = false;
             };
 
             // Add cleanup to window unload

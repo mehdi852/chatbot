@@ -244,14 +244,12 @@ export function ChatProvider({ children }) {
                 addMessageToConversation(data.visitorId, data, 'visitor');
                 updateVisitorsList(data.visitorId, data.message, data.websiteId); // No isNewConversation
 
-                // Show AI typing indicator ONLY when visitor sends a message and AI is enabled
+                // Show AI typing indicator ONLY when visitor sends a message, AI is enabled, and limits are available
                 // Use setChatState callback to get current AI state instead of stale closure
                 setChatState((currentState) => {
                     if (currentState.selectedWebsite?.isAiEnabled) {
-                        // Add a small delay to make it look more natural
-                        setTimeout(() => {
-                            showTypingIndicator(data.visitorId);
-                        }, 500);
+                        // Check AI limits before showing typing indicator
+                        checkAILimitsBeforeTyping(data.visitorId, currentState.selectedWebsite.id);
                     }
                     return currentState; // Return state unchanged
                 });
@@ -441,6 +439,37 @@ export function ChatProvider({ children }) {
                 [visitorId]: false,
             },
         }));
+    };
+
+    // Function to check AI limits before showing typing indicator
+    const checkAILimitsBeforeTyping = async (visitorId, websiteId) => {
+        try {
+            const response = await fetch('/api/public/check-ai-limits', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ websiteId }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.eligible) {
+                    // Only show typing indicator if AI limits are available
+                    setTimeout(() => {
+                        showTypingIndicator(visitorId);
+                    }, 500);
+                } else {
+                    console.log('AI limits reached - not showing typing indicator');
+                }
+            } else {
+                // If limits check fails, don't show typing indicator to be safe
+                console.warn('AI limits check failed - not showing typing indicator');
+            }
+        } catch (error) {
+            console.error('Error checking AI limits:', error);
+            // If there's an error, don't show typing indicator to be safe
+        }
     };
 
     // Function to send a message
