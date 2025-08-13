@@ -34,12 +34,12 @@ export default async function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
-            <script 
+<script 
         src="http://localhost:3000/fa.js" 
         data-website-id="613914" 
         data-api-url="http://localhost:3000"
         async
-    ></script>   
+    ></script>
     
     <script 
         src="https://www.vertexit.xyz/fa.js" 

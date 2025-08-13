@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196F3;
+        }
+        .colors-expected {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        .color-box {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            vertical-align: middle;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Widget Color Test Page</h1>
+        
+        <div class="info">
+            <strong>Purpose:</strong> This page tests the widget colors loading from the database.
+            <br><strong>Test this page in both regular and incognito/private mode.</strong>
+        </div>
+
+        <div class="colors-expected">
+            <h3>Expected Colors from Database:</h3>
+            <p>
+                <span class="color-box" style="background-color: #b01c1c;"></span>
+                <strong>Primary Color:</strong> <code>#b01c1c</code> (Dark Red)
+            </p>
+            <p>
+                <span class="color-box" style="background-color: #313111;"></span>
+                <strong>Header Color:</strong> <code>#313111</code> (Dark Olive/Green)
+            </p>
+        </div>
+
+        <h2>Instructions:</h2>
+        <ol>
+            <li><strong>Open Developer Console</strong> (F12)</li>
+            <li><strong>Look for debugging messages</strong> starting with 🔍 and 🎨</li>
+            <li><strong>Click the chat widget button</strong> to trigger loading</li>
+            <li><strong>Check if the widget colors match</strong> the expected colors above</li>
+            <li><strong>Test in both regular and incognito mode</strong></li>
+        </ol>
+
+        <h2>What to Check:</h2>
+        <ul>
+            <li><strong>API URL:</strong> Should be <code>http://localhost:3000/api/public/widget-settings?websiteId=613914</code></li>
+            <li><strong>Response Status:</strong> Should be <code>200 true</code></li>
+            <li><strong>Primary Color:</strong> Should be <code>#b01c1c</code> (not #ff7300 or #3b82f6)</li>
+            <li><strong>Header Color:</strong> Should be <code>#313111</code> (not #ff8585 or #1e40af)</li>
+        </ul>
+
+        <p><strong>If colors are wrong:</strong> Check the console logs to see if the API is returning different data in different contexts.</p>
+        
+        <hr style="margin: 30px 0;">
+        
+        <p style="color: #666; font-size: 14px;">
+            Current URL: <code id="current-url"></code><br>
+            User Agent: <code id="user-agent"></code><br>
+            Is Private/Incognito: <span id="is-private"></span>
+        </p>
+    </div>
+
+    <!-- Widget Script -->
+    <script 
+        src="http://localhost:3000/fa.js" 
+        data-website-id="613914" 
+        data-api-url="http://localhost:3000"
+        async
+    ></script>
+
+    <script>
+        // Display current context info
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('user-agent').textContent = navigator.userAgent;
+        
+        // Detect private/incognito mode (basic detection)
+        function detectPrivateMode(callback) {
+            var db;
+            var on = callback.bind(null, true);
+            var off = callback.bind(null, false);
+            
+            function tryls() {
+                try {
+                    localStorage.length ? off() : (localStorage.x = 1, localStorage.removeItem("x"), off());
+                } catch (e) {
+                    navigator.cookieEnabled ? on() : off();
+                }
+            }
+            
+            // Safari
+            window.webkitRequestFileSystem ? webkitRequestFileSystem(0, 0, off, on) : 
+            // Chrome
+            window.webkitIndexedDB ? ((db = webkitIndexedDB.open("test", 1)).onerror = on, db.onsuccess = off) : 
+            // Firefox
+            window.indexedDB ? tryls() : 
+            // Others
+            tryls();
+        }
+        
+        detectPrivateMode(function(isPrivate) {
+            document.getElementById('is-private').textContent = isPrivate ? 'Yes (Private/Incognito)' : 'No (Regular)';
+            document.getElementById('is-private').style.color = isPrivate ? '#ff6b35' : '#28a745';
+            document.getElementById('is-private').style.fontWeight = 'bold';
+        });
+    </script>
+</body>
+</html>

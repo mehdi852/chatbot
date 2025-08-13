@@ -309,3 +309,26 @@ export const ChatMessages = pgTable('chat_messages', {
     browser: varchar('browser', { length: 255 }).notNull().default(''),
     country: varchar('country', { length: 255 }).notNull().default(''),
 });
+
+// Widget Settings table
+export const WidgetSettings = pgTable('widget_settings', {
+    id: serial('id').primaryKey(),
+    user_id: integer('user_id')
+        .references(() => Users.id)
+        .notNull(),
+    primary_color: varchar('primary_color', { length: 7 }).notNull().default('#3b82f6'),
+    header_color: varchar('header_color', { length: 7 }).notNull().default('#1e40af'),
+    background_color: varchar('background_color', { length: 7 }).notNull().default('#ffffff'),
+    text_color: varchar('text_color', { length: 7 }).notNull().default('#374151'),
+    button_size: varchar('button_size', { length: 20 }).notNull().default('medium'),
+    button_position: varchar('button_position', { length: 20 }).notNull().default('bottom-right'),
+    border_radius: varchar('border_radius', { length: 20 }).notNull().default('rounded'),
+    welcome_message: text('welcome_message').notNull().default('Hi! How can we help you today?'),
+    placeholder_text: varchar('placeholder_text', { length: 255 }).notNull().default('Type your message...'),
+    company_name: varchar('company_name', { length: 255 }).notNull().default('Support Team'),
+    button_text: varchar('button_text', { length: 255 }).notNull().default('Chat with us'),
+    show_branding: boolean('show_branding').notNull().default(true),
+    brand_name: varchar('brand_name', { length: 255 }).notNull().default('BirdSeed'),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at').defaultNow().notNull(),
+});

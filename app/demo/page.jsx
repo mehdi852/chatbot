@@ -1,5 +1,6 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useUserContext } from '@/app/provider';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -91,6 +92,7 @@ function getSubscriptionStatusColor(boolean) {
 
 
 const Dashboard = () => {
+    const { dbUser } = useUserContext();
     const [totalUsers, setTotalUsers] = React.useState(156);
     const [newUsers, setNewUsers] = React.useState(12);
     const [latestUsers, setLatestUsers] = React.useState(mockLatestUsers);
@@ -98,6 +100,65 @@ const Dashboard = () => {
     const [selectedUser, setSelectedUser] = React.useState(null);
     const [isLoading, setIsLoading] = React.useState(false);
     const [totalTickets, setTotalTickets] = React.useState({ resolved: 45, open: 23, total: 68 });
+    const [websites, setWebsites] = React.useState([]);
+
+    // Load user's websites to get a website ID for the demo widget
+    useEffect(() => {
+        const loadWebsites = async () => {
+            if (!dbUser?.id) return;
+            
+            try {
+                const response = await fetch('/api/websites/get-website', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId: dbUser.id }),
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    setWebsites(data.websites || []);
+                } else {
+                    console.error('Failed to load websites');
+                }
+            } catch (error) {
+                console.error('Error loading websites:', error);
+            }
+        };
+        
+        loadWebsites();
+    }, [dbUser?.id]);
+
+    // Load the public widget script dynamically
+    useEffect(() => {
+        if (!dbUser?.id || websites.length === 0) return;
+        
+        // Use the first website's ID
+        const websiteId = websites[0].id;
+        
+        // Remove any existing widget script to avoid duplicates
+        const existingScript = document.querySelector('script[data-widget="fa-chatbot"]');
+        if (existingScript) {
+            existingScript.remove();
+        }
+        
+        // Add the widget script
+        const script = document.createElement('script');
+        script.src = '/fa.js';
+        script.setAttribute('data-website-id', websiteId.toString());
+        script.setAttribute('data-api-url', window.location.origin);
+        script.setAttribute('data-widget', 'fa-chatbot');
+        document.body.appendChild(script);
+        
+        // Cleanup function
+        return () => {
+            const scriptToRemove = document.querySelector('script[data-widget="fa-chatbot"]');
+            if (scriptToRemove) {
+                scriptToRemove.remove();
+            }
+        };
+    }, [dbUser?.id, websites]);
 
     const handleUserEditorClick = (user) => {
         setSelectedUser(user);

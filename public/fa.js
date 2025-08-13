@@ -13,7 +13,77 @@
         return visitorId;
     };
     const visitorId = getVisitorId();
+    
+    // Widget settings (will be loaded from database)
+    let widgetSettings = {
+        primaryColor: '#3b82f6',
+        headerColor: '#1e40af',
+        backgroundColor: '#ffffff',
+        textColor: '#374151',
+        buttonSize: 'medium',
+        buttonPosition: 'bottom-right',
+        borderRadius: 'rounded',
+        welcomeMessage: 'Hi! How can we help you today?',
+        placeholderText: 'Type your message...',
+        companyName: 'Support Team',
+        buttonText: 'Chat with us',
+        showBranding: true,
+        brandName: 'BirdSeed'
+    };
 
+    // Load widget settings from database
+    const loadWidgetSettings = async () => {
+        try {
+            const fetchUrl = `${apiUrl}/api/public/widget-settings?websiteId=${websiteId}`;
+            console.log('🔍 DEBUGGING: Fetching widget settings from:', fetchUrl);
+            console.log('🔍 DEBUGGING: Current page URL:', window.location.href);
+            console.log('🔍 DEBUGGING: API URL:', apiUrl);
+            console.log('🔍 DEBUGGING: Website ID:', websiteId);
+            
+            // Add timestamp to bust cache
+            const cacheBuster = Date.now();
+            const cacheBustedUrl = `${fetchUrl}&t=${cacheBuster}`;
+            
+            const response = await fetch(cacheBustedUrl, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache',
+                    'Expires': '0'
+                },
+                cache: 'no-store' // Force no caching
+            });
+            
+            console.log('🔍 DEBUGGING: Response status:', response.status, response.ok);
+            console.log('🔍 DEBUGGING: Response headers:', Object.fromEntries(response.headers.entries()));
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('🔍 DEBUGGING: Raw API response:', data);
+                
+                if (data.success && data.settings) {
+                    console.log('🔍 DEBUGGING: Default settings before merge:', widgetSettings);
+                    widgetSettings = { ...widgetSettings, ...data.settings };
+                    console.log('🔍 DEBUGGING: Final merged settings:', widgetSettings);
+                    console.log('🎨 DEBUGGING: Colors from database:');
+                    console.log('   Primary Color:', widgetSettings.primaryColor);
+                    console.log('   Header Color:', widgetSettings.headerColor);
+                    console.log('   Background Color:', widgetSettings.backgroundColor);
+                    console.log('   Text Color:', widgetSettings.textColor);
+                } else {
+                    console.warn('🔍 DEBUGGING: No settings in response or success=false');
+                }
+            } else {
+                console.error('🔍 DEBUGGING: Response not ok:', response.status);
+            }
+        } catch (error) {
+            console.error('🔍 DEBUGGING: Error loading widget settings:', error);
+            // Use default settings on error
+        }
+    };
+    
     // Load external CSS file
     const loadStyles = () => {
         const link = document.createElement('link');
@@ -25,6 +95,181 @@
 
     // Load the CSS
     loadStyles();
+    
+    // Function to apply widget settings as CSS variables
+    const applyWidgetStyles = () => {
+        console.log('🎨 DEBUGGING: applyWidgetStyles called with settings:', widgetSettings);
+        
+        // Create or update custom CSS variables
+        const styleId = 'fa-widget-custom-styles';
+        let customStyles = document.getElementById(styleId);
+        
+        if (!customStyles) {
+            console.log('🎨 DEBUGGING: Creating new style element with id:', styleId);
+            customStyles = document.createElement('style');
+            customStyles.id = styleId;
+            document.head.appendChild(customStyles);
+        } else {
+            console.log('🎨 DEBUGGING: Using existing style element');
+        }
+        
+        // Helper function for border radius
+        const getBorderRadius = (radius) => {
+            switch (radius) {
+                case 'none': return '0px';
+                case 'small': return '6px';
+                case 'rounded': return '12px';
+                case 'full': return '24px';
+                default: return '12px';
+            }
+        };
+        
+        const generatedCSS = `
+            /* Override CSS Variables with dynamic values */
+            :root {
+                --primary-color: ${widgetSettings.primaryColor} !important;
+                --primary-gradient: linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%) !important;
+                --primary-dark: ${widgetSettings.headerColor} !important;
+                --header-color: ${widgetSettings.headerColor} !important;
+                --background-primary: ${widgetSettings.backgroundColor} !important;
+                --text-primary: ${widgetSettings.textColor} !important;
+            }
+            
+            /* Force override all gradient elements with !important */
+            .fa-chat-launcher,
+            .fa-chat-button {
+                background: linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%) !important;
+            }
+            
+            .fa-widget-header {
+                background: linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%) !important;
+            }
+            
+            .fa-send-btn,
+            .fa-widget-send {
+                background: linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%) !important;
+            }
+            
+            .fa-widget-message.user {
+                background: linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%) !important;
+                color: white !important;
+            }
+            
+            /* Admin messages */
+            .fa-widget-message.admin {
+                background: var(--background-secondary, #f7fafc) !important;
+                color: ${widgetSettings.textColor} !important;
+            }
+            
+            /* Widget body backgrounds */
+            .fa-messages-scroll,
+            .fa-widget-content {
+                background-color: ${widgetSettings.backgroundColor} !important;
+            }
+            
+            .fa-widget-footer,
+            .fa-widget-input-container {
+                background-color: ${widgetSettings.backgroundColor} !important;
+            }
+            
+            /* Input text color */
+            .fa-message-input,
+            .fa-widget-input {
+                color: ${widgetSettings.textColor} !important;
+            }
+            
+            /* Typing indicator */
+            .fa-typing-indicator {
+                background: var(--background-secondary, #f7fafc) !important;
+            }
+            
+            .fa-typing-dots span {
+                background-color: ${widgetSettings.textColor} !important;
+                opacity: 0.4;
+            }
+            
+            /* Button size variations */
+            .fa-chat-launcher.fa-size-small {
+                width: 48px !important;
+                height: 48px !important;
+            }
+            
+            .fa-chat-launcher.fa-size-medium {
+                width: 56px !important;
+                height: 56px !important;
+            }
+            
+            .fa-chat-launcher.fa-size-large {
+                width: 64px !important;
+                height: 64px !important;
+            }
+            
+            /* Button position variations */
+            .fa-chat-launcher.fa-position-bottom-right {
+                bottom: 32px !important;
+                right: 32px !important;
+            }
+            
+            .fa-chat-launcher.fa-position-bottom-left {
+                bottom: 32px !important;
+                left: 32px !important;
+            }
+            
+            .fa-chat-launcher.fa-position-bottom-center {
+                bottom: 32px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+            }
+            
+            .fa-chat-launcher.fa-position-top-right {
+                top: 32px !important;
+                right: 32px !important;
+            }
+            
+            .fa-chat-launcher.fa-position-top-left {
+                top: 32px !important;
+                left: 32px !important;
+            }
+            
+            /* Border radius variations */
+            .fa-chat-launcher.fa-radius-none {
+                border-radius: 0px !important;
+            }
+            
+            .fa-chat-launcher.fa-radius-small {
+                border-radius: 6px !important;
+            }
+            
+            .fa-chat-launcher.fa-radius-rounded {
+                border-radius: 50% !important;
+            }
+            
+            .fa-chat-launcher.fa-radius-full {
+                border-radius: 50% !important;
+            }
+            
+            .fa-chat-container.fa-radius-none {
+                border-radius: 0px !important;
+            }
+            
+            .fa-chat-container.fa-radius-small {
+                border-radius: 6px !important;
+            }
+            
+            .fa-chat-container.fa-radius-rounded {
+                border-radius: 12px !important;
+            }
+            
+            .fa-chat-container.fa-radius-full {
+                border-radius: 24px !important;
+            }
+        `;
+        
+        customStyles.textContent = generatedCSS;
+        console.log('🎨 DEBUGGING: Generated CSS applied:');
+        console.log(generatedCSS);
+        console.log('🎨 DEBUGGING: Style element added to head:', customStyles);
+    };
 
     // Load Socket.IO client
     const script = document.createElement('script');
@@ -45,6 +290,9 @@
                 console.error('Invalid websiteId:', websiteId);
                 return;
             }
+            
+            // Load widget settings first
+            await loadWidgetSettings();
 
             let socket = null;
             let isConnected = false;
@@ -56,41 +304,108 @@
             // Create and inject HTML elements
             const container = document.createElement('div');
             container.innerHTML = `
-                <button class="fa-chat-button">
-                    <span class="wave">👋</span>
-                    Chat with us
+                <button class="fa-chat-launcher">
+                    <div class="fa-launcher-content">
+                        <div class="fa-launcher-icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM13 14H11V12H13V14ZM13 10H11V6H13V10Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="fa-launcher-pulse"></div>
+                    </div>
+                    <div class="fa-launcher-tooltip">
+                        <div class="fa-launcher-tooltip-content">
+                            <div class="fa-launcher-tooltip-title">${widgetSettings.buttonText}</div>
+                            <div class="fa-launcher-tooltip-subtitle">Chat with our support team</div>
+                        </div>
+                    </div>
                 </button>
-                <div class="fa-widget-container">
-                    <div class="fa-chat-container">
-                        <div class="fa-widget-header">
-                            <div class="fa-agent-avatar">
-                                <div class="fa-avatar-circle">
-                                    <svg class="fa-avatar-icon" viewBox="0 0 24 24" fill="none">
-                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/>
-                                    </svg>
+                <div class="fa-widget-overlay">
+                    <div class="fa-widget-container">
+                        <div class="fa-widget-backdrop"></div>
+                        <div class="fa-chat-container">
+                            <div class="fa-widget-header">
+                                <div class="fa-header-content">
+                                    <div class="fa-agent-info">
+                                        <div class="fa-agent-avatar">
+                                            <div class="fa-avatar-gradient">
+                                                <svg class="fa-avatar-icon" viewBox="0 0 24 24" fill="none">
+                                                    <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" fill="currentColor"/>
+                                                    <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
+                                                </svg>
+                                            </div>
+                                            <div class="fa-status-badge" id="fa-agent-status">
+                                                <div class="fa-status-dot"></div>
+                                            </div>
+                                        </div>
+                                        <div class="fa-agent-details">
+                                            <div class="fa-agent-name">${widgetSettings.companyName}</div>
+                                            <div class="fa-agent-status" id="fa-status-text">Typically replies in minutes</div>
+                                        </div>
+                                    </div>
+                                    <div class="fa-header-actions">
+                                        <button class="fa-minimize-btn" title="Minimize">
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M19 13H5V11H19V13Z" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                        <button class="fa-close-btn" title="Close">
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="fa-status-indicator" id="fa-agent-status"></div>
                             </div>
-                            <div class="fa-widget-header-text">
-                                <h3 class="fa-widget-header-title">Chat with us</h3>
-                                <p class="fa-widget-header-subtitle" id="fa-status-text">We typically reply within a few minutes</p>
+                            <div class="fa-widget-body">
+                                <div class="fa-messages-container">
+                                    <div class="fa-messages-scroll" id="fa-messages-scroll">
+                                        <div class="fa-welcome-message">
+                                            <div class="fa-welcome-avatar">
+                                                <svg viewBox="0 0 24 24" fill="none">
+                                                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.9 1 3 1.9 3 3V21C3 22.1 3.9 23 5 23H19C20.1 23 21 22.1 21 21V9ZM12 8C14.21 8 16 9.79 16 12C16 14.21 14.21 16 12 16C9.79 16 8 14.21 8 12C8 9.79 9.79 8 12 8Z" fill="currentColor"/>
+                                                </svg>
+                                            </div>
+                                            <div class="fa-welcome-text">
+                                                <div class="fa-welcome-title">Hi there! 👋</div>
+                                                <div class="fa-welcome-subtitle">${widgetSettings.welcomeMessage}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <button class="fa-close-button">×</button>
-                        </div>
-                        <div class="fa-widget-content"></div>
-                        <div class="fa-widget-input-container">
-                            <div class="fa-widget-input-wrapper">
-                                <textarea class="fa-widget-input" placeholder="Type your message..." rows="1"></textarea>
-                                <button class="fa-widget-emoji-btn">😊</button>
+                            <div class="fa-widget-footer">
+                                <div class="fa-input-container">
+                                    <div class="fa-input-wrapper">
+                                        <div class="fa-input-field">
+                                            <textarea 
+                                                class="fa-message-input" 
+                                                placeholder="${widgetSettings.placeholderText}" 
+                                                rows="1"
+                                                id="fa-message-input"
+                                                maxlength="1000"
+                                            ></textarea>
+                                            <div class="fa-input-actions">
+                                                <button class="fa-emoji-btn" title="Add emoji">
+                                                    <svg viewBox="0 0 24 24" fill="none">
+                                                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM15.5 8C16.33 8 17 8.67 17 9.5C17 10.33 16.33 11 15.5 11C14.67 11 14 10.33 14 9.5C14 8.67 14.67 8 15.5 8ZM8.5 8C9.33 8 10 8.67 10 9.5C10 10.33 9.33 11 8.5 11C7.67 11 7 10.33 7 9.5C7 8.67 7.67 8 8.5 8ZM12 17.5C9.67 17.5 7.69 16.04 6.89 14H17.11C16.31 16.04 14.33 17.5 12 17.5Z" fill="currentColor"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button class="fa-send-btn" title="Send message">
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M3.4 20.4L20.85 12.92C21.66 12.57 21.66 11.43 20.85 11.08L3.4 3.6C2.74 3.31 2.01 3.8 2.01 4.51L2 9.12C2 9.62 2.37 10.05 2.87 10.11L15 12L2.87 13.88C2.37 13.95 2 14.38 2 14.88L2.01 19.49C2.01 20.2 2.74 20.69 3.4 20.4Z" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                ${widgetSettings.showBranding ? `<div class="fa-powered-by">
+                                    <div class="fa-branding">
+                                        Powered by <strong>${widgetSettings.brandName}</strong>
+                                    </div>
+                                </div>` : ''}
                             </div>
-                            <button class="fa-widget-send">
-                                <svg viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="fa-widget-branding">
-                            Powered by BirdSeed
                         </div>
                     </div>
                 </div>
@@ -98,6 +413,25 @@
 
             // Append container to document body
             document.body.appendChild(container);
+            
+            // Apply widget styling after DOM is ready
+            applyWidgetStyles();
+            
+            // Apply CSS classes for button size, position, and border radius
+            const chatLauncherEl = container.querySelector('.fa-chat-launcher');
+            const chatContainerEl = container.querySelector('.fa-chat-container');
+            
+            if (chatLauncherEl) {
+                chatLauncherEl.classList.add(`fa-size-${widgetSettings.buttonSize}`);
+                chatLauncherEl.classList.add(`fa-position-${widgetSettings.buttonPosition}`);
+                chatLauncherEl.classList.add(`fa-radius-${widgetSettings.borderRadius}`);
+                
+                console.log('Applied widget classes and settings:', widgetSettings);
+            }
+            
+            if (chatContainerEl) {
+                chatContainerEl.classList.add(`fa-radius-${widgetSettings.borderRadius}`);
+            }
 
             // Create tooltip for limit exceeded
             const tooltip = document.createElement('div');
@@ -113,14 +447,17 @@
             `;
             document.body.appendChild(tooltip);
 
-            // Get references to DOM elements
-            const chatButton = container.querySelector('.fa-chat-button');
+            // Get references to DOM elements with new structure
+            const chatLauncher = container.querySelector('.fa-chat-launcher');
+            const widgetOverlay = container.querySelector('.fa-widget-overlay');
             const widgetContainer = container.querySelector('.fa-widget-container');
             const chatContainer = container.querySelector('.fa-chat-container');
-            const closeButtons = container.querySelectorAll('.fa-close-button');
-            const input = container.querySelector('.fa-widget-input');
-            const send = container.querySelector('.fa-widget-send');
-            const content = container.querySelector('.fa-widget-content');
+            const closeBtn = container.querySelector('.fa-close-btn');
+            const minimizeBtn = container.querySelector('.fa-minimize-btn');
+            const input = container.querySelector('.fa-message-input');
+            const sendBtn = container.querySelector('.fa-send-btn');
+            const messagesScroll = container.querySelector('.fa-messages-scroll');
+            const emojiBtn = container.querySelector('.fa-emoji-btn');
 
             // Check eligibility on page load - for now, chat is always available
             // Only AI responses can be limited, not human agent chat
@@ -275,11 +612,9 @@
 
                     // Always initialize socket for chat
                     socket = await initializeSocket();
-                    content.classList.remove('limit-exceeded');
-                    document.querySelector('.fa-widget-input-container').classList.remove('limit-exceeded');
                     input.disabled = false;
-                    input.placeholder = 'Type your message...';
-                    send.disabled = false;
+                    input.placeholder = 'Type a message...';
+                    sendBtn.disabled = false;
                     
                     // If AI is disabled, don't show any notice to users
                     // Keep it completely transparent - they will just get human responses
@@ -306,71 +641,54 @@
             };
 
             // Toggle chat widget
-            chatButton.addEventListener('click', async () => {
+            chatLauncher.addEventListener('click', async () => {
                 // If chat limits are exceeded, don't open the widget
-                if (!isEligibleForChat && chatButton.classList.contains('limit-exceeded')) {
+                if (!isEligibleForChat && chatLauncher.classList.contains('limit-exceeded')) {
                     // Just toggle the tooltip visibility
                     tooltip.classList.toggle('active');
                     return;
                 }
 
-                widgetContainer.classList.add('active');
-                chatButton.style.display = 'none';
-                chatContainer.style.display = 'flex';
+                widgetOverlay.classList.add('active');
+                chatLauncher.style.display = 'none';
 
-                // Add a visual indicator that the chat is loading
-                const loadingMessage = document.createElement('div');
-                loadingMessage.className = 'fa-widget-message admin';
-                loadingMessage.textContent = 'Connecting to chat...';
-                content.innerHTML = '';
-                content.appendChild(loadingMessage);
-
-                // Check eligibility and initialize chat
+                // Initialize socket and chat on first open
                 await checkEligibilityAndInitialize();
 
-                if (isEligibleForChat) {
-                    // Remove loading message
-                    content.removeChild(loadingMessage);
-
-                    // Add welcome message
-                    const welcomeMessage = document.createElement('div');
-                    welcomeMessage.className = 'fa-widget-message admin';
-                    welcomeMessage.textContent = 'Hello! How can we help you today?';
-                    content.appendChild(welcomeMessage);
-
-                    // Focus on input field
-                    input.focus();
-                }
+                // Focus on input field
+                input.focus();
             });
 
             // Close button functionality
-            closeButtons.forEach((closeButton) => {
-                closeButton.addEventListener('click', () => {
-                    widgetContainer.classList.remove('active');
-                    chatButton.style.display = 'flex';
+            closeBtn.addEventListener('click', () => {
+                widgetOverlay.classList.remove('active');
+                chatLauncher.style.display = 'flex';
 
-                    // Remove all typing indicators
-                    hideTypingIndicator();
+                // Remove all typing indicators
+                hideTypingIndicator();
 
-                    // Notify server that visitor is going away
-                    if (socket && isConnected) {
-                        socket.emit('visitor-away', {
-                            websiteId: websiteIdNum,
-                            visitorId: visitorId,
-                            timestamp: new Date()
-                        });
-                        console.log('Visitor going away, notifying server');
-                    }
+                // Notify server that visitor is going away
+                if (socket && isConnected) {
+                    socket.emit('visitor-away', {
+                        websiteId: websiteIdNum,
+                        visitorId: visitorId,
+                        timestamp: new Date()
+                    });
+                    console.log('Visitor going away, notifying server');
+                }
+            });
 
-                    // Clear chat history but keep visitor ID
-                    localStorage.removeItem(`fa_chat_${visitorId}`);
-                    content.innerHTML = ''; // Clear chat messages from DOM
-                    messages = []; // Clear messages array
-                    if (socket) {
-                        socket.disconnect();
-                        socket = null;
-                    }
-                });
+            // Minimize button functionality
+            minimizeBtn.addEventListener('click', () => {
+                widgetOverlay.classList.remove('active');
+                chatLauncher.style.display = 'flex';
+            });
+
+            // Click on overlay backdrop to close
+            const backdrop = container.querySelector('.fa-widget-backdrop');
+            backdrop.addEventListener('click', () => {
+                widgetOverlay.classList.remove('active');
+                chatLauncher.style.display = 'flex';
             });
 
             // Input focus effects
@@ -410,65 +728,81 @@
             // Add cleanup to window unload
             window.addEventListener('unload', cleanup);
 
-            // Initialize emoji picker
-            const emojiBtn = container.querySelector('.fa-widget-emoji-btn');
+            // Initialize emoji picker functionality
+            const initializeEmojiPicker = () => {
+                // Create emoji picker if it doesn't exist
+                if (!container.querySelector('.fa-widget-emoji-picker')) {
+                    const emojiPicker = document.createElement('div');
+                    emojiPicker.className = 'fa-widget-emoji-picker';
 
-            // Create emoji picker if it doesn't exist
-            if (!container.querySelector('.fa-widget-emoji-picker')) {
-                const emojiPicker = document.createElement('div');
-                emojiPicker.className = 'fa-widget-emoji-picker';
+                    // Common emojis
+                    const emojis = ['😊', '👍', '🙏', '❤️', '👋', '🎉', '👏', '🤔', '😂', '🔥', '✅', '⭐', '🚀', '💡', '📞', '📧', '🤝', '💼', '⏰', '💯'];
 
-                // Common emojis
-                const emojis = ['😊', '👍', '🙏', '❤️', '👋', '🎉', '👏', '🤔', '😂', '🔥', '✅', '⭐', '🚀', '💡', '📞', '📧', '🤝', '💼', '⏰', '💯'];
+                    // Add emojis to picker
+                    emojis.forEach((emoji) => {
+                        const emojiElement = document.createElement('div');
+                        emojiElement.className = 'fa-widget-emoji';
+                        emojiElement.textContent = emoji;
+                        emojiPicker.appendChild(emojiElement);
+                    });
 
-                // Add emojis to picker
-                emojis.forEach((emoji) => {
-                    const emojiElement = document.createElement('div');
-                    emojiElement.className = 'fa-widget-emoji';
-                    emojiElement.textContent = emoji;
-                    emojiPicker.appendChild(emojiElement);
-                });
-
-                // Add picker to container
-                container.querySelector('.fa-widget-input-wrapper').appendChild(emojiPicker);
-            }
-
-            const emojiPicker = container.querySelector('.fa-widget-emoji-picker');
-            const emojis = container.querySelectorAll('.fa-widget-emoji');
-
-            emojiBtn.addEventListener('click', () => {
-                emojiPicker.classList.toggle('active');
-            });
-
-            emojis.forEach((emoji) => {
-                emoji.addEventListener('click', () => {
-                    input.value += emoji.textContent;
-                    emojiPicker.classList.remove('active');
-                    input.focus();
-                });
-            });
-
-            // Close emoji picker when clicking outside
-            document.addEventListener('click', (e) => {
-                if (emojiPicker && !emojiBtn.contains(e.target) && !emojiPicker.contains(e.target)) {
-                    emojiPicker.classList.remove('active');
+                    // Add picker to input field container
+                    const inputField = container.querySelector('.fa-input-field');
+                    if (inputField) {
+                        inputField.appendChild(emojiPicker);
+                    } else {
+                        // Fallback to old structure
+                        const inputWrapper = container.querySelector('.fa-widget-input-wrapper');
+                        if (inputWrapper) {
+                            inputWrapper.appendChild(emojiPicker);
+                        }
+                    }
                 }
-            });
+
+                const emojiPicker = container.querySelector('.fa-widget-emoji-picker');
+                const emojis = container.querySelectorAll('.fa-widget-emoji');
+
+                // Add emoji button click handler
+                if (emojiBtn && emojiPicker) {
+                    emojiBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        emojiPicker.classList.toggle('active');
+                    });
+                }
+
+                // Add emoji click handlers
+                emojis.forEach((emoji) => {
+                    emoji.addEventListener('click', () => {
+                        input.value += emoji.textContent;
+                        emojiPicker.classList.remove('active');
+                        input.focus();
+                    });
+                });
+
+                // Close emoji picker when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (emojiPicker && emojiBtn && !emojiBtn.contains(e.target) && !emojiPicker.contains(e.target)) {
+                        emojiPicker.classList.remove('active');
+                    }
+                });
+            };
+
+            // Initialize emoji picker
+            initializeEmojiPicker();
 
             // Function to update agent status indicator
             const updateAgentStatus = (online) => {
                 isAgentOnline = online;
-                const statusIndicator = document.getElementById('fa-agent-status');
+                const statusBadge = document.getElementById('fa-agent-status');
                 const statusText = document.getElementById('fa-status-text');
                 
-                if (statusIndicator && statusText) {
+                if (statusBadge && statusText) {
                     if (online) {
-                        statusIndicator.style.backgroundColor = '#4CAF50'; // Green for online
-                        statusIndicator.style.boxShadow = '0 0 6px rgba(76, 175, 80, 0.6)';
+                        statusBadge.classList.add('online');
                         statusText.textContent = 'Agent is online';
                     } else {
-                        statusIndicator.style.backgroundColor = '#f44336'; // Red for offline
-                        statusIndicator.style.boxShadow = '0 0 6px rgba(244, 67, 54, 0.6)';
+                        statusBadge.classList.remove('online');
                         statusText.textContent = 'We typically reply within a few minutes';
                     }
                 }
@@ -529,8 +863,8 @@
                 hideTypingIndicator();
 
                 const messageElement = createMessageElement(data.message, true);
-                content.appendChild(messageElement);
-                content.scrollTop = content.scrollHeight;
+                messagesScroll.appendChild(messageElement);
+                messagesScroll.scrollTop = messagesScroll.scrollHeight;
 
                 // Store message in local storage
                 messages.push({
@@ -564,19 +898,21 @@
                     const typingIndicator = document.createElement('div');
                     typingIndicator.className = 'fa-typing-indicator';
                     typingIndicator.innerHTML = `
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                        <div class="fa-typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
                     `;
-                    content.appendChild(typingIndicator);
-                    content.scrollTop = content.scrollHeight;
+                    messagesScroll.appendChild(typingIndicator);
+                    messagesScroll.scrollTop = messagesScroll.scrollHeight;
                 }
             };
             
             const hideTypingIndicator = () => {
-                const existingIndicators = content.querySelectorAll('.fa-typing-indicator');
+                const existingIndicators = messagesScroll.querySelectorAll('.fa-typing-indicator');
                 existingIndicators.forEach(indicator => {
-                    content.removeChild(indicator);
+                    messagesScroll.removeChild(indicator);
                 });
             };
 
@@ -593,8 +929,8 @@
 
                 // Create and append message element
                 const messageElement = createMessageElement(message, false);
-                content.appendChild(messageElement);
-                content.scrollTop = content.scrollHeight;
+                messagesScroll.appendChild(messageElement);
+                messagesScroll.scrollTop = messagesScroll.scrollHeight;
 
                 // Store message in local storage
                 messages.push({
@@ -626,7 +962,7 @@
             };
 
             // Add send button click handler
-            send.addEventListener('click', sendMessage);
+            sendBtn.addEventListener('click', sendMessage);
 
             // Add input keypress handler for Enter key
             input.addEventListener('keypress', (e) => {
