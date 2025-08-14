@@ -7,48 +7,13 @@ import { handleVisitorMessage } from '@/lib/socket/handlers/visitorHandler';
 import { handleAdminMessage } from '@/lib/socket/handlers/adminHandler';
 import { setupSocketAuth } from '@/lib/socket/auth';
 import { initializeSocket } from '@/lib/socket/initialize';
+import { getOrCreateConversation, saveMessage } from '@/lib/socket/db';
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
 
-// Helper function to get or create conversation
-async function getOrCreateConversation(websiteId, visitorId) {
-    const conversations = await db
-        .select()
-        .from(ChatConversations)
-        .where(and(eq(ChatConversations.website_id, websiteId), eq(ChatConversations.visitor_id, visitorId)));
-
-    if (conversations.length > 0) {
-        return conversations[0];
-    }
-
-    const [newConversation] = await db
-        .insert(ChatConversations)
-        .values({
-            website_id: websiteId,
-            visitor_id: visitorId,
-        })
-        .returning();
-
-    return newConversation;
-}
-
-// Helper function to save message
-async function saveMessage(conversationId, message, type) {
-    const [savedMessage] = await db
-        .insert(ChatMessages)
-        .values({
-            conversation_id: conversationId,
-            message: message,
-            type: type,
-        })
-        .returning();
-
-    // Update conversation last_message_at
-    await db.update(ChatConversations).set({ last_message_at: new Date() }).where(eq(ChatConversations.id, conversationId));
-
-    return savedMessage;
-}
+// Note: getOrCreateConversation and saveMessage are now imported from @/lib/socket/db
+// which includes conversation limit checking
 
 // Helper function to get website data
 async function getWebsiteData(websiteId) {

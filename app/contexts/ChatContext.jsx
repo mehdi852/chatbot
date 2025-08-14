@@ -104,8 +104,8 @@ export function ChatProvider({ children }) {
         });
     };
 
-    // Helper function to update visitor list (SIMPLIFIED)
-    const updateVisitorsList = (visitorId, lastMessage, websiteId) => {
+    // Helper function to update visitor list (with geolocation data)
+    const updateVisitorsList = (visitorId, lastMessage, websiteId, messageData = {}) => {
         setChatState((prev) => {
             const existingVisitor = prev.visitors.find((v) => v.id === visitorId);
             const updatedVisitors = existingVisitor
@@ -116,6 +116,13 @@ export function ChatProvider({ children }) {
                                 lastMessage,
                                 timestamp: new Date().toISOString(),
                                 unread: prev.selectedVisitorId !== visitorId,
+                                // Update visitor with any geolocation data from the message
+                                country: messageData.country || v.country,
+                                country_code: messageData.country_code || v.country_code,
+                                visitor_ip: messageData.visitor_ip || v.visitor_ip,
+                                as_name: messageData.as_name || v.as_name,
+                                asn: messageData.asn || v.asn,
+                                continent: messageData.continent || v.continent,
                             }
                           : v
                   )
@@ -127,6 +134,13 @@ export function ChatProvider({ children }) {
                           timestamp: new Date().toISOString(),
                           unread: true,
                           websiteId,
+                          // Include geolocation data for new visitors
+                          country: messageData.country,
+                          country_code: messageData.country_code,
+                          visitor_ip: messageData.visitor_ip,
+                          as_name: messageData.as_name,
+                          asn: messageData.asn,
+                          continent: messageData.continent,
                       },
                   ];
 
@@ -240,9 +254,18 @@ export function ChatProvider({ children }) {
         // Modified socket event handler for admin-receive-message (CORRECTED)
         socketInstance.on('admin-receive-message', async (data) => {
             if (data.websiteId.toString() === chatState.selectedWebsite?.id.toString()) {
-                console.log('Received visitor message:', data);
+                console.log('📥 Received visitor message:', data);
+                console.log('🌍 Geolocation data in message:', {
+                    country: data.country,
+                    country_code: data.country_code,
+                    visitor_ip: data.visitor_ip,
+                    asn: data.asn,
+                    as_name: data.as_name,
+                    continent: data.continent
+                });
                 addMessageToConversation(data.visitorId, data, 'visitor');
-                updateVisitorsList(data.visitorId, data.message, data.websiteId); // No isNewConversation
+                // Pass the full data object to capture geolocation information
+                updateVisitorsList(data.visitorId, data.message, data.websiteId, data);
 
                 // Show AI typing indicator ONLY when visitor sends a message, AI is enabled, and limits are available
                 // Use setChatState callback to get current AI state instead of stale closure
@@ -254,11 +277,10 @@ export function ChatProvider({ children }) {
                     return currentState; // Return state unchanged
                 });
 
-                // Increment conversation count ONLY if it's a new conversation
-                if (data.isNewConversation && dbUser?.id) {
-                    fetch(`/api/user/increment-stats?userId=${dbUser.id}&stat=conversations`).catch((error) => {
-                        console.error('Failed to increment conversations count:', error);
-                    });
+                // Note: Conversation count increment is now handled in the database layer 
+                // when the conversation is created to prevent double counting
+                if (data.isNewConversation) {
+                    console.log('New conversation created - count already incremented in database layer');
                 }
             }
         });
@@ -580,6 +602,8 @@ export function ChatProvider({ children }) {
                                     page: 1,
                                     hasMore: data.pagination.page < data.pagination.totalPages,
                                 },
+                                // Include conversation metadata with geolocation data
+                                ...data.conversation, // This includes visitor_ip, country, asn, etc.
                             },
                         },
                     }));

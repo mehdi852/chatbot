@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { Plus, MoreVertical, Trash2, Copy, Code2, ExternalLink, CheckCircle2, Sparkles, Globe, Layers, Settings, Info } from 'lucide-react';
+import Link from 'next/link';
+import { Plus, MoreVertical, Trash2, Copy, Code2, ExternalLink, CheckCircle2, Sparkles, Globe, MessageCircle, Users, BarChart3, Settings, Info, Bot, Zap, TrendingUp, Clock, Shield, ChevronRight, Layers } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -15,7 +15,6 @@ import { checkSubscriptionFeature } from '@/utils/subscriptionUtils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
-import Head from 'next/head';
 
 function DndStyles() {
     useEffect(() => {
@@ -85,11 +84,27 @@ export default function Dashboard() {
     const { dbUser } = useUserContext();
     const [open, setOpen] = useState(false);
     const [copied, setCopied] = useState({});
+    const [userStats, setUserStats] = useState({
+        number_of_conversations: 0,
+        number_of_ai_responses: 0
+    });
 
     useEffect(() => {
         if (!dbUser) return;
         fetchWebsites();
         fetchSubscriptionLimits();
+        fetchUserStats();
+    }, [dbUser]);
+
+    // Auto-refresh stats every 30 seconds to keep them updated
+    useEffect(() => {
+        if (!dbUser) return;
+        
+        const intervalId = setInterval(() => {
+            fetchUserStats();
+        }, 30000); // 30 seconds
+
+        return () => clearInterval(intervalId);
     }, [dbUser]);
 
     const fetchWebsites = async () => {
@@ -123,6 +138,23 @@ export default function Dashboard() {
                 description: 'Failed to load subscription limits',
                 variant: 'destructive',
             });
+        }
+    };
+
+    const fetchUserStats = async () => {
+        if (!dbUser) return;
+        try {
+            const response = await fetch(`/api/user/get_user_usage?userId=${dbUser.id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch user stats');
+            }
+            const data = await response.json();
+            setUserStats({
+                number_of_conversations: data.number_of_conversations || 0,
+                number_of_ai_responses: data.number_of_ai_responses || 0
+            });
+        } catch (error) {
+            console.error('Failed to fetch user stats:', error);
         }
     };
 
@@ -268,8 +300,13 @@ export default function Dashboard() {
             <div className="max-w-[1400px] mx-auto pt-8 pb-6 px-4 lg:px-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-foreground">{t('dashboard.title')}</h1>
-                        <p className="text-muted-foreground mt-1">Manage your websites and integrations</p>
+                        <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-3">
+                            <div className="p-2 bg-primary/10 rounded-xl">
+                                <MessageCircle className="h-8 w-8 text-primary" />
+                            </div>
+                            Chatbot Dashboard
+                        </h1>
+                        <p className="text-muted-foreground mt-1">Manage your chat widgets and engage with visitors</p>
                     </div>
 
                     <Dialog open={open} onOpenChange={setOpen}>
@@ -321,6 +358,60 @@ export default function Dashboard() {
             </div>
 
             <div className="max-w-[1400px] mx-auto px-4 lg:px-8 pb-16 space-y-8">
+                {/* Quick Actions */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <Link href="/dashboard/chat" className="group">
+                        <Card className="border-border/40 shadow-sm hover:shadow-lg transition-all hover:border-primary/50 cursor-pointer">
+                            <CardContent className="p-6">
+                                <div className="flex items-center gap-4">
+                                    <div className="p-3 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
+                                        <MessageCircle className="h-6 w-6 text-blue-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="font-semibold text-lg mb-1">Live Chat</h3>
+                                        <p className="text-sm text-muted-foreground">Manage live conversations with visitors</p>
+                                    </div>
+                                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+
+                    <Link href="/dashboard/widget-customization" className="group">
+                        <Card className="border-border/40 shadow-sm hover:shadow-lg transition-all hover:border-primary/50 cursor-pointer">
+                            <CardContent className="p-6">
+                                <div className="flex items-center gap-4">
+                                    <div className="p-3 bg-purple-500/10 rounded-lg group-hover:bg-purple-500/20 transition-colors">
+                                        <Settings className="h-6 w-6 text-purple-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="font-semibold text-lg mb-1">Customize Widget</h3>
+                                        <p className="text-sm text-muted-foreground">Design your chat widget appearance</p>
+                                    </div>
+                                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+
+                    <Link href="/dashboard/analytics" className="group">
+                        <Card className="border-border/40 shadow-sm hover:shadow-lg transition-all hover:border-primary/50 cursor-pointer">
+                            <CardContent className="p-6">
+                                <div className="flex items-center gap-4">
+                                    <div className="p-3 bg-green-500/10 rounded-lg group-hover:bg-green-500/20 transition-colors">
+                                        <BarChart3 className="h-6 w-6 text-green-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="font-semibold text-lg mb-1">Analytics</h3>
+                                        <p className="text-sm text-muted-foreground">View chat statistics and insights</p>
+                                    </div>
+                                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                </div>
+
                 {/* Stats Overview */}
                 {websites.length > 0 && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -340,13 +431,13 @@ export default function Dashboard() {
 
                         <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
                             <CardHeader className="pb-2">
-                                <CardTitle className="text-sm font-medium text-muted-foreground">Total Paths</CardTitle>
+                                <CardTitle className="text-sm font-medium text-muted-foreground">Total Conversations</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="flex items-center justify-between">
-                                    <div className="text-2xl font-bold">{websites.reduce((acc, website) => acc + website.paths.length, 0)}</div>
+                                    <div className="text-2xl font-bold">{userStats.number_of_conversations}</div>
                                     <div className="p-2 bg-primary/10 rounded-full">
-                                        <Layers className="h-5 w-5 text-primary" />
+                                        <MessageCircle className="h-5 w-5 text-primary" />
                                     </div>
                                 </div>
                             </CardContent>
@@ -354,7 +445,21 @@ export default function Dashboard() {
 
                         <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
                             <CardHeader className="pb-2">
-                                <CardTitle className="text-sm font-medium text-muted-foreground">Subscription</CardTitle>
+                                <CardTitle className="text-sm font-medium text-muted-foreground">AI Responses</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex items-center justify-between">
+                                    <div className="text-2xl font-bold">{userStats.number_of_ai_responses}</div>
+                                    <div className="p-2 bg-primary/10 rounded-full">
+                                        <Bot className="h-5 w-5 text-primary" />
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
+                            <CardHeader className="pb-2">
+                                <CardTitle className="text-sm font-medium text-muted-foreground">Plan</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="flex items-center justify-between">
@@ -362,20 +467,6 @@ export default function Dashboard() {
                                     <div className="p-2 bg-primary/10 rounded-full">
                                         <Sparkles className="h-5 w-5 text-primary" />
                                     </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
-                            <CardHeader className="pb-2">
-                                <CardTitle className="text-sm font-medium text-muted-foreground">Settings</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex items-center justify-between">
-                                    <div className="text-lg font-medium">Manage</div>
-                                    <Button variant="ghost" size="icon" className="rounded-full">
-                                        <Settings className="h-5 w-5" />
-                                    </Button>
                                 </div>
                             </CardContent>
                         </Card>
@@ -389,9 +480,9 @@ export default function Dashboard() {
                             <div>
                                 <h2 className="text-xl font-semibold tracking-tight mb-1 text-foreground flex items-center gap-2">
                                     <Globe className="w-5 h-5 text-primary" />
-                                    {t('dashboard.websites.title')}
+                                    Your Websites
                                 </h2>
-                                <p className="text-sm text-muted-foreground">{t('dashboard.websites.description')}</p>
+                                <p className="text-sm text-muted-foreground">Manage websites where your chatbot is deployed</p>
                             </div>
                         </div>
                     </div>
@@ -491,9 +582,9 @@ export default function Dashboard() {
                         <div className="p-6 border-b border-border/40">
                             <h2 className="text-xl font-semibold tracking-tight mb-1 text-foreground flex items-center gap-2">
                                 <Code2 className="w-5 h-5 text-primary" />
-                                {t('dashboard.integration.title')}
+                                Chat Widget Integration
                             </h2>
-                            <p className="text-sm text-muted-foreground">{t('dashboard.integration.description')}</p>
+                            <p className="text-sm text-muted-foreground">Add the chatbot widget to your website with a simple script tag</p>
                         </div>
 
                         <div className="p-6">

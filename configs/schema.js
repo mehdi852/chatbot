@@ -257,6 +257,8 @@ export const DashboardStats = pgTable('dashboard_stats', {
     total_websites: integer('total_websites').notNull().default(0),
     total_paths: integer('total_paths').notNull().default(0),
     total_popups: integer('total_popups').notNull().default(0),
+    total_conversations: integer('total_conversations').notNull().default(0),
+    total_ai_responses: integer('total_ai_responses').notNull().default(0),
     created_at: timestamp('created_at').defaultNow().notNull(),
     updated_at: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -292,6 +294,14 @@ export const ChatConversations = pgTable('chat_conversations', {
         .references(() => Websites.id)
         .notNull(),
     visitor_id: varchar('visitor_id').notNull(),
+    visitor_ip: varchar('visitor_ip', { length: 45 }).notNull().default(''),
+    asn: varchar('asn', { length: 20 }).notNull().default(''),
+    as_name: varchar('as_name', { length: 255 }).notNull().default(''),
+    as_domain: varchar('as_domain', { length: 255 }).notNull().default(''),
+    country_code: varchar('country_code', { length: 2 }).notNull().default(''),
+    country: varchar('country', { length: 100 }).notNull().default(''),
+    continent_code: varchar('continent_code', { length: 2 }).notNull().default(''),
+    continent: varchar('continent', { length: 50 }).notNull().default(''),
     last_message_at: timestamp('last_message_at').defaultNow().notNull(),
     created_at: timestamp('created_at').defaultNow().notNull(),
     updated_at: timestamp('updated_at').defaultNow().notNull(),

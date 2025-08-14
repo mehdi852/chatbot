@@ -13,6 +13,57 @@
         return visitorId;
     };
     const visitorId = getVisitorId();
+
+    // Function to get visitor's public IP address
+    const getVisitorIP = async () => {
+        try {
+            // Try multiple IP services for redundancy
+            const ipServices = [
+                'https://api.ipify.org?format=json',
+                'https://ipapi.co/json/',
+                'https://json.geoiplookup.io/'
+            ];
+            
+            for (const service of ipServices) {
+                try {
+                    const response = await fetch(service, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+                        timeout: 5000 // 5 second timeout
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Different services return IP in different fields
+                        const ip = data.ip || data.query || data.IPv4;
+                        if (ip && ip !== '127.0.0.1' && ip !== 'localhost') {
+                            console.log('🌍 Detected visitor IP:', ip, 'from service:', service);
+                            return ip;
+                        }
+                    }
+                } catch (serviceError) {
+                    console.warn('Failed to get IP from', service, ':', serviceError.message);
+                    continue; // Try next service
+                }
+            }
+            
+            // Fallback IP for testing
+            console.log('🔧 Using fallback IP for testing');
+            return '8.8.8.8';
+        } catch (error) {
+            console.error('Error getting visitor IP:', error);
+            return '8.8.8.8'; // Fallback IP
+        }
+    };
+    
+    // Get visitor IP at script load
+    let visitorIP = '8.8.8.8'; // Default fallback
+    getVisitorIP().then(ip => {
+        visitorIP = ip;
+        console.log('🌐 Visitor IP initialized:', visitorIP);
+    });
     
     // Widget settings (will be loaded from database)
     let widgetSettings = {
@@ -517,6 +568,7 @@
                     query: {
                         websiteId: websiteIdNum,
                         visitorId,
+                        visitorIP,
                         type: 'visitor',
                     },
                 });

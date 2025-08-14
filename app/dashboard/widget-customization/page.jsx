@@ -723,7 +723,7 @@ const WidgetCustomizationPage = () => {
                 <div className={`fixed ${positionClasses[widgetSettings.buttonPosition]} z-50`}>
                     {/* Widget Overlay */}
                     {isWidgetOpen && (
-                        <div key={`${widgetSettings.primaryColor}-${widgetSettings.headerColor}-${widgetSettings.backgroundColor}-${widgetSettings.textColor}`} className="fa-widget-overlay" style={{ position: 'relative', bottom: 'auto', right: 'auto', marginBottom: '16px', width: '360px', height: '580px', display: 'block' }}>
+                        <div key={`widget-${widgetSettings.primaryColor}-${widgetSettings.headerColor}-${widgetSettings.backgroundColor}-${widgetSettings.textColor}`} className="fa-widget-overlay" style={{ position: 'relative', bottom: 'auto', right: 'auto', marginBottom: '16px', width: '360px', height: '580px', display: 'block' }}>
                             <div className="fa-widget-container">
                                 <div className="fa-chat-container">
                                     {/* Widget Header */}

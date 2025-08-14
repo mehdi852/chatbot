@@ -63,19 +63,55 @@ const ChatPage = () => {
     // Debug visitor statuses specifically
     useEffect(() => {
         console.log('🎯 Current visitor statuses:', chatState.visitorStatuses);
-    }, [chatState.visitorStatuses]);
+        console.log('🌍 Current visitors with country data:', chatState.visitors.map(v => ({id: v.id, country: v.country, country_code: v.country_code})));
+        console.log('💬 Current conversation data:', currentConversation ? {id: chatState.selectedVisitorId, country: currentConversation.country, country_code: currentConversation.country_code} : null);
+    }, [chatState.visitorStatuses, chatState.visitors, currentConversation]);
 
     // get subscription limits
     const fetchSubscriptionLimits = async () => {
-        // get susbscription limits
-        const response = await fetch(`/api/user/get-subscription-limits?userId=${dbUser.id}`);
-        const usageResponse = await fetch(`/api/user/get_user_usage?userId=${dbUser.id}`);
-        const data = await response.json();
-        const usageData = await usageResponse.json();
-        console.log(data);
-        console.log(usageData);
-        setSubscriptionLimits(data);
-        setUsage(usageData);
+        try {
+            // get subscription limits
+            const response = await fetch(`/api/user/get-subscription-limits?userId=${dbUser.id}`);
+            const usageResponse = await fetch(`/api/user/get_user_usage?userId=${dbUser.id}`);
+            
+            // Check if responses are ok
+            if (!response.ok) {
+                console.error('Failed to fetch subscription limits:', response.status, response.statusText);
+                return;
+            }
+            
+            if (!usageResponse.ok) {
+                console.error('Failed to fetch user usage:', usageResponse.status, usageResponse.statusText);
+                return;
+            }
+            
+            // Check if response is actually JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                console.error('Subscription limits response is not JSON:', await response.text());
+                return;
+            }
+            
+            const usageContentType = usageResponse.headers.get('content-type');
+            if (!usageContentType || !usageContentType.includes('application/json')) {
+                console.error('Usage response is not JSON:', await usageResponse.text());
+                return;
+            }
+            
+            const data = await response.json();
+            const usageData = await usageResponse.json();
+            
+            console.log('Subscription limits:', data);
+            console.log('Usage data:', usageData);
+            
+            setSubscriptionLimits(data);
+            setUsage(usageData);
+        } catch (error) {
+            console.error('Error fetching subscription limits and usage:', error);
+            // Set default values to prevent crashes
+            setSubscriptionLimits(null);
+            setUsage(null);
+        }
     };
 
     useEffect(() => {
@@ -90,6 +126,25 @@ const ChatPage = () => {
             fetchSubscriptionLimits();
         }
     }, [chatState.visitors.length, chatState.conversations]);
+    
+    // Listen for message events to update usage stats in real-time
+    useEffect(() => {
+        if (!dbUser) return;
+        
+        // Refresh usage stats when new AI responses or conversations are detected
+        const hasNewAIResponses = Object.values(chatState.conversations).some(
+            conversation => conversation.messages.some(msg => msg.type === 'ai')
+        );
+        
+        if (hasNewAIResponses || chatState.visitors.length > 0) {
+            // Debounce the stats refresh to avoid too frequent API calls
+            const timeoutId = setTimeout(() => {
+                fetchSubscriptionLimits();
+            }, 2000);
+            
+            return () => clearTimeout(timeoutId);
+        }
+    }, [chatState.conversations, chatState.visitors.length, dbUser]);
 
     // DELETE request to remove conversation
     const deleteConversation = async (visitorId) => {
@@ -338,6 +393,25 @@ const ChatPage = () => {
                                             <div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center border border-blue-200 shadow-sm">
                                                 <span className="text-blue-700 text-sm font-semibold">V{visitor.id.split('_')[1].slice(0, 2)}</span>
                                             </div>
+                                            
+                                            {/* Country Flag - Test with Spain first, then check for real data */}
+                                            {(visitor.country_code || true) && (
+                                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full overflow-hidden border-2 border-white shadow-sm bg-white">
+                                                    <img 
+                                                        src={`https://flagsapi.com/${visitor.country_code || 'ES'}/flat/32.png`}
+                                                        alt={`${visitor.country || 'Spain'} flag`}
+                                                        className="w-full h-full object-cover"
+                                                        onLoad={() => console.log(`Flag loaded for visitor ${visitor.id}: ${visitor.country_code || 'ES (test)'}`)}
+                                                        onError={(e) => {
+                                                            console.log(`Flag failed to load for visitor ${visitor.id}: ${visitor.country_code || 'ES (test)'}`);
+                                                            console.log('Full visitor data:', visitor);
+                                                            e.target.style.display = 'none';
+                                                        }}
+                                                    />
+                                                </div>
+                                            )}
+                                            
+                                            {/* Status Indicator */}
                                             <div
                                                 className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white ${
                                                     chatState.visitorStatuses[visitor.id] === 'online' 
@@ -364,12 +438,24 @@ const ChatPage = () => {
                                                 </span>
                                             </div>
                                             <p className="text-xs text-gray-600 truncate mt-0.5">{visitor.lastMessage}</p>
-                                            <div className="flex items-center space-x-2 mt-1">
-                                                {visitor.browser && (
-                                                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-gray-50 text-gray-500 border border-gray-100">{visitor.browser}</span>
-                                                )}
+                                            <div className="flex items-center space-x-1.5 mt-1.5">
                                                 {visitor.country && (
-                                                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-gray-50 text-gray-500 border border-gray-100">{visitor.country}</span>
+                                                    <div className="flex items-center space-x-1 bg-blue-50 px-1.5 py-0.5 rounded-md border border-blue-100">
+                                                        <span className="text-xs font-medium text-blue-700">🌍</span>
+                                                        <span className="text-xs font-medium text-blue-700">{visitor.country}</span>
+                                                    </div>
+                                                )}
+                                                {visitor.browser && (
+                                                    <div className="flex items-center space-x-1 bg-gray-50 px-1.5 py-0.5 rounded-md border border-gray-200">
+                                                        <span className="text-xs font-medium text-gray-600">💻</span>
+                                                        <span className="text-xs text-gray-600">{visitor.browser}</span>
+                                                    </div>
+                                                )}
+                                                {visitor.isNewVisitor && (
+                                                    <div className="flex items-center space-x-1 bg-green-50 px-1.5 py-0.5 rounded-md border border-green-200">
+                                                        <span className="text-xs font-medium text-green-700">✨</span>
+                                                        <span className="text-xs font-medium text-green-700">New</span>
+                                                    </div>
                                                 )}
                                             </div>
                                         </div>
@@ -491,20 +577,169 @@ const ChatPage = () => {
             <div className="flex-1 flex flex-col bg-white">
                 {chatState.selectedVisitorId ? (
                     <>
-                        <div className="px-6 py-4 bg-white border-b border-gray-200 shadow-sm">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h2 className="text-lg font-semibold text-gray-900">Visitor {chatState.selectedVisitorId.split('_')[1]}</h2>
-                                    <p className="text-sm text-gray-500">{chatState.activeTab === 'history' ? 'Viewing chat history' : 'Live chat session'}</p>
-                                </div>
-                                {chatState.activeTab === 'live' && (
-                                    <div className="flex items-center space-x-2 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
-                                        <span className={`w-2 h-2 rounded-full ${chatState.isConnected ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
-                                        <span className="text-sm text-gray-600 font-medium">{chatState.isConnected ? 'Connected' : 'Disconnected'}</span>
+                        {/* Enhanced Chat Header with Visitor Info */}
+                        <div className="bg-white border-b border-gray-200 shadow-sm">
+                            <div className="px-6 py-4">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex-1">
+                                        <div className="flex items-center space-x-4">
+                                            {/* Visitor Avatar */}
+                                            <div className="relative flex-shrink-0">
+                                                <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center border-2 border-blue-200 shadow-sm">
+                                                    <span className="text-blue-700 text-sm font-bold">V{chatState.selectedVisitorId.split('_')[1].slice(0, 2)}</span>
+                                                </div>
+                                                
+                                                {/* Country Flag */}
+                                                {currentConversation?.country_code && (
+                                                    <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full overflow-hidden border-2 border-white shadow-sm bg-white">
+                                                        <img 
+                                                            src={`https://flagsapi.com/${currentConversation.country_code}/flat/32.png`}
+                                                            alt={`${currentConversation.country} flag`}
+                                                            className="w-full h-full object-cover"
+                                                            onLoad={() => console.log(`Header flag loaded: ${currentConversation.country_code}`)}
+                                                            onError={(e) => {
+                                                                console.log(`Header flag failed to load: ${currentConversation.country_code}`);
+                                                                e.target.style.display = 'none';
+                                                            }}
+                                                        />
+                                                    </div>
+                                                )}
+                                                
+                                                {/* Status Indicator */}
+                                                <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white shadow-sm ${
+                                                    chatState.visitorStatuses[chatState.selectedVisitorId] === 'online' 
+                                                        ? 'bg-green-500' 
+                                                        : chatState.visitorStatuses[chatState.selectedVisitorId] === 'away' 
+                                                            ? 'bg-orange-500' 
+                                                            : 'bg-gray-400'
+                                                }`} />
+                                            </div>
+                                            
+                                            {/* Visitor Details */}
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center space-x-3">
+                                                    <h2 className="text-lg font-semibold text-gray-900">Visitor {chatState.selectedVisitorId.split('_')[1]}</h2>
+                                                    <div className="flex items-center space-x-1">
+                                                        <div className={`w-2 h-2 rounded-full ${
+                                                            chatState.visitorStatuses[chatState.selectedVisitorId] === 'online' 
+                                                                ? 'bg-green-500' 
+                                                                : chatState.visitorStatuses[chatState.selectedVisitorId] === 'away' 
+                                                                    ? 'bg-orange-500' 
+                                                                    : 'bg-gray-400'
+                                                        } animate-pulse`} />
+                                                        <span className="text-sm font-medium text-gray-600 capitalize">
+                                                            {chatState.visitorStatuses[chatState.selectedVisitorId] || 'offline'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <p className="text-sm text-gray-500 mt-0.5">{chatState.activeTab === 'history' ? 'Viewing chat history' : 'Live chat session'}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                )}
+                                    
+                                    {chatState.activeTab === 'live' && (
+                                        <div className="flex items-center space-x-2 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
+                                            <span className={`w-2 h-2 rounded-full ${chatState.isConnected ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
+                                            <span className="text-sm text-gray-600 font-medium">{chatState.isConnected ? 'Connected' : 'Disconnected'}</span>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
+                            
+                            {/* Visitor IP Geolocation Info Panel */}
+                            {currentConversation && (
+                                <div className="px-6 py-3 bg-gradient-to-r from-gray-50/50 to-white border-t border-gray-100">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-3">
+                                            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Visitor Information</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
+                                        {/* Location */}
+                                        {currentConversation.country && (
+                                            <div className="bg-white rounded-lg border border-blue-100 p-3 shadow-sm hover:shadow-md transition-all duration-200">
+                                                <div className="flex items-center space-x-2">
+                                                    <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                                                        <span className="text-sm">🌍</span>
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Location</p>
+                                                        <p className="text-sm font-semibold text-gray-900 truncate">{currentConversation.country}</p>
+                                                        {currentConversation.country_code && (
+                                                            <p className="text-xs text-blue-600 font-medium">{currentConversation.country_code}</p>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                        
+                                        {/* IP Address */}
+                                        {currentConversation.visitor_ip && (
+                                            <div className="bg-white rounded-lg border border-gray-100 p-3 shadow-sm hover:shadow-md transition-all duration-200">
+                                                <div className="flex items-center space-x-2">
+                                                    <div className="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center">
+                                                        <span className="text-sm">🔢</span>
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">IP Address</p>
+                                                        <p className="text-sm font-mono font-semibold text-gray-900 truncate">{currentConversation.visitor_ip}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                        
+                                        {/* ISP */}
+                                        {currentConversation.as_name && (
+                                            <div className="bg-white rounded-lg border border-green-100 p-3 shadow-sm hover:shadow-md transition-all duration-200">
+                                                <div className="flex items-center space-x-2">
+                                                    <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                                                        <span className="text-sm">🏢</span>
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Internet Provider</p>
+                                                        <p className="text-sm font-semibold text-gray-900 truncate" title={currentConversation.as_name}>{currentConversation.as_name}</p>
+                                                        {currentConversation.asn && (
+                                                            <p className="text-xs text-green-600 font-medium">{currentConversation.asn}</p>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                        
+                                        {/* Continent */}
+                                        {currentConversation.continent && (
+                                            <div className="bg-white rounded-lg border border-purple-100 p-3 shadow-sm hover:shadow-md transition-all duration-200">
+                                                <div className="flex items-center space-x-2">
+                                                    <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
+                                                        <span className="text-sm">🗺️</span>
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Continent</p>
+                                                        <p className="text-sm font-semibold text-gray-900 truncate">{currentConversation.continent}</p>
+                                                        {currentConversation.continent_code && (
+                                                            <p className="text-xs text-purple-600 font-medium">{currentConversation.continent_code}</p>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                    
+                                    {/* Additional Details Row */}
+                                    {currentConversation.as_domain && (
+                                        <div className="mt-3 pt-3 border-t border-gray-100">
+                                            <div className="flex items-center space-x-2 text-xs text-gray-600">
+                                                <span className="font-medium">Network Domain:</span>
+                                                <span className="font-mono bg-gray-50 px-2 py-0.5 rounded border">{currentConversation.as_domain}</span>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
+
+                        {/* Messages Container */}
                         <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-6 chat-scrollbar bg-gradient-to-b from-gray-50/50 to-white">
                             {/* Load More Button */}
                             {hasMoreMessages && (
@@ -537,8 +772,24 @@ const ChatPage = () => {
                                     <div key={`${msg.timestamp}-${idx}`} className={`flex items-end space-x-2 ${msg.type === 'visitor' ? 'justify-start' : 'justify-end'} animate-fade-in`}>
                                         {/* Avatar for visitor messages */}
                                         {msg.type === 'visitor' && (
-                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center border border-gray-200 shadow-sm animate-slide-in">
+                                            <div className="relative flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center border border-gray-200 shadow-sm animate-slide-in">
                                                 <span className="text-gray-600 text-xs font-medium">V</span>
+                                                
+                                                {/* Country Flag */}
+                                                {currentConversation?.country_code && (
+                                                    <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full overflow-hidden border border-white shadow-sm bg-white">
+                                                        <img 
+                                                            src={`https://flagsapi.com/${currentConversation.country_code}/flat/32.png`}
+                                                            alt={`${currentConversation.country} flag`}
+                                                            className="w-full h-full object-cover"
+                                                            onLoad={() => console.log(`Chat avatar flag loaded: ${currentConversation.country_code}`)}
+                                                            onError={(e) => {
+                                                                console.log(`Chat avatar flag failed to load: ${currentConversation.country_code}`);
+                                                                e.target.style.display = 'none';
+                                                            }}
+                                                        />
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
 
