@@ -1,7 +1,5 @@
-
-
 import { SocialMediaLinks } from '@/configs/schema';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';
@@ -21,5 +19,3 @@ export async function DELETE(req) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
-
- 

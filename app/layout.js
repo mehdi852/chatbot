@@ -34,20 +34,8 @@ export default async function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
-<script 
-        src="http://localhost:3000/fa.js" 
-        data-website-id="613914" 
-        data-api-url="http://localhost:3000"
-        async
-    ></script>
-    
-    <script 
-        src="https://www.vertexit.xyz/fa.js" 
-        data-website-id="292429" 
-        data-api-url="https://www.vertexit.xyz"
-        async
-    ></script>
-       </head>
+                <script src="http://localhost:3000/fa.js" data-website-id="256646" data-api-url="http://localhost:3000" async></script>
+            </head>
             <body className={outfit.className}>
                 <ClientLayout>
                     <ThemeProvider>{children}</ThemeProvider>

@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';
 import { editUserByEmail } from '@/utils/AdminUtils';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { VisitorTicketMessages } from '@/configs/schema';
 
 export async function POST(req) {

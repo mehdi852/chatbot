@@ -1,7 +1,7 @@
 // add footer link route, it will take a type (sitemap, company) and the name and url
 
 import { FooterSitemapLinks, FooterCompanyLinks } from '@/configs/schema';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';

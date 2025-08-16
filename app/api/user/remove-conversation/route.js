@@ -1,4 +1,4 @@
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { ChatConversations, ChatMessages } from '@/configs/schema';
 import { and, eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';

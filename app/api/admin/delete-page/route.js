@@ -1,7 +1,7 @@
 // app/api/admin/route.js
 import { NextResponse } from 'next/server';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { Pages } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';

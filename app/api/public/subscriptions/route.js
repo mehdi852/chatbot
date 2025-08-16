@@ -1,4 +1,4 @@
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { SubscriptionsTypes, SubscriptionLimits, SubscritpionsFeatures } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
@@ -8,14 +8,11 @@ export const revalidate = 0; // Disable revalidation caching
 
 export async function GET() {
     try {
-
         // First get all subscriptions (for debugging)
         const allSubscriptions = await db.select().from(SubscriptionsTypes);
 
-
         // Now fetch active subscriptions - using select() without field mapping first
         const subscriptions = await db.select().from(SubscriptionsTypes).where(eq(SubscriptionsTypes.status, true));
-
 
         if (!subscriptions || subscriptions.length === 0) {
             return new NextResponse(JSON.stringify([]), {
@@ -29,7 +26,6 @@ export async function GET() {
         // For each subscription, fetch its limits and features
         const fullSubscriptionData = await Promise.all(
             subscriptions.map(async (sub) => {
-
                 // Fetch limits
                 const limits = await db.select().from(SubscriptionLimits).where(eq(SubscriptionLimits.subscription_type_id, sub.id));
 

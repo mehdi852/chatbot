@@ -1,5 +1,5 @@
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
-//config({ path: ".env" }); // or .env.local
-const sql = neon(process.env.NEXT_PUBLIC_DRIZZLE_DATABASE_URL);
-export const db = drizzle(sql);
+// For client-side operations, use Supabase client
+// For server-side operations, import from './db.server.js'
+import { createClient } from '../utils/supabase/client';
+
+export const supabase = createClient();

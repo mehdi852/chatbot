@@ -1,14 +1,19 @@
-import { drizzle } from 'drizzle-orm/neon-http';
-import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 import { MetaData, SubscriptionsTypes, SubscriptionLimits } from '../configs/schema.js';
 import { eq } from 'drizzle-orm';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env.local' });
 
-const sql = neon(process.env.NEXT_PUBLIC_DRIZZLE_DATABASE_URL);
+const sql = postgres(process.env.NEXT_PUBLIC_DRIZZLE_DATABASE_URL, {
+  max: 1, // Maximum number of connections
+  idle_timeout: 20,
+  connect_timeout: 10,
+});
 const db = drizzle(sql);
 
 async function seed() {
+    console.log('🌱 Starting database seeding...');
     try {
         // Check if MetaData already exists
         const existingMetadata = await db.select().from(MetaData).limit(1);
@@ -58,6 +63,8 @@ async function seed() {
                     max_websites: 1,
                     max_paths_per_website: 3,
                     max_popups_per_path: 2,
+                    max_chat_conversations: 100,
+                    max_ai_responses: 50,
                     allow_advertising: false,
                     allow_email_collector: true,
                 });

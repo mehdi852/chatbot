@@ -1,9 +1,8 @@
-
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { DashboardStats } from '@/configs/schema';
 import { NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
-import { checkIfUserIsAdmin } from '@/utils/authUtils'; 
+import { checkIfUserIsAdmin } from '@/utils/authUtils';
 // if only one stat is defined we update the row with the defined stats
 // if all stats are defined we update the row with the defined stats
 // if no stats are defined we do nothing

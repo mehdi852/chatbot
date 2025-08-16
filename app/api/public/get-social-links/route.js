@@ -1,4 +1,4 @@
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { SocialMediaLinks } from '@/configs/schema';
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';

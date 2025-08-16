@@ -1,6 +1,6 @@
 import { Server as SocketIOServer } from 'socket.io';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { ChatConversations, ChatMessages, Websites } from '@/configs/schema';
 import { eq, and } from 'drizzle-orm';
 import { handleVisitorMessage } from '@/lib/socket/handlers/visitorHandler';
@@ -24,12 +24,9 @@ async function getWebsiteData(websiteId) {
 // Helper function to check if any admins are online for a website
 function isAnyAdminOnline(io, websiteId) {
     const sockets = Array.from(io.sockets.sockets.values());
-    return sockets.some(socket => {
+    return sockets.some((socket) => {
         // Check if socket is admin, for the right website, and actually connected
-        return socket.isAdmin && 
-               socket.websiteId === websiteId && 
-               socket.connected && 
-               !socket.disconnected;
+        return socket.isAdmin && socket.websiteId === websiteId && socket.connected && !socket.disconnected;
     });
 }
 
@@ -40,7 +37,7 @@ const visitorStatuses = new Map(); // visitorId -> { status: 'online'|'away'|'of
 const cleanupOldVisitorStatuses = () => {
     const now = new Date();
     const CLEANUP_THRESHOLD = 24 * 60 * 60 * 1000; // 24 hours
-    
+
     for (const [key, statusData] of visitorStatuses.entries()) {
         if (now - statusData.lastSeen > CLEANUP_THRESHOLD) {
             // Clear any pending timeout
@@ -59,31 +56,31 @@ setInterval(cleanupOldVisitorStatuses, 60 * 60 * 1000);
 // Helper function to set visitor status
 function setVisitorStatus(io, websiteId, visitorId, status) {
     const key = `${websiteId}_${visitorId}`;
-    
+
     // Clear existing timeout if any
     if (visitorStatuses.has(key) && visitorStatuses.get(key).timeoutId) {
         clearTimeout(visitorStatuses.get(key).timeoutId);
     }
-    
+
     // Update status
     visitorStatuses.set(key, {
         status,
         lastSeen: new Date(),
         websiteId,
-        visitorId
+        visitorId,
     });
-    
+
     // Notify admins about status change
     const adminRoom = `admin_${websiteId}`;
     io.to(adminRoom).emit('visitor-status-changed', {
         websiteId,
         visitorId,
         status,
-        timestamp: new Date()
+        timestamp: new Date(),
     });
-    
+
     console.log(`Visitor ${visitorId} status changed to: ${status}`);
-    
+
     // If visitor is away, set timeout to remove them after 3 minutes
     if (status === 'away') {
         const timeoutId = setTimeout(() => {
@@ -91,10 +88,10 @@ function setVisitorStatus(io, websiteId, visitorId, status) {
             setVisitorStatus(io, websiteId, visitorId, 'offline');
             visitorStatuses.delete(key);
         }, 3 * 60 * 1000); // 3 minutes
-        
+
         visitorStatuses.set(key, {
             ...visitorStatuses.get(key),
-            timeoutId
+            timeoutId,
         });
     }
 }
@@ -130,14 +127,14 @@ export async function GET(req) {
             if (socket.isAdmin) {
                 const adminRoom = `admin_${socket.websiteId}`;
                 socket.join(adminRoom);
-                
+
                 // Notify all visitors in this website that an agent is online
                 socket.to(websiteRoom).emit('agent-status-changed', {
                     websiteId: socket.websiteId,
                     online: true,
-                    timestamp: new Date()
+                    timestamp: new Date(),
                 });
-                
+
                 console.log(`Agent connected for website ${socket.websiteId} - notifying visitors`);
             }
 
@@ -163,7 +160,7 @@ export async function GET(req) {
 
             // Handle admin messages
             socket.on('admin-message', (data) => handleAdminMessage(io, socket, data));
-            
+
             // Handle admin typing events
             socket.on('admin-typing', (data) => {
                 if (socket.isAdmin && data.websiteId === socket.websiteId) {
@@ -172,21 +169,21 @@ export async function GET(req) {
                     socket.to(visitorRoom).emit('admin-typing', {
                         websiteId: data.websiteId,
                         visitorId: data.visitorId,
-                        timestamp: new Date()
+                        timestamp: new Date(),
                     });
-                    
+
                     // Also emit to website room for broader visibility
                     const websiteRoom = `website_${data.websiteId}`;
                     socket.to(websiteRoom).emit('admin-typing', {
                         websiteId: data.websiteId,
                         visitorId: data.visitorId,
-                        timestamp: new Date()
+                        timestamp: new Date(),
                     });
-                    
+
                     console.log(`Admin typing event forwarded to visitor ${data.visitorId} in website ${data.websiteId}`);
                 }
             });
-            
+
             socket.on('admin-stop-typing', (data) => {
                 if (socket.isAdmin && data.websiteId === socket.websiteId) {
                     // Forward stop typing event to the specific visitor
@@ -194,21 +191,21 @@ export async function GET(req) {
                     socket.to(visitorRoom).emit('admin-stop-typing', {
                         websiteId: data.websiteId,
                         visitorId: data.visitorId,
-                        timestamp: new Date()
+                        timestamp: new Date(),
                     });
-                    
+
                     // Also emit to website room for broader visibility
                     const websiteRoom = `website_${data.websiteId}`;
                     socket.to(websiteRoom).emit('admin-stop-typing', {
                         websiteId: data.websiteId,
                         visitorId: data.visitorId,
-                        timestamp: new Date()
+                        timestamp: new Date(),
                     });
-                    
+
                     console.log(`Admin stop typing event forwarded to visitor ${data.visitorId} in website ${data.websiteId}`);
                 }
             });
-            
+
             // Handle agent status check requests
             socket.on('check-agent-status', (data) => {
                 if (data.websiteId === socket.websiteId) {
@@ -216,7 +213,7 @@ export async function GET(req) {
                     socket.emit('agent-status-changed', {
                         websiteId: socket.websiteId,
                         online: isOnline,
-                        timestamp: new Date()
+                        timestamp: new Date(),
                     });
                 }
             });
@@ -230,12 +227,12 @@ export async function GET(req) {
                 const websiteId = socket.websiteId;
                 const wasAdmin = socket.isAdmin;
                 const visitorId = socket.visitorId;
-                
+
                 socket.leave(`website_${websiteId}`);
-                
+
                 if (wasAdmin) {
                     socket.leave(`admin_${websiteId}`);
-                    
+
                     // Check if any other admins are still online for this website
                     // We need to check after a short delay to ensure the socket is fully disconnected
                     setTimeout(() => {
@@ -246,9 +243,9 @@ export async function GET(req) {
                             io.to(websiteRoom).emit('agent-status-changed', {
                                 websiteId: websiteId,
                                 online: false,
-                                timestamp: new Date()
+                                timestamp: new Date(),
                             });
-                            
+
                             console.log(`All agents disconnected for website ${websiteId} - notifying visitors`);
                         }
                     }, 100);
@@ -257,7 +254,7 @@ export async function GET(req) {
                     console.log(`Visitor ${visitorId} disconnected, setting as away`);
                     setVisitorStatus(io, websiteId, visitorId, 'away');
                 }
-                
+
                 socket.removeAllListeners();
             });
 
@@ -285,7 +282,7 @@ export async function GET(req) {
         // Global cleanup function for server shutdown
         const cleanup = () => {
             console.log('Cleaning up socket server...');
-            
+
             // Clear all visitor status timeouts
             for (const [key, statusData] of visitorStatuses.entries()) {
                 if (statusData.timeoutId) {
@@ -293,24 +290,24 @@ export async function GET(req) {
                 }
             }
             visitorStatuses.clear();
-            
+
             // Disconnect all sockets
             if (io) {
                 io.disconnectSockets(true);
                 io.close();
             }
-            
+
             global.io = null;
             console.log('Socket server cleanup completed');
         };
-        
+
         // Store cleanup function globally for external access
         global.socketCleanup = cleanup;
-        
+
         // Handle process termination
         process.on('SIGTERM', cleanup);
         process.on('SIGINT', cleanup);
-        
+
         global.io = io;
         return new Response('Socket is running');
     } catch (error) {

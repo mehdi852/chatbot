@@ -1,4 +1,4 @@
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
@@ -11,7 +11,7 @@ export async function GET() {
             return NextResponse.json({
                 success: true,
                 message: 'Database connection successful',
-                details: 'Successfully connected to Neon database',
+                details: 'Successfully connected to Supabase database',
             });
         } else {
             throw new Error('Database connection test failed');

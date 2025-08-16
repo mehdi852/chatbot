@@ -1,4 +1,4 @@
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { ChatConversations, ChatMessages, Websites } from '@/configs/schema';
 import { eq, and, desc, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
@@ -67,8 +67,10 @@ export async function GET(request) {
         return NextResponse.json({
             conversation,
             messages: messages.map((msg) => ({
+                id: msg.id,
                 message: msg.message,
                 type: msg.type,
+                read: msg.read,
                 timestamp: msg.timestamp,
                 browser: msg.browser,
                 country: msg.country,

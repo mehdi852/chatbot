@@ -181,7 +181,7 @@ export default function Navbar() {
                             Contact us
                         </Link>
 
-                        {pages.map((page) => (
+                        { pages && pages.map((page) => (
                             <Link
                                 key={page.id}
                                 href={`/${page.name.toLowerCase().replace(/\s+/g, '-')}`}

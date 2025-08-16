@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { UsersSubscriptions, SubscriptionLimits, SubscriptionsTypes } from '@/configs/schema';
 import { eq, and, ilike } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';

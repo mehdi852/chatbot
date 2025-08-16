@@ -1,5 +1,5 @@
 import { FooterSitemapLinks, FooterCompanyLinks } from '@/configs/schema';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 

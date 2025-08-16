@@ -314,7 +314,8 @@ export const ChatMessages = pgTable('chat_messages', {
         .references(() => ChatConversations.id)
         .notNull(),
     message: text('message').notNull(),
-    type: varchar('type').notNull(), // 'admin' or 'visitor'
+    type: varchar('type').notNull(), // 'admin', 'visitor', or 'ai'
+    read: boolean('read').notNull().default(false), // Track if message has been read by admin
     timestamp: timestamp('timestamp').defaultNow().notNull(),
     browser: varchar('browser', { length: 255 }).notNull().default(''),
     country: varchar('country', { length: 255 }).notNull().default(''),

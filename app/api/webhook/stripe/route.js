@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createUserSubscription, getSubscriptionTypeByPriceId, getUserByEmail, updateUserSubscriptionStatus } from '@/utils/AdminUtils';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { Users, UsersSubscriptions, Invoices } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
 
@@ -98,11 +98,9 @@ export async function POST(request) {
                             auto_renew: true,
                         })
                         .where(eq(UsersSubscriptions.id, existingSubscription[0].id));
-
                 } else {
                     // Create new subscription
                     await createUserSubscription(user[0].id, customer.id, subscriptionType[0].id, session.id, priceId, startDate, endDate);
-
                 }
 
                 // Update user's subscription status
@@ -123,7 +121,6 @@ export async function POST(request) {
                     amount: parseFloat((session.amount_total / 100).toFixed(2)), // Ensure it's stored as a number
                     status: 'paid',
                 });
-
 
                 break;
             }
@@ -157,7 +154,6 @@ export async function POST(request) {
 
                         // Reset user's project
                         await resetUserProject(userSubscription[0].user_id);
-
                     }
                 }
                 break;
@@ -236,7 +232,6 @@ export async function POST(request) {
 
                     // Reset user's project
                     await resetUserProject(userSubscription[0].user_id);
-
                 }
                 break;
             }

@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { WidgetSettings } from '@/configs/schema';
 import { eq, desc } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
@@ -20,13 +20,13 @@ const defaultSettings = {
     headerColor: '#1e40af',
     textColor: '#374151',
     backgroundColor: '#ffffff',
-    brandName: 'BirdSeed'
+    brandName: 'BirdSeed',
 };
 
 // GET - Load widget settings for a user
 export async function GET(request) {
     revalidatePath('/dashboard/widget-customization');
-    
+
     try {
         const { searchParams } = new URL(request.url);
         const userId = searchParams.get('userId');
@@ -45,7 +45,7 @@ export async function GET(request) {
 
         if (existingSettings.length > 0) {
             const settings = existingSettings[0];
-            
+
             // Convert database format to component format
             const formattedSettings = {
                 primaryColor: settings.primary_color,
@@ -60,44 +60,46 @@ export async function GET(request) {
                 companyName: settings.company_name,
                 buttonText: settings.button_text,
                 showBranding: settings.show_branding,
-                brandName: settings.brand_name
+                brandName: settings.brand_name,
             };
 
-            return NextResponse.json({
-                success: true,
-                settings: formattedSettings
-            }, {
-                headers: {
-                    'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
-                    'Pragma': 'no-cache'
+            return NextResponse.json(
+                {
+                    success: true,
+                    settings: formattedSettings,
+                },
+                {
+                    headers: {
+                        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+                        Pragma: 'no-cache',
+                    },
                 }
-            });
+            );
         } else {
             // Return default settings if no custom settings exist
-            return NextResponse.json({
-                success: true,
-                settings: defaultSettings
-            }, {
-                headers: {
-                    'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
-                    'Pragma': 'no-cache'
+            return NextResponse.json(
+                {
+                    success: true,
+                    settings: defaultSettings,
+                },
+                {
+                    headers: {
+                        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+                        Pragma: 'no-cache',
+                    },
                 }
-            });
+            );
         }
-
     } catch (error) {
         console.error('Error loading widget settings:', error);
-        return NextResponse.json(
-            { error: 'Failed to load widget settings' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to load widget settings' }, { status: 500 });
     }
 }
 
 // POST - Save widget settings for a user
 export async function POST(request) {
     revalidatePath('/dashboard/widget-customization');
-    
+
     try {
         const { userId, settings } = await request.json();
 
@@ -111,17 +113,23 @@ export async function POST(request) {
 
         // Validate settings structure
         const requiredFields = [
-            'primaryColor', 'buttonSize', 'buttonPosition', 'welcomeMessage',
-            'placeholderText', 'companyName', 'borderRadius', 'buttonText',
-            'headerColor', 'textColor', 'backgroundColor', 'brandName'
+            'primaryColor',
+            'buttonSize',
+            'buttonPosition',
+            'welcomeMessage',
+            'placeholderText',
+            'companyName',
+            'borderRadius',
+            'buttonText',
+            'headerColor',
+            'textColor',
+            'backgroundColor',
+            'brandName',
         ];
 
         for (const field of requiredFields) {
             if (!(field in settings)) {
-                return NextResponse.json(
-                    { error: `Missing required field: ${field}` },
-                    { status: 400 }
-                );
+                return NextResponse.json({ error: `Missing required field: ${field}` }, { status: 400 });
             }
         }
 
@@ -148,7 +156,7 @@ export async function POST(request) {
             button_text: settings.buttonText,
             show_branding: settings.showBranding || false,
             brand_name: settings.brandName || 'BirdSeed',
-            updated_at: new Date()
+            updated_at: new Date(),
         };
 
         if (existingSettings.length > 0) {
@@ -159,32 +167,29 @@ export async function POST(request) {
                 .where(eq(WidgetSettings.user_id, parseInt(userId)));
         } else {
             // Create new settings
-            await db
-                .insert(WidgetSettings)
-                .values({
-                    ...dbSettings,
-                    created_at: new Date()
-                });
+            await db.insert(WidgetSettings).values({
+                ...dbSettings,
+                created_at: new Date(),
+            });
         }
 
         // Clear cache for dashboard and public API
         revalidatePath('/api/public/widget-settings');
-        
-        return NextResponse.json({
-            success: true,
-            message: 'Widget settings saved successfully'
-        }, {
-            headers: {
-                'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
-                'Pragma': 'no-cache'
-            }
-        });
 
+        return NextResponse.json(
+            {
+                success: true,
+                message: 'Widget settings saved successfully',
+            },
+            {
+                headers: {
+                    'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+                    Pragma: 'no-cache',
+                },
+            }
+        );
     } catch (error) {
         console.error('Error saving widget settings:', error);
-        return NextResponse.json(
-            { error: 'Failed to save widget settings' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to save widget settings' }, { status: 500 });
     }
 }

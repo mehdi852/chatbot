@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { eq, and } from 'drizzle-orm';
 import { Websites, Users, UsersSubscriptions, SubscriptionLimits, SubscriptionsTypes } from '@/configs/schema';
 
@@ -24,13 +24,13 @@ export async function POST(req) {
         if (!user || user.length === 0) {
             // Return eligible if user not found to allow chat to work
             console.warn('User not found for website:', websiteId);
-            return NextResponse.json({ 
-                eligible: true, 
+            return NextResponse.json({
+                eligible: true,
                 limits: {
                     conversations: { current: 0, max: 1000, remaining: 1000 },
-                    aiResponses: { current: 0, max: 1000, remaining: 1000 }
+                    aiResponses: { current: 0, max: 1000, remaining: 1000 },
                 },
-                warning: 'User not found - allowing access'
+                warning: 'User not found - allowing access',
             });
         }
 

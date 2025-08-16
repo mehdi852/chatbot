@@ -1,4 +1,4 @@
-import { db } from '@/configs/db'; // Your Drizzle DB config
+import { db } from '@/configs/db.server'; // Your Drizzle DB config
 import { Users, UserTickets, VisitorTicketMessages, TicketMessages, MetaData, Pages, SubscriptionsTypes, SubscritpionsFeatures, Invoices, UsersSubscriptions } from '@/configs/schema'; // Your database schema
 import { count, gte, eq, desc, or, like } from 'drizzle-orm'; // Import the count function
 import { revalidatePath } from 'next/cache';
@@ -899,8 +899,6 @@ const getPages = async () => {
             .from(Pages)
             .orderBy(Pages.id); // Add explicit ordering
 
-      
-
         if (!pages || pages.length === 0) {
             console.warn('No pages found in database');
             return [];
@@ -945,7 +943,6 @@ const getActiveSubscriptions = async () => {
 // get the number of tickets UserTickets and VisitorTickets using count
 const getTotalTickets = async () => {
     try {
-
         // Get resolved and open UserTickets
         const userTickets = await db
             .select({
@@ -965,7 +962,6 @@ const getTotalTickets = async () => {
         const totalResolved = userTickets[0].resolved + visitorTickets[0].resolved;
         const totalOpen = userTickets[0].open + visitorTickets[0].open;
 
-      
         return {
             resolved: totalResolved,
             open: totalOpen,
@@ -998,8 +994,6 @@ const createInvoice = async (userId, amount, date, invoiceNumber, status) => {
         throw error;
     }
 };
-
-
 
 export {
     getTotalUsers, // Fetches the total number of users in the database

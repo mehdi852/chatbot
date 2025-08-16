@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { Notifications } from '@/configs/schema';
 import { cookies } from 'next/headers';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';
@@ -17,8 +17,6 @@ export async function POST(req) {
         if (!authorized) {
             return NextResponse.json({ error: message }, { status });
         }
-
-        
 
         // Insert notification into database
         const notification = await db

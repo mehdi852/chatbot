@@ -1,4 +1,4 @@
-import { db } from '@/configs/db'; // Your Drizzle DB config
+import { db } from '@/configs/db.server'; // Your Drizzle DB config
 import { Users } from '@/configs/schema'; // Your database schema
 import { eq } from 'drizzle-orm'; // Drizzle ORM for query
 import { getAuth, currentUser } from '@clerk/nextjs/server'; // Clerk server-side helper for authentication

@@ -1,17 +1,17 @@
 import { FooterSitemapLinks, FooterCompanyLinks } from '@/configs/schema';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';
 
-export async function DELETE(req) { 
+export async function DELETE(req) {
     const { authorized, message, status } = await checkIfUserIsAdmin(req);
 
     if (!authorized) {
         return NextResponse.json({ message }, { status });
     }
 
-    const { id,type } = await req.json();
+    const { id, type } = await req.json();
     try {
         if (type === 'sitemap') {
             await db.delete(FooterSitemapLinks).where(eq(FooterSitemapLinks.id, id));
@@ -23,5 +23,3 @@ export async function DELETE(req) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
-
-

@@ -1,4 +1,4 @@
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { Websites, WebsitePaths, WebsitePopups, CollectedEmails } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';

@@ -180,6 +180,7 @@ export function ChatProvider({ children }) {
                         lastMessage: conv.last_message,
                         timestamp: conv.last_message_at,
                         messageCount: conv.message_count,
+                        unreadCount: conv.unread_count || 0,
                     })),
                     isLoadingHistory: false,
                 }));
@@ -695,6 +696,42 @@ export function ChatProvider({ children }) {
         setChatState((prev) => ({ ...prev, isSoundMuted: !prev.isSoundMuted }));
     };
 
+    // Function to mark messages as read
+    const markMessagesAsRead = async (visitorId) => {
+        if (!chatState.selectedWebsite || !dbUser?.id || !visitorId) return false;
+
+        try {
+            const response = await fetch('/api/chat/mark-read', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    websiteId: chatState.selectedWebsite.id,
+                    visitorId,
+                    userId: dbUser.id,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to mark messages as read');
+            }
+
+            // Update the chat history to reflect the read status
+            setChatState((prev) => ({
+                ...prev,
+                chatHistory: prev.chatHistory.map((chat) =>
+                    chat.id === visitorId ? { ...chat, unreadCount: 0 } : chat
+                ),
+            }));
+
+            return true;
+        } catch (error) {
+            console.error('Error marking messages as read:', error);
+            return false;
+        }
+    };
+
     // Function to cleanup sockets on logout
     const logout = () => {
         if (socketRef.current) {
@@ -728,6 +765,7 @@ export function ChatProvider({ children }) {
                 toggleSound,
                 removeConversation,
                 logout,
+                markMessagesAsRead,
             }}>
             {children}
         </ChatContext.Provider>

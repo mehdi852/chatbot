@@ -1,6 +1,6 @@
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { ChatConversations, ChatMessages, Websites } from '@/configs/schema';
-import { eq, and, desc, count } from 'drizzle-orm';
+import { eq, and, desc, count, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 // Helper function to verify website ownership
@@ -41,7 +41,7 @@ export async function GET(request) {
             .where(eq(ChatConversations.website_id, parseInt(websiteId)))
             .orderBy(desc(ChatConversations.last_message_at));
 
-        // For each conversation, get the last message and message count
+        // For each conversation, get the last message, message count, and unread count
         const conversationsWithDetails = await Promise.all(
             conversations.map(async (conv) => {
                 // Get last message
@@ -50,11 +50,18 @@ export async function GET(request) {
                 // Get message count using count aggregate
                 const [messageCount] = await db.select({ value: count() }).from(ChatMessages).where(eq(ChatMessages.conversation_id, conv.id));
 
+                // Get unread message count (only visitor messages that are unread)
+                const [unreadCount] = await db
+                    .select({ count: sql`count(*)::int` })
+                    .from(ChatMessages)
+                    .where(and(eq(ChatMessages.conversation_id, conv.id), eq(ChatMessages.read, false), eq(ChatMessages.type, 'visitor')));
+
                 return {
                     visitor_id: conv.visitor_id,
                     last_message: lastMessage[0]?.message || '',
                     last_message_at: conv.last_message_at,
                     message_count: Number(messageCount.value),
+                    unread_count: unreadCount.count || 0,
                 };
             })
         );

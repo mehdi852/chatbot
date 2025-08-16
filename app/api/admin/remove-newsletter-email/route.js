@@ -1,5 +1,4 @@
-
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { NewsletterSubscriptions } from '@/configs/schema';
 import { NextResponse } from 'next/server';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';

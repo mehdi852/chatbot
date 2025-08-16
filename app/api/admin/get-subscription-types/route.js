@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
-import { db } from "@/configs/db";
-import { SubscriptionsTypes } from "@/configs/schema";  
+import { db } from '@/configs/db.server';
+import { SubscriptionsTypes } from '@/configs/schema';
 import { NextResponse } from 'next/server';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';
 
@@ -21,9 +21,6 @@ export async function GET(request) {
         return NextResponse.json(subscriptionTypes, { status: 200 });
     } catch (error) {
         console.error('Failed to fetch subscription types:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch subscription types' }, 
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to fetch subscription types' }, { status: 500 });
     }
-} 
+}

@@ -26,7 +26,7 @@ const typingAnimationStyle = `
 `;
 
 const ChatPage = () => {
-    const { chatState, sendMessage, selectVisitor, removeConversation, selectWebsite, toggleAI, loadChatHistory, setActiveTab, loadMoreMessages } = useChatContext();
+    const { chatState, sendMessage, selectVisitor, removeConversation, selectWebsite, toggleAI, loadChatHistory, setActiveTab, loadMoreMessages, markMessagesAsRead } = useChatContext();
     const [inputMessage, setInputMessage] = useState('');
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [subscriptionLimits, setSubscriptionLimits] = useState(null);
@@ -368,6 +368,15 @@ const ChatPage = () => {
                                 <div className="flex items-center space-x-2">
                                     <MessageCircle className="w-4 h-4" />
                                     <span>History</span>
+                                    {/* Total unread count badge */}
+                                    {(() => {
+                                        const totalUnread = chatState.chatHistory.reduce((sum, chat) => sum + (chat.unreadCount || 0), 0);
+                                        return totalUnread > 0 && (
+                                            <span className="ml-1.5 text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full font-medium">
+                                                {totalUnread > 99 ? '99+' : totalUnread}
+                                            </span>
+                                        );
+                                    })()}
                                 </div>
                                 {/* Active Tab Indicator */}
                                 <div className={`absolute bottom-0 left-0 right-0 h-0.5 ${chatState.activeTab === 'history' ? 'bg-blue-600' : 'bg-transparent'}`} />
@@ -524,26 +533,48 @@ const ChatPage = () => {
                                         className={`group cursor-pointer transition-all duration-200 hover:bg-gray-50 relative ${
                                             chatState.selectedVisitorId === chat.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : 'border-l-4 border-l-transparent'
                                         }`}
-                                        onClick={() => selectVisitor({ id: chat.id })}>
+                                        onClick={async () => {
+                                            await selectVisitor({ id: chat.id });
+                                            // Mark messages as read when viewing a conversation from history
+                                            if (chat.unreadCount > 0) {
+                                                await markMessagesAsRead(chat.id);
+                                            }
+                                        }}>
                                         <div className="px-4 py-3 flex items-center space-x-3">
                                             {/* Avatar */}
-                                            <div className="flex-shrink-0">
+                                            <div className="flex-shrink-0 relative">
                                                 <div className="w-10 h-10 bg-gradient-to-br from-gray-50 to-gray-100 rounded-full flex items-center justify-center border border-gray-200 shadow-sm">
                                                     <span className="text-gray-700 text-sm font-medium">V{chat.id.split('_')[1].slice(0, 2)}</span>
                                                 </div>
+                                                {/* Unread badge */}
+                                                {chat.unreadCount > 0 && (
+                                                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                                                        <span className="text-xs font-bold text-white">{chat.unreadCount > 99 ? '99+' : chat.unreadCount}</span>
+                                                    </div>
+                                                )}
                                             </div>
 
                                             {/* History details */}
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center space-x-2">
-                                                        <h3 className="text-sm font-medium text-gray-900">Visitor {chat.id.split('_')[1]}</h3>
+                                                        <h3 className={`text-sm font-medium ${
+                                                            chat.unreadCount > 0 ? 'text-gray-900 font-semibold' : 'text-gray-900'
+                                                        }`}>Visitor {chat.id.split('_')[1]}</h3>
                                                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-blue-50 text-blue-600 border border-blue-100">
                                                             {chat.messageCount} msgs
                                                         </span>
+                                                        {/* Unread indicator */}
+                                                        {chat.unreadCount > 0 && (
+                                                            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200">
+                                                                {chat.unreadCount} unread
+                                                            </span>
+                                                        )}
                                                     </div>
                                                 </div>
-                                                <p className="text-xs text-gray-600 truncate mt-0.5">{chat.lastMessage}</p>
+                                                <p className={`text-xs truncate mt-0.5 ${
+                                                    chat.unreadCount > 0 ? 'text-gray-900 font-medium' : 'text-gray-600'
+                                                }`}>{chat.lastMessage}</p>
                                                 <p className="text-xs text-gray-500 mt-1">
                                                     {new Date(chat.timestamp).toLocaleDateString()} •{' '}
                                                     {new Date(chat.timestamp).toLocaleTimeString([], {

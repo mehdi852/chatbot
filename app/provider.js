@@ -1,9 +1,6 @@
 'use client';
 
-import { db } from '@/configs/db';
-import { Users } from '@/configs/schema';
 import { useUser } from '@clerk/nextjs';
-import { eq } from 'drizzle-orm';
 import React, { useEffect, createContext, useContext, useState } from 'react';
 import { ChatProvider } from './contexts/ChatContext';
 

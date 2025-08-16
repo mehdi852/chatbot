@@ -1,7 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { Websites, WebsitePaths, WebsitePopups } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
@@ -25,10 +24,7 @@ export async function GET(req) {
         // For each website, get its paths and popups
         const websitesWithData = await Promise.all(
             websites.map(async (website) => {
-                const paths = await db
-                    .select()
-                    .from(WebsitePaths)
-                    .where(eq(WebsitePaths.website_id, website.id));
+                const paths = await db.select().from(WebsitePaths).where(eq(WebsitePaths.website_id, website.id));
 
                 const pathsWithPopups = await Promise.all(
                     paths.map(async (path) => {
@@ -71,7 +67,6 @@ export async function GET(req) {
                 };
             })
         );
-
 
         return new Response(JSON.stringify(websitesWithData), {
             status: 200,

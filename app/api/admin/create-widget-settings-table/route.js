@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { sql } from 'drizzle-orm';
 
 export async function POST() {
@@ -37,7 +37,7 @@ export async function POST() {
         return new Response(
             JSON.stringify({
                 success: true,
-                message: 'Widget settings table created successfully'
+                message: 'Widget settings table created successfully',
             }),
             {
                 status: 200,

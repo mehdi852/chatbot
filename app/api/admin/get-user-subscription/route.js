@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { UsersSubscriptions } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';
@@ -11,8 +11,6 @@ export async function GET(request) {
         return NextResponse.json({ message }, { status });
     }
 
-
-
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 
@@ -21,11 +19,7 @@ export async function GET(request) {
     }
 
     try {
-        const subscription = await db
-            .select()
-            .from(UsersSubscriptions)
-            .where(eq(UsersSubscriptions.user_id, userId))
-            .limit(1);
+        const subscription = await db.select().from(UsersSubscriptions).where(eq(UsersSubscriptions.user_id, userId)).limit(1);
 
         return NextResponse.json({ subscription: subscription[0] || null });
     } catch (error) {

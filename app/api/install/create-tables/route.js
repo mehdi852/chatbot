@@ -1,4 +1,4 @@
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 import * as schema from '@/configs/schema';
@@ -15,8 +15,6 @@ const TABLE_GROUPS = {
 
 export async function POST() {
     try {
- 
-
         // Drop tables in reverse dependency order
         for (const [groupName, tableNames] of Object.entries(TABLE_GROUPS)) {
             console.log(`Dropping ${groupName} tables if they exist...`);

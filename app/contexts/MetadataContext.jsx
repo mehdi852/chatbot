@@ -1,7 +1,6 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getGeneralSettings } from '@/utils/AdminUtils';
 
 const MetadataContext = createContext();
 

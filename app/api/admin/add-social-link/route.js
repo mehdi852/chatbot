@@ -1,6 +1,5 @@
-
 import { SocialMediaLinks } from '@/configs/schema';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { NextResponse } from 'next/server';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';
 

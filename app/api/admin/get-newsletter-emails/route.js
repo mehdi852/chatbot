@@ -1,7 +1,7 @@
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';
 import { NewsletterSubscriptions } from '@/configs/schema';
-import { desc,sql } from 'drizzle-orm';
+import { desc, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 export async function GET(req) {
@@ -34,11 +34,11 @@ export async function GET(req) {
             .limit(limit)
             .offset((page - 1) * limit);
 
-        return NextResponse.json({ 
+        return NextResponse.json({
             emails,
             total,
             page,
-            limit
+            limit,
         });
     } catch (error) {
         console.error(error);

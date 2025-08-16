@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import { checkIfUserIsAdmin } from '@/utils/authUtils';
 import { editUserByEmail, getUserByEmail } from '@/utils/AdminUtils';
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { UserTickets, TicketMessages } from '@/configs/schema';
 import { gte, desc } from 'drizzle-orm';
 
@@ -13,7 +13,6 @@ export async function POST(req) {
         const { name, email, body } = await req.json();
 
         const user = await getUserByEmail(email);
-
 
         // send the message to the database it should send to multiple tabled since they are connected
         // first will get user id from user.id then insert a row in UsersTickets (user_id, ticket_id, isRead)
@@ -28,7 +27,6 @@ export async function POST(req) {
 
             const ticket = await db.select().from(UserTickets).where(gte(UserTickets.user_id, 1)).orderBy(desc(UserTickets.ticket_id)).limit(1);
 
-
             if (!ticket[0]) {
                 throw new Error('There is no ticket created for this user');
             }
@@ -39,7 +37,6 @@ export async function POST(req) {
                 body,
                 date: new Date(),
             });
-
         } catch (error) {
             console.error(error);
             return NextResponse.json({ message: error.message }, { status: 400 });

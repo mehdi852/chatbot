@@ -8,7 +8,7 @@ const initialServices = [
         name: 'Database Connection',
         status: 'checking',
         endpoint: '/api/install/check-database',
-        description: 'Checking connection to Neon database',
+        description: 'Checking connection to Supabase database',
     },
     {
         name: 'Database Permissions',

@@ -1,4 +1,4 @@
-import { db } from '@/configs/db';
+import { db } from '@/configs/db.server';
 import { Websites, WebsitePaths, WebsitePopups } from '@/configs/schema';
 import { eq, and } from 'drizzle-orm';
 import { NextResponse } from 'next/server';

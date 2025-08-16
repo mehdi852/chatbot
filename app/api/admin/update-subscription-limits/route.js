@@ -1,7 +1,7 @@
-import { db } from "@/configs/db";
-import { SubscriptionLimits } from "@/configs/schema";
-import { eq } from "drizzle-orm";
-import { checkIfUserIsAdmin } from '@/utils/authUtils'; 
+import { db } from '@/configs/db.server';
+import { SubscriptionLimits } from '@/configs/schema';
+import { eq } from 'drizzle-orm';
+import { checkIfUserIsAdmin } from '@/utils/authUtils';
 
 export async function POST(req) {
     const { authorized, message, status } = await checkIfUserIsAdmin(req);
@@ -9,7 +9,7 @@ export async function POST(req) {
     if (!authorized) {
         return NextResponse.json({ message }, { status });
     }
-        try {
+    try {
         const { subscription_type_id, ...updates } = await req.json();
 
         // First try to update existing record
@@ -24,12 +24,10 @@ export async function POST(req) {
 
         // If no record was updated, create a new one
         if (!result.length) {
-            await db
-                .insert(SubscriptionLimits)
-                .values({
-                    subscription_type_id,
-                    ...updates,
-                });
+            await db.insert(SubscriptionLimits).values({
+                subscription_type_id,
+                ...updates,
+            });
         }
 
         return new Response(JSON.stringify({ success: true }), {
@@ -38,12 +36,9 @@ export async function POST(req) {
         });
     } catch (error) {
         console.error('Failed to update subscription limits:', error);
-        return new Response(
-            JSON.stringify({ error: 'Failed to update subscription limits' }), 
-            { 
-                status: 500,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
+        return new Response(JSON.stringify({ error: 'Failed to update subscription limits' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
     }
-} 
+}

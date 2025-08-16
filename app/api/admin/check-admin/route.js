@@ -1,4 +1,4 @@
-import { db } from '@/configs/db'; // Your Drizzle DB config
+import { db } from '@/configs/db.server'; // Your Drizzle DB config
 import { Users } from '@/configs/schema'; // Your database schema
 import { eq } from 'drizzle-orm'; // Drizzle ORM for query
 import { getAuth } from '@clerk/nextjs/server'; // Clerk's server-side helper for App Router
@@ -9,16 +9,12 @@ import { getTotalUsers } from '@/utils/AdminUtils'; // Import the new utility fu
 export async function GET(req) {
     const { authorized, message, isAdmin, status } = await checkIfUserIsAdmin(req);
 
-    
+    // Call the utility function to check if the user is an admin
 
-        // Call the utility function to check if the user is an admin
-
-        if (!authorized) {
-            return NextResponse.json({ message }, { status });
-        }
-
-        // If the user is an admin, return the appropriate response
-        return NextResponse.json({ isAdmin }, { status });
-    
-
+    if (!authorized) {
+        return NextResponse.json({ message }, { status });
     }
+
+    // If the user is an admin, return the appropriate response
+    return NextResponse.json({ isAdmin }, { status });
+}
