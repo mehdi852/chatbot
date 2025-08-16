@@ -356,3 +356,23 @@ export const WidgetQuestions = pgTable('widget_questions', {
     created_at: timestamp('created_at').defaultNow().notNull(),
     updated_at: timestamp('updated_at').defaultNow().notNull(),
 });
+
+// AI Agent Data table
+export const AiAgentData = pgTable('ai_agent_data', {
+    id: serial('id').primaryKey(),
+    website_id: integer('website_id')
+        .references(() => Websites.id)
+        .notNull(),
+    business_name: varchar('business_name', { length: 255 }).notNull().default(''),
+    business_type: varchar('business_type', { length: 255 }).notNull().default(''),
+    business_description: text('business_description').notNull().default(''),
+    products_services: text('products_services').notNull().default(''),
+    target_audience: text('target_audience').notNull().default(''),
+    business_hours: varchar('business_hours', { length: 500 }).notNull().default(''),
+    contact_information: text('contact_information').notNull().default(''),
+    special_offers: text('special_offers').notNull().default(''),
+    policies: text('policies').notNull().default(''),
+    inventory_info: text('inventory_info').notNull().default(''),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at').defaultNow().notNull(),
+});
