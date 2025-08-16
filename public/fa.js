@@ -1,4 +1,11 @@
 (function () {
+    // Prevent multiple instances of the widget
+    if (window.FA_CHAT_WIDGET_LOADED) {
+        console.log('FA Chat Widget already loaded, skipping initialization.');
+        return;
+    }
+    window.FA_CHAT_WIDGET_LOADED = true;
+    
     // Capture website ID at script load time
     const websiteId = parseInt(document.currentScript.getAttribute('data-website-id'));
     const apiUrl = document.currentScript.getAttribute('data-api-url') || window.location.origin;
@@ -342,6 +349,15 @@
                 return;
             }
             
+            // Prevent duplicate widget initialization - check for multiple possible selectors
+            const existingWidget = document.getElementById('fa-chat-widget-container') || 
+                                 document.querySelector('.fa-chat-launcher') ||
+                                 document.querySelector('.fa-widget-overlay');
+            if (existingWidget) {
+                console.log('Chat widget DOM elements already exist, skipping initialization...');
+                return;
+            }
+            
             // Load widget settings first
             await loadWidgetSettings();
 
@@ -352,8 +368,84 @@
             let isAgentOnline = false; // Track if human agent is online
             let messages = [];
 
+            // Widget questions (will be loaded from database)
+            let widgetQuestions = [
+                "What are your business hours?",
+                "How can I contact customer support?",
+                "Do you offer refunds?",
+                "How do I track my order?",
+                "What payment methods do you accept?",
+                "How can I create an account?"
+            ];
+
+            // Load widget questions from database
+            const loadWidgetQuestions = async () => {
+                try {
+                    const fetchUrl = `${apiUrl}/api/widget/questions?websiteId=${websiteId}`;
+                    console.log('🔍 DEBUGGING: Fetching widget questions from:', fetchUrl);
+                    
+                    const response = await fetch(fetchUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Cache-Control': 'no-cache, no-store, must-revalidate',
+                            'Pragma': 'no-cache'
+                        },
+                        cache: 'no-store'
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('🔍 DEBUGGING: Widget questions API response:', data);
+                        
+                        if (data.success && data.questions && data.questions.length > 0) {
+                            widgetQuestions = data.questions.map(q => q.question);
+                            console.log('🔍 DEBUGGING: Loaded custom widget questions:', widgetQuestions);
+                        } else {
+                            console.log('🔍 DEBUGGING: No custom questions found, using defaults');
+                        }
+                    } else {
+                        console.warn('🔍 DEBUGGING: Failed to load widget questions, using defaults');
+                    }
+                } catch (error) {
+                    console.error('🔍 DEBUGGING: Error loading widget questions:', error);
+                    // Use default questions on error
+                }
+            };
+            
+            // Function to render dynamic questions in the DOM
+            const renderDynamicQuestions = (container) => {
+                const questionsList = container.querySelector('#fa-questions-list');
+                if (!questionsList) return;
+                
+                // Clear existing content
+                questionsList.innerHTML = '';
+                
+                // Render dynamic questions
+                widgetQuestions.forEach((question, index) => {
+                    const questionButton = document.createElement('button');
+                    questionButton.className = 'fa-question-btn';
+                    questionButton.setAttribute('data-question', question);
+                    questionButton.innerHTML = `
+                        <span class="fa-question-text">${question}</span>
+                        <svg class="fa-question-arrow" viewBox="0 0 24 24" fill="none">
+                            <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z" fill="currentColor"/>
+                        </svg>
+                    `;
+                    questionsList.appendChild(questionButton);
+                });
+                
+                console.log('🔍 DEBUGGING: Rendered', widgetQuestions.length, 'dynamic questions');
+            };
+            
+            // Widget state management - always start with home view
+            let currentView = 'home'; // 'home' or 'chat'
+            let isWidgetInitialized = false;
+            
             // Create and inject HTML elements
             const container = document.createElement('div');
+            container.id = 'fa-chat-widget-container';
             container.innerHTML = `
                 <button class="fa-chat-launcher">
                     <div class="fa-launcher-content">
@@ -375,46 +467,39 @@
                     <div class="fa-widget-container">
                         <div class="fa-widget-backdrop"></div>
                         <div class="fa-chat-container">
-                            <div class="fa-widget-header">
-                                <div class="fa-header-content">
-                                    <div class="fa-agent-info">
-                                        <div class="fa-agent-avatar">
-                                            <div class="fa-avatar-gradient">
-                                                <svg class="fa-avatar-icon" viewBox="0 0 24 24" fill="none">
-                                                    <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" fill="currentColor"/>
-                                                    <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
+                            <!-- HOME VIEW -->
+                            <div class="fa-home-view" id="fa-home-view">
+                                <div class="fa-widget-header">
+                                    <div class="fa-header-content">
+                                        <div class="fa-agent-info">
+                                            <div class="fa-agent-avatar">
+                                                <div class="fa-avatar-gradient">
+                                                    <svg class="fa-avatar-icon" viewBox="0 0 24 24" fill="none">
+                                                        <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" fill="currentColor"/>
+                                                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <div class="fa-agent-details">
+                                                <div class="fa-agent-name">${widgetSettings.companyName}</div>
+                                                <div class="fa-agent-status">We're here to help!</div>
+                                            </div>
+                                        </div>
+                                        <div class="fa-header-actions">
+                                            <button class="fa-close-btn" title="Close">
+                                                <svg viewBox="0 0 24 24" fill="none">
+                                                    <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="currentColor"/>
                                                 </svg>
-                                            </div>
-                                            <div class="fa-status-badge" id="fa-agent-status">
-                                                <div class="fa-status-dot"></div>
-                                            </div>
+                                            </button>
                                         </div>
-                                        <div class="fa-agent-details">
-                                            <div class="fa-agent-name">${widgetSettings.companyName}</div>
-                                            <div class="fa-agent-status" id="fa-status-text">Typically replies in minutes</div>
-                                        </div>
-                                    </div>
-                                    <div class="fa-header-actions">
-                                        <button class="fa-minimize-btn" title="Minimize">
-                                            <svg viewBox="0 0 24 24" fill="none">
-                                                <path d="M19 13H5V11H19V13Z" fill="currentColor"/>
-                                            </svg>
-                                        </button>
-                                        <button class="fa-close-btn" title="Close">
-                                            <svg viewBox="0 0 24 24" fill="none">
-                                                <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="currentColor"/>
-                                            </svg>
-                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="fa-widget-body">
-                                <div class="fa-messages-container">
-                                    <div class="fa-messages-scroll" id="fa-messages-scroll">
+                                <div class="fa-home-body">
+                                    <div class="fa-welcome-section">
                                         <div class="fa-welcome-message">
                                             <div class="fa-welcome-avatar">
                                                 <svg viewBox="0 0 24 24" fill="none">
-                                                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.9 1 3 1.9 3 3V21C3 22.1 3.9 23 5 23H19C20.1 23 21 22.1 21 21V9ZM12 8C14.21 8 16 9.79 16 12C16 14.21 14.21 16 12 16C9.79 16 8 14.21 8 12C8 9.79 9.79 8 12 8Z" fill="currentColor"/>
+                                                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.9 1 3 1.9 3 3V21C3 22.1 3.9 23 5 23H19C20.1 23 21 22.1 21 21V9Z" fill="currentColor"/>
                                                 </svg>
                                             </div>
                                             <div class="fa-welcome-text">
@@ -423,39 +508,109 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="fa-questions-section">
+                                        <div class="fa-questions-title">Frequently Asked Questions:</div>
+                                        <div class="fa-questions-list" id="fa-questions-list">
+                                            <!-- Questions will be loaded dynamically -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fa-home-footer">
+                                    <button class="fa-start-chat-btn" id="fa-start-chat-btn">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="currentColor"/>
+                                        </svg>
+                                        <span>Chat with us</span>
+                                    </button>
+                                    ${widgetSettings.showBranding ? `<div class="fa-powered-by">
+                                        <div class="fa-branding">
+                                            Powered by <strong>${widgetSettings.brandName}</strong>
+                                        </div>
+                                    </div>` : ''}
                                 </div>
                             </div>
-                            <div class="fa-widget-footer">
-                                <div class="fa-input-container">
-                                    <div class="fa-input-wrapper">
-                                        <div class="fa-input-field">
-                                            <textarea 
-                                                class="fa-message-input" 
-                                                placeholder="${widgetSettings.placeholderText}" 
-                                                rows="1"
-                                                id="fa-message-input"
-                                                maxlength="1000"
-                                            ></textarea>
-                                            <div class="fa-input-actions">
-                                                <button class="fa-emoji-btn" title="Add emoji">
+                            
+                            <!-- CHAT VIEW -->
+                            <div class="fa-chat-view" id="fa-chat-view" style="display: none;">
+                                <div class="fa-widget-header">
+                                    <div class="fa-header-content">
+                                        <div class="fa-header-back">
+                                            <button class="fa-back-btn" id="fa-back-btn" title="Back to home">
+                                                <svg viewBox="0 0 24 24" fill="none">
+                                                    <path d="M15.41 16.59L10.83 12L15.41 7.41L14 6L8 12L14 18L15.41 16.59Z" fill="currentColor"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="fa-agent-info">
+                                            <div class="fa-agent-avatar">
+                                                <div class="fa-avatar-gradient">
+                                                    <svg class="fa-avatar-icon" viewBox="0 0 24 24" fill="none">
+                                                        <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" fill="currentColor"/>
+                                                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="fa-status-badge" id="fa-agent-status">
+                                                    <div class="fa-status-dot"></div>
+                                                </div>
+                                            </div>
+                                            <div class="fa-agent-details">
+                                                <div class="fa-agent-name">${widgetSettings.companyName}</div>
+                                                <div class="fa-agent-status" id="fa-status-text">Typically replies in minutes</div>
+                                            </div>
+                                        </div>
+                                        <div class="fa-header-actions">
+                                            <button class="fa-minimize-btn" title="Minimize">
+                                                <svg viewBox="0 0 24 24" fill="none">
+                                                    <path d="M19 13H5V11H19V13Z" fill="currentColor"/>
+                                                </svg>
+                                            </button>
+                                            <button class="fa-close-btn" title="Close">
+                                                <svg viewBox="0 0 24 24" fill="none">
+                                                    <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="currentColor"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fa-widget-body">
+                                    <div class="fa-messages-container">
+                                        <div class="fa-messages-scroll" id="fa-messages-scroll">
+                                            <!-- Messages will be added here -->
+                                        </div>
+                                    </div>
+                                    <div class="fa-widget-footer">
+                                        <div class="fa-input-container">
+                                            <div class="fa-input-wrapper">
+                                                <div class="fa-input-field">
+                                                    <textarea 
+                                                        class="fa-message-input" 
+                                                        placeholder="${widgetSettings.placeholderText}" 
+                                                        rows="1"
+                                                        id="fa-message-input"
+                                                        maxlength="1000"
+                                                    ></textarea>
+                                                    <div class="fa-input-actions">
+                                                        <button class="fa-emoji-btn" title="Add emoji">
+                                                            <svg viewBox="0 0 24 24" fill="none">
+                                                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM15.5 8C16.33 8 17 8.67 17 9.5C17 10.33 16.33 11 15.5 11C14.67 11 14 10.33 14 9.5C14 8.67 14.67 8 15.5 8ZM8.5 8C9.33 8 10 8.67 10 9.5C10 10.33 9.33 11 8.5 11C7.67 11 7 10.33 7 9.5C7 8.67 7.67 8 8.5 8ZM12 17.5C9.67 17.5 7.69 16.04 6.89 14H17.11C16.31 16.04 14.33 17.5 12 17.5Z" fill="currentColor"/>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <button class="fa-send-btn" title="Send message">
                                                     <svg viewBox="0 0 24 24" fill="none">
-                                                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM15.5 8C16.33 8 17 8.67 17 9.5C17 10.33 16.33 11 15.5 11C14.67 11 14 10.33 14 9.5C14 8.67 14.67 8 15.5 8ZM8.5 8C9.33 8 10 8.67 10 9.5C10 10.33 9.33 11 8.5 11C7.67 11 7 10.33 7 9.5C7 8.67 7.67 8 8.5 8ZM12 17.5C9.67 17.5 7.69 16.04 6.89 14H17.11C16.31 16.04 14.33 17.5 12 17.5Z" fill="currentColor"/>
+                                                        <path d="M3.4 20.4L20.85 12.92C21.66 12.57 21.66 11.43 20.85 11.08L3.4 3.6C2.74 3.31 2.01 3.8 2.01 4.51L2 9.12C2 9.62 2.37 10.05 2.87 10.11L15 12L2.87 13.88C2.37 13.95 2 14.38 2 14.88L2.01 19.49C2.01 20.2 2.74 20.69 3.4 20.4Z" fill="currentColor"/>
                                                     </svg>
                                                 </button>
                                             </div>
                                         </div>
-                                        <button class="fa-send-btn" title="Send message">
-                                            <svg viewBox="0 0 24 24" fill="none">
-                                                <path d="M3.4 20.4L20.85 12.92C21.66 12.57 21.66 11.43 20.85 11.08L3.4 3.6C2.74 3.31 2.01 3.8 2.01 4.51L2 9.12C2 9.62 2.37 10.05 2.87 10.11L15 12L2.87 13.88C2.37 13.95 2 14.38 2 14.88L2.01 19.49C2.01 20.2 2.74 20.69 3.4 20.4Z" fill="currentColor"/>
-                                            </svg>
-                                        </button>
+                                        ${widgetSettings.showBranding ? `<div class="fa-powered-by">
+                                            <div class="fa-branding">
+                                                Powered by <strong>${widgetSettings.brandName}</strong>
+                                            </div>
+                                        </div>` : ''}
                                     </div>
                                 </div>
-                                ${widgetSettings.showBranding ? `<div class="fa-powered-by">
-                                    <div class="fa-branding">
-                                        Powered by <strong>${widgetSettings.brandName}</strong>
-                                    </div>
-                                </div>` : ''}
                             </div>
                         </div>
                     </div>
@@ -464,6 +619,10 @@
 
             // Append container to document body
             document.body.appendChild(container);
+            
+            // Load and render dynamic questions after DOM is ready
+            await loadWidgetQuestions();
+            renderDynamicQuestions(container);
             
             // Apply widget styling after DOM is ready
             applyWidgetStyles();
@@ -503,12 +662,52 @@
             const widgetOverlay = container.querySelector('.fa-widget-overlay');
             const widgetContainer = container.querySelector('.fa-widget-container');
             const chatContainer = container.querySelector('.fa-chat-container');
+            const homeView = container.querySelector('#fa-home-view');
+            const chatView = container.querySelector('#fa-chat-view');
             const closeBtn = container.querySelector('.fa-close-btn');
             const minimizeBtn = container.querySelector('.fa-minimize-btn');
+            const backBtn = container.querySelector('#fa-back-btn');
+            const startChatBtn = container.querySelector('#fa-start-chat-btn');
+            const questionBtns = container.querySelectorAll('.fa-question-btn');
             const input = container.querySelector('.fa-message-input');
             const sendBtn = container.querySelector('.fa-send-btn');
             const messagesScroll = container.querySelector('.fa-messages-scroll');
             const emojiBtn = container.querySelector('.fa-emoji-btn');
+            
+            // Function to switch views
+            const switchToView = (view) => {
+                if (view === 'home') {
+                    homeView.style.display = 'block';
+                    chatView.style.display = 'none';
+                    currentView = 'home';
+                } else if (view === 'chat') {
+                    homeView.style.display = 'none';
+                    chatView.style.display = 'block';
+                    currentView = 'chat';
+                    // Focus on input when switching to chat
+                    setTimeout(() => {
+                        if (input) input.focus();
+                    }, 100);
+                }
+            };
+            
+            // Function to start chat with a message
+            const startChatWithMessage = async (message = null) => {
+                // Switch to chat view
+                switchToView('chat');
+                
+                // Initialize socket and chat
+                await checkEligibilityAndInitialize();
+                
+                // If a message is provided, send it automatically
+                if (message) {
+                    // Add the message to input and send it
+                    input.value = message;
+                    setTimeout(() => {
+                        sendMessage();
+                    }, 500); // Small delay to ensure socket is connected
+                }
+            };
 
             // Check eligibility on page load - for now, chat is always available
             // Only AI responses can be limited, not human agent chat
@@ -692,7 +891,7 @@
                 }
             };
 
-            // Toggle chat widget
+            // Toggle chat widget - opens to home view
             chatLauncher.addEventListener('click', async () => {
                 // If chat limits are exceeded, don't open the widget
                 if (!isEligibleForChat && chatLauncher.classList.contains('limit-exceeded')) {
@@ -703,13 +902,38 @@
 
                 widgetOverlay.classList.add('active');
                 chatLauncher.style.display = 'none';
-
-                // Initialize socket and chat on first open
-                await checkEligibilityAndInitialize();
-
-                // Focus on input field
-                input.focus();
+                
+                // Always start with home view
+                switchToView('home');
             });
+            
+            // Back button - return to home view
+            if (backBtn) {
+                backBtn.addEventListener('click', () => {
+                    switchToView('home');
+                });
+            }
+            
+            // Start chat button - switch to chat view
+            if (startChatBtn) {
+                startChatBtn.addEventListener('click', () => {
+                    startChatWithMessage();
+                });
+            }
+            
+            // Question button clicks - start chat with the question (use event delegation for dynamic buttons)
+            const questionsList = container.querySelector('#fa-questions-list');
+            if (questionsList) {
+                questionsList.addEventListener('click', (e) => {
+                    if (e.target.closest('.fa-question-btn')) {
+                        const btn = e.target.closest('.fa-question-btn');
+                        const question = btn.getAttribute('data-question');
+                        if (question) {
+                            startChatWithMessage(question);
+                        }
+                    }
+                });
+            }
 
             // Close button functionality
             closeBtn.addEventListener('click', () => {

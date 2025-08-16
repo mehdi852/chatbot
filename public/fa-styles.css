@@ -302,10 +302,234 @@
     max-height: calc(100vh - 64px);
     display: none;
     z-index: 999999;
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-md);
+    background-color: var(--background-primary);
+    overflow: hidden;
 }
 
 .fa-widget-overlay.active {
     display: block;
+    animation: slideInWidget 0.3s ease-out forwards;
+}
+
+/* Home View Styles */
+.fa-home-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--background-primary);
+}
+
+.fa-home-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    min-height: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.fa-welcome-section {
+    margin-bottom: 24px;
+}
+
+.fa-welcome-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.fa-welcome-avatar {
+    flex-shrink: 0;
+}
+
+.fa-welcome-avatar svg {
+    width: 32px;
+    height: 32px;
+    fill: var(--primary-color);
+}
+
+.fa-welcome-text {
+    flex: 1;
+}
+
+.fa-welcome-title {
+    font-size: 18px;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.fa-welcome-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.fa-questions-section {
+    margin-top: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.fa-questions-title {
+    font-size: 16px;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.fa-questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    min-height: 0;
+}
+
+.fa-question-btn {
+    padding: 16px 20px;
+    background-color: var(--background-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all var(--transition-normal);
+    text-align: left;
+    width: 100%;
+}
+
+.fa-question-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.fa-question-text {
+    flex: 1;
+    line-height: 1.4;
+}
+
+.fa-question-arrow {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform var(--transition-normal);
+    flex-shrink: 0;
+    margin-left: 12px;
+}
+
+.fa-question-btn:hover .fa-question-arrow {
+    transform: translateX(4px);
+}
+
+.fa-home-footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-light);
+    background-color: var(--background-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    margin-top: auto;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.fa-start-chat-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    font-weight: var(--font-weight-semibold);
+    font-size: 15px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    width: 100%;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.fa-start-chat-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+}
+
+.fa-start-chat-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* Chat View Styles */
+.fa-chat-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--background-primary);
+    overflow: hidden;
+}
+
+.fa-header-back {
+    margin-right: 12px;
+}
+
+.fa-back-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    border-radius: var(--radius-md);
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+.fa-back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
+.fa-back-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+/* Powered by branding */
+.fa-powered-by {
+    margin-top: 8px;
+}
+
+.fa-branding {
+    font-size: 11px;
+    color: var(--text-light);
+    text-align: center;
+}
+
+.fa-branding strong {
+    color: var(--primary-color);
 }
 
 /* Widget Container */
@@ -348,6 +572,7 @@
     border-radius: var(--radius-md) var(--radius-md) 0 0;
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .fa-widget-header::before {
@@ -574,6 +799,7 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
+    overflow: hidden; /* Prevent overflow */
 }
 
 .fa-messages-container {
@@ -581,6 +807,8 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
+    overflow: hidden;
+    order: 1; /* Ensure messages come before footer */
 }
 
 .fa-messages-scroll {
@@ -751,6 +979,11 @@
     padding: 12px 16px;
     background: var(--background-primary);
     border-top: 1px solid var(--border-light);
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    position: relative;
+    order: 2; /* Ensure footer comes after messages */
+    margin-top: auto; /* Push to bottom */
 }
 
 .fa-input-container {
@@ -1329,4 +1562,114 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+}
+
+/* Additional high-specificity rules to ensure correct chat layout */
+/* Fix height propagation from root containers */
+.fa-widget-overlay {
+    height: 580px !important;
+    max-height: calc(100vh - 64px) !important;
+    display: none;
+}
+
+.fa-widget-overlay.active {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.fa-widget-container {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.fa-chat-container {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.fa-chat-view {
+    height: 100% !important;
+    flex-direction: column !important;
+}
+
+.fa-chat-view:not([style*="display: none"]) {
+    display: flex !important;
+}
+
+.fa-chat-view .fa-widget-body {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    min-height: 0 !important;
+    height: 0 !important; /* Force height calculation */
+    overflow: hidden !important;
+}
+
+.fa-chat-view .fa-messages-container {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    min-height: 0 !important;
+    height: 0 !important; /* Force height calculation */
+    overflow: hidden !important;
+    order: 1 !important;
+}
+
+.fa-chat-view .fa-messages-scroll {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+}
+
+.fa-chat-view .fa-widget-footer {
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    order: 2 !important;
+    margin-top: auto !important;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+}
+
+/* Home View Layout */
+.fa-home-view {
+    height: 100% !important;
+    flex-direction: column !important;
+}
+
+.fa-home-view:not([style*="display: none"]) {
+    display: flex !important;
+}
+
+.fa-home-body {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    height: 0 !important; /* Force height calculation */
+    overflow-y: auto !important;
+}
+
+.fa-questions-section {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+}
+
+.fa-questions-list {
+    flex: 1 !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+}
+
+.fa-home-footer {
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    margin-top: auto !important;
 }

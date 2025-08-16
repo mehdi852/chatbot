@@ -342,3 +342,16 @@ export const WidgetSettings = pgTable('widget_settings', {
     created_at: timestamp('created_at').defaultNow().notNull(),
     updated_at: timestamp('updated_at').defaultNow().notNull(),
 });
+
+// Widget Questions table
+export const WidgetQuestions = pgTable('widget_questions', {
+    id: serial('id').primaryKey(),
+    website_id: integer('website_id')
+        .references(() => Websites.id)
+        .notNull(),
+    question: text('question').notNull(),
+    order_index: integer('order_index').notNull().default(0),
+    is_active: boolean('is_active').notNull().default(true),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at').defaultNow().notNull(),
+});
