@@ -1507,12 +1507,22 @@
     }
 }
 
-/* Reduced Motion */
+/* Reduced Motion - Apply only to chat widget elements */
 @media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
+    .fa-chat-launcher,
+    .fa-chat-launcher *,
+    .fa-widget-overlay,
+    .fa-widget-overlay *,
+    .fa-chat-container,
+    .fa-chat-container *,
+    .fa-widget-message,
+    .fa-typing-indicator,
+    .fa-launcher-content,
+    .fa-launcher-content *,
+    .fa-widget-emoji-picker {
+        animation-duration: 500ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+        transition-duration: 500ms !important;
     }
     
     .fa-launcher-pulse {

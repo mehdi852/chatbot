@@ -23,13 +23,20 @@ const WidgetCustomizationPage = () => {
         headerColor: '#1e40af',
         textColor: '#374151',
         backgroundColor: '#ffffff',
-        brandName: 'BirdSeed'
+        brandName: 'BirdSeed',
+        welcomeTitle: 'Hi there! 👋',
+        faqTitle: 'Frequently Asked Questions:',
+        startChatButtonText: 'Chat with us',
+        welcomeBackgroundColor: '#ffffff',
+        welcomeTextColor: '#1a202c',
+        questionButtonColor: '#f7fafc',
+        questionButtonTextColor: '#1a202c'
     });
 
     const [isPreviewMode, setIsPreviewMode] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [hasChanges, setHasChanges] = useState(false);
-    const [isWidgetOpen, setIsWidgetOpen] = useState(false);
+    const [isWidgetOpen, setIsWidgetOpen] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
 
     // Add effect to log current gradient colors for debugging
@@ -81,7 +88,14 @@ const WidgetCustomizationPage = () => {
                             headerColor: data.settings.headerColor || '#1e40af',
                             textColor: data.settings.textColor || '#374151',
                             backgroundColor: data.settings.backgroundColor || '#ffffff',
-                            brandName: data.settings.brandName || 'BirdSeed'
+                            brandName: data.settings.brandName || 'BirdSeed',
+                            welcomeTitle: data.settings.welcomeTitle || 'Hi there! 👋',
+                            faqTitle: data.settings.faqTitle || 'Frequently Asked Questions:',
+                            startChatButtonText: data.settings.startChatButtonText || 'Chat with us',
+                            welcomeBackgroundColor: data.settings.welcomeBackgroundColor || '#ffffff',
+                            welcomeTextColor: data.settings.welcomeTextColor || '#1a202c',
+                            questionButtonColor: data.settings.questionButtonColor || '#f7fafc',
+                            questionButtonTextColor: data.settings.questionButtonTextColor || '#1a202c'
                         });
                         console.log('Widget settings applied successfully');
                     }
@@ -194,7 +208,14 @@ const WidgetCustomizationPage = () => {
             headerColor: '#1e40af',
             textColor: '#374151',
             backgroundColor: '#ffffff',
-            brandName: 'BirdSeed'
+            brandName: 'BirdSeed',
+            welcomeTitle: 'Hi there! 👋',
+            faqTitle: 'Frequently Asked Questions:',
+            startChatButtonText: 'Chat with us',
+            welcomeBackgroundColor: '#ffffff',
+            welcomeTextColor: '#1a202c',
+            questionButtonColor: '#f7fafc',
+            questionButtonTextColor: '#1a202c'
         });
         setHasChanges(true);
     };
@@ -353,6 +374,127 @@ const WidgetCustomizationPage = () => {
                         flex-direction: column;
                         overflow: hidden;
                         border: 1px solid #e2e8f0;
+                    }
+                    .fa-home-view {
+                        background-color: ${widgetSettings.welcomeBackgroundColor} !important;
+                        color: ${widgetSettings.welcomeTextColor} !important;
+                        display: flex !important;
+                        flex-direction: column !important;
+                        height: 100% !important;
+                    }
+                    .fa-home-body {
+                        flex: 1 !important;
+                        padding: 20px !important;
+                        overflow-y: auto !important;
+                        min-height: 0 !important;
+                        position: relative !important;
+                        display: flex !important;
+                        flex-direction: column !important;
+                    }
+                    .fa-welcome-section {
+                        margin-bottom: 24px !important;
+                    }
+                    .fa-welcome-message {
+                        display: flex !important;
+                        align-items: flex-start !important;
+                        gap: 16px !important;
+                        margin-bottom: 8px !important;
+                    }
+                    .fa-welcome-text {
+                        flex: 1 !important;
+                    }
+                    .fa-welcome-title {
+                        color: ${widgetSettings.welcomeTextColor} !important;
+                        font-size: 18px !important;
+                        font-weight: 700 !important;
+                        margin-bottom: 4px !important;
+                    }
+                    .fa-welcome-subtitle {
+                        color: ${widgetSettings.welcomeTextColor} !important;
+                        font-size: 14px !important;
+                        line-height: 1.4 !important;
+                        opacity: 0.8 !important;
+                    }
+                    .fa-questions-section {
+                        margin-top: 16px !important;
+                        flex: 1 !important;
+                        display: flex !important;
+                        flex-direction: column !important;
+                        min-height: 0 !important;
+                    }
+                    .fa-questions-title {
+                        color: ${widgetSettings.welcomeTextColor} !important;
+                        font-size: 16px !important;
+                        font-weight: 600 !important;
+                        margin-bottom: 16px !important;
+                    }
+                    .fa-questions-list {
+                        display: flex !important;
+                        flex-direction: column !important;
+                        gap: 12px !important;
+                        flex: 1 !important;
+                        min-height: 0 !important;
+                    }
+                    .fa-question-btn {
+                        background-color: ${widgetSettings.questionButtonColor} !important;
+                        color: ${widgetSettings.questionButtonTextColor} !important;
+                        padding: 16px 20px !important;
+                        border: 1px solid #e2e8f0 !important;
+                        border-radius: 12px !important;
+                        font-size: 14px !important;
+                        font-weight: 500 !important;
+                        cursor: pointer !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: space-between !important;
+                        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                        text-align: left !important;
+                        width: 100% !important;
+                    }
+                    .fa-question-btn:hover {
+                        background-color: ${widgetSettings.primaryColor} !important;
+                        color: white !important;
+                        border-color: ${widgetSettings.primaryColor} !important;
+                        transform: translateY(-1px) !important;
+                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+                    }
+                    .fa-home-footer {
+                        padding: 12px 16px !important;
+                        border-top: 1px solid #e2e8f0 !important;
+                        background-color: ${widgetSettings.welcomeBackgroundColor} !important;
+                        display: flex !important;
+                        flex-direction: column !important;
+                        align-items: center !important;
+                        gap: 6px !important;
+                        flex-shrink: 0 !important;
+                        margin-top: auto !important;
+                        box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1) !important;
+                    }
+                    .fa-start-chat-btn {
+                        background: linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%) !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        gap: 10px !important;
+                        padding: 10px 20px !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 50px !important;
+                        font-weight: 600 !important;
+                        font-size: 15px !important;
+                        cursor: pointer !important;
+                        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                        width: 100% !important;
+                        justify-content: center !important;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+                    }
+                    .fa-start-chat-btn:hover {
+                        transform: translateY(-1px) !important;
+                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+                    }
+                    .fa-start-chat-btn svg {
+                        width: 20px !important;
+                        height: 20px !important;
+                        fill: currentColor !important;
                     }
                     .fa-widget-header {
                         background: linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%) !important;
@@ -723,140 +865,68 @@ const WidgetCustomizationPage = () => {
                 <div className={`fixed ${positionClasses[widgetSettings.buttonPosition]} z-50`}>
                     {/* Widget Overlay */}
                     {isWidgetOpen && (
-                        <div key={`widget-${widgetSettings.primaryColor}-${widgetSettings.headerColor}-${widgetSettings.backgroundColor}-${widgetSettings.textColor}`} className="fa-widget-overlay" style={{ position: 'relative', bottom: 'auto', right: 'auto', marginBottom: '16px', width: '360px', height: '580px', display: 'block' }}>
+                        <div key={`widget-${widgetSettings.primaryColor}-${widgetSettings.headerColor}-${widgetSettings.backgroundColor}-${widgetSettings.textColor}-${widgetSettings.welcomeBackgroundColor}-${widgetSettings.welcomeTextColor}`} className="fa-widget-overlay" style={{ position: 'relative', bottom: 'auto', right: 'auto', marginBottom: '16px', width: '360px', height: '580px', display: 'block' }}>
                             <div className="fa-widget-container">
                                 <div className="fa-chat-container">
-                                    {/* Widget Header */}
-                                    <div className="fa-widget-header">
-                                        <div className="fa-header-content">
-                                            <div className="fa-agent-info">
-                                                <div className="fa-agent-avatar">
-                                                    <div className="fa-avatar-gradient">
-                                                        <svg className="fa-avatar-icon" viewBox="0 0 24 24" fill="none">
-                                                            <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" fill="currentColor"/>
-                                                            <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
+                                    <div className="fa-home-view" style={{ backgroundColor: widgetSettings.welcomeBackgroundColor }}>
+                                        <div className="fa-widget-header">
+                                            <div className="fa-header-content">
+                                                <div className="fa-agent-info">
+                                                    <div className="fa-agent-avatar">
+                                                        <div className="fa-avatar-gradient">
+                                                            <svg className="fa-avatar-icon" viewBox="0 0 24 24" fill="none">
+                                                                <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" fill="currentColor"/>
+                                                                <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                    <div className="fa-agent-details">
+                                                        <div className="fa-agent-name" style={{ color: 'white' }}>{widgetSettings.companyName}</div>
+                                                        <div className="fa-agent-status" style={{ color: 'white' }}>We're here to help!</div>
+                                                    </div>
+                                                </div>
+                                                <div className="fa-header-actions">
+                                                    <button className="fa-close-btn" title="Close" onClick={() => setIsWidgetOpen(false)}>
+                                                        <svg viewBox="0 0 24 24" fill="none">
+                                                            <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="currentColor"/>
                                                         </svg>
-                                                    </div>
-                                                    <div className="fa-status-badge online">
-                                                        <div className="fa-status-dot"></div>
-                                                    </div>
+                                                    </button>
                                                 </div>
-                                                <div className="fa-agent-details">
-                                                    <div className="fa-agent-name">{widgetSettings.companyName}</div>
-                                                    <div className="fa-agent-status">Agent is online</div>
-                                                </div>
-                                            </div>
-                                            <div className="fa-header-actions">
-                                                <button className="fa-minimize-btn" title="Minimize">
-                                                    <svg viewBox="0 0 24 24" fill="none">
-                                                        <path d="M19 13H5V11H19V13Z" fill="currentColor"/>
-                                                    </svg>
-                                                </button>
-                                                <button className="fa-close-btn" title="Close" onClick={() => setIsWidgetOpen(false)}>
-                                                    <svg viewBox="0 0 24 24" fill="none">
-                                                        <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="currentColor"/>
-                                                    </svg>
-                                                </button>
                                             </div>
                                         </div>
-                                    </div>
-                                    
-                                    {/* Widget Body */}
-                                    <div className="fa-widget-body">
-                                        <div className="fa-messages-container">
-                                            <div className="fa-messages-scroll" style={{ backgroundColor: widgetSettings.backgroundColor }}>
-                                                {/* Welcome Message */}
+                                        <div className="fa-home-body" style={{ color: widgetSettings.welcomeTextColor }}>
+                                            <div className="fa-welcome-section">
                                                 <div className="fa-welcome-message">
-                                                    <div className="fa-welcome-avatar">
-                                                        <svg viewBox="0 0 24 24" fill="none">
-                                                            <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.9 1 3 1.9 3 3V21C3 22.1 3.9 23 5 23H19C20.1 23 21 22.1 21 21V9ZM12 8C14.21 8 16 9.79 16 12C16 14.21 14.21 16 12 16C9.79 16 8 14.21 8 12C8 9.79 9.79 8 12 8Z" fill="currentColor"/>
-                                                        </svg>
-                                                    </div>
                                                     <div className="fa-welcome-text">
-                                                        <div className="fa-welcome-title">Hi there! 👋</div>
+                                                        <div className="fa-welcome-title">{widgetSettings.welcomeTitle}</div>
                                                         <div className="fa-welcome-subtitle">{widgetSettings.welcomeMessage}</div>
                                                     </div>
                                                 </div>
-                                                
-                                                {/* Mock Conversation Messages */}
-                                                <div className="fa-widget-message admin" style={{ 
-                                                    backgroundColor: widgetSettings.backgroundColor, 
-                                                    color: widgetSettings.textColor,
-                                                    border: `1px solid #e2e8f0`
-                                                }}>
-                                                    Thanks for reaching out! I'm here to help. What can I assist you with today?
-                                                </div>
-                                                
-                                                <div className="fa-widget-message user" style={{ 
-                                                    background: `linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%)`,
-                                                    color: 'white'
-                                                }}>
-                                                    Hi! I'm interested in your pricing plans. Can you tell me more?
-                                                </div>
-                                                
-                                                <div className="fa-widget-message admin" style={{ 
-                                                    backgroundColor: widgetSettings.backgroundColor, 
-                                                    color: widgetSettings.textColor,
-                                                    border: `1px solid #e2e8f0`
-                                                }}>
-                                                    Absolutely! We have several plans designed to fit different needs. Let me share the details with you. 📊
-                                                </div>
-                                                
-                                                <div className="fa-widget-message user" style={{ 
-                                                    background: `linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%)`,
-                                                    color: 'white'
-                                                }}>
-                                                    That sounds perfect! I'd love to learn more about the premium features.
-                                                </div>
-                                                
-                                                {/* Typing Indicator */}
-                                                <div className="fa-typing-indicator" style={{
-                                                    backgroundColor: widgetSettings.backgroundColor,
-                                                    border: `1px solid #e2e8f0`
-                                                }}>
-                                                    <div className="fa-typing-dots">
-                                                        <span style={{ backgroundColor: widgetSettings.textColor, opacity: 0.4 }}></span>
-                                                        <span style={{ backgroundColor: widgetSettings.textColor, opacity: 0.4 }}></span>
-                                                        <span style={{ backgroundColor: widgetSettings.textColor, opacity: 0.4 }}></span>
-                                                    </div>
+                                            </div>
+                                            <div className="fa-questions-section">
+                                                <div className="fa-questions-title">{widgetSettings.faqTitle}</div>
+                                                <div className="fa-questions-list">
+                                                    <button className="fa-question-btn">What are your business hours?</button>
+                                                    <button className="fa-question-btn">How can I contact customer support?</button>
+                                                    <button className="fa-question-btn">Do you offer refunds?</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    
-                                    {/* Widget Footer */}
-                                    <div className="fa-widget-footer" style={{ backgroundColor: widgetSettings.backgroundColor }}>
-                                        <div className="fa-input-container">
-                                            <div className="fa-input-wrapper">
-                                                <div className="fa-input-field">
-                                                    <textarea 
-                                                        className="fa-message-input" 
-                                                        placeholder={widgetSettings.placeholderText}
-                                                        rows="1"
-                                                        style={{ color: widgetSettings.textColor }}
-                                                    ></textarea>
-                                                    <div className="fa-input-actions">
-                                                        <button className="fa-emoji-btn" title="Add emoji">
-                                                            <svg viewBox="0 0 24 24" fill="none">
-                                                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM15.5 8C16.33 8 17 8.67 17 9.5C17 10.33 16.33 11 15.5 11C14.67 11 14 10.33 14 9.5C14 8.67 14.67 8 15.5 8ZM8.5 8C9.33 8 10 8.67 10 9.5C10 10.33 9.33 11 8.5 11C7.67 11 7 10.33 7 9.5C7 8.67 7.67 8 8.5 8ZM12 17.5C9.67 17.5 7.69 16.04 6.89 14H17.11C16.31 16.04 14.33 17.5 12 17.5Z" fill="currentColor"/>
-                                                            </svg>
-                                                        </button>
+                                        <div className="fa-home-footer">
+                                            <button className="fa-start-chat-btn">
+                                                <svg viewBox="0 0 24 24" fill="none">
+                                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="currentColor"/>
+                                                </svg>
+                                                <span>{widgetSettings.startChatButtonText}</span>
+                                            </button>
+                                            {widgetSettings.showBranding && (
+                                                <div className="fa-powered-by">
+                                                    <div className="fa-branding" style={{ color: widgetSettings.welcomeTextColor, opacity: 0.6 }}>
+                                                        Powered by <strong style={{ color: widgetSettings.welcomeTextColor }}>{widgetSettings.brandName}</strong>
                                                     </div>
                                                 </div>
-                                                <button className="fa-send-btn" title="Send message" style={{ background: `linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%)` }}>
-                                                    <svg viewBox="0 0 24 24" fill="none">
-                                                        <path d="M3.4 20.4L20.85 12.92C21.66 12.57 21.66 11.43 20.85 11.08L3.4 3.6C2.74 3.31 2.01 3.8 2.01 4.51L2 9.12C2 9.62 2.37 10.05 2.87 10.11L15 12L2.87 13.88C2.37 13.95 2 14.38 2 14.88L2.01 19.49C2.01 20.2 2.74 20.69 3.4 20.4Z" fill="currentColor"/>
-                                                    </svg>
-                                                </button>
-                                            </div>
+                                            )}
                                         </div>
-                                        {widgetSettings.showBranding && (
-                                            <div className="fa-powered-by">
-                                                <div className="fa-branding">
-                                                    Powered by <strong>{widgetSettings.brandName}</strong>
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -1073,7 +1143,113 @@ const WidgetCustomizationPage = () => {
                         </div>
                     </div>
 
-                    {/* Messages */}
+                    {/* Welcome Screen */}
+                    <div>
+                        <h3 className="text-sm font-semibold text-gray-800 mb-3">Welcome Screen</h3>
+                        <div className="space-y-3">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Welcome Title</label>
+                                <input
+                                    type="text"
+                                    value={widgetSettings.welcomeTitle}
+                                    onChange={(e) => handleSettingChange('welcomeTitle', e.target.value)}
+                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Hi there! 👋"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">FAQ Title</label>
+                                <input
+                                    type="text"
+                                    value={widgetSettings.faqTitle}
+                                    onChange={(e) => handleSettingChange('faqTitle', e.target.value)}
+                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Frequently Asked Questions:"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Start Chat Button Text</label>
+                                <input
+                                    type="text"
+                                    value={widgetSettings.startChatButtonText}
+                                    onChange={(e) => handleSettingChange('startChatButtonText', e.target.value)}
+                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Chat with us"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Welcome Background Color</label>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="color"
+                                        value={widgetSettings.welcomeBackgroundColor}
+                                        onChange={(e) => handleSettingChange('welcomeBackgroundColor', e.target.value)}
+                                        className="w-8 h-8 rounded border border-gray-300"
+                                    />
+                                    <input
+                                        type="text"
+                                        value={widgetSettings.welcomeBackgroundColor}
+                                        onChange={(e) => handleSettingChange('welcomeBackgroundColor', e.target.value)}
+                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Welcome Text Color</label>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="color"
+                                        value={widgetSettings.welcomeTextColor}
+                                        onChange={(e) => handleSettingChange('welcomeTextColor', e.target.value)}
+                                        className="w-8 h-8 rounded border border-gray-300"
+                                    />
+                                    <input
+                                        type="text"
+                                        value={widgetSettings.welcomeTextColor}
+                                        onChange={(e) => handleSettingChange('welcomeTextColor', e.target.value)}
+                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Question Button Color</label>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="color"
+                                        value={widgetSettings.questionButtonColor}
+                                        onChange={(e) => handleSettingChange('questionButtonColor', e.target.value)}
+                                        className="w-8 h-8 rounded border border-gray-300"
+                                    />
+                                    <input
+                                        type="text"
+                                        value={widgetSettings.questionButtonColor}
+                                        onChange={(e) => handleSettingChange('questionButtonColor', e.target.value)}
+                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Question Button Text Color</label>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="color"
+                                        value={widgetSettings.questionButtonTextColor}
+                                        onChange={(e) => handleSettingChange('questionButtonTextColor', e.target.value)}
+                                        className="w-8 h-8 rounded border border-gray-300"
+                                    />
+                                    <input
+                                        type="text"
+                                        value={widgetSettings.questionButtonTextColor}
+                                        onChange={(e) => handleSettingChange('questionButtonTextColor', e.target.value)}
+                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                 
+                 
                     <div>
                         <h3 className="text-sm font-semibold text-gray-800 mb-3">Messages</h3>
                         <div className="space-y-3">
@@ -1111,7 +1287,6 @@ const WidgetCustomizationPage = () => {
                         </div>
                     </div>
 
-                    {/* Branding */}
                     <div>
                         <h3 className="text-sm font-semibold text-gray-800 mb-3">Branding</h3>
                         <div className="space-y-3">
@@ -1124,7 +1299,7 @@ const WidgetCustomizationPage = () => {
                                         checked={widgetSettings.showBranding} 
                                         onChange={(e) => handleSettingChange('showBranding', e.target.checked)} 
                                     />
-                                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
                                 </label>
                             </div>
                             {widgetSettings.showBranding && (

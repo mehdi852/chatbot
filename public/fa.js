@@ -142,17 +142,30 @@
         }
     };
     
-    // Load external CSS file
+    // Load external CSS file and return a promise when it's loaded
     const loadStyles = () => {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = `${apiUrl}/fa-styles.css`;
-        document.head.appendChild(link);
+        return new Promise((resolve, reject) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = `${apiUrl}/fa-styles.css`;
+            
+            link.onload = () => {
+                console.log('✅ CSS loaded successfully');
+                resolve();
+            };
+            
+            link.onerror = () => {
+                console.warn('⚠️ CSS failed to load, proceeding anyway');
+                resolve(); // Still resolve to continue execution
+            };
+            
+            document.head.appendChild(link);
+        });
     };
 
-    // Load the CSS
-    loadStyles();
+    // Start loading CSS immediately
+    const cssLoadPromise = loadStyles();
     
     // Function to apply widget settings as CSS variables
     const applyWidgetStyles = () => {
@@ -447,7 +460,7 @@
             const container = document.createElement('div');
             container.id = 'fa-chat-widget-container';
             container.innerHTML = `
-                <button class="fa-chat-launcher">
+                <button class="fa-chat-launcher" style="opacity: 0 !important; transform: translateY(30px) scale(0.3) !important; transition: none !important;">
                     <div class="fa-launcher-content">
                         <div class="fa-launcher-icon">
                             <svg viewBox="0 0 24 24" fill="none">
@@ -627,21 +640,82 @@
             // Apply widget styling after DOM is ready
             applyWidgetStyles();
             
-            // Apply CSS classes for button size, position, and border radius
-            const chatLauncherEl = container.querySelector('.fa-chat-launcher');
-            const chatContainerEl = container.querySelector('.fa-chat-container');
-            
-            if (chatLauncherEl) {
-                chatLauncherEl.classList.add(`fa-size-${widgetSettings.buttonSize}`);
-                chatLauncherEl.classList.add(`fa-position-${widgetSettings.buttonPosition}`);
-                chatLauncherEl.classList.add(`fa-radius-${widgetSettings.borderRadius}`);
+            // Simple and reliable button animation
+            const initializeButtonWithAnimation = async () => {
+                console.log('🎬 Starting button initialization...');
                 
-                console.log('Applied widget classes and settings:', widgetSettings);
-            }
+                try {
+                    // Wait for CSS to load
+                    await cssLoadPromise;
+                    console.log('✅ CSS loaded');
+                    
+                    const chatLauncherEl = container.querySelector('.fa-chat-launcher');
+                    const chatContainerEl = container.querySelector('.fa-chat-container');
+                    
+                    if (!chatLauncherEl) {
+                        console.error('❌ Button element not found!');
+                        return;
+                    }
+                    
+                    console.log('🔍 Found button element');
+                    
+                    // Apply styling classes
+                    chatLauncherEl.classList.add(`fa-size-${widgetSettings.buttonSize}`);
+                    chatLauncherEl.classList.add(`fa-position-${widgetSettings.buttonPosition}`);
+                    chatLauncherEl.classList.add(`fa-radius-${widgetSettings.borderRadius}`);
+                    
+                    console.log('✅ Applied CSS classes');
+                    
+                    // SIMPLE APPROACH: Just show the button with a smooth transition
+                    setTimeout(() => {
+                        console.log('🚀 Showing button...');
+                        
+                        // Apply animation specifically to this button element only
+                        chatLauncherEl.style.transition = 'opacity 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                        chatLauncherEl.style.opacity = '1';
+                        chatLauncherEl.style.transform = 'translateY(0) scale(1)';
+                        
+                        console.log('✨ Button should now be visible with bounce effect!');
+                        
+                        // Remove transition after animation completes to prevent interference
+                        setTimeout(() => {
+                            chatLauncherEl.style.transition = '';
+                            console.log('🔧 Removed transition to prevent page interference');
+                        }, 1300);
+                        
+                        // Verify after animation
+                        setTimeout(() => {
+                            const computed = getComputedStyle(chatLauncherEl);
+                            console.log('🔍 Final button state:', {
+                                opacity: computed.opacity,
+                                transform: computed.transform,
+                                display: computed.display
+                            });
+                        }, 700);
+                        
+                    }, 300); // Short delay to ensure styles are applied
+                    
+                    // Apply container border radius
+                    if (chatContainerEl) {
+                        chatContainerEl.classList.add(`fa-radius-${widgetSettings.borderRadius}`);
+                    }
+                    
+                } catch (error) {
+                    console.error('❌ Error initializing button:', error);
+                    
+                    // EMERGENCY: Just make the button visible immediately
+                    const chatLauncherEl = container.querySelector('.fa-chat-launcher');
+                    if (chatLauncherEl) {
+                        console.log('🆘 Emergency: Making button visible');
+                        chatLauncherEl.style.opacity = '1';
+                        chatLauncherEl.style.transform = 'none';
+                        chatLauncherEl.style.transition = 'none';
+                    }
+                }
+            };
             
-            if (chatContainerEl) {
-                chatContainerEl.classList.add(`fa-radius-${widgetSettings.borderRadius}`);
-            }
+            // Initialize button with animation
+            initializeButtonWithAnimation();
 
             // Create tooltip for limit exceeded
             const tooltip = document.createElement('div');

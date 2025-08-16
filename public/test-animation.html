@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Test</title>
+    <link rel="stylesheet" href="fa-styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .test-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+        }
+        .test-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+        .hidden {
+            opacity: 0 !important;
+            transform: translateY(30px) scale(0.3) !important;
+            transition: none !important;
+        }
+        .log {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Chat Button Animation Test</h1>
+        
+        <div>
+            <h3>Test 1: CSS Animation Direct</h3>
+            <button id="test1" class="test-button hidden">
+                <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
+                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button onclick="testAnimation1()">Test Animation</button>
+        </div>
+        
+        <div>
+            <h3>Test 2: Step by Step Animation</h3>
+            <button id="test2" class="test-button hidden">
+                <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
+                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button onclick="testAnimation2()">Test Animation</button>
+        </div>
+        
+        <div>
+            <h3>Test 3: Force Reflow Animation</h3>
+            <button id="test3" class="test-button hidden">
+                <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
+                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="currentColor"/>
+                </svg>
+            </button>
+            <button onclick="testAnimation3()">Test Animation</button>
+        </div>
+        
+        <button onclick="resetAll()">Reset All Tests</button>
+        
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logEl = document.getElementById('log');
+            logEl.innerHTML += new Date().toISOString().substr(11, 8) + ': ' + message + '\n';
+            console.log(message);
+        }
+        
+        function testAnimation1() {
+            log('=== Test 1: CSS Animation Direct ===');
+            const button = document.getElementById('test1');
+            
+            log('Current styles: opacity=' + button.style.opacity + ', transform=' + button.style.transform);
+            
+            // Direct animation application
+            button.style.opacity = '1';
+            button.style.transform = 'none';
+            button.style.animation = 'bounceIn 0.8s ease-out forwards';
+            
+            log('Animation applied: ' + button.style.animation);
+        }
+        
+        function testAnimation2() {
+            log('=== Test 2: Step by Step Animation ===');
+            const button = document.getElementById('test2');
+            
+            log('Current styles: opacity=' + button.style.opacity + ', transform=' + button.style.transform);
+            
+            // Step 1: Make visible first
+            button.style.opacity = '1';
+            log('Step 1: Made visible');
+            
+            setTimeout(() => {
+                // Step 2: Remove transform
+                button.style.transform = 'none';
+                log('Step 2: Removed transform');
+                
+                setTimeout(() => {
+                    // Step 3: Apply animation
+                    button.style.animation = 'bounceIn 0.8s ease-out forwards';
+                    log('Step 3: Applied animation');
+                }, 50);
+            }, 50);
+        }
+        
+        function testAnimation3() {
+            log('=== Test 3: Force Reflow Animation ===');
+            const button = document.getElementById('test3');
+            
+            log('Current styles: opacity=' + button.style.opacity + ', transform=' + button.style.transform);
+            
+            // Force reflow by reading computed style
+            const computed = getComputedStyle(button);
+            log('Computed opacity before: ' + computed.opacity);
+            log('Computed transform before: ' + computed.transform);
+            
+            // Apply changes with forced reflow
+            button.style.opacity = '1';
+            button.style.transform = 'none';
+            
+            // Force reflow
+            button.offsetHeight;
+            
+            // Apply animation
+            button.style.animation = 'bounceIn 0.8s ease-out forwards';
+            
+            log('Animation applied with forced reflow');
+            
+            setTimeout(() => {
+                const computedAfter = getComputedStyle(button);
+                log('Computed opacity after: ' + computedAfter.opacity);
+                log('Computed transform after: ' + computedAfter.transform);
+            }, 100);
+        }
+        
+        function resetAll() {
+            log('=== RESET ALL ===');
+            ['test1', 'test2', 'test3'].forEach(id => {
+                const button = document.getElementById(id);
+                button.style.opacity = '0';
+                button.style.transform = 'translateY(30px) scale(0.3)';
+                button.style.transition = 'none';
+                button.style.animation = '';
+                log('Reset ' + id);
+            });
+        }
+        
+        // Initial log
+        log('Animation test page loaded');
+        log('Checking if bounceIn keyframes exist...');
+        
+        // Check if bounceIn animation exists
+        try {
+            const testEl = document.createElement('div');
+            testEl.style.animation = 'bounceIn 1s';
+            if (testEl.style.animation) {
+                log('✅ bounceIn animation is recognized by browser');
+            } else {
+                log('❌ bounceIn animation is NOT recognized by browser');
+            }
+        } catch (e) {
+            log('❌ Error testing bounceIn: ' + e.message);
+        }
+    </script>
+</body>
+</html>
