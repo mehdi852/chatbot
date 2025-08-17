@@ -255,6 +255,8 @@ export async function GET(req) {
                     setVisitorStatus(io, websiteId, visitorId, 'away');
                 }
 
+                // No user room cleanup needed
+
                 socket.removeAllListeners();
             });
 

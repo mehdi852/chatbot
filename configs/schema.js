@@ -376,3 +376,60 @@ export const AiAgentData = pgTable('ai_agent_data', {
     created_at: timestamp('created_at').defaultNow().notNull(),
     updated_at: timestamp('updated_at').defaultNow().notNull(),
 });
+
+// Sale Alerts table
+export const SaleAlerts = pgTable('sale_alerts', {
+    id: serial('id').primaryKey(),
+    website_id: integer('website_id')
+        .references(() => Websites.id)
+        .notNull(),
+    user_id: integer('user_id')
+        .references(() => Users.id)
+        .notNull(),
+    conversation_id: integer('conversation_id')
+        .references(() => ChatConversations.id)
+        .notNull(),
+    visitor_id: varchar('visitor_id').notNull(),
+    alert_type: varchar('alert_type', { length: 50 }).notNull().default('potential_sale'), // 'potential_sale', 'purchase_intent', 'price_inquiry'
+    confidence_score: decimal('confidence_score', { precision: 3, scale: 2 }).notNull().default('0.00'), // 0.00 to 1.00
+    product_mentioned: varchar('product_mentioned', { length: 500 }).notNull().default(''),
+    conversation_context: text('conversation_context').notNull(), // Last few messages for context
+    visitor_message: text('visitor_message').notNull(), // The specific message that triggered the alert
+    ai_response: text('ai_response').notNull(), // The AI's response to that message
+    estimated_value: decimal('estimated_value', { precision: 10, scale: 2 }).notNull().default('0.00'),
+    priority: varchar('priority', { length: 20 }).notNull().default('medium'), // 'high', 'medium', 'low'
+    status: varchar('status', { length: 20 }).notNull().default('pending'), // 'pending', 'contacted', 'converted', 'dismissed'
+    read: boolean('read').notNull().default(false),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// Leads table for capturing customer contact information
+export const Leads = pgTable('leads', {
+    id: serial('id').primaryKey(),
+    website_id: integer('website_id')
+        .references(() => Websites.id)
+        .notNull(),
+    user_id: integer('user_id')
+        .references(() => Users.id)
+        .notNull(),
+    conversation_id: integer('conversation_id')
+        .references(() => ChatConversations.id)
+        .notNull(),
+    sale_alert_id: integer('sale_alert_id')
+        .references(() => SaleAlerts.id),
+    visitor_id: varchar('visitor_id').notNull(),
+    email: varchar('email', { length: 255 }).notNull(),
+    name: varchar('name', { length: 255 }).notNull().default(''),
+    phone: varchar('phone', { length: 50 }).notNull().default(''),
+    company: varchar('company', { length: 255 }).notNull().default(''),
+    lead_source: varchar('lead_source', { length: 50 }).notNull().default('chat'), // 'chat', 'form', 'email', etc.
+    lead_status: varchar('lead_status', { length: 20 }).notNull().default('new'), // 'new', 'contacted', 'qualified', 'converted', 'lost'
+    product_interest: varchar('product_interest', { length: 500 }).notNull().default(''),
+    estimated_value: decimal('estimated_value', { precision: 10, scale: 2 }).notNull().default('0.00'),
+    notes: text('notes').notNull().default(''),
+    last_contact_at: timestamp('last_contact_at'),
+    converted_at: timestamp('converted_at'),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at').defaultNow().notNull(),
+});

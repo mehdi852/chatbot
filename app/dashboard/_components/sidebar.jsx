@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState, useRef } from 'react';
-import { Bell, ChartPie, ChevronDown, HelpCircle, Home, Layers, CheckSquare, Users, LogOut, PlusCircle, Settings, Plus, Menu, X, CreditCard, Mail, Volume2, VolumeX, Palette, BarChart3, MessageSquare, Bot } from 'lucide-react';
+import { Bell, ChartPie, ChevronDown, HelpCircle, Home, Layers, CheckSquare, Users, LogOut, PlusCircle, Settings, Plus, Menu, X, CreditCard, Mail, Volume2, VolumeX, Palette, BarChart3, MessageSquare, Bot, UserCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useUserContext } from '@/app/provider';
 import Image from 'next/image';
@@ -56,6 +56,13 @@ export default function Sidebar() {
             icon: Bot,
             iconRight: null,
             link: '/dashboard/ai-agent',
+            active: false,
+        },
+        {
+            name: 'leads',
+            icon: UserCheck,
+            iconRight: null,
+            link: '/dashboard/leads',
             active: false,
         },
     ]);

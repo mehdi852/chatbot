@@ -2,7 +2,7 @@
 import { CustomUserButton } from '@/components/ui/custom-user-button';
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
-import { Bell, MessageSquare, CheckCircle2, Info, AlertCircle, MoreHorizontal, Check, ChevronDown, Filter, Clock, ArrowUpRight, ArrowRight } from 'lucide-react';
+import { Bell, MessageSquare, CheckCircle2, Info, AlertCircle, MoreHorizontal, Check, ChevronDown, Filter, Clock, ArrowUpRight, ArrowRight, Target } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
@@ -37,7 +37,7 @@ function Header() {
             const unreadParam = activeTab === 'unread' ? '&unreadOnly=true' : '';
 
             console.log(`Fetching notifications for user ID: ${dbUser.id}`);
-            const response = await fetch(`/api/user/get-notifications?userId=${dbUser.id}${typeParam}${unreadParam}`);
+            const response = await fetch(`/api/notifications?userId=${dbUser.id}${typeParam}${unreadParam}`);
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
@@ -82,6 +82,8 @@ function Header() {
         }
     }, [activeTab, dbUser]);
 
+    // No real-time socket connection - notifications will be fetched on page refresh
+
     const checkIfAdmin = async () => {
         try {
             const response = await fetch('/api/check-admin');
@@ -110,8 +112,8 @@ function Header() {
             setUnreadCount((prev) => Math.max(0, prev - 1));
 
             // Send request to mark as read
-            const response = await fetch('/api/user/get-notifications', {
-                method: 'POST',
+            const response = await fetch('/api/notifications', {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -140,8 +142,8 @@ function Header() {
             setUnreadCount(0);
 
             // Send request to mark all as read
-            const response = await fetch('/api/user/get-notifications', {
-                method: 'POST',
+            const response = await fetch('/api/notifications', {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -170,7 +172,7 @@ function Header() {
             case 'system':
                 return <Info className={cn('h-5 w-5', priority === 'high' ? 'text-indigo-500' : 'text-indigo-400')} />;
             case 'alert':
-                return <AlertCircle className={cn('h-5 w-5', priority === 'critical' ? 'text-red-500' : 'text-red-400')} />;
+                return <AlertCircle className={cn('h-5 w-5', priority === 'critical' ? 'text-red-500' : priority === 'high' ? 'text-orange-500' : 'text-red-400')} />;
             case 'info':
                 return <Info className={cn('h-5 w-5', priority === 'medium' ? 'text-orange-500' : 'text-orange-400')} />;
             default:
