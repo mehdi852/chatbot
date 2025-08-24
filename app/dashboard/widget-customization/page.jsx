@@ -382,6 +382,91 @@ const WidgetCustomizationPage = () => {
                         flex-direction: column !important;
                         height: 100% !important;
                     }
+                    .fa-widget-header {
+                        background: linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%) !important;
+                        color: white;
+                        padding: 16px 20px;
+                        border-radius: ${getBorderRadius(widgetSettings.borderRadius)} ${getBorderRadius(widgetSettings.borderRadius)} 0 0;
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    .fa-header-content {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        position: relative;
+                        z-index: 2;
+                    }
+                    .fa-agent-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                        flex: 1;
+                    }
+                    .fa-agent-avatar {
+                        position: relative;
+                        flex-shrink: 0;
+                    }
+                    .fa-avatar-gradient {
+                        width: 40px;
+                        height: 40px;
+                        background: rgba(255, 255, 255, 0.2);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        backdrop-filter: blur(10px);
+                        border: 2px solid rgba(255, 255, 255, 0.3);
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                    }
+                    .fa-avatar-icon {
+                        width: 20px;
+                        height: 20px;
+                        color: white;
+                        opacity: 0.95;
+                    }
+                    .fa-agent-details {
+                        flex: 1;
+                        min-width: 0;
+                    }
+                    .fa-agent-name {
+                        font-size: 15px;
+                        font-weight: 600;
+                        margin-bottom: 2px;
+                        color: white;
+                    }
+                    .fa-agent-status {
+                        font-size: 12px;
+                        color: rgba(255, 255, 255, 0.85);
+                        font-weight: 400;
+                    }
+                    .fa-header-actions {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+                    .fa-close-btn {
+                        width: 28px;
+                        height: 28px;
+                        background: rgba(255, 255, 255, 0.15);
+                        border: none;
+                        border-radius: 12px;
+                        color: white;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+                        backdrop-filter: blur(10px);
+                    }
+                    .fa-close-btn:hover {
+                        background: rgba(255, 255, 255, 0.25);
+                        transform: scale(1.05);
+                    }
+                    .fa-close-btn svg {
+                        width: 14px;
+                        height: 14px;
+                    }
                     .fa-home-body {
                         flex: 1 !important;
                         padding: 20px !important;
@@ -496,356 +581,6 @@ const WidgetCustomizationPage = () => {
                         height: 20px !important;
                         fill: currentColor !important;
                     }
-                    .fa-widget-header {
-                        background: linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%) !important;
-                        color: white;
-                        padding: 16px 20px;
-                        border-radius: ${getBorderRadius(widgetSettings.borderRadius)} ${getBorderRadius(widgetSettings.borderRadius)} 0 0;
-                        position: relative;
-                        overflow: hidden;
-                    }
-                    .fa-widget-header::before {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-                        pointer-events: none;
-                    }
-                    .fa-header-content {
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        position: relative;
-                        z-index: 2;
-                    }
-                    .fa-agent-info {
-                        display: flex;
-                        align-items: center;
-                        gap: 16px;
-                        flex: 1;
-                    }
-                    .fa-agent-avatar {
-                        position: relative;
-                        flex-shrink: 0;
-                    }
-                    .fa-avatar-gradient {
-                        width: 40px;
-                        height: 40px;
-                        background: rgba(255, 255, 255, 0.2);
-                        border-radius: 50%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        backdrop-filter: blur(10px);
-                        border: 2px solid rgba(255, 255, 255, 0.3);
-                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-                    }
-                    .fa-avatar-icon {
-                        width: 20px;
-                        height: 20px;
-                        color: white;
-                        opacity: 0.95;
-                    }
-                    .fa-status-badge {
-                        position: absolute;
-                        bottom: -2px;
-                        right: -2px;
-                        width: 12px;
-                        height: 12px;
-                        background: #ef4444;
-                        border-radius: 50%;
-                        border: 2px solid #ffffff;
-                        transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-                    }
-                    .fa-status-badge.online {
-                        background: #48bb78;
-                        animation: pulse 2s infinite;
-                    }
-                    @keyframes pulse {
-                        0%, 100% { opacity: 1; }
-                        50% { opacity: 0.5; }
-                    }
-                    .fa-agent-details {
-                        flex: 1;
-                        min-width: 0;
-                    }
-                    .fa-agent-name {
-                        font-size: 15px;
-                        font-weight: 600;
-                        margin-bottom: 2px;
-                        color: white;
-                    }
-                    .fa-agent-status {
-                        font-size: 12px;
-                        color: rgba(255, 255, 255, 0.85);
-                        font-weight: 400;
-                    }
-                    .fa-header-actions {
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                    }
-                    .fa-minimize-btn, .fa-close-btn {
-                        width: 28px;
-                        height: 28px;
-                        background: rgba(255, 255, 255, 0.15);
-                        border: none;
-                        border-radius: 12px;
-                        color: white;
-                        cursor: pointer;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-                        backdrop-filter: blur(10px);
-                    }
-                    .fa-minimize-btn:hover, .fa-close-btn:hover {
-                        background: rgba(255, 255, 255, 0.25);
-                        transform: scale(1.05);
-                    }
-                    .fa-minimize-btn svg, .fa-close-btn svg {
-                        width: 14px;
-                        height: 14px;
-                    }
-                    .fa-widget-body {
-                        flex: 1;
-                        display: flex;
-                        flex-direction: column;
-                        min-height: 0;
-                    }
-                    .fa-messages-container {
-                        flex: 1;
-                        display: flex;
-                        flex-direction: column;
-                        min-height: 0;
-                    }
-                    .fa-messages-scroll {
-                        flex: 1;
-                        overflow-y: auto;
-                        padding: 16px 20px;
-                        display: flex;
-                        flex-direction: column;
-                        gap: 12px;
-                        min-height: 0;
-                    }
-                    .fa-messages-scroll::-webkit-scrollbar {
-                        width: 6px;
-                    }
-                    .fa-messages-scroll::-webkit-scrollbar-thumb {
-                        background: #cbd5e0;
-                        border-radius: 8px;
-                    }
-                    .fa-welcome-message {
-                        display: flex;
-                        align-items: flex-start;
-                        gap: 10px;
-                        margin-bottom: 6px;
-                    }
-                    .fa-welcome-avatar {
-                        width: 32px;
-                        height: 32px;
-                        background: #e6f0ff;
-                        border-radius: 16px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        flex-shrink: 0;
-                        border: 2px solid #667eea;
-                    }
-                    .fa-welcome-avatar svg {
-                        width: 16px;
-                        height: 16px;
-                        color: #667eea;
-                    }
-                    .fa-welcome-text {
-                        flex: 1;
-                    }
-                    .fa-welcome-title {
-                        font-size: 15px;
-                        font-weight: 600;
-                        color: #1a202c;
-                        margin-bottom: 3px;
-                    }
-                    .fa-welcome-subtitle {
-                        font-size: 13px;
-                        color: #4a5568;
-                        line-height: 1.4;
-                    }
-                    .fa-widget-footer {
-                        padding: 12px 16px;
-                        background: #ffffff;
-                        border-top: 1px solid #e2e8f0;
-                    }
-                    .fa-input-container {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 8px;
-                    }
-                    .fa-input-wrapper {
-                        display: flex;
-                        align-items: flex-end;
-                        gap: 8px;
-                    }
-                    .fa-input-field {
-                        flex: 1;
-                        background: #f7fafc;
-                        border: 1px solid #e2e8f0;
-                        border-radius: ${Math.min(8, parseInt(getBorderRadius(widgetSettings.borderRadius)))}px;
-                        padding: 1px;
-                        display: flex;
-                        align-items: flex-end;
-                        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-                        position: relative;
-                    }
-                    .fa-input-field:focus-within {
-                        background: #ffffff;
-                        border-color: #667eea;
-                    }
-                    .fa-message-input {
-                        flex: 1;
-                        background: transparent;
-                        border: none;
-                        outline: none !important;
-                        resize: none;
-                        padding: 8px 12px;
-                        font-size: 14px;
-                        line-height: 1.3;
-                        color: #1a202c;
-                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-                        min-height: 36px;
-                        max-height: 80px;
-                        overflow-y: auto;
-                    }
-                    .fa-message-input::placeholder {
-                        color: #a0aec0;
-                    }
-                    .fa-input-actions {
-                        display: flex;
-                        align-items: center;
-                        padding: 4px;
-                    }
-                    .fa-emoji-btn {
-                        width: 28px;
-                        height: 28px;
-                        background: transparent;
-                        border: none;
-                        border-radius: 8px;
-                        color: #a0aec0;
-                        cursor: pointer;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-                    }
-                    .fa-emoji-btn:hover {
-                        background: rgba(102, 126, 234, 0.1);
-                        color: #667eea;
-                        transform: scale(1.05);
-                    }
-                    .fa-emoji-btn svg {
-                        width: 16px;
-                        height: 16px;
-                    }
-                    .fa-send-btn {
-                        width: 36px;
-                        height: 36px;
-                        border: none;
-                        border-radius: ${Math.min(8, parseInt(getBorderRadius(widgetSettings.borderRadius)))}px;
-                        color: white;
-                        cursor: pointer;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-                        flex-shrink: 0;
-                    }
-                    .fa-send-btn:hover {
-                        transform: scale(1.05);
-                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-                    }
-                    .fa-send-btn svg {
-                        width: 16px;
-                        height: 16px;
-                    }
-                    .fa-powered-by {
-                        margin-top: 8px;
-                    }
-                    .fa-branding {
-                        text-align: center;
-                        font-size: 11px;
-                        color: #a0aec0;
-                        font-weight: 400;
-                    }
-                    .fa-branding strong {
-                        color: #718096;
-                        font-weight: 500;
-                    }
-                    .fa-widget-message {
-                        max-width: 260px;
-                        padding: 10px 14px;
-                        border-radius: ${Math.min(12, parseInt(getBorderRadius(widgetSettings.borderRadius)))}px;
-                        font-size: 14px;
-                        line-height: 1.4;
-                        word-wrap: break-word;
-                        position: relative;
-                        animation: fadeIn 0.3s ease-out;
-                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-                        margin-bottom: 8px;
-                    }
-                    .fa-widget-message.admin {
-                        align-self: flex-start;
-                        border-bottom-left-radius: 4px;
-                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-                    }
-                    .fa-widget-message.user {
-                        align-self: flex-end;
-                        border-bottom-right-radius: 4px;
-                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-                    }
-                    .fa-typing-indicator {
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                        padding: 10px 14px;
-                        border-radius: ${Math.min(12, parseInt(getBorderRadius(widgetSettings.borderRadius)))}px;
-                        border-bottom-left-radius: 4px;
-                        align-self: flex-start;
-                        max-width: 100px;
-                        animation: fadeIn 0.3s ease-out;
-                        margin-bottom: 8px;
-                    }
-                    .fa-typing-dots {
-                        display: flex;
-                        gap: 4px;
-                    }
-                    .fa-typing-dots span {
-                        width: 8px;
-                        height: 8px;
-                        border-radius: 50%;
-                        animation: typing 1.4s infinite ease-in-out;
-                    }
-                    .fa-typing-dots span:nth-child(1) { animation-delay: 0s; }
-                    .fa-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-                    .fa-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-                    @keyframes fadeIn {
-                        0% { opacity: 0; transform: translateY(10px); }
-                        100% { opacity: 1; transform: translateY(0); }
-                    }
-                    @keyframes typing {
-                        0%, 80%, 100% { 
-                            transform: scale(0.8);
-                            opacity: 0.5;
-                        }
-                        40% { 
-                            transform: scale(1);
-                            opacity: 1;
-                        }
-                    }
                     `
                 }} />
                 {/* Simulated website background */}
@@ -865,7 +600,7 @@ const WidgetCustomizationPage = () => {
                 <div className={`fixed ${positionClasses[widgetSettings.buttonPosition]} z-50`}>
                     {/* Widget Overlay */}
                     {isWidgetOpen && (
-                        <div key={`widget-${widgetSettings.primaryColor}-${widgetSettings.headerColor}-${widgetSettings.backgroundColor}-${widgetSettings.textColor}-${widgetSettings.welcomeBackgroundColor}-${widgetSettings.welcomeTextColor}`} className="fa-widget-overlay" style={{ position: 'relative', bottom: 'auto', right: 'auto', marginBottom: '16px', width: '360px', height: '580px', display: 'block' }}>
+                        <div key={`widget-${widgetSettings.primaryColor}-${widgetSettings.headerColor}`} className="fa-widget-overlay" style={{ position: 'relative', bottom: 'auto', right: 'auto', marginBottom: '16px', width: '360px', height: '580px', display: 'block' }}>
                             <div className="fa-widget-container">
                                 <div className="fa-chat-container">
                                     <div className="fa-home-view" style={{ backgroundColor: widgetSettings.welcomeBackgroundColor }}>
@@ -933,14 +668,13 @@ const WidgetCustomizationPage = () => {
                         </div>
                     )}
 
-                    {/* Chat Launcher Button - Exact structure from fa.js */}
+                    {/* Chat Launcher Button */}
                     <button
-                        key={`launcher-${widgetSettings.primaryColor}-${widgetSettings.headerColor}`}
                         className="fa-chat-launcher"
                         onClick={() => setIsWidgetOpen(!isWidgetOpen)}
                         style={{
                             ...getSizeStyle(widgetSettings.buttonSize),
-                            background: `linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%) !important`,
+                            background: `linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%)`,
                             border: 'none'
                         }}
                     >
@@ -974,13 +708,14 @@ const WidgetCustomizationPage = () => {
         );
     }, [widgetSettings, isWidgetOpen]);
 
-    // Show loading state while fetching settings
+    // Show minimal loading state while fetching settings
     if (isLoading) {
         return (
             <div className="flex h-[calc(100vh-64px)] bg-gray-50 items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading your widget settings...</p>
+                <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
                 </div>
             </div>
         );
@@ -1048,42 +783,6 @@ const WidgetCustomizationPage = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Background Color</label>
-                                <div className="flex items-center space-x-2">
-                                    <input
-                                        type="color"
-                                        value={widgetSettings.backgroundColor}
-                                        onChange={(e) => handleSettingChange('backgroundColor', e.target.value)}
-                                        className="w-8 h-8 rounded border border-gray-300"
-                                    />
-                                    <input
-                                        type="text"
-                                        value={widgetSettings.backgroundColor}
-                                        onChange={(e) => handleSettingChange('backgroundColor', e.target.value)}
-                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Text Color</label>
-                                <div className="flex items-center space-x-2">
-                                    <input
-                                        type="color"
-                                        value={widgetSettings.textColor}
-                                        onChange={(e) => handleSettingChange('textColor', e.target.value)}
-                                        className="w-8 h-8 rounded border border-gray-300"
-                                    />
-                                    <input
-                                        type="text"
-                                        value={widgetSettings.textColor}
-                                        onChange={(e) => handleSettingChange('textColor', e.target.value)}
-                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Border Radius</label>
                                 <select
                                     value={widgetSettings.borderRadius}
@@ -1129,7 +828,6 @@ const WidgetCustomizationPage = () => {
                                 </select>
                             </div>
 
-
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Button Tooltip Text</label>
                                 <input
@@ -1158,6 +856,15 @@ const WidgetCustomizationPage = () => {
                                 />
                             </div>
                             <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Welcome Message</label>
+                                <textarea
+                                    value={widgetSettings.welcomeMessage}
+                                    onChange={(e) => handleSettingChange('welcomeMessage', e.target.value)}
+                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-20 resize-none"
+                                    placeholder="Hi! How can we help you today?"
+                                />
+                            </div>
+                            <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">FAQ Title</label>
                                 <input
                                     type="text"
@@ -1177,79 +884,10 @@ const WidgetCustomizationPage = () => {
                                     placeholder="Chat with us"
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Welcome Background Color</label>
-                                <div className="flex items-center space-x-2">
-                                    <input
-                                        type="color"
-                                        value={widgetSettings.welcomeBackgroundColor}
-                                        onChange={(e) => handleSettingChange('welcomeBackgroundColor', e.target.value)}
-                                        className="w-8 h-8 rounded border border-gray-300"
-                                    />
-                                    <input
-                                        type="text"
-                                        value={widgetSettings.welcomeBackgroundColor}
-                                        onChange={(e) => handleSettingChange('welcomeBackgroundColor', e.target.value)}
-                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Welcome Text Color</label>
-                                <div className="flex items-center space-x-2">
-                                    <input
-                                        type="color"
-                                        value={widgetSettings.welcomeTextColor}
-                                        onChange={(e) => handleSettingChange('welcomeTextColor', e.target.value)}
-                                        className="w-8 h-8 rounded border border-gray-300"
-                                    />
-                                    <input
-                                        type="text"
-                                        value={widgetSettings.welcomeTextColor}
-                                        onChange={(e) => handleSettingChange('welcomeTextColor', e.target.value)}
-                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Question Button Color</label>
-                                <div className="flex items-center space-x-2">
-                                    <input
-                                        type="color"
-                                        value={widgetSettings.questionButtonColor}
-                                        onChange={(e) => handleSettingChange('questionButtonColor', e.target.value)}
-                                        className="w-8 h-8 rounded border border-gray-300"
-                                    />
-                                    <input
-                                        type="text"
-                                        value={widgetSettings.questionButtonColor}
-                                        onChange={(e) => handleSettingChange('questionButtonColor', e.target.value)}
-                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Question Button Text Color</label>
-                                <div className="flex items-center space-x-2">
-                                    <input
-                                        type="color"
-                                        value={widgetSettings.questionButtonTextColor}
-                                        onChange={(e) => handleSettingChange('questionButtonTextColor', e.target.value)}
-                                        className="w-8 h-8 rounded border border-gray-300"
-                                    />
-                                    <input
-                                        type="text"
-                                        value={widgetSettings.questionButtonTextColor}
-                                        onChange={(e) => handleSettingChange('questionButtonTextColor', e.target.value)}
-                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
-                                </div>
-                            </div>
                         </div>
                     </div>
 
-                 
-                 
+                    {/* Messages */}
                     <div>
                         <h3 className="text-sm font-semibold text-gray-800 mb-3">Messages</h3>
                         <div className="space-y-3">
@@ -1263,30 +901,10 @@ const WidgetCustomizationPage = () => {
                                     placeholder="Support Team"
                                 />
                             </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Welcome Message</label>
-                                <textarea
-                                    value={widgetSettings.welcomeMessage}
-                                    onChange={(e) => handleSettingChange('welcomeMessage', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-20 resize-none"
-                                    placeholder="Hi! How can we help you today?"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Placeholder Text</label>
-                                <input
-                                    type="text"
-                                    value={widgetSettings.placeholderText}
-                                    onChange={(e) => handleSettingChange('placeholderText', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    placeholder="Type your message..."
-                                />
-                            </div>
                         </div>
                     </div>
 
+                    {/* Branding */}
                     <div>
                         <h3 className="text-sm font-semibold text-gray-800 mb-3">Branding</h3>
                         <div className="space-y-3">
@@ -1362,7 +980,6 @@ const WidgetCustomizationPage = () => {
                 {/* Preview Container */}
                 <div className="flex-1 relative bg-gray-50">
                     <WidgetPreview />
-                    
                 </div>
             </div>
         </div>

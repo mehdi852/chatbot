@@ -153,22 +153,24 @@ const AiAgentPage = () => {
         setHasChanges(true);
     };
 
+    // Show minimal loading state while fetching data
     if (isLoading) {
         return (
             <div className="flex h-[calc(100vh-64px)] bg-gray-50 items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading your AI agent settings...</p>
+                <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-background to-background/80">
-            {/* Header */}
-            <div className="max-w-[1400px] mx-auto pt-8 pb-6 px-4 lg:px-8">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="min-h-screen bg-gray-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {/* Header */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-3">
                             <div className="p-2 bg-primary/10 rounded-xl">
@@ -179,9 +181,7 @@ const AiAgentPage = () => {
                         <p className="text-muted-foreground mt-1">Configure your AI agent with business-specific information</p>
                     </div>
                 </div>
-            </div>
 
-            <div className="max-w-[1400px] mx-auto px-4 lg:px-8 pb-16">
                 {/* Website Selection */}
                 <Card className="mb-8">
                     <CardHeader>

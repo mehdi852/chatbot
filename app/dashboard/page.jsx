@@ -293,183 +293,270 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-background to-background/80">
+        <div className="min-h-screen bg-background">
             <DndStyles />
 
             {/* Dashboard Header */}
-            <div className="max-w-[1400px] mx-auto pt-8 pb-6 px-4 lg:px-8">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-3">
-                            <div className="p-2 bg-primary/10 rounded-xl">
-                                <MessageCircle className="h-8 w-8 text-primary" />
+            <div className="border-b border-border/50 bg-card/50 backdrop-blur-sm">
+                <div className="max-w-[1400px] mx-auto pt-8 pb-8 px-4 lg:px-8">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+                        <div className="flex items-center gap-4">
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-xl"></div>
+                                <div className="relative p-3 bg-gradient-to-br from-primary to-primary/80 rounded-2xl shadow-lg">
+                                    <MessageCircle className="h-8 w-8 text-primary-foreground" />
+                                </div>
                             </div>
-                            Chatbot Dashboard
-                        </h1>
-                        <p className="text-muted-foreground mt-1">Manage your chat widgets and engage with visitors</p>
-                    </div>
+                            <div>
+                                <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                                    Chatbot Dashboard
+                                </h1>
+                                <p className="text-muted-foreground mt-1 text-sm">Manage your AI assistant and engage with visitors</p>
+                            </div>
+                        </div>
 
-                    <Dialog open={open} onOpenChange={setOpen}>
-                        <DialogTrigger asChild>
-                            <Button size="default" className="gap-2 shadow-sm">
-                                <Plus className="w-4 h-4" />
-                                {t('dashboard.websites.addButton')}
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-md">
-                            <DialogHeader>
-                                <DialogTitle className="text-xl">{t('dashboard.websites.addDialog.title')}</DialogTitle>
-                            </DialogHeader>
-                            <div className="space-y-4 py-4">
-                                <div className="space-y-2">
-                                    <Label htmlFor="name">{t('dashboard.websites.addDialog.name')}</Label>
-                                    <Input
-                                        id="name"
-                                        placeholder={t('dashboard.websites.addDialog.namePlaceholder')}
-                                        value={newWebsite.name}
-                                        onChange={(e) => setNewWebsite((prev) => ({ ...prev, name: e.target.value }))}
-                                        className="focus-visible:ring-primary"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="domain">{t('dashboard.websites.addDialog.domain')}</Label>
-                                    <Input
-                                        id="domain"
-                                        placeholder={t('dashboard.websites.addDialog.domainPlaceholder')}
-                                        value={newWebsite.domain}
-                                        onChange={(e) => setNewWebsite((prev) => ({ ...prev, domain: e.target.value }))}
-                                        className="focus-visible:ring-primary"
-                                    />
-                                </div>
-                                <Button onClick={handleAddWebsite} className="w-full" disabled={isSaving}>
-                                    {isSaving ? (
-                                        <>
-                                            <span className="animate-spin mr-2">⏳</span>
-                                            {t('common.saving')}
-                                        </>
-                                    ) : (
-                                        t('dashboard.websites.addButton')
-                                    )}
+                        <Dialog open={open} onOpenChange={setOpen}>
+                            <DialogTrigger asChild>
+                                <Button size="default" className="gap-2 shadow-sm">
+                                    <Plus className="w-4 h-4" />
+                                    {t('dashboard.websites.addButton')}
                                 </Button>
-                            </div>
-                        </DialogContent>
-                    </Dialog>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-md">
+                                <DialogHeader>
+                                    <DialogTitle className="text-xl">{t('dashboard.websites.addDialog.title')}</DialogTitle>
+                                </DialogHeader>
+                                <div className="space-y-4 py-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="name">{t('dashboard.websites.addDialog.name')}</Label>
+                                        <Input
+                                            id="name"
+                                            placeholder={t('dashboard.websites.addDialog.namePlaceholder')}
+                                            value={newWebsite.name}
+                                            onChange={(e) => setNewWebsite((prev) => ({ ...prev, name: e.target.value }))}
+                                            className="focus-visible:ring-primary"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="domain">{t('dashboard.websites.addDialog.domain')}</Label>
+                                        <Input
+                                            id="domain"
+                                            placeholder={t('dashboard.websites.addDialog.domainPlaceholder')}
+                                            value={newWebsite.domain}
+                                            onChange={(e) => setNewWebsite((prev) => ({ ...prev, domain: e.target.value }))}
+                                            className="focus-visible:ring-primary"
+                                        />
+                                    </div>
+                                    <Button onClick={handleAddWebsite} className="w-full" disabled={isSaving}>
+                                        {isSaving ? (
+                                            <>
+                                                <span className="animate-spin mr-2">⏳</span>
+                                                {t('common.saving')}
+                                            </>
+                                        ) : (
+                                            t('dashboard.websites.addButton')
+                                        )}
+                                    </Button>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
                 </div>
             </div>
 
-            <div className="max-w-[1400px] mx-auto px-4 lg:px-8 pb-16 space-y-8">
+            <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-8 space-y-10">
                 {/* Quick Actions */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <Link href="/dashboard/chat" className="group">
-                        <Card className="border-border/40 shadow-sm hover:shadow-lg transition-all hover:border-primary/50 cursor-pointer">
-                            <CardContent className="p-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="p-3 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
-                                        <MessageCircle className="h-6 w-6 text-blue-600" />
+                <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h2 className="text-2xl font-bold tracking-tight text-foreground">Quick Actions</h2>
+                            <p className="text-muted-foreground text-sm mt-1">Access your most-used dashboard features</p>
+                        </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <Link href="/dashboard/chat" className="group">
+                            <Card className="relative border-border/60 bg-card hover:bg-card/80 shadow-md hover:shadow-xl transition-all duration-300 hover:border-primary/30 cursor-pointer overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <CardContent className="relative p-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-primary/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            <div className="relative p-3 bg-primary/10 rounded-xl group-hover:bg-primary/15 transition-colors duration-300">
+                                                <MessageCircle className="h-6 w-6 text-primary" />
+                                            </div>
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-lg mb-1 text-foreground group-hover:text-primary transition-colors duration-300">Live Chat</h3>
+                                            <p className="text-sm text-muted-foreground">Manage live conversations with visitors</p>
+                                        </div>
+                                        <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-all duration-300 group-hover:translate-x-1" />
                                     </div>
-                                    <div className="flex-1">
-                                        <h3 className="font-semibold text-lg mb-1">Live Chat</h3>
-                                        <p className="text-sm text-muted-foreground">Manage live conversations with visitors</p>
-                                    </div>
-                                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
+                                </CardContent>
+                            </Card>
+                        </Link>
 
-                    <Link href="/dashboard/widget-customization" className="group">
-                        <Card className="border-border/40 shadow-sm hover:shadow-lg transition-all hover:border-primary/50 cursor-pointer">
-                            <CardContent className="p-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="p-3 bg-purple-500/10 rounded-lg group-hover:bg-purple-500/20 transition-colors">
-                                        <Settings className="h-6 w-6 text-purple-600" />
+                        <Link href="/dashboard/widget-customization" className="group">
+                            <Card className="relative border-border/60 bg-card hover:bg-card/80 shadow-md hover:shadow-xl transition-all duration-300 hover:border-secondary/30 cursor-pointer overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <CardContent className="relative p-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-secondary/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            <div className="relative p-3 bg-secondary/10 rounded-xl group-hover:bg-secondary/15 transition-colors duration-300">
+                                                <Settings className="h-6 w-6 text-secondary" />
+                                            </div>
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-lg mb-1 text-foreground group-hover:text-secondary transition-colors duration-300">Customize Widget</h3>
+                                            <p className="text-sm text-muted-foreground">Design your chat widget appearance</p>
+                                        </div>
+                                        <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-secondary transition-all duration-300 group-hover:translate-x-1" />
                                     </div>
-                                    <div className="flex-1">
-                                        <h3 className="font-semibold text-lg mb-1">Customize Widget</h3>
-                                        <p className="text-sm text-muted-foreground">Design your chat widget appearance</p>
-                                    </div>
-                                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
+                                </CardContent>
+                            </Card>
+                        </Link>
 
-                    <Link href="/dashboard/analytics" className="group">
-                        <Card className="border-border/40 shadow-sm hover:shadow-lg transition-all hover:border-primary/50 cursor-pointer">
-                            <CardContent className="p-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="p-3 bg-green-500/10 rounded-lg group-hover:bg-green-500/20 transition-colors">
-                                        <BarChart3 className="h-6 w-6 text-green-600" />
+                        <Link href="/dashboard/analytics" className="group">
+                            <Card className="relative border-border/60 bg-card hover:bg-card/80 shadow-md hover:shadow-xl transition-all duration-300 hover:border-amber-500/30 cursor-pointer overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <CardContent className="relative p-6">
+                                    <div className="flex items-center gap-4">
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-amber-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            <div className="relative p-3 bg-amber-500/10 rounded-xl group-hover:bg-amber-500/15 transition-colors duration-300">
+                                                <BarChart3 className="h-6 w-6 text-amber-600" />
+                                            </div>
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-lg mb-1 text-foreground group-hover:text-amber-600 transition-colors duration-300">Analytics</h3>
+                                            <p className="text-sm text-muted-foreground">View chat statistics and insights</p>
+                                        </div>
+                                        <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-amber-600 transition-all duration-300 group-hover:translate-x-1" />
                                     </div>
-                                    <div className="flex-1">
-                                        <h3 className="font-semibold text-lg mb-1">Analytics</h3>
-                                        <p className="text-sm text-muted-foreground">View chat statistics and insights</p>
-                                    </div>
-                                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Stats Overview */}
                 {websites.length > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
-                            <CardHeader className="pb-2">
-                                <CardTitle className="text-sm font-medium text-muted-foreground">Total Websites</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex items-center justify-between">
-                                    <div className="text-2xl font-bold">{websites.length}</div>
-                                    <div className="p-2 bg-primary/10 rounded-full">
-                                        <Globe className="h-5 w-5 text-primary" />
+                    <div className="space-y-6">
+                        <div>
+                            <h2 className="text-2xl font-bold tracking-tight text-foreground">Performance Overview</h2>
+                            <p className="text-muted-foreground text-sm mt-1">Track your chatbot's key metrics and usage</p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <Card className="group relative border-border/60 bg-card shadow-md hover:shadow-xl transition-all duration-300 hover:border-primary/20 overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <CardHeader className="relative pb-3">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                                        <Globe className="h-4 w-4" />
+                                        Total Websites
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="relative">
+                                    <div className="flex items-center justify-between">
+                                        <div className="text-3xl font-bold text-foreground">{websites.length}</div>
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-primary/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            <div className="relative p-3 bg-primary/10 rounded-xl">
+                                                <Globe className="h-6 w-6 text-primary" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                    <div className="mt-2 text-xs text-muted-foreground">
+                                        <span className="inline-flex items-center text-secondary">
+                                            <TrendingUp className="h-3 w-3 mr-1" />
+                                            Active deployments
+                                        </span>
+                                    </div>
+                                </CardContent>
+                            </Card>
 
-                        <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
-                            <CardHeader className="pb-2">
-                                <CardTitle className="text-sm font-medium text-muted-foreground">Total Conversations</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex items-center justify-between">
-                                    <div className="text-2xl font-bold">{userStats.number_of_conversations}</div>
-                                    <div className="p-2 bg-primary/10 rounded-full">
-                                        <MessageCircle className="h-5 w-5 text-primary" />
+                            <Card className="group relative border-border/60 bg-card shadow-md hover:shadow-xl transition-all duration-300 hover:border-secondary/20 overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <CardHeader className="relative pb-3">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                                        <MessageCircle className="h-4 w-4" />
+                                        Total Conversations
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="relative">
+                                    <div className="flex items-center justify-between">
+                                        <div className="text-3xl font-bold text-foreground">{userStats.number_of_conversations}</div>
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-secondary/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            <div className="relative p-3 bg-secondary/10 rounded-xl">
+                                                <MessageCircle className="h-6 w-6 text-secondary" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                    <div className="mt-2 text-xs text-muted-foreground">
+                                        <span className="inline-flex items-center text-secondary">
+                                            <Users className="h-3 w-3 mr-1" />
+                                            Visitor interactions
+                                        </span>
+                                    </div>
+                                </CardContent>
+                            </Card>
 
-                        <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
-                            <CardHeader className="pb-2">
-                                <CardTitle className="text-sm font-medium text-muted-foreground">AI Responses</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex items-center justify-between">
-                                    <div className="text-2xl font-bold">{userStats.number_of_ai_responses}</div>
-                                    <div className="p-2 bg-primary/10 rounded-full">
-                                        <Bot className="h-5 w-5 text-primary" />
+                            <Card className="group relative border-border/60 bg-card shadow-md hover:shadow-xl transition-all duration-300 hover:border-amber-500/20 overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <CardHeader className="relative pb-3">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                                        <Bot className="h-4 w-4" />
+                                        AI Responses
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="relative">
+                                    <div className="flex items-center justify-between">
+                                        <div className="text-3xl font-bold text-foreground">{userStats.number_of_ai_responses}</div>
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-amber-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            <div className="relative p-3 bg-amber-500/10 rounded-xl">
+                                                <Bot className="h-6 w-6 text-amber-600" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                    <div className="mt-2 text-xs text-muted-foreground">
+                                        <span className="inline-flex items-center text-amber-600">
+                                            <Zap className="h-3 w-3 mr-1" />
+                                            AI-powered replies
+                                        </span>
+                                    </div>
+                                </CardContent>
+                            </Card>
 
-                        <Card className="border-border/40 shadow-sm hover:shadow-md transition-shadow">
-                            <CardHeader className="pb-2">
-                                <CardTitle className="text-sm font-medium text-muted-foreground">Plan</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex items-center justify-between">
-                                    <div className="text-lg font-bold">{subscriptionLimits?.plan || 'Free'}</div>
-                                    <div className="p-2 bg-primary/10 rounded-full">
-                                        <Sparkles className="h-5 w-5 text-primary" />
+                            <Card className="group relative border-border/60 bg-card shadow-md hover:shadow-xl transition-all duration-300 hover:border-purple-500/20 overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <CardHeader className="relative pb-3">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                                        <Sparkles className="h-4 w-4" />
+                                        Current Plan
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="relative">
+                                    <div className="flex items-center justify-between">
+                                        <div className="text-2xl font-bold text-foreground">{subscriptionLimits?.plan || 'Free'}</div>
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-purple-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            <div className="relative p-3 bg-purple-500/10 rounded-xl">
+                                                <Sparkles className="h-6 w-6 text-purple-600" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                    <div className="mt-2 text-xs text-muted-foreground">
+                                        <span className="inline-flex items-center text-purple-600">
+                                            <Shield className="h-3 w-3 mr-1" />
+                                            Subscription tier
+                                        </span>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
                 )}
 
@@ -575,149 +662,6 @@ export default function Dashboard() {
                         )}
                     </div>
                 </section>
-
-                {/* Integration Section */}
-                {websites.length > 0 && (
-                    <section className="bg-card rounded-xl border border-border/40 shadow-sm overflow-hidden">
-                        <div className="p-6 border-b border-border/40">
-                            <h2 className="text-xl font-semibold tracking-tight mb-1 text-foreground flex items-center gap-2">
-                                <Code2 className="w-5 h-5 text-primary" />
-                                Chat Widget Integration
-                            </h2>
-                            <p className="text-sm text-muted-foreground">Add the chatbot widget to your website with a simple script tag</p>
-                        </div>
-
-                        <div className="p-6">
-                            <div className="grid gap-8">
-                                <div className="flex flex-col sm:flex-row items-start gap-4">
-                                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                        <span className="text-primary font-semibold">1</span>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <h3 className="text-base font-medium mb-2 text-foreground">{t('dashboard.integration.step1.title')}</h3>
-                                        <p className="text-sm text-muted-foreground mb-4">{t('dashboard.integration.step1.description')}</p>
-
-                                        <Tabs defaultValue={websites[0].id.toString()} className="w-full">
-                                            <TabsList className="mb-4 flex-wrap bg-muted/50 p-1">
-                                                {websites.map((website) => (
-                                                    <TabsTrigger
-                                                        key={website.id}
-                                                        value={website.id.toString()}
-                                                        className="flex items-center gap-2 text-xs sm:text-sm data-[state=active]:bg-background">
-                                                        <div className={`w-3 sm:w-4 h-3 sm:h-4 ${website.color} rounded-full`}></div>
-                                                        <span className="truncate max-w-[100px] sm:max-w-none">{website.domain}</span>
-                                                    </TabsTrigger>
-                                                ))}
-                                            </TabsList>
-
-                                            {websites.map((website) => (
-                                                <TabsContent key={website.id} value={website.id.toString()}>
-                                                    <Card className="border-border/40 shadow-sm">
-                                                        <CardHeader className="pb-3">
-                                                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                                                                <CardTitle className="text-sm font-medium flex items-center gap-2">
-                                                                    <Code2 className="w-4 h-4 text-primary" />
-                                                                    Integration Code
-                                                                </CardTitle>
-                                                                <div className="flex items-center gap-2 w-full sm:w-auto">
-                                                                    <Button
-                                                                        variant="outline"
-                                                                        size="sm"
-                                                                        className="flex-1 sm:flex-none"
-                                                                        onClick={() => {
-                                                                            window.open(`https://${website.domain}`, '_blank');
-                                                                        }}>
-                                                                        <ExternalLink className="w-4 h-4 mr-2" />
-                                                                        {t('dashboard.integration.buttons.visitSite')}
-                                                                    </Button>
-                                                                    <Button
-                                                                        variant="default"
-                                                                        size="sm"
-                                                                        className="flex-1 sm:flex-none"
-                                                                        onClick={() => {
-                                                                            navigator.clipboard.writeText(getEmbedCode(website.id));
-                                                                            toast({
-                                                                                variant: 'success',
-                                                                                title: t('dashboard.integration.success.codeCopied'),
-                                                                                description: t('dashboard.integration.success.codeCopiedDesc'),
-                                                                            });
-                                                                        }}>
-                                                                        <Copy className="w-4 h-4 mr-2" />
-                                                                        {t('dashboard.integration.buttons.copyCode')}
-                                                                    </Button>
-                                                                </div>
-                                                            </div>
-                                                        </CardHeader>
-                                                        <CardContent>
-                                                            <div className="relative">
-                                                                <pre className="p-4 bg-muted/50 rounded-lg text-xs sm:text-sm overflow-x-auto border border-border/40">
-                                                                    <code className="text-foreground break-all sm:break-normal">{getEmbedCode(website.id)}</code>
-                                                                </pre>
-                                                                <div className="absolute top-3 right-3">
-                                                                    <Code2 className="w-4 h-4 text-muted-foreground" />
-                                                                </div>
-                                                            </div>
-                                                        </CardContent>
-                                                    </Card>
-                                                </TabsContent>
-                                            ))}
-                                        </Tabs>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start gap-4">
-                                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                        <span className="text-primary font-semibold">2</span>
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-base font-medium mb-2 text-foreground">{t('dashboard.integration.step2.title')}</h3>
-                                        <p className="text-sm text-muted-foreground mb-4">{t('dashboard.integration.step2.description')}</p>
-                                        <Card className="border-border/40 shadow-sm">
-                                            <CardContent className="p-4">
-                                                <div className="flex items-start gap-4">
-                                                    <CheckCircle2 className="w-5 h-5 text-primary mt-0.5" />
-                                                    <div>
-                                                        <p className="text-sm font-medium text-foreground">{t('dashboard.integration.step2.checklist.title')}</p>
-                                                        <ul className="text-sm text-muted-foreground list-disc ml-5 mt-2 space-y-1">
-                                                            {t('dashboard.integration.step2.checklist.items', { returnObjects: true }).map((item, index) => (
-                                                                <li key={index}>{item}</li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="mt-8 p-4 bg-primary/5 rounded-lg border border-primary/10">
-                                <div className="flex flex-col sm:flex-row items-start gap-3">
-                                    <div className="p-2 bg-primary/10 rounded-full shrink-0">
-                                        <Info className="w-4 h-4 text-primary" />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-sm font-medium text-foreground mb-1">{t('dashboard.help.title')}</h4>
-                                        <p className="text-sm text-muted-foreground">
-                                            {t('dashboard.help.description', {
-                                                integrationGuide: (
-                                                    <a key="guide" href="#" className="text-primary hover:text-primary/90 underline underline-offset-4">
-                                                        {t('dashboard.help.integrationGuide')}
-                                                    </a>
-                                                ),
-                                                contactSupport: (
-                                                    <a key="support" href="#" className="text-primary hover:text-primary/90 underline underline-offset-4">
-                                                        {t('dashboard.help.contactSupport')}
-                                                    </a>
-                                                ),
-                                            })}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                )}
             </div>
         </div>
     );

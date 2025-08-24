@@ -23,7 +23,10 @@ import {
     ChevronUp,
     Activity,
     Brain,
-    Zap
+    Zap,
+    Filter,
+    Download,
+    Eye
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -170,130 +173,144 @@ const LeadsPage = () => {
         lead.product_interest.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // Show minimal loading state while fetching data
     if (isLoading) {
         return (
             <div className="flex h-[calc(100vh-64px)] bg-gray-50 items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading leads...</p>
+                <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-gradient-to-b from-background to-background/80">
             {/* Header */}
-            <div className="max-w-7xl mx-auto pt-8 pb-6 px-4 lg:px-8">
+            <div className="max-w-[1400px] mx-auto pt-8 pb-6 px-4 lg:px-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-3">
                             <div className="p-2 bg-primary/10 rounded-xl">
                                 <UserCheck className="h-8 w-8 text-primary" />
                             </div>
-                            Leads
+                            Lead Management
                         </h1>
-                        <p className="text-muted-foreground mt-1">Manage and track captured leads with AI-powered sales insights from chat interactions</p>
+                        <p className="text-muted-foreground mt-1">
+                            Track and manage captured leads with AI-powered insights from customer interactions
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <Button variant="outline" size="sm" className="flex items-center gap-2">
+                            <Download className="h-4 w-4" />
+                            Export
+                        </Button>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 lg:px-8 pb-16">
+            <div className="max-w-[1400px] mx-auto px-4 lg:px-8 pb-16">
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-7 gap-6 mb-8">
-                    <Card>
-                        <CardContent className="p-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 lg:gap-6 mb-8">
+                    <Card className="col-span-1">
+                        <CardContent className="p-4 lg:p-6">
                             <div className="flex items-center">
                                 <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                    <UserCheck className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                                    <UserCheck className="h-5 w-5 lg:h-6 lg:w-6 text-blue-600 dark:text-blue-400" />
                                 </div>
-                                <div className="ml-4">
-                                    <p className="text-sm font-medium text-muted-foreground">Total Leads</p>
-                                    <p className="text-2xl font-bold text-foreground">{stats.total}</p>
+                                <div className="ml-3 lg:ml-4">
+                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">Total</p>
+                                    <p className="text-xl lg:text-2xl font-bold text-foreground">{stats.total}</p>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
                     
-                    <Card>
-                        <CardContent className="p-6">
+                    <Card className="col-span-1">
+                        <CardContent className="p-4 lg:p-6">
                             <div className="flex items-center">
                                 <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                    <Star className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                                    <Star className="h-5 w-5 lg:h-6 lg:w-6 text-blue-600 dark:text-blue-400" />
                                 </div>
-                                <div className="ml-4">
-                                    <p className="text-sm font-medium text-muted-foreground">New</p>
-                                    <p className="text-2xl font-bold text-foreground">{stats.new}</p>
+                                <div className="ml-3 lg:ml-4">
+                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">New</p>
+                                    <p className="text-xl lg:text-2xl font-bold text-foreground">{stats.new}</p>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card>
-                        <CardContent className="p-6">
+                    <Card className="col-span-1">
+                        <CardContent className="p-4 lg:p-6">
                             <div className="flex items-center">
                                 <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
-                                    <MessageCircle className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
+                                    <MessageCircle className="h-5 w-5 lg:h-6 lg:w-6 text-yellow-600 dark:text-yellow-400" />
                                 </div>
-                                <div className="ml-4">
-                                    <p className="text-sm font-medium text-muted-foreground">Contacted</p>
-                                    <p className="text-2xl font-bold text-foreground">{stats.contacted}</p>
+                                <div className="ml-3 lg:ml-4">
+                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">Contacted</p>
+                                    <p className="text-xl lg:text-2xl font-bold text-foreground">{stats.contacted}</p>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card>
-                        <CardContent className="p-6">
+                    <Card className="col-span-1">
+                        <CardContent className="p-4 lg:p-6">
                             <div className="flex items-center">
                                 <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                                    <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
+                                    <CheckCircle className="h-5 w-5 lg:h-6 lg:w-6 text-green-600 dark:text-green-400" />
                                 </div>
-                                <div className="ml-4">
-                                    <p className="text-sm font-medium text-muted-foreground">Converted</p>
-                                    <p className="text-2xl font-bold text-foreground">{stats.converted}</p>
+                                <div className="ml-3 lg:ml-4">
+                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">Converted</p>
+                                    <p className="text-xl lg:text-2xl font-bold text-foreground">{stats.converted}</p>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card>
-                        <CardContent className="p-6">
+                    <Card className="col-span-1">
+                        <CardContent className="p-4 lg:p-6">
                             <div className="flex items-center">
                                 <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                                    <DollarSign className="h-6 w-6 text-green-600 dark:text-green-400" />
+                                    <DollarSign className="h-5 w-5 lg:h-6 lg:w-6 text-green-600 dark:text-green-400" />
                                 </div>
-                                <div className="ml-4">
-                                    <p className="text-sm font-medium text-muted-foreground">Est. Value</p>
-                                    <p className="text-2xl font-bold text-foreground">${stats.totalValue.toFixed(2)}</p>
+                                <div className="ml-3 lg:ml-4">
+                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">Est. Value</p>
+                                    <p className="text-lg lg:text-2xl font-bold text-foreground">
+                                        ${stats.totalValue.toLocaleString()}
+                                    </p>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card>
-                        <CardContent className="p-6">
+                    <Card className="col-span-1">
+                        <CardContent className="p-4 lg:p-6">
                             <div className="flex items-center">
                                 <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                                    <Brain className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                                    <Brain className="h-5 w-5 lg:h-6 lg:w-6 text-purple-600 dark:text-purple-400" />
                                 </div>
-                                <div className="ml-4">
-                                    <p className="text-sm font-medium text-muted-foreground">Avg Confidence</p>
-                                    <p className="text-2xl font-bold text-foreground">{(stats.avgConfidence * 100).toFixed(0)}%</p>
+                                <div className="ml-3 lg:ml-4">
+                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">Avg Confidence</p>
+                                    <p className="text-xl lg:text-2xl font-bold text-foreground">
+                                        {(stats.avgConfidence * 100).toFixed(0)}%
+                                    </p>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card>
-                        <CardContent className="p-6">
+                    <Card className="col-span-1">
+                        <CardContent className="p-4 lg:p-6">
                             <div className="flex items-center">
                                 <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
-                                    <Zap className="h-6 w-6 text-red-600 dark:text-red-400" />
+                                    <Zap className="h-5 w-5 lg:h-6 lg:w-6 text-red-600 dark:text-red-400" />
                                 </div>
-                                <div className="ml-4">
-                                    <p className="text-sm font-medium text-muted-foreground">High Priority</p>
-                                    <p className="text-2xl font-bold text-foreground">{stats.highPriority}</p>
+                                <div className="ml-3 lg:ml-4">
+                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">High Priority</p>
+                                    <p className="text-xl lg:text-2xl font-bold text-foreground">{stats.highPriority}</p>
                                 </div>
                             </div>
                         </CardContent>
@@ -301,20 +318,27 @@ const LeadsPage = () => {
                 </div>
 
                 {/* Filters and Search */}
-                <Card className="mb-6">
-                    <CardContent className="p-6">
+                <Card className="mb-8">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Filter className="h-5 w-5" />
+                            Filters & Search
+                        </CardTitle>
+                        <CardDescription>Search and filter leads by status, name, email, or company</CardDescription>
+                    </CardHeader>
+                    <CardContent>
                         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                             <div className="relative flex-1">
                                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input
-                                    placeholder="Search by email, name, company, or product..."
+                                    placeholder="Search by email, name, company, or product interest..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="pl-10"
                                 />
                             </div>
                             <Select value={filter} onValueChange={setFilter}>
-                                <SelectTrigger className="w-full sm:w-[180px]">
+                                <SelectTrigger className="w-full sm:w-[200px]">
                                     <SelectValue placeholder="Filter by status" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -334,26 +358,29 @@ const LeadsPage = () => {
                 {filteredLeads.length === 0 ? (
                     <Card>
                         <CardContent className="p-12 text-center">
-                            <UserCheck className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                            <h3 className="text-lg font-semibold mb-2">No leads found</h3>
-                            <p className="text-muted-foreground">
-                                When visitors provide their email addresses in chat, leads will appear here.
+                            <UserCheck className="h-16 w-16 text-muted-foreground mx-auto mb-6" />
+                            <h3 className="text-xl font-semibold mb-2">No leads found</h3>
+                            <p className="text-muted-foreground max-w-md mx-auto">
+                                {searchTerm || filter !== 'all' 
+                                    ? 'No leads match your current search or filter criteria. Try adjusting your filters or search terms.'
+                                    : 'When visitors provide their email addresses during chat interactions, leads will appear here automatically with AI-powered insights.'
+                                }
                             </p>
                         </CardContent>
                     </Card>
                 ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                         {filteredLeads.map((lead) => (
-                            <Card key={lead.id}>
+                            <Card key={lead.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
                                 <CardContent className="p-6">
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1">
-                                            <div className="flex items-center gap-3 mb-3">
+                                            <div className="flex items-center gap-3 mb-4">
                                                 <div className="p-2 bg-primary/10 rounded-lg">
                                                     {getLeadSourceIcon(lead.lead_source)}
                                                 </div>
                                                 <div>
-                                                    <h3 className="font-semibold text-foreground flex items-center gap-2">
+                                                    <h3 className="text-lg font-semibold text-foreground flex items-center gap-3">
                                                         {lead.name || 'Anonymous Lead'}
                                                         <Badge className={getStatusColor(lead.lead_status)}>
                                                             {lead.lead_status}
@@ -365,7 +392,7 @@ const LeadsPage = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                                                 <div className="flex items-center gap-2">
                                                     <Mail className="h-4 w-4 text-muted-foreground" />
                                                     <span className="text-sm font-medium">{lead.email}</span>
@@ -397,7 +424,7 @@ const LeadsPage = () => {
                                                     <div className="flex items-center gap-2">
                                                         <DollarSign className="h-4 w-4 text-green-600" />
                                                         <span className="text-sm font-medium text-green-600">
-                                                            ${parseFloat(lead.estimated_value).toFixed(2)}
+                                                            ${parseFloat(lead.estimated_value).toLocaleString()}
                                                         </span>
                                                     </div>
                                                 )}
@@ -405,17 +432,17 @@ const LeadsPage = () => {
 
                                             {/* AI Sale Analysis Section */}
                                             {lead.sale_confidence_score && (
-                                                <div className="border border-border rounded-lg p-4 mb-4 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20">
-                                                    <div className="flex items-center justify-between mb-3">
+                                                <div className="border border-border rounded-lg p-5 mb-4 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20">
+                                                    <div className="flex items-center justify-between mb-4">
                                                         <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
                                                             <Brain className="h-4 w-4 text-purple-600" />
-                                                            AI Sale Analysis
+                                                            AI Sales Insights
                                                         </h4>
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
                                                             onClick={() => toggleLeadExpansion(lead.id)}
-                                                            className="h-6 w-6 p-0"
+                                                            className="h-8 w-8 p-0"
                                                         >
                                                             {expandedLeads.has(lead.id) ? 
                                                                 <ChevronUp className="h-4 w-4" /> : 
@@ -425,16 +452,16 @@ const LeadsPage = () => {
                                                     </div>
                                                     
                                                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
-                                                        <div className="text-center p-2 rounded-lg bg-white/50 dark:bg-gray-800/50">
-                                                            <p className="text-xs text-muted-foreground mb-1">Confidence</p>
-                                                            <p className={`text-sm font-bold ${getConfidenceColor(lead.sale_confidence_score)}`}>
+                                                        <div className="text-center p-3 rounded-lg bg-white/70 dark:bg-gray-800/70">
+                                                            <p className="text-xs text-muted-foreground mb-1">Confidence Score</p>
+                                                            <p className={`text-lg font-bold ${getConfidenceColor(lead.sale_confidence_score)}`}>
                                                                 {(parseFloat(lead.sale_confidence_score) * 100).toFixed(0)}%
                                                             </p>
                                                         </div>
                                                         
                                                         {lead.sale_priority && (
-                                                            <div className="text-center p-2 rounded-lg bg-white/50 dark:bg-gray-800/50">
-                                                                <p className="text-xs text-muted-foreground mb-1">Priority</p>
+                                                            <div className="text-center p-3 rounded-lg bg-white/70 dark:bg-gray-800/70">
+                                                                <p className="text-xs text-muted-foreground mb-1">Priority Level</p>
                                                                 <Badge className={getPriorityColor(lead.sale_priority)} size="sm">
                                                                     {lead.sale_priority}
                                                                 </Badge>
@@ -442,15 +469,17 @@ const LeadsPage = () => {
                                                         )}
                                                         
                                                         {lead.sale_alert_type && (
-                                                            <div className="text-center p-2 rounded-lg bg-white/50 dark:bg-gray-800/50">
+                                                            <div className="text-center p-3 rounded-lg bg-white/70 dark:bg-gray-800/70">
                                                                 <p className="text-xs text-muted-foreground mb-1">Alert Type</p>
-                                                                <p className="text-xs font-medium capitalize">{lead.sale_alert_type.replace('_', ' ')}</p>
+                                                                <p className="text-xs font-medium capitalize">
+                                                                    {lead.sale_alert_type.replace('_', ' ')}
+                                                                </p>
                                                             </div>
                                                         )}
                                                         
                                                         {lead.sale_product_mentioned && (
-                                                            <div className="text-center p-2 rounded-lg bg-white/50 dark:bg-gray-800/50">
-                                                                <p className="text-xs text-muted-foreground mb-1">Product</p>
+                                                            <div className="text-center p-3 rounded-lg bg-white/70 dark:bg-gray-800/70">
+                                                                <p className="text-xs text-muted-foreground mb-1">Product Mentioned</p>
                                                                 <p className="text-xs font-medium truncate" title={lead.sale_product_mentioned}>
                                                                     {lead.sale_product_mentioned}
                                                                 </p>
@@ -459,13 +488,13 @@ const LeadsPage = () => {
                                                     </div>
                                                     
                                                     {expandedLeads.has(lead.id) && (
-                                                        <div className="space-y-3 pt-3 border-t border-border">
+                                                        <div className="space-y-4 pt-4 border-t border-border">
                                                             {lead.sale_visitor_message && (
                                                                 <div>
-                                                                    <p className="text-xs font-medium text-foreground mb-1">Visitor Message:</p>
-                                                                    <p className="text-xs text-muted-foreground bg-white/50 dark:bg-gray-800/50 p-2 rounded italic">
-                                                                        "{lead.sale_visitor_message.length > 150 ? 
-                                                                            lead.sale_visitor_message.substring(0, 150) + '...' : 
+                                                                    <p className="text-sm font-medium text-foreground mb-2">Visitor Message:</p>
+                                                                    <p className="text-sm text-muted-foreground bg-white/70 dark:bg-gray-800/70 p-3 rounded-lg italic">
+                                                                        "{lead.sale_visitor_message.length > 200 ? 
+                                                                            lead.sale_visitor_message.substring(0, 200) + '...' : 
                                                                             lead.sale_visitor_message
                                                                         }"
                                                                     </p>
@@ -474,10 +503,10 @@ const LeadsPage = () => {
                                                             
                                                             {lead.sale_ai_response && (
                                                                 <div>
-                                                                    <p className="text-xs font-medium text-foreground mb-1">AI Response:</p>
-                                                                    <p className="text-xs text-muted-foreground bg-white/50 dark:bg-gray-800/50 p-2 rounded">
-                                                                        "{lead.sale_ai_response.length > 150 ? 
-                                                                            lead.sale_ai_response.substring(0, 150) + '...' : 
+                                                                    <p className="text-sm font-medium text-foreground mb-2">AI Response:</p>
+                                                                    <p className="text-sm text-muted-foreground bg-white/70 dark:bg-gray-800/70 p-3 rounded-lg">
+                                                                        "{lead.sale_ai_response.length > 200 ? 
+                                                                            lead.sale_ai_response.substring(0, 200) + '...' : 
                                                                             lead.sale_ai_response
                                                                         }"
                                                                     </p>
@@ -489,25 +518,26 @@ const LeadsPage = () => {
                                             )}
                                             
                                             {lead.notes && (
-                                                <div className="bg-muted p-3 rounded-lg mb-4">
-                                                    <p className="text-sm font-medium text-foreground mb-1">Additional Notes:</p>
+                                                <div className="bg-muted/50 p-4 rounded-lg mb-4">
+                                                    <p className="text-sm font-medium text-foreground mb-2">Additional Notes:</p>
                                                     <p className="text-sm text-muted-foreground">{lead.notes}</p>
                                                 </div>
                                             )}
                                         </div>
 
-                                        <div className="flex flex-col items-end gap-3">
+                                        <div className="flex flex-col items-end gap-3 ml-4">
                                             <div className="text-right">
-                                                <p className="text-xs text-muted-foreground">Source</p>
-                                                <Badge variant="outline">
+                                                <p className="text-xs text-muted-foreground mb-1">Source</p>
+                                                <Badge variant="outline" className="capitalize">
                                                     {lead.lead_source}
                                                 </Badge>
                                             </div>
 
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
-                                                    <Button variant="outline" size="sm">
+                                                    <Button variant="outline" size="sm" className="flex items-center gap-2">
                                                         <MoreHorizontal className="h-4 w-4" />
+                                                        Actions
                                                     </Button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">

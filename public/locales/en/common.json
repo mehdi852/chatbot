@@ -1235,6 +1235,7 @@
                 "subscriptions": "Subscriptions",
                 "tickets": "Tickets",
                 "settings": "Settings",
+                
                 "pageBuilder": "Page Builder",
                 "newsletter": "Newsletter"
             },
@@ -1248,6 +1249,9 @@
                 "emailList": "Email List",
                 "support": "Support",
                 "usage": "Usage",
+                "leads":"Leads",
+                "widget-template":"Widget templates",
+                "ai-agent":"Ai Agent",
                 "widget-customization": "Widget Customization",
                 "billing": "Billing",
                 "chat": "Chat"

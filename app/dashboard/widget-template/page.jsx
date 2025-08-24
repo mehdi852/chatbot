@@ -324,12 +324,14 @@ const WidgetTemplatePage = () => {
         }
     };
 
+    // Show minimal loading state while fetching data
     if (isLoading && selectedWebsiteId) {
         return (
-            <div className="flex items-center justify-center min-h-96">
-                <div className="flex items-center gap-2 text-gray-600">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Loading widget questions...
+            <div className="flex h-[calc(100vh-64px)] bg-gray-50 items-center justify-center">
+                <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
                 </div>
             </div>
         );
@@ -337,138 +339,142 @@ const WidgetTemplatePage = () => {
 
     if (!websites.length) {
         return (
-            <div className="max-w-4xl mx-auto p-6">
-                <Alert>
-                    <MessageCircle className="h-4 w-4" />
-                    <AlertDescription>
-                        You need to create a website first before managing widget questions.{' '}
-                        <a href="/dashboard" className="text-blue-600 hover:underline">
-                            Go to Dashboard
-                        </a>
-                    </AlertDescription>
-                </Alert>
+            <div className="min-h-screen bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <Alert>
+                        <MessageCircle className="h-4 w-4" />
+                        <AlertDescription>
+                            You need to create a website first before managing widget questions.{' '}
+                            <a href="/dashboard" className="text-blue-600 hover:underline">
+                                Go to Dashboard
+                            </a>
+                        </AlertDescription>
+                    </Alert>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="max-w-4xl mx-auto p-6 space-y-6">
-            <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Widget Template</h1>
-                <p className="text-gray-600">
-                    Customize the questions that appear in your chat widget. Users will see these as quick-start options.
-                </p>
+        <div className="min-h-screen bg-gray-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+                <div>
+                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Widget Template</h1>
+                    <p className="text-gray-600">
+                        Customize the questions that appear in your chat widget. Users will see these as quick-start options.
+                    </p>
+                </div>
+
+                {/* Website Selector */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Select Website</CardTitle>
+                        <CardDescription>Choose which website you want to configure questions for</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <select
+                            value={selectedWebsiteId || ''}
+                            onChange={(e) => setSelectedWebsiteId(parseInt(e.target.value))}
+                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <option value="">Select a website...</option>
+                            {websites.map(website => (
+                                <option key={website.id} value={website.id}>
+                                    {website.name} ({website.domain})
+                                </option>
+                            ))}
+                        </select>
+                    </CardContent>
+                </Card>
+
+                {selectedWebsiteId && (
+                    <>
+                        {/* Add New Question */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Add New Question</CardTitle>
+                                <CardDescription>Enter a question that users can click to start a conversation</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex gap-3">
+                                    <Input
+                                        placeholder="e.g., How can I track my order?"
+                                        value={newQuestion}
+                                        onChange={(e) => setNewQuestion(e.target.value)}
+                                        onKeyPress={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleAddQuestion();
+                                            }
+                                        }}
+                                        className="flex-1"
+                                    />
+                                    <Button onClick={handleAddQuestion} disabled={isAdding}>
+                                        {isAdding ? (
+                                            <Loader2 className="w-4 h-4 animate-spin" />
+                                        ) : (
+                                            <Plus className="w-4 h-4" />
+                                        )}
+                                        Add Question
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Questions List */}
+                        <Card>
+                            <CardHeader className="flex flex-row items-center justify-between">
+                                <div>
+                                    <CardTitle>Widget Questions ({questions.length})</CardTitle>
+                                    <CardDescription>
+                                        Drag and drop to reorder. These questions will appear in your chat widget.
+                                    </CardDescription>
+                                </div>
+                                {questions.length > 0 && (
+                                    <Button onClick={handleSaveOrder} disabled={isSaving} variant="outline">
+                                        {isSaving ? (
+                                            <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                                        ) : (
+                                            <Save className="w-4 h-4 mr-2" />
+                                        )}
+                                        Save Order
+                                    </Button>
+                                )}
+                            </CardHeader>
+                            <CardContent>
+                                {questions.length > 0 ? (
+                                    <div className="space-y-3">
+                                        <DragDropProvider onReorder={handleReorder}>
+                                            {questions.map((question) => (
+                                                <DraggableQuestionItem
+                                                    key={question.id}
+                                                    question={question}
+                                                    onDelete={handleDeleteQuestion}
+                                                />
+                                            ))}
+                                        </DragDropProvider>
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-12 text-gray-500">
+                                        <MessageCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                                        <p className="text-lg font-medium mb-2">No questions yet</p>
+                                        <p>Add your first question to get started with your widget template.</p>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+
+                        {questions.length > 0 && (
+                            <Alert>
+                                <MessageCircle className="h-4 w-4" />
+                                <AlertDescription>
+                                    <strong>Preview:</strong> These questions will appear as clickable buttons in your chat widget, 
+                                    making it easy for visitors to start conversations on your website.
+                                </AlertDescription>
+                            </Alert>
+                        )}
+                    </>
+                )}
             </div>
-
-            {/* Website Selector */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Select Website</CardTitle>
-                    <CardDescription>Choose which website you want to configure questions for</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <select
-                        value={selectedWebsiteId || ''}
-                        onChange={(e) => setSelectedWebsiteId(parseInt(e.target.value))}
-                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                        <option value="">Select a website...</option>
-                        {websites.map(website => (
-                            <option key={website.id} value={website.id}>
-                                {website.name} ({website.domain})
-                            </option>
-                        ))}
-                    </select>
-                </CardContent>
-            </Card>
-
-            {selectedWebsiteId && (
-                <>
-                    {/* Add New Question */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Add New Question</CardTitle>
-                            <CardDescription>Enter a question that users can click to start a conversation</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="flex gap-3">
-                                <Input
-                                    placeholder="e.g., How can I track my order?"
-                                    value={newQuestion}
-                                    onChange={(e) => setNewQuestion(e.target.value)}
-                                    onKeyPress={(e) => {
-                                        if (e.key === 'Enter') {
-                                            handleAddQuestion();
-                                        }
-                                    }}
-                                    className="flex-1"
-                                />
-                                <Button onClick={handleAddQuestion} disabled={isAdding}>
-                                    {isAdding ? (
-                                        <Loader2 className="w-4 h-4 animate-spin" />
-                                    ) : (
-                                        <Plus className="w-4 h-4" />
-                                    )}
-                                    Add Question
-                                </Button>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Questions List */}
-                    <Card>
-                        <CardHeader className="flex flex-row items-center justify-between">
-                            <div>
-                                <CardTitle>Widget Questions ({questions.length})</CardTitle>
-                                <CardDescription>
-                                    Drag and drop to reorder. These questions will appear in your chat widget.
-                                </CardDescription>
-                            </div>
-                            {questions.length > 0 && (
-                                <Button onClick={handleSaveOrder} disabled={isSaving} variant="outline">
-                                    {isSaving ? (
-                                        <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                                    ) : (
-                                        <Save className="w-4 h-4 mr-2" />
-                                    )}
-                                    Save Order
-                                </Button>
-                            )}
-                        </CardHeader>
-                        <CardContent>
-                            {questions.length > 0 ? (
-                                <div className="space-y-3">
-                                    <DragDropProvider onReorder={handleReorder}>
-                                        {questions.map((question) => (
-                                            <DraggableQuestionItem
-                                                key={question.id}
-                                                question={question}
-                                                onDelete={handleDeleteQuestion}
-                                            />
-                                        ))}
-                                    </DragDropProvider>
-                                </div>
-                            ) : (
-                                <div className="text-center py-12 text-gray-500">
-                                    <MessageCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                                    <p className="text-lg font-medium mb-2">No questions yet</p>
-                                    <p>Add your first question to get started with your widget template.</p>
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>
-
-                    {questions.length > 0 && (
-                        <Alert>
-                            <MessageCircle className="h-4 w-4" />
-                            <AlertDescription>
-                                <strong>Preview:</strong> These questions will appear as clickable buttons in your chat widget, 
-                                making it easy for visitors to start conversations on your website.
-                            </AlertDescription>
-                        </Alert>
-                    )}
-                </>
-            )}
         </div>
     );
 };

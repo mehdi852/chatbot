@@ -17,6 +17,7 @@ export default function UsagePage() {
         conversations: 0,
         aiResponses: 0,
     });
+    const [isLoading, setIsLoading] = useState(true);
     const { toast } = useToast();
     const { dbUser } = useUserContext();
 
@@ -44,7 +45,10 @@ export default function UsagePage() {
     };
 
     const fetchChatStats = async () => {
-        if (!dbUser) return;
+        if (!dbUser) {
+            setIsLoading(false);
+            return;
+        }
 
         try {
             const response = await fetch(`/api/user/get_user_usage?userId=${dbUser.id}`);
@@ -61,6 +65,8 @@ export default function UsagePage() {
                 description: 'Failed to load chat usage statistics',
                 variant: 'destructive',
             });
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -72,6 +78,19 @@ export default function UsagePage() {
 
     const conversationsPercentage = getPercentage(chatStats.conversations, subscriptionLimits?.max_chat_conversations || 1);
     const aiResponsesPercentage = getPercentage(chatStats.aiResponses, subscriptionLimits?.max_ai_responses || 1);
+
+    // Show minimal loading state while fetching data
+    if (isLoading) {
+        return (
+            <div className="flex h-[calc(100vh-64px)] bg-gray-50 items-center justify-center">
+                <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-[1400px] mx-auto p-4 lg:p-6 space-y-8">
