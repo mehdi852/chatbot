@@ -79,85 +79,85 @@
         "essentialOnly": "Essential Only"
     },
     "features": {
-        "title": "Enterprise Features",
-        "mainHeading": "Everything you need for popup success",
-        "description": "Powerful enterprise-grade tools to create, manage, and optimize your website popups. Boost engagement and conversions with our comprehensive solution.",
+        "title": "AI-Powered Features",
+        "mainHeading": "Everything you need for intelligent customer support",
+        "description": "Powerful AI-driven chatbot tools to engage visitors, answer questions, and convert leads 24/7. Transform your customer experience with intelligent automation.",
         "items": {
             "management": {
-                "title": "Centralized Management",
-                "description": "Manage all your website popups from one intuitive dashboard. Create, edit, and track performance effortlessly."
+                "title": "Conversation Management",
+                "description": "Monitor and manage all customer conversations from one intuitive dashboard. Track AI performance and human handoffs effortlessly."
             },
             "types": {
-                "title": "Multiple Popup Types",
-                "description": "Choose from various popup types: notifications, email collectors, and promotional messages to match your goals."
+                "title": "AI & Human Hybrid",
+                "description": "Seamlessly blend AI automation with human expertise. Let AI handle common queries while humans manage complex issues."
             },
             "targeting": {
-                "title": "Smart Targeting",
-                "description": "Target visitors based on behavior, timing, and location. Show the right message at the right time."
+                "title": "Smart Personalization",
+                "description": "AI adapts responses based on visitor behavior, location, and context. Deliver personalized experiences at scale."
             }
         }
     },
     "advancedFeatures": {
-        "title": "Advanced Capabilities",
-        "mainHeading": "Powerful tools for better results",
-        "description": "Take control of your popup strategy with advanced features designed to maximize engagement and conversion rates",
+        "title": "Advanced AI Capabilities",
+        "mainHeading": "Intelligent chatbot tools for superior customer experience",
+        "description": "Leverage cutting-edge AI technology to deliver personalized, efficient customer support that scales with your business",
         "items": {
             "builder": {
-                "title": "Visual Builder",
-                "description": "Create stunning popups with our intuitive drag-and-drop interface"
+                "title": "AI Training Studio",
+                "description": "Customize your AI chatbot's knowledge base and personality with intuitive training tools"
             },
             "analytics": {
-                "title": "Smart Analytics",
-                "description": "Track performance with detailed analytics and insights"
+                "title": "Conversation Analytics",
+                "description": "Gain deep insights into customer interactions, satisfaction rates, and AI performance metrics"
             },
             "timing": {
-                "title": "Smart Timing",
-                "description": "Perfect timing based on user behavior and triggers"
+                "title": "24/7 Availability",
+                "description": "Never miss a customer inquiry with round-the-clock AI-powered support coverage"
             },
             "integrations": {
-                "title": "Integrations",
-                "description": "Connect with your favorite marketing tools"
+                "title": "Seamless Integrations",
+                "description": "Connect with CRM, helpdesk, and business tools for unified customer experiences"
             }
         }
     },
     "testimonials": {
         "title": "Customer Success",
-        "mainHeading": "Loved by businesses worldwide",
-        "description": "Discover how enterprises are improving their conversion rates with our popup management platform",
+        "mainHeading": "Trusted by businesses worldwide",
+        "description": "See how companies are revolutionizing their customer support with our AI-powered chatbot solution",
         "items": [
             {
                 "name": "Sarah Thompson",
-                "role": "Marketing Director",
+                "role": "Customer Success Director",
                 "company": "E-commerce Plus",
-                "quote": "The drag-and-drop interface makes it incredibly easy to manage our popup campaigns. Weve seen a 40% increase in email signups."
+                "quote": "Our AI chatbot handles 80% of customer inquiries automatically. Response times dropped from hours to seconds, and customer satisfaction is at an all-time high."
             },
             {
                 "name": "Alex Rivera",
-                "role": "Growth Manager",
+                "role": "Support Manager",
                 "company": "TechStart",
-                "quote": "The detailed analytics and smart targeting features have transformed our popup strategy. Weve seen incredible engagement rates since switching."
+                "quote": "The seamless handoff between AI and human agents is incredible. Our team can focus on complex issues while the AI handles routine questions perfectly."
             },
             {
                 "name": "David Chen",
-                "role": "E-commerce Manager",
+                "role": "Operations Manager",
                 "company": "Fashion Store",
-                "quote": "Finally, a popup solution thats both powerful and easy to use. The targeting options are exactly what we needed."
+                "quote": "24/7 customer support without the overhead. The AI learns from every interaction and gets smarter every day. It's like having a super-powered support team."
             }
         ]
     },
     "statistics": {
         "items": [
             {
-                "number": "1M+",
-                "description": "Popups displayed daily across thousands of websites"
+                "number": "500K+",
+                "description": "Customer conversations handled monthly by our AI chatbots"
             },
             {
-                "number": "5,000+",
-                "description": "Active enterprise websites using our platform"
+                "number": "3,200+",
+                "description": "Businesses trust our AI chatbot platform"
             },
             {
-                "number": "35%",
-                "description": "Average increase in conversion rates"
+                "number": "85%",
+                "description": "Reduction in customer support response time"
             },
             {
                 "number": "99.9%",
@@ -166,9 +166,9 @@
         ]
     },
     "cta": {
-        "heading": "Ready to transform your popup strategy?",
-        "description": "Join thousands of successful businesses using our enterprise-grade popup solution",
-        "button": "Start Free Enterprise Trial"
+        "heading": "Ready to revolutionize your customer support?",
+        "description": "Join thousands of forward-thinking businesses using our AI-powered chatbot platform to deliver exceptional customer experiences",
+        "button": "Start Free AI Trial"
     },
     "pricing": {
         "title": "Pricing",
@@ -192,8 +192,8 @@
     "footer": {
         "newsletter": {
             "title": "Newsletter",
-            "heading": "Stay updated with popup trends",
-            "description": "Get expert insights on conversion optimization and popup strategies delivered to your inbox.",
+            "heading": "Stay ahead with AI customer support insights",
+            "description": "Get the latest trends in AI chatbots, customer experience optimization, and automation strategies delivered to your inbox.",
             "placeholder": "Enter your work email",
             "button": "Subscribe",
             "subscribing": "Subscribing...",
@@ -217,13 +217,13 @@
     },
     "hero": {
         "title": {
-            "main": "Smart Popup Management",
-            "highlight": "Simple"
+            "main": "AI-Powered Customer Support",
+            "highlight": "Intelligent"
         },
-        "description": "Create, manage, and optimize website popups from one central dashboard. Boost engagement without disrupting the user experience.",
+        "description": "Transform your customer experience with intelligent chatbots that provide instant, personalized support 24/7. Reduce response times and boost satisfaction.",
         "buttons": {
             "trial": "Start Free Trial",
-            "demo": "View Demo"
+            "demo": "View Live Demo"
         }
     },
     "dashboard": {

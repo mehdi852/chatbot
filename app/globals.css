@@ -32,8 +32,8 @@ body {
         --secondary-foreground: 0 0% 100%;
         --muted: 210 20% 98%; /* Light background */
         --muted-foreground: 215 13.8% 50.2%; /* #6B7280 - Muted gray */
-        --accent: 142 76% 36%; /* #22C55E - Fresh green */
-        --accent-foreground: 0 0% 100%;
+        --accent: 210 20% 94%; /* Light neutral gray for hover states */
+        --accent-foreground: 215 25% 16.5%;
         --destructive: 0 84.2% 60.2%;
         --destructive-foreground: 0 0% 100%;
         --border: 220 13% 91%; /* Subtle border */

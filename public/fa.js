@@ -1224,18 +1224,9 @@
                 });
                 localStorage.setItem(`fa_chat_${visitorId}`, JSON.stringify(messages));
                 
-                // Check if this message indicates limits exceeded
-                if (data.limitExceeded || data.message.includes('limit has been reached')) {
-                    // Trigger the limits exceeded handler
-                    setTimeout(() => {
-                        handleLimitsExceeded({
-                            websiteId: data.websiteId,
-                            visitorId: data.visitorId,
-                            limits: data.limits || {},
-                            timestamp: new Date()
-                        });
-                    }, 1000); // Small delay to let the user read the AI message first
-                }
+                // Don't manually trigger limits exceeded handler here
+                // Let the server handle limits exceeded events separately
+                // This prevents duplicate message handling
             };
 
             // Function to show/hide typing indicator

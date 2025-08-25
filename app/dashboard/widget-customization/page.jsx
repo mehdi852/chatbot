@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/app/provider';
 import { Palette, Eye, Save, RotateCcw, MessageCircle, Settings } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const WidgetCustomizationPage = () => {
+    const router = useRouter();
     const { dbUser } = useUserContext();
     const { toast } = useToast();
     
@@ -38,6 +40,8 @@ const WidgetCustomizationPage = () => {
     const [hasChanges, setHasChanges] = useState(false);
     const [isWidgetOpen, setIsWidgetOpen] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
+    const [widgetView, setWidgetView] = useState('home'); // 'home' or 'chat'
+    const [selectedQuestion, setSelectedQuestion] = useState('');
 
     // Add effect to log current gradient colors for debugging
     useEffect(() => {
@@ -218,6 +222,22 @@ const WidgetCustomizationPage = () => {
             questionButtonTextColor: '#1a202c'
         });
         setHasChanges(true);
+    };
+
+    // Handle question click - switch widget view to show chat interface
+    const handleQuestionClick = (question) => {
+        console.log('Question clicked:', question);
+        
+        // Set the selected question and switch to chat view
+        setSelectedQuestion(question);
+        setWidgetView('chat');
+        
+        // Show a toast notification with the clicked question
+        toast({
+            title: 'Question Selected',
+            description: `"${question}" - Switching to chat view`,
+            variant: 'default',
+        });
     };
 
     // Widget Preview Component - Using exact structure from fa.js
@@ -603,66 +623,257 @@ const WidgetCustomizationPage = () => {
                         <div key={`widget-${widgetSettings.primaryColor}-${widgetSettings.headerColor}`} className="fa-widget-overlay" style={{ position: 'relative', bottom: 'auto', right: 'auto', marginBottom: '16px', width: '360px', height: '580px', display: 'block' }}>
                             <div className="fa-widget-container">
                                 <div className="fa-chat-container">
-                                    <div className="fa-home-view" style={{ backgroundColor: widgetSettings.welcomeBackgroundColor }}>
-                                        <div className="fa-widget-header">
-                                            <div className="fa-header-content">
-                                                <div className="fa-agent-info">
-                                                    <div className="fa-agent-avatar">
-                                                        <div className="fa-avatar-gradient">
-                                                            <svg className="fa-avatar-icon" viewBox="0 0 24 24" fill="none">
-                                                                <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" fill="currentColor"/>
-                                                                <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
-                                                            </svg>
+                                    {widgetView === 'home' ? (
+                                        // Home view (FAQ questions)
+                                        <div className="fa-home-view" style={{ backgroundColor: widgetSettings.welcomeBackgroundColor }}>
+                                            <div className="fa-widget-header">
+                                                <div className="fa-header-content">
+                                                    <div className="fa-agent-info">
+                                                        <div className="fa-agent-avatar">
+                                                            <div className="fa-avatar-gradient">
+                                                                <svg className="fa-avatar-icon" viewBox="0 0 24 24" fill="none">
+                                                                    <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" fill="currentColor"/>
+                                                                    <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                        <div className="fa-agent-details">
+                                                            <div className="fa-agent-name" style={{ color: 'white' }}>{widgetSettings.companyName}</div>
+                                                            <div className="fa-agent-status" style={{ color: 'white' }}>We're here to help!</div>
                                                         </div>
                                                     </div>
-                                                    <div className="fa-agent-details">
-                                                        <div className="fa-agent-name" style={{ color: 'white' }}>{widgetSettings.companyName}</div>
-                                                        <div className="fa-agent-status" style={{ color: 'white' }}>We're here to help!</div>
+                                                    <div className="fa-header-actions">
+                                                        <button className="fa-close-btn" title="Close" onClick={() => setIsWidgetOpen(false)}>
+                                                            <svg viewBox="0 0 24 24" fill="none">
+                                                                <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="currentColor"/>
+                                                            </svg>
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                <div className="fa-header-actions">
-                                                    <button className="fa-close-btn" title="Close" onClick={() => setIsWidgetOpen(false)}>
-                                                        <svg viewBox="0 0 24 24" fill="none">
-                                                            <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="currentColor"/>
+                                            </div>
+                                            <div className="fa-home-body" style={{ color: widgetSettings.welcomeTextColor }}>
+                                                <div className="fa-welcome-section">
+                                                    <div className="fa-welcome-message">
+                                                        <div className="fa-welcome-text">
+                                                            <div className="fa-welcome-title">{widgetSettings.welcomeTitle}</div>
+                                                            <div className="fa-welcome-subtitle">{widgetSettings.welcomeMessage}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="fa-questions-section">
+                                                    <div className="fa-questions-title">{widgetSettings.faqTitle}</div>
+                                                    <div className="fa-questions-list">
+                                                        <button 
+                                                            className="fa-question-btn"
+                                                            onClick={() => handleQuestionClick("What are your business hours?")}
+                                                        >
+                                                            What are your business hours?
+                                                        </button>
+                                                        <button 
+                                                            className="fa-question-btn"
+                                                            onClick={() => handleQuestionClick("How can I contact customer support?")}
+                                                        >
+                                                            How can I contact customer support?
+                                                        </button>
+                                                        <button 
+                                                            className="fa-question-btn"
+                                                            onClick={() => handleQuestionClick("Do you offer refunds?")}
+                                                        >
+                                                            Do you offer refunds?
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="fa-home-footer">
+                                                <button className="fa-start-chat-btn" onClick={() => handleQuestionClick("Direct chat")}>  
+                                                    <svg viewBox="0 0 24 24" fill="none">
+                                                        <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="currentColor"/>
+                                                    </svg>
+                                                    <span>{widgetSettings.startChatButtonText}</span>
+                                                </button>
+                                                {widgetSettings.showBranding && (
+                                                    <div className="fa-powered-by">
+                                                        <div className="fa-branding" style={{ color: widgetSettings.welcomeTextColor, opacity: 0.6 }}>
+                                                            Powered by <strong style={{ color: widgetSettings.welcomeTextColor }}>{widgetSettings.brandName}</strong>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        // Chat view (conversation with dummy data)
+                                        <div className="fa-chat-view" style={{ backgroundColor: '#ffffff', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                                            <div className="fa-widget-header">
+                                                <div className="fa-header-content">
+                                                    <div className="fa-agent-info">
+                                                        <button 
+                                                            className="fa-back-btn" 
+                                                            onClick={() => setWidgetView('home')}
+                                                            style={{ 
+                                                                background: 'rgba(255, 255, 255, 0.15)', 
+                                                                border: 'none', 
+                                                                borderRadius: '12px', 
+                                                                color: 'white', 
+                                                                cursor: 'pointer', 
+                                                                padding: '8px', 
+                                                                marginRight: '12px',
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center'
+                                                            }}
+                                                        >
+                                                            <svg viewBox="0 0 24 24" fill="none" style={{ width: '16px', height: '16px' }}>
+                                                                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                            </svg>
+                                                        </button>
+                                                        <div className="fa-agent-avatar">
+                                                            <div className="fa-avatar-gradient">
+                                                                <svg className="fa-avatar-icon" viewBox="0 0 24 24" fill="none">
+                                                                    <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" fill="currentColor"/>
+                                                                    <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                        <div className="fa-agent-details">
+                                                            <div className="fa-agent-name" style={{ color: 'white' }}>{widgetSettings.companyName}</div>
+                                                            <div className="fa-agent-status" style={{ color: 'white' }}>Online now</div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="fa-header-actions">
+                                                        <button className="fa-close-btn" title="Close" onClick={() => setIsWidgetOpen(false)}>
+                                                            <svg viewBox="0 0 24 24" fill="none">
+                                                                <path d="M18.3 5.71C17.91 5.32 17.28 5.32 16.89 5.71L12 10.59L7.11 5.7C6.72 5.31 6.09 5.31 5.7 5.7C5.31 6.09 5.31 6.72 5.7 7.11L10.59 12L5.7 16.89C5.31 17.28 5.31 17.91 5.7 18.3C6.09 18.69 6.72 18.69 7.11 18.3L12 13.41L16.89 18.3C17.28 18.69 17.91 18.69 18.3 18.3C18.69 17.91 18.69 17.28 18.3 16.89L13.41 12L18.3 7.11C18.68 6.73 18.68 6.09 18.3 5.71Z" fill="currentColor"/>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            {/* Chat Messages */}
+                                            <div className="fa-chat-messages" style={{ flex: 1, padding: '16px', overflowY: 'auto', backgroundColor: '#f8fafc' }}>
+                                                {/* User Question */}
+                                                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
+                                                    <div style={{ 
+                                                        background: `linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%)`,
+                                                        color: 'white',
+                                                        padding: '12px 16px',
+                                                        borderRadius: '18px 18px 4px 18px',
+                                                        maxWidth: '80%',
+                                                        fontSize: '14px',
+                                                        boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                                                    }}>
+                                                        {selectedQuestion}
+                                                    </div>
+                                                </div>
+                                                
+                                                {/* AI Response */}
+                                                <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '12px', marginBottom: '16px' }}>
+                                                    <div style={{ 
+                                                        width: '32px',
+                                                        height: '32px',
+                                                        background: 'rgba(255, 255, 255, 0.2)',
+                                                        borderRadius: '50%',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        flexShrink: 0,
+                                                        border: `2px solid ${widgetSettings.primaryColor}20`
+                                                    }}>
+                                                        <svg viewBox="0 0 24 24" fill="none" style={{ width: '16px', height: '16px', color: widgetSettings.primaryColor }}>
+                                                            <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" fill="currentColor"/>
+                                                            <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div style={{ 
+                                                        backgroundColor: 'white',
+                                                        color: '#374151',
+                                                        padding: '12px 16px',
+                                                        borderRadius: '18px 18px 18px 4px',
+                                                        maxWidth: '80%',
+                                                        fontSize: '14px',
+                                                        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                                        border: '1px solid #e5e7eb'
+                                                    }}>
+                                                        {selectedQuestion.includes('business hours') && (
+                                                            "We're open Monday through Friday from 9 AM to 6 PM EST, and Saturday from 10 AM to 4 PM EST. We're closed on Sundays and major holidays."
+                                                        )}
+                                                        {selectedQuestion.includes('contact customer support') && (
+                                                            "You can reach our customer support team through this chat, by email at support@company.com, or by calling 1-800-SUPPORT (1-800-787-7678) during business hours."
+                                                        )}
+                                                        {selectedQuestion.includes('refunds') && (
+                                                            "Yes, we offer a 30-day money-back guarantee on all purchases. To request a refund, please contact our support team with your order number and we'll process it within 3-5 business days."
+                                                        )}
+                                                        {!selectedQuestion.includes('business hours') && !selectedQuestion.includes('contact customer support') && !selectedQuestion.includes('refunds') && (
+                                                            "Thank you for your message! Our support team will get back to you shortly. Is there anything else I can help you with today?"
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                
+                                                {/* Suggested follow-up */}
+                                                <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: '8px', gap: '8px', flexWrap: 'wrap' }}>
+                                                    <button style={{
+                                                        backgroundColor: widgetSettings.questionButtonColor,
+                                                        color: widgetSettings.questionButtonTextColor,
+                                                        border: '1px solid #e5e7eb',
+                                                        borderRadius: '20px',
+                                                        padding: '8px 16px',
+                                                        fontSize: '13px',
+                                                        cursor: 'pointer',
+                                                        transition: 'all 0.2s'
+                                                    }}>
+                                                        Need more help?
+                                                    </button>
+                                                    <button style={{
+                                                        backgroundColor: widgetSettings.questionButtonColor,
+                                                        color: widgetSettings.questionButtonTextColor,
+                                                        border: '1px solid #e5e7eb',
+                                                        borderRadius: '20px',
+                                                        padding: '8px 16px',
+                                                        fontSize: '13px',
+                                                        cursor: 'pointer',
+                                                        transition: 'all 0.2s'
+                                                    }}>
+                                                        Contact human agent
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            {/* Chat Input */}
+                                            <div className="fa-chat-footer" style={{ padding: '16px', backgroundColor: 'white', borderTop: '1px solid #e5e7eb' }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', backgroundColor: '#f8fafc', borderRadius: '24px', border: '1px solid #e5e7eb' }}>
+                                                    <input 
+                                                        type="text" 
+                                                        placeholder={widgetSettings.placeholderText}
+                                                        style={{ 
+                                                            flex: 1, 
+                                                            border: 'none', 
+                                                            background: 'transparent', 
+                                                            outline: 'none', 
+                                                            fontSize: '14px',
+                                                            color: '#374151'
+                                                        }}
+                                                        disabled
+                                                    />
+                                                    <button style={{
+                                                        background: `linear-gradient(135deg, ${widgetSettings.primaryColor} 0%, ${widgetSettings.headerColor} 100%)`,
+                                                        border: 'none',
+                                                        borderRadius: '20px',
+                                                        width: '32px',
+                                                        height: '32px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        cursor: 'pointer'
+                                                    }}>
+                                                        <svg viewBox="0 0 24 24" fill="none" style={{ width: '16px', height: '16px', color: 'white' }}>
+                                                            <path d="M22 2L11 13L5 7L6 6L11 11L21 1L22 2Z" fill="currentColor"/>
+                                                            <path d="M22 2L2 11L9 13L11 20L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                                         </svg>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="fa-home-body" style={{ color: widgetSettings.welcomeTextColor }}>
-                                            <div className="fa-welcome-section">
-                                                <div className="fa-welcome-message">
-                                                    <div className="fa-welcome-text">
-                                                        <div className="fa-welcome-title">{widgetSettings.welcomeTitle}</div>
-                                                        <div className="fa-welcome-subtitle">{widgetSettings.welcomeMessage}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="fa-questions-section">
-                                                <div className="fa-questions-title">{widgetSettings.faqTitle}</div>
-                                                <div className="fa-questions-list">
-                                                    <button className="fa-question-btn">What are your business hours?</button>
-                                                    <button className="fa-question-btn">How can I contact customer support?</button>
-                                                    <button className="fa-question-btn">Do you offer refunds?</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="fa-home-footer">
-                                            <button className="fa-start-chat-btn">
-                                                <svg viewBox="0 0 24 24" fill="none">
-                                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="currentColor"/>
-                                                </svg>
-                                                <span>{widgetSettings.startChatButtonText}</span>
-                                            </button>
-                                            {widgetSettings.showBranding && (
-                                                <div className="fa-powered-by">
-                                                    <div className="fa-branding" style={{ color: widgetSettings.welcomeTextColor, opacity: 0.6 }}>
-                                                        Powered by <strong style={{ color: widgetSettings.welcomeTextColor }}>{widgetSettings.brandName}</strong>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -706,7 +917,7 @@ const WidgetCustomizationPage = () => {
                 </div>
             </div>
         );
-    }, [widgetSettings, isWidgetOpen]);
+    }, [widgetSettings, isWidgetOpen, widgetView, selectedQuestion]);
 
     // Show minimal loading state while fetching settings
     if (isLoading) {

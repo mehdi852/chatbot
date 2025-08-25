@@ -220,3 +220,56 @@ export async function PUT(request) {
         }, { status: 500 });
     }
 }
+
+// DELETE - Delete a lead
+export async function DELETE(request) {
+    try {
+        const { searchParams } = new URL(request.url);
+        const leadId = searchParams.get('leadId');
+        const userId = searchParams.get('userId');
+
+        if (!leadId || !userId) {
+            return Response.json({ 
+                success: false, 
+                message: 'Lead ID and User ID are required' 
+            }, { status: 400 });
+        }
+
+        // Verify the lead belongs to the user before deleting
+        const existingLead = await db
+            .select()
+            .from(Leads)
+            .where(and(
+                eq(Leads.id, leadId),
+                eq(Leads.user_id, userId)
+            ))
+            .limit(1);
+
+        if (existingLead.length === 0) {
+            return Response.json({
+                success: false,
+                message: 'Lead not found or access denied'
+            }, { status: 404 });
+        }
+
+        // Delete the lead
+        await db
+            .delete(Leads)
+            .where(and(
+                eq(Leads.id, leadId),
+                eq(Leads.user_id, userId)
+            ));
+
+        return Response.json({
+            success: true,
+            message: 'Lead deleted successfully'
+        });
+    } catch (error) {
+        console.error('Error deleting lead:', error);
+        return Response.json({ 
+            success: false, 
+            message: 'Failed to delete lead',
+            error: error.message 
+        }, { status: 500 });
+    }
+}

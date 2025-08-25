@@ -247,12 +247,26 @@ function Header() {
                             variant="outline"
                             size="icon"
                             className={cn(
-                                'relative transition-all duration-300 ease-in-out',
-                                unreadCount > 0 ? 'ring-2 ring-offset-1 ring-primary/20 dark:ring-primary/30' : 'hover:bg-muted/80',
-                                unreadCount > 0 && 'after:absolute after:w-full after:h-full after:rounded-full after:animate-ping after:bg-primary/10 after:top-0 after:left-0 after:z-0'
+                                'relative transition-all duration-300 ease-in-out border-border/60',
+                                // When there are notifications
+                                unreadCount > 0 && [
+                                    'ring-2 ring-offset-1 ring-primary/25 dark:ring-primary/35',
+                                    'hover:ring-primary/40 dark:hover:ring-primary/50',
+                                    'hover:bg-primary/15 dark:hover:bg-primary/20',
+                                    'hover:border-primary/30 dark:hover:border-primary/40',
+                                    'after:absolute after:w-full after:h-full after:rounded-full after:animate-ping after:bg-primary/10 after:top-0 after:left-0 after:z-0'
+                                ],
+                                // When there are no notifications
+                                unreadCount === 0 && [
+                                    'hover:bg-muted/80 dark:hover:bg-muted/60',
+                                    'hover:border-muted-foreground/20 dark:hover:border-muted-foreground/30'
+                                ]
                             )}>
                             <span className="relative z-10">
-                                <Bell className={cn('h-[18px] w-[18px]', unreadCount > 0 && 'text-primary')} />
+                                <Bell className={cn(
+                                    'h-[18px] w-[18px] transition-colors duration-300',
+                                    unreadCount > 0 ? 'text-primary hover:text-primary/80' : 'text-muted-foreground hover:text-foreground'
+                                )} />
                             </span>
                             {unreadCount > 0 && (
                                 <Badge
@@ -285,7 +299,7 @@ function Header() {
                                         )}
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-muted">
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-primary/10">
                                                     <MoreHorizontal className="h-4 w-4" />
                                                 </Button>
                                             </DropdownMenuTrigger>
@@ -342,7 +356,7 @@ function Header() {
                                             <div
                                                 key={notification.id}
                                                 className={cn(
-                                                    'px-4 py-3.5 cursor-pointer transition-all duration-200 group hover:bg-muted/50 relative overflow-hidden',
+                                                    'px-4 py-3.5 cursor-pointer transition-all duration-200 group hover:bg-primary/10 relative overflow-hidden',
                                                     !notification.read && 'bg-primary/[0.03] dark:bg-primary/[0.07]',
                                                     !notification.read && 'after:absolute after:left-0 after:top-0 after:h-full after:w-1 after:bg-primary',
                                                     notification.priority === 'critical' && !notification.read && 'bg-red-50/60 dark:bg-red-900/10 after:bg-red-500'

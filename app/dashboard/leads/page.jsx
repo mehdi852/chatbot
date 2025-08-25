@@ -26,7 +26,9 @@ import {
     Zap,
     Filter,
     Download,
-    Eye
+    Eye,
+    Users,
+    Trash
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -43,6 +45,9 @@ const LeadsPage = () => {
     const [filter, setFilter] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
     const [expandedLeads, setExpandedLeads] = useState(new Set());
+    const [selectedLead, setSelectedLead] = useState(null);
+    const [leadToDelete, setLeadToDelete] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [stats, setStats] = useState({
         total: 0,
         new: 0,
@@ -118,6 +123,52 @@ const LeadsPage = () => {
         }
     };
 
+    const deleteLead = async (leadId) => {
+        if (!leadId || !dbUser?.id) return;
+        
+        setIsDeleting(true);
+        try {
+            const response = await fetch(`/api/leads?leadId=${leadId}&userId=${dbUser.id}`, {
+                method: 'DELETE',
+            });
+
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to delete lead');
+            }
+            
+            // If the deleted lead was selected, clear the selection
+            if (selectedLead?.id === leadId) {
+                setSelectedLead(null);
+            }
+            
+            // Refresh the leads
+            await fetchLeads();
+            
+        } catch (error) {
+            console.error('Error deleting lead:', error);
+            alert('Failed to delete lead: ' + error.message);
+        } finally {
+            setIsDeleting(false);
+            setLeadToDelete(null);
+        }
+    };
+
+    const handleDeleteClick = (lead) => {
+        setLeadToDelete(lead);
+    };
+
+    const confirmDelete = () => {
+        if (leadToDelete) {
+            deleteLead(leadToDelete.id);
+        }
+    };
+
+    const cancelDelete = () => {
+        setLeadToDelete(null);
+    };
+
     const getStatusColor = (status) => {
         switch (status) {
             case 'new': return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
@@ -187,386 +238,561 @@ const LeadsPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-background to-background/80">
-            {/* Header */}
-            <div className="max-w-[1400px] mx-auto pt-8 pb-6 px-4 lg:px-8">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-3">
-                            <div className="p-2 bg-primary/10 rounded-xl">
-                                <UserCheck className="h-8 w-8 text-primary" />
+        <div className="flex h-[calc(100vh-64px)] bg-gray-50">
+            {/* Sidebar - Lead List */}
+            <div className="w-80 bg-white border-r border-gray-200 flex flex-col shadow-md">
+                {/* Header */}
+                <div className="border-b border-gray-200 bg-gray-50/50">
+                    <div className="px-4 py-3 flex items-center justify-between">
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                            <div className="p-2 bg-primary/10 rounded-lg flex-shrink-0">
+                                <UserCheck className="h-4 w-4 text-primary" />
                             </div>
-                            Lead Management
-                        </h1>
-                        <p className="text-muted-foreground mt-1">
-                            Track and manage captured leads with AI-powered insights from customer interactions
-                        </p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <Button variant="outline" size="sm" className="flex items-center gap-2">
-                            <Download className="h-4 w-4" />
-                            Export
+                            <div className="min-w-0 flex-1">
+                                <h2 className="text-sm font-semibold text-gray-800 truncate">Lead Management</h2>
+                                <p className="text-xs text-gray-500 truncate">AI-powered insights</p>
+                            </div>
+                        </div>
+                        <Button variant="outline" size="sm" className="h-7 w-7 p-0 flex-shrink-0">
+                            <Download className="h-3 w-3" />
                         </Button>
                     </div>
-                </div>
-            </div>
-
-            <div className="max-w-[1400px] mx-auto px-4 lg:px-8 pb-16">
-                {/* Stats Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 lg:gap-6 mb-8">
-                    <Card className="col-span-1">
-                        <CardContent className="p-4 lg:p-6">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                    <UserCheck className="h-5 w-5 lg:h-6 lg:w-6 text-blue-600 dark:text-blue-400" />
-                                </div>
-                                <div className="ml-3 lg:ml-4">
-                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">Total</p>
-                                    <p className="text-xl lg:text-2xl font-bold text-foreground">{stats.total}</p>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
                     
-                    <Card className="col-span-1">
-                        <CardContent className="p-4 lg:p-6">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                    <Star className="h-5 w-5 lg:h-6 lg:w-6 text-blue-600 dark:text-blue-400" />
-                                </div>
-                                <div className="ml-3 lg:ml-4">
-                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">New</p>
-                                    <p className="text-xl lg:text-2xl font-bold text-foreground">{stats.new}</p>
-                                </div>
+                    {/* Stats Cards - Compact */}
+                    <div className="px-3 pb-3">
+                        <div className="grid grid-cols-2 gap-2">
+                            <div className="bg-white rounded-lg p-2.5 border border-gray-100 text-center">
+                                <div className="text-base font-bold text-blue-600 leading-none">{stats.total}</div>
+                                <div className="text-[10px] text-gray-600 mt-1 leading-tight">Total Leads</div>
                             </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="col-span-1">
-                        <CardContent className="p-4 lg:p-6">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
-                                    <MessageCircle className="h-5 w-5 lg:h-6 lg:w-6 text-yellow-600 dark:text-yellow-400" />
-                                </div>
-                                <div className="ml-3 lg:ml-4">
-                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">Contacted</p>
-                                    <p className="text-xl lg:text-2xl font-bold text-foreground">{stats.contacted}</p>
-                                </div>
+                            <div className="bg-white rounded-lg p-2.5 border border-gray-100 text-center">
+                                <div className="text-base font-bold text-green-600 leading-none">{stats.converted}</div>
+                                <div className="text-[10px] text-gray-600 mt-1 leading-tight">Converted</div>
                             </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="col-span-1">
-                        <CardContent className="p-4 lg:p-6">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                                    <CheckCircle className="h-5 w-5 lg:h-6 lg:w-6 text-green-600 dark:text-green-400" />
+                            <div className="bg-white rounded-lg p-2.5 border border-gray-100 text-center">
+                                <div className="text-sm font-bold text-orange-600 leading-none truncate">
+                                    ${stats.totalValue > 999999 ? (stats.totalValue/1000000).toFixed(1) + 'M' : 
+                                      stats.totalValue > 999 ? (stats.totalValue/1000).toFixed(1) + 'K' :
+                                      stats.totalValue.toLocaleString()}
                                 </div>
-                                <div className="ml-3 lg:ml-4">
-                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">Converted</p>
-                                    <p className="text-xl lg:text-2xl font-bold text-foreground">{stats.converted}</p>
-                                </div>
+                                <div className="text-[10px] text-gray-600 mt-1 leading-tight">Est. Value</div>
                             </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="col-span-1">
-                        <CardContent className="p-4 lg:p-6">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                                    <DollarSign className="h-5 w-5 lg:h-6 lg:w-6 text-green-600 dark:text-green-400" />
-                                </div>
-                                <div className="ml-3 lg:ml-4">
-                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">Est. Value</p>
-                                    <p className="text-lg lg:text-2xl font-bold text-foreground">
-                                        ${stats.totalValue.toLocaleString()}
-                                    </p>
-                                </div>
+                            <div className="bg-white rounded-lg p-2.5 border border-gray-100 text-center">
+                                <div className="text-base font-bold text-purple-600 leading-none">{(stats.avgConfidence * 100).toFixed(0)}%</div>
+                                <div className="text-[10px] text-gray-600 mt-1 leading-tight">AI Confidence</div>
                             </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="col-span-1">
-                        <CardContent className="p-4 lg:p-6">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                                    <Brain className="h-5 w-5 lg:h-6 lg:w-6 text-purple-600 dark:text-purple-400" />
-                                </div>
-                                <div className="ml-3 lg:ml-4">
-                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">Avg Confidence</p>
-                                    <p className="text-xl lg:text-2xl font-bold text-foreground">
-                                        {(stats.avgConfidence * 100).toFixed(0)}%
-                                    </p>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="col-span-1">
-                        <CardContent className="p-4 lg:p-6">
-                            <div className="flex items-center">
-                                <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
-                                    <Zap className="h-5 w-5 lg:h-6 lg:w-6 text-red-600 dark:text-red-400" />
-                                </div>
-                                <div className="ml-3 lg:ml-4">
-                                    <p className="text-xs lg:text-sm font-medium text-muted-foreground">High Priority</p>
-                                    <p className="text-xl lg:text-2xl font-bold text-foreground">{stats.highPriority}</p>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Filters and Search */}
-                <Card className="mb-8">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <Filter className="h-5 w-5" />
-                            Filters & Search
-                        </CardTitle>
-                        <CardDescription>Search and filter leads by status, name, email, or company</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                            <div className="relative flex-1">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input
-                                    placeholder="Search by email, name, company, or product interest..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="pl-10"
-                                />
-                            </div>
-                            <Select value={filter} onValueChange={setFilter}>
-                                <SelectTrigger className="w-full sm:w-[200px]">
-                                    <SelectValue placeholder="Filter by status" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All Status</SelectItem>
-                                    <SelectItem value="new">New</SelectItem>
-                                    <SelectItem value="contacted">Contacted</SelectItem>
-                                    <SelectItem value="qualified">Qualified</SelectItem>
-                                    <SelectItem value="converted">Converted</SelectItem>
-                                    <SelectItem value="lost">Lost</SelectItem>
-                                </SelectContent>
-                            </Select>
+                {/* Filters */}
+                <div className="p-3 border-b border-gray-200 bg-white">
+                    <div className="space-y-2.5">
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
+                            <Input
+                                placeholder="Search leads..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="pl-9 h-8 text-xs border-gray-200 focus:border-blue-300 focus:ring-1 focus:ring-blue-200"
+                            />
                         </div>
-                    </CardContent>
-                </Card>
+                        <Select value={filter} onValueChange={setFilter}>
+                            <SelectTrigger className="h-8 text-xs border-gray-200 focus:border-blue-300 focus:ring-1 focus:ring-blue-200">
+                                <SelectValue placeholder="Filter by status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All Status</SelectItem>
+                                <SelectItem value="new">New</SelectItem>
+                                <SelectItem value="contacted">Contacted</SelectItem>
+                                <SelectItem value="qualified">Qualified</SelectItem>
+                                <SelectItem value="converted">Converted</SelectItem>
+                                <SelectItem value="lost">Lost</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
 
-                {/* Leads List */}
-                {filteredLeads.length === 0 ? (
-                    <Card>
-                        <CardContent className="p-12 text-center">
-                            <UserCheck className="h-16 w-16 text-muted-foreground mx-auto mb-6" />
-                            <h3 className="text-xl font-semibold mb-2">No leads found</h3>
-                            <p className="text-muted-foreground max-w-md mx-auto">
-                                {searchTerm || filter !== 'all' 
-                                    ? 'No leads match your current search or filter criteria. Try adjusting your filters or search terms.'
-                                    : 'When visitors provide their email addresses during chat interactions, leads will appear here automatically with AI-powered insights.'
-                                }
-                            </p>
-                        </CardContent>
-                    </Card>
-                ) : (
-                    <div className="space-y-6">
-                        {filteredLeads.map((lead) => (
-                            <Card key={lead.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
-                                <CardContent className="p-6">
-                                    <div className="flex items-start justify-between">
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-3 mb-4">
-                                                <div className="p-2 bg-primary/10 rounded-lg">
-                                                    {getLeadSourceIcon(lead.lead_source)}
-                                                </div>
-                                                <div>
-                                                    <h3 className="text-lg font-semibold text-foreground flex items-center gap-3">
-                                                        {lead.name || 'Anonymous Lead'}
-                                                        <Badge className={getStatusColor(lead.lead_status)}>
-                                                            {lead.lead_status}
-                                                        </Badge>
-                                                    </h3>
-                                                    <p className="text-sm text-muted-foreground">
-                                                        {lead.website_domain} • {formatDistanceToNow(new Date(lead.created_at))} ago
-                                                    </p>
-                                                </div>
+                {/* Lead List */}
+                <div className="flex-1 overflow-y-auto">
+                    {filteredLeads.length === 0 ? (
+                        <div className="flex-1 flex items-center justify-center p-6">
+                            <div className="text-center">
+                                <UserCheck className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                                <p className="text-sm font-medium text-gray-500 mb-1">No leads found</p>
+                                <p className="text-xs text-gray-400 max-w-[200px] leading-relaxed">
+                                    {searchTerm || filter !== 'all' 
+                                        ? 'Try adjusting your search or filters'
+                                        : 'Leads will appear here from chat interactions'
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="divide-y divide-gray-100">
+                            {filteredLeads.map((lead) => (
+                                <div
+                                    key={lead.id}
+                                    className={`group cursor-pointer transition-all duration-200 hover:bg-gray-50 relative ${
+                                        selectedLead?.id === lead.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : 'border-l-4 border-l-transparent'
+                                    }`}
+                                    onClick={() => setSelectedLead(lead)}>
+                                    <div className="px-3 py-3 flex items-start space-x-3">
+                                        {/* Avatar */}
+                                        <div className="relative flex-shrink-0">
+                                            <div className="w-9 h-9 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center border border-blue-200 shadow-sm">
+                                                <span className="text-blue-700 text-xs font-semibold">
+                                                    {lead.name ? lead.name.charAt(0).toUpperCase() : 'L'}
+                                                </span>
                                             </div>
+                                            
+                                            {/* Status Indicator */}
+                                            <div className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-white shadow-sm ${
+                                                lead.lead_status === 'new' ? 'bg-blue-500' :
+                                                lead.lead_status === 'contacted' ? 'bg-yellow-500' :
+                                                lead.lead_status === 'qualified' ? 'bg-purple-500' :
+                                                lead.lead_status === 'converted' ? 'bg-green-500' : 'bg-gray-400'
+                                            }`} />
+                                        </div>
 
-                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                                                <div className="flex items-center gap-2">
-                                                    <Mail className="h-4 w-4 text-muted-foreground" />
-                                                    <span className="text-sm font-medium">{lead.email}</span>
+                                        {/* Lead details */}
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-start justify-between mb-1">
+                                                <div className="flex items-center space-x-2 min-w-0 flex-1">
+                                                    <h3 className="text-sm font-medium text-gray-900 truncate max-w-[120px]">
+                                                        {lead.name || 'Anonymous'}
+                                                    </h3>
+                                                    <Badge className={`text-[10px] px-1.5 py-0.5 ${getStatusColor(lead.lead_status)} flex-shrink-0`}>
+                                                        {lead.lead_status}
+                                                    </Badge>
                                                 </div>
-                                                
-                                                {lead.phone && (
-                                                    <div className="flex items-center gap-2">
-                                                        <Phone className="h-4 w-4 text-muted-foreground" />
-                                                        <span className="text-sm">{lead.phone}</span>
-                                                    </div>
-                                                )}
-
+                                                <span className="text-[10px] text-gray-500 flex-shrink-0 ml-2">
+                                                    {formatDistanceToNow(new Date(lead.created_at), { addSuffix: false })}
+                                                </span>
+                                            </div>
+                                            <p className="text-xs text-gray-600 truncate mb-2 max-w-[220px]">{lead.email}</p>
+                                            
+                                            {/* Compact info badges */}
+                                            <div className="flex items-center flex-wrap gap-1">
                                                 {lead.company && (
-                                                    <div className="flex items-center gap-2">
-                                                        <Building className="h-4 w-4 text-muted-foreground" />
-                                                        <span className="text-sm">{lead.company}</span>
+                                                    <div className="flex items-center space-x-1 bg-gray-50 px-1.5 py-0.5 rounded text-[10px] max-w-[80px]">
+                                                        <Building className="h-2.5 w-2.5 text-gray-400 flex-shrink-0" />
+                                                        <span className="text-gray-600 truncate">{lead.company}</span>
                                                     </div>
                                                 )}
-
-                                                {lead.product_interest && (
-                                                    <div className="col-span-full">
-                                                        <p className="text-sm text-muted-foreground">
-                                                            <span className="font-medium">Interest:</span> {lead.product_interest}
-                                                        </p>
-                                                    </div>
-                                                )}
-
                                                 {lead.estimated_value > 0 && (
-                                                    <div className="flex items-center gap-2">
-                                                        <DollarSign className="h-4 w-4 text-green-600" />
-                                                        <span className="text-sm font-medium text-green-600">
-                                                            ${parseFloat(lead.estimated_value).toLocaleString()}
+                                                    <div className="flex items-center space-x-1 bg-green-50 px-1.5 py-0.5 rounded text-[10px]">
+                                                        <DollarSign className="h-2.5 w-2.5 text-green-600 flex-shrink-0" />
+                                                        <span className="text-green-600 font-medium">
+                                                            {parseFloat(lead.estimated_value) > 999 ? 
+                                                                `$${(parseFloat(lead.estimated_value)/1000).toFixed(1)}K` : 
+                                                                `$${parseFloat(lead.estimated_value).toLocaleString()}`
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                )}
+                                                {lead.sale_confidence_score && (
+                                                    <div className="flex items-center space-x-1 bg-purple-50 px-1.5 py-0.5 rounded text-[10px]">
+                                                        <Brain className="h-2.5 w-2.5 text-purple-600 flex-shrink-0" />
+                                                        <span className="text-purple-600 font-medium">
+                                                            {(parseFloat(lead.sale_confidence_score) * 100).toFixed(0)}%
                                                         </span>
                                                     </div>
                                                 )}
                                             </div>
+                                        </div>
 
-                                            {/* AI Sale Analysis Section */}
-                                            {lead.sale_confidence_score && (
-                                                <div className="border border-border rounded-lg p-5 mb-4 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20">
-                                                    <div className="flex items-center justify-between mb-4">
-                                                        <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                                                            <Brain className="h-4 w-4 text-purple-600" />
-                                                            AI Sales Insights
-                                                        </h4>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            onClick={() => toggleLeadExpansion(lead.id)}
-                                                            className="h-8 w-8 p-0"
-                                                        >
-                                                            {expandedLeads.has(lead.id) ? 
-                                                                <ChevronUp className="h-4 w-4" /> : 
-                                                                <ChevronDown className="h-4 w-4" />
-                                                            }
-                                                        </Button>
+                                        {/* Delete button */}
+                                        <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDeleteClick(lead);
+                                                }}
+                                                disabled={isDeleting}
+                                                className="p-1 hover:bg-red-50 rounded transition-colors duration-200 group/delete disabled:opacity-50">
+                                                <Trash className="w-3.5 h-3.5 text-gray-400 group-hover/delete:text-red-500 transition-colors duration-200" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Main Content Area - Lead Details */}
+            <div className="flex-1 flex flex-col bg-white">
+                {selectedLead ? (
+                    <>
+                        {/* Lead Header */}
+                        <div className="bg-white border-b border-gray-200 shadow-sm">
+                            <div className="px-6 py-5">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center space-x-4">
+                                            {/* Lead Avatar */}
+                                            <div className="relative flex-shrink-0">
+                                                <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center border-2 border-blue-200 shadow-sm">
+                                                    <span className="text-blue-700 text-xl font-bold">
+                                                        {selectedLead.name ? selectedLead.name.charAt(0).toUpperCase() : 'L'}
+                                                    </span>
+                                                </div>
+                                                
+                                                {/* Status Indicator */}
+                                                <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white shadow-sm ${
+                                                    selectedLead.lead_status === 'new' ? 'bg-blue-500' :
+                                                    selectedLead.lead_status === 'contacted' ? 'bg-yellow-500' :
+                                                    selectedLead.lead_status === 'qualified' ? 'bg-purple-500' :
+                                                    selectedLead.lead_status === 'converted' ? 'bg-green-500' : 'bg-gray-400'
+                                                }`} />
+                                            </div>
+                                            
+                                            {/* Lead Details */}
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center space-x-3 mb-2">
+                                                    <h2 className="text-xl font-semibold text-gray-900 truncate">
+                                                        {selectedLead.name || 'Anonymous Lead'}
+                                                    </h2>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Badge className={`${getStatusColor(selectedLead.lead_status)} text-xs`}>
+                                                            {selectedLead.lead_status}
+                                                        </Badge>
+                                                        {selectedLead.sale_priority && (
+                                                            <Badge className={`${getPriorityColor(selectedLead.sale_priority)} text-xs`}>
+                                                                {selectedLead.sale_priority}
+                                                            </Badge>
+                                                        )}
                                                     </div>
-                                                    
-                                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
-                                                        <div className="text-center p-3 rounded-lg bg-white/70 dark:bg-gray-800/70">
-                                                            <p className="text-xs text-muted-foreground mb-1">Confidence Score</p>
-                                                            <p className={`text-lg font-bold ${getConfidenceColor(lead.sale_confidence_score)}`}>
-                                                                {(parseFloat(lead.sale_confidence_score) * 100).toFixed(0)}%
-                                                            </p>
-                                                        </div>
-                                                        
-                                                        {lead.sale_priority && (
-                                                            <div className="text-center p-3 rounded-lg bg-white/70 dark:bg-gray-800/70">
-                                                                <p className="text-xs text-muted-foreground mb-1">Priority Level</p>
-                                                                <Badge className={getPriorityColor(lead.sale_priority)} size="sm">
-                                                                    {lead.sale_priority}
-                                                                </Badge>
-                                                            </div>
-                                                        )}
-                                                        
-                                                        {lead.sale_alert_type && (
-                                                            <div className="text-center p-3 rounded-lg bg-white/70 dark:bg-gray-800/70">
-                                                                <p className="text-xs text-muted-foreground mb-1">Alert Type</p>
-                                                                <p className="text-xs font-medium capitalize">
-                                                                    {lead.sale_alert_type.replace('_', ' ')}
-                                                                </p>
-                                                            </div>
-                                                        )}
-                                                        
-                                                        {lead.sale_product_mentioned && (
-                                                            <div className="text-center p-3 rounded-lg bg-white/70 dark:bg-gray-800/70">
-                                                                <p className="text-xs text-muted-foreground mb-1">Product Mentioned</p>
-                                                                <p className="text-xs font-medium truncate" title={lead.sale_product_mentioned}>
-                                                                    {lead.sale_product_mentioned}
-                                                                </p>
-                                                            </div>
-                                                        )}
+                                                </div>
+                                                <div className="flex items-center space-x-6 text-sm text-gray-500">
+                                                    <p className="truncate max-w-[300px]">{selectedLead.email}</p>
+                                                    <p className="whitespace-nowrap">
+                                                        Created {formatDistanceToNow(new Date(selectedLead.created_at))} ago
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex items-center space-x-2">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                                                    <MoreHorizontal className="h-4 w-4" />
+                                                    Actions
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem onClick={() => updateLeadStatus(selectedLead.id, 'contacted')}>
+                                                    <MessageCircle className="h-4 w-4 mr-2" />
+                                                    Mark as Contacted
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => updateLeadStatus(selectedLead.id, 'qualified')}>
+                                                    <Star className="h-4 w-4 mr-2" />
+                                                    Mark as Qualified
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => updateLeadStatus(selectedLead.id, 'converted')}>
+                                                    <CheckCircle className="h-4 w-4 mr-2" />
+                                                    Mark as Converted
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => updateLeadStatus(selectedLead.id, 'lost')}>
+                                                    <AlertCircle className="h-4 w-4 mr-2" />
+                                                    Mark as Lost
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Lead Details Content */}
+                        <div className="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-gray-50/50 to-white">
+                            <div className="max-w-5xl space-y-6">
+
+                                {/* Basic Information */}
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className="flex items-center gap-2">
+                                            <UserCheck className="h-5 w-5" />
+                                            Lead Information
+                                        </CardTitle>
+                                        <CardDescription>Basic contact and lead details</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                            <div className="flex items-center gap-3">
+                                                <Mail className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                                                <div className="min-w-0 flex-1">
+                                                    <p className="text-xs text-muted-foreground mb-1">Email</p>
+                                                    <p className="text-sm font-medium truncate">{selectedLead.email}</p>
+                                                </div>
+                                            </div>
+                                            
+                                            {selectedLead.phone && (
+                                                <div className="flex items-center gap-3">
+                                                    <Phone className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                                                    <div className="min-w-0 flex-1">
+                                                        <p className="text-xs text-muted-foreground mb-1">Phone</p>
+                                                        <p className="text-sm font-medium truncate">{selectedLead.phone}</p>
                                                     </div>
+                                                </div>
+                                            )}
+
+                                            {selectedLead.company && (
+                                                <div className="flex items-center gap-3">
+                                                    <Building className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                                                    <div className="min-w-0 flex-1">
+                                                        <p className="text-xs text-muted-foreground mb-1">Company</p>
+                                                        <p className="text-sm font-medium truncate">{selectedLead.company}</p>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex-shrink-0">{getLeadSourceIcon(selectedLead.lead_source)}</div>
+                                                <div className="min-w-0 flex-1">
+                                                    <p className="text-xs text-muted-foreground mb-1">Source</p>
+                                                    <p className="text-sm font-medium capitalize truncate">{selectedLead.lead_source}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center gap-3">
+                                                <Calendar className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                                                <div className="min-w-0 flex-1">
+                                                    <p className="text-xs text-muted-foreground mb-1">Created</p>
+                                                    <p className="text-sm font-medium">{formatDistanceToNow(new Date(selectedLead.created_at))} ago</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center gap-3">
+                                                <ExternalLink className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                                                <div className="min-w-0 flex-1">
+                                                    <p className="text-xs text-muted-foreground mb-1">Website</p>
+                                                    <p className="text-sm font-medium truncate">{selectedLead.website_domain}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {selectedLead.product_interest && (
+                                            <div className="mt-4 pt-4 border-t">
+                                                <div className="flex items-start gap-2">
+                                                    <Target className="h-4 w-4 text-muted-foreground mt-0.5" />
+                                                    <div className="flex-1">
+                                                        <p className="text-xs text-muted-foreground mb-1">Product Interest</p>
+                                                        <p className="text-sm">{selectedLead.product_interest}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {selectedLead.notes && (
+                                            <div className="mt-4 pt-4 border-t">
+                                                <div className="flex items-start gap-2">
+                                                    <Activity className="h-4 w-4 text-muted-foreground mt-0.5" />
+                                                    <div className="flex-1">
+                                                        <p className="text-xs text-muted-foreground mb-1">Additional Notes</p>
+                                                        <p className="text-sm">{selectedLead.notes}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </CardContent>
+                                </Card>
+
+                                {/* AI Sales Analysis */}
+                                {selectedLead.sale_confidence_score && (
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle className="flex items-center gap-2">
+                                                <Brain className="h-5 w-5 text-purple-600" />
+                                                AI Sales Insights
+                                            </CardTitle>
+                                            <CardDescription>AI-powered lead analysis and scoring</CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                                                <div className="text-center p-4 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+                                                    <p className="text-xs text-muted-foreground mb-2">Confidence Score</p>
+                                                    <p className={`text-2xl font-bold ${getConfidenceColor(selectedLead.sale_confidence_score)}`}>
+                                                        {(parseFloat(selectedLead.sale_confidence_score) * 100).toFixed(0)}%
+                                                    </p>
+                                                </div>
+                                                
+                                                {selectedLead.sale_priority && (
+                                                    <div className="text-center p-4 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200">
+                                                        <p className="text-xs text-muted-foreground mb-2">Priority Level</p>
+                                                        <Badge className={getPriorityColor(selectedLead.sale_priority)}>
+                                                            {selectedLead.sale_priority}
+                                                        </Badge>
+                                                    </div>
+                                                )}
+                                                
+                                                {selectedLead.estimated_value > 0 && (
+                                                    <div className="text-center p-4 rounded-lg bg-gradient-to-br from-green-50 to-green-100 border border-green-200">
+                                                        <p className="text-xs text-muted-foreground mb-2">Estimated Value</p>
+                                                        <p className="text-2xl font-bold text-green-600">
+                                                            ${parseFloat(selectedLead.estimated_value).toLocaleString()}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                                
+                                                {selectedLead.sale_alert_type && (
+                                                    <div className="text-center p-4 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200">
+                                                        <p className="text-xs text-muted-foreground mb-2">Alert Type</p>
+                                                        <p className="text-sm font-medium capitalize">
+                                                            {selectedLead.sale_alert_type.replace('_', ' ')}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            {selectedLead.sale_product_mentioned && (
+                                                <div className="mb-6 p-4 rounded-lg bg-gray-50 border border-gray-200">
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                        <Target className="h-4 w-4 text-gray-600" />
+                                                        <p className="text-sm font-medium text-gray-900">Product Mentioned</p>
+                                                    </div>
+                                                    <p className="text-sm text-gray-700">{selectedLead.sale_product_mentioned}</p>
+                                                </div>
+                                            )}
+                                            
+                                            {(selectedLead.sale_visitor_message || selectedLead.sale_ai_response) && (
+                                                <div className="space-y-4">
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => toggleLeadExpansion(selectedLead.id)}
+                                                        className="w-full flex items-center gap-2"
+                                                    >
+                                                        {expandedLeads.has(selectedLead.id) ? 
+                                                            <><ChevronUp className="h-4 w-4" /> Hide Conversation</> : 
+                                                            <><ChevronDown className="h-4 w-4" /> Show Conversation</>
+                                                        }
+                                                    </Button>
                                                     
-                                                    {expandedLeads.has(lead.id) && (
-                                                        <div className="space-y-4 pt-4 border-t border-border">
-                                                            {lead.sale_visitor_message && (
+                                                    {expandedLeads.has(selectedLead.id) && (
+                                                        <div className="space-y-4 p-4 rounded-lg bg-gray-50 border border-gray-200">
+                                                            {selectedLead.sale_visitor_message && (
                                                                 <div>
-                                                                    <p className="text-sm font-medium text-foreground mb-2">Visitor Message:</p>
-                                                                    <p className="text-sm text-muted-foreground bg-white/70 dark:bg-gray-800/70 p-3 rounded-lg italic">
-                                                                        "{lead.sale_visitor_message.length > 200 ? 
-                                                                            lead.sale_visitor_message.substring(0, 200) + '...' : 
-                                                                            lead.sale_visitor_message
-                                                                        }"
+                                                                    <p className="text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
+                                                                        <Users className="h-4 w-4" />
+                                                                        Visitor Message
                                                                     </p>
+                                                                    <div className="bg-white p-3 rounded-lg border border-gray-200">
+                                                                        <p className="text-sm text-gray-700">
+                                                                            "{selectedLead.sale_visitor_message}"
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
                                                             )}
                                                             
-                                                            {lead.sale_ai_response && (
+                                                            {selectedLead.sale_ai_response && (
                                                                 <div>
-                                                                    <p className="text-sm font-medium text-foreground mb-2">AI Response:</p>
-                                                                    <p className="text-sm text-muted-foreground bg-white/70 dark:bg-gray-800/70 p-3 rounded-lg">
-                                                                        "{lead.sale_ai_response.length > 200 ? 
-                                                                            lead.sale_ai_response.substring(0, 200) + '...' : 
-                                                                            lead.sale_ai_response
-                                                                        }"
+                                                                    <p className="text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
+                                                                        <Brain className="h-4 w-4 text-blue-600" />
+                                                                        AI Response
                                                                     </p>
+                                                                    <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                                                                        <p className="text-sm text-blue-800">
+                                                                            "{selectedLead.sale_ai_response}"
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
                                                             )}
                                                         </div>
                                                     )}
                                                 </div>
                                             )}
-                                            
-                                            {lead.notes && (
-                                                <div className="bg-muted/50 p-4 rounded-lg mb-4">
-                                                    <p className="text-sm font-medium text-foreground mb-2">Additional Notes:</p>
-                                                    <p className="text-sm text-muted-foreground">{lead.notes}</p>
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <div className="flex flex-col items-end gap-3 ml-4">
-                                            <div className="text-right">
-                                                <p className="text-xs text-muted-foreground mb-1">Source</p>
-                                                <Badge variant="outline" className="capitalize">
-                                                    {lead.lead_source}
-                                                </Badge>
-                                            </div>
-
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button variant="outline" size="sm" className="flex items-center gap-2">
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                        Actions
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuItem onClick={() => updateLeadStatus(lead.id, 'contacted')}>
-                                                        <MessageCircle className="h-4 w-4 mr-2" />
-                                                        Mark as Contacted
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => updateLeadStatus(lead.id, 'qualified')}>
-                                                        <Star className="h-4 w-4 mr-2" />
-                                                        Mark as Qualified
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => updateLeadStatus(lead.id, 'converted')}>
-                                                        <CheckCircle className="h-4 w-4 mr-2" />
-                                                        Mark as Converted
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => updateLeadStatus(lead.id, 'lost')}>
-                                                        <AlertCircle className="h-4 w-4 mr-2" />
-                                                        Mark as Lost
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ))}
+                                        </CardContent>
+                                    </Card>
+                                )}
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex-1 flex items-center justify-center bg-gray-50">
+                        <div className="text-center">
+                            <UserCheck className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2">Select a Lead</h3>
+                            <p className="text-gray-500 max-w-sm">
+                                Choose a lead from the sidebar to view detailed information and AI insights.
+                            </p>
+                        </div>
                     </div>
                 )}
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            {leadToDelete && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    {/* Backdrop */}
+                    <div className="absolute inset-0 bg-black bg-opacity-50" onClick={cancelDelete} />
+                    
+                    {/* Dialog */}
+                    <div className="relative bg-white rounded-lg shadow-xl max-w-md mx-4 w-full">
+                        <div className="p-6">
+                            <div className="flex items-center mb-4">
+                                <div className="flex-shrink-0 w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                    <AlertCircle className="h-6 w-6 text-red-600" />
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-medium text-gray-900">Delete Lead</h3>
+                                    <p className="text-sm text-gray-500">This action cannot be undone</p>
+                                </div>
+                            </div>
+                            
+                            <div className="mb-6">
+                                <p className="text-sm text-gray-700 mb-2">
+                                    Are you sure you want to delete this lead?
+                                </p>
+                                <div className="bg-gray-50 rounded-lg p-3 border">
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-8 h-8 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center border border-blue-200">
+                                            <span className="text-blue-700 text-xs font-semibold">
+                                                {leadToDelete.name ? leadToDelete.name.charAt(0).toUpperCase() : 'L'}
+                                            </span>
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="text-sm font-medium text-gray-900 truncate">
+                                                {leadToDelete.name || 'Anonymous Lead'}
+                                            </p>
+                                            <p className="text-xs text-gray-600 truncate">{leadToDelete.email}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="flex justify-end space-x-3">
+                                <Button 
+                                    variant="outline" 
+                                    onClick={cancelDelete}
+                                    disabled={isDeleting}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button 
+                                    variant="destructive" 
+                                    onClick={confirmDelete}
+                                    disabled={isDeleting}
+                                    className="min-w-[80px]"
+                                >
+                                    {isDeleting ? (
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                            <span>Deleting...</span>
+                                        </div>
+                                    ) : (
+                                        'Delete'
+                                    )}
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
