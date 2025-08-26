@@ -692,3 +692,57 @@ body {
     background-size: 200% 100%;
     animation: loading 1.5s infinite;
 }
+
+/* Ultra-slow floating animations */
+@keyframes ultraSlowFloatUp {
+    0%, 100% { 
+        transform: translateY(0px);
+    }
+    50% { 
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes ultraSlowFloatUpRight {
+    0%, 100% { 
+        transform: translate(0px, 0px);
+    }
+    50% { 
+        transform: translate(6px, -10px);
+    }
+}
+
+@keyframes ultraSlowFloatDownLeft {
+    0%, 100% { 
+        transform: translate(0px, 0px);
+    }
+    50% { 
+        transform: translate(-6px, 8px);
+    }
+}
+
+@keyframes ultraSlowFloatUpLeft {
+    0%, 100% { 
+        transform: translate(0px, 0px);
+    }
+    50% { 
+        transform: translate(-8px, -12px);
+    }
+}
+
+/* Ultra-slow animation classes with explicit high specificity */
+.animate-ultra-float-1 {
+    animation: ultraSlowFloatUp 8s ease-in-out infinite !important;
+}
+
+.animate-ultra-float-2 {
+    animation: ultraSlowFloatUpRight 10s ease-in-out infinite !important;
+}
+
+.animate-ultra-float-3 {
+    animation: ultraSlowFloatDownLeft 9s ease-in-out infinite !important;
+}
+
+.animate-ultra-float-4 {
+    animation: ultraSlowFloatUpLeft 12s ease-in-out infinite !important;
+}

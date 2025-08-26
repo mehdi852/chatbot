@@ -9,27 +9,27 @@ export default {
         extend: {
             keyframes: {
                 floatUp: {
-                    '0%, 100%': { transform: 'translateY(0)' },
-                    '50%': { transform: 'translateY(-20px)' },
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%': { transform: 'translateY(-12px)' },
                 },
                 floatUpRight: {
-                    '0%, 100%': { transform: 'translate(0, 0) rotate(6deg)' },
-                    '50%': { transform: 'translate(10px, -15px) rotate(8deg)' },
+                    '0%, 100%': { transform: 'translate(0px, 0px)' },
+                    '50%': { transform: 'translate(6px, -10px)' },
                 },
                 floatDownLeft: {
-                    '0%, 100%': { transform: 'translate(0, 0) rotate(-3deg)' },
-                    '50%': { transform: 'translate(-8px, 12px) rotate(-5deg)' },
+                    '0%, 100%': { transform: 'translate(0px, 0px)' },
+                    '50%': { transform: 'translate(-6px, 8px)' },
                 },
                 floatUpLeft: {
-                    '0%, 100%': { transform: 'translate(0, 0) rotate(-6deg)' },
-                    '50%': { transform: 'translate(-12px, -18px) rotate(-8deg)' },
+                    '0%, 100%': { transform: 'translate(0px, 0px)' },
+                    '50%': { transform: 'translate(-8px, -12px)' },
                 },
             },
             animation: {
-                'float-1': 'floatUp 4.5s ease-in-out infinite',
-                'float-2': 'floatUpRight 5.2s ease-in-out infinite',
-                'float-3': 'floatDownLeft 4.8s ease-in-out infinite',
-                'float-4': 'floatUpLeft 5.5s ease-in-out infinite',
+                'float-1': 'floatUp 30s ease-in-out infinite',
+                'float-2': 'floatUpRight 35s ease-in-out infinite',
+                'float-3': 'floatDownLeft 32s ease-in-out infinite',
+                'float-4': 'floatUpLeft 38s ease-in-out infinite',
             },
             colors: {
                 background: {
