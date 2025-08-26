@@ -922,11 +922,23 @@ const WidgetCustomizationPage = () => {
     // Show minimal loading state while fetching settings
     if (isLoading) {
         return (
-            <div className="flex h-[calc(100vh-64px)] bg-gray-50 items-center justify-center">
-                <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="flex h-[calc(100vh-64px)] bg-gray-50">
+                {/* Settings Sidebar Loading */}
+                <div className="w-80 bg-white border-r border-gray-200 flex flex-col shadow-md p-4 space-y-4">
+                    <div className="h-8 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="space-y-2">
+                        <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                        <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+                    </div>
+                    <div className="space-y-2">
+                        <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                        <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+                    </div>
+                </div>
+                {/* Preview Area Loading */}
+                <div className="flex-1 bg-white p-6">
+                    <div className="h-8 bg-gray-200 rounded animate-pulse mb-4"></div>
+                    <div className="bg-gray-100 rounded-lg h-96 animate-pulse"></div>
                 </div>
             </div>
         );

@@ -14,6 +14,7 @@ import { useMetadata } from '@/app/contexts/MetadataContext';
 import { checkSubscriptionFeature } from '@/utils/subscriptionUtils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { StatsSkeleton, ListItemSkeleton, LoadingButton } from '@/components/ui/loading';
 import { useTranslation } from 'react-i18next';
 
 function DndStyles() {
@@ -347,16 +348,13 @@ export default function Dashboard() {
                                             className="focus-visible:ring-primary"
                                         />
                                     </div>
-                                    <Button onClick={handleAddWebsite} className="w-full" disabled={isSaving}>
-                                        {isSaving ? (
-                                            <>
-                                                <span className="animate-spin mr-2">⏳</span>
-                                                {t('common.saving')}
-                                            </>
-                                        ) : (
-                                            t('dashboard.websites.addButton')
-                                        )}
-                                    </Button>
+                                    <LoadingButton 
+                                        onClick={handleAddWebsite} 
+                                        className="w-full" 
+                                        isLoading={isSaving}
+                                    >
+                                        {isSaving ? t('common.saving') : t('dashboard.websites.addButton')}
+                                    </LoadingButton>
                                 </div>
                             </DialogContent>
                         </Dialog>
@@ -576,8 +574,10 @@ export default function Dashboard() {
 
                     <div className="p-6">
                         {isLoading ? (
-                            <div className="flex justify-center items-center py-12">
-                                <div className="animate-spin text-primary text-2xl">⏳</div>
+                            <div className="space-y-4">
+                                {[...Array(4)].map((_, i) => (
+                                    <ListItemSkeleton key={i} />
+                                ))}
                             </div>
                         ) : websites.length === 0 ? (
                             <div className="text-center py-12 px-4">

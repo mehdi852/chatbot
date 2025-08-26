@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { LoadingButton } from '@/components/ui/loading';
 
 const AiAgentPage = () => {
     const { dbUser } = useUserContext();
@@ -156,11 +157,33 @@ const AiAgentPage = () => {
     // Show minimal loading state while fetching data
     if (isLoading) {
         return (
-            <div className="flex h-[calc(100vh-64px)] bg-gray-50 items-center justify-center">
-                <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="min-h-screen bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+                    <div className="space-y-2">
+                        <div className="h-10 bg-gray-200 rounded animate-pulse w-80"></div>
+                        <div className="h-4 bg-gray-200 rounded animate-pulse w-96"></div>
+                    </div>
+                    <div className="bg-white rounded-lg p-6 shadow-sm border">
+                        <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
+                        <div className="h-10 bg-gray-200 rounded animate-pulse w-full"></div>
+                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div className="bg-white rounded-lg p-6 shadow-sm border">
+                            <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
+                            <div className="space-y-3">
+                                <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+                                <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+                                <div className="h-24 bg-gray-200 rounded animate-pulse"></div>
+                            </div>
+                        </div>
+                        <div className="bg-white rounded-lg p-6 shadow-sm border">
+                            <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
+                            <div className="space-y-3">
+                                <div className="h-24 bg-gray-200 rounded animate-pulse"></div>
+                                <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -423,15 +446,16 @@ const AiAgentPage = () => {
 
                         {/* Action Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <Button
+                            <LoadingButton
                                 onClick={handleSave}
-                                disabled={!hasChanges || isSaving}
+                                isLoading={isSaving}
+                                disabled={!hasChanges}
                                 className="flex items-center gap-2"
                                 size="lg"
                             >
                                 <Save className="h-4 w-4" />
-                                {isSaving ? 'Saving...' : 'Save Configuration'}
-                            </Button>
+                                Save Configuration
+                            </LoadingButton>
                             <Button
                                 onClick={handleReset}
                                 variant="outline"

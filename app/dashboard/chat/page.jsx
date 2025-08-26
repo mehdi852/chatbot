@@ -288,8 +288,18 @@ const ChatPage = () => {
             {/* Inject typing animation CSS */}
             <style dangerouslySetInnerHTML={{ __html: typingAnimationStyle }} />
 
+            {/* Mobile Overlay */}
+            {chatState.selectedVisitorId && (
+                <div 
+                    className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+                    onClick={() => selectVisitor(null)}
+                />
+            )}
+
             {/* Sidebar - Websites and Chats */}
-            <div className="w-80 bg-white border-r border-gray-200 flex flex-col shadow-md">
+            <div className={`w-80 lg:w-80 bg-white border-r border-gray-200 flex flex-col shadow-md transform transition-transform duration-300 ease-in-out z-50 ${
+                chatState.selectedVisitorId ? 'lg:translate-x-0 -translate-x-full' : 'translate-x-0'
+            } lg:relative absolute inset-y-0 left-0`}>
                 {/* Subscription Limits */}
                 <UsageLimits usage={usage} subscriptionLimits={subscriptionLimits} liveWebsites={chatState.userWebsites.length} />
 
@@ -608,6 +618,16 @@ const ChatPage = () => {
                                 <div className="flex items-center justify-between">
                                     <div className="flex-1">
                                         <div className="flex items-center space-x-4">
+                                            {/* Mobile Back Button */}
+                                            <button
+                                                className="lg:hidden p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
+                                                onClick={() => selectVisitor(null)}
+                                                aria-label="Back to conversation list"
+                                            >
+                                                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                                </svg>
+                                            </button>
                                             {/* Visitor Avatar */}
                                             <div className="relative flex-shrink-0">
                                                 <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center border-2 border-blue-200 shadow-sm">

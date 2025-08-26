@@ -10,7 +10,7 @@ import { useChatContext } from '@/app/contexts/ChatContext';
 
 export default function Sidebar() {
     const { t } = useTranslation();
-    const [isOpen, setIsOpen] = useState(false);
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [openTicketCount, setOpenTicketCount] = useState(0);
     const { dbUser } = useUserContext();
     const { chatState, logout } = useChatContext();
@@ -176,11 +176,11 @@ export default function Sidebar() {
                 active: prevItem.name === item.name,
             }))
         );
-        setIsOpen(false);
+        setIsMobileOpen(false);
     };
 
     const toggleSidebar = () => {
-        setIsOpen(!isOpen);
+        setIsMobileOpen(!isMobileOpen);
     };
 
     const renderUpgradeCard = () => {
@@ -198,10 +198,18 @@ export default function Sidebar() {
 
     return (
         <>
-            <button className="lg:hidden fixed top-4 left-4 z-20 p-2 bg-background rounded-md shadow-md" onClick={toggleSidebar}>
-                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {/* Mobile Overlay */}
+            {isMobileOpen && (
+                <div 
+                    className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30" 
+                    onClick={() => setIsMobileOpen(false)}
+                />
+            )}
+            
+            <button className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-background rounded-md shadow-md" onClick={toggleSidebar}>
+                {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
-            <aside className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
+            <aside className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
                 <div className="flex flex-col h-full px-3 py-4 overflow-y-auto border-r bg-background">
                     <div className="flex items-center justify-between mb-8">
                         <div className="flex items-center">

@@ -8,6 +8,15 @@ export default function Pricing() {
     const { subscriptions, loading, error, billingCycle, setBillingCycle } = useSubscriptions();
     const { t } = useTranslation();
 
+    // Translation helper with fallbacks
+    const getTranslation = (key, fallback) => {
+        try {
+            const translation = t(key);
+            return translation !== key ? translation : fallback;
+        } catch {
+            return fallback;
+        }
+    };
 
     // Handle loading state
     if (loading) {
@@ -27,22 +36,24 @@ export default function Pricing() {
         );
     }
 
-    // Handle error state
-    if (error) {
+    // Handle error state (but subscriptions should have mock data as fallback)
+    if (error && (!subscriptions || subscriptions.length === 0)) {
         return (
             <div className="py-20 px-4 md:px-6 bg-background">
                 <div className="max-w-7xl mx-auto text-center text-destructive">
-                    {t('pricing.error')}: {error}
+                    {getTranslation('pricing.error', 'Error loading pricing')}: {error}
                 </div>
             </div>
         );
     }
 
-    // Handle empty subscriptions
+    // This shouldn't happen now since we have mock data fallback
     if (!subscriptions || subscriptions.length === 0) {
         return (
             <div className="py-20 px-4 md:px-6 bg-background">
-                <div className="max-w-7xl mx-auto text-center text-muted-foreground">{t('pricing.noPlans')}</div>
+                <div className="max-w-7xl mx-auto text-center text-muted-foreground">
+                    {getTranslation('pricing.noPlans', 'No pricing plans available')}
+                </div>
             </div>
         );
     }
@@ -67,24 +78,27 @@ export default function Pricing() {
     };
 
     return (
-        <section className="py-20 px-4 md:px-6 bg-background">
-            <div className="max-w-7xl mx-auto">
+        <section className="py-16 px-4 md:px-6 bg-background">
+            <div className="max-w-6xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-16">
-                    <p className="text-primary font-medium mb-4">{t('pricing.title')}</p>
-                    <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('pricing.heading')}</h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">{t('pricing.description')}</p>
+                <div className="text-center mb-12">
+                    <div className="inline-flex items-center space-x-2 bg-muted/50 rounded-full px-3 py-1.5 mb-4 border border-border/50">
+                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{getTranslation('pricing.title', 'Pricing')}</span>
+                    </div>
+                    <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">{getTranslation('pricing.heading', 'Choose Your Perfect Plan')}</h2>
+                    <p className="text-muted-foreground text-base max-w-2xl mx-auto leading-relaxed">{getTranslation('pricing.description', 'Start free and scale as you grow. Cancel anytime.')}</p>
                 </div>
 
                 {/* Billing Toggle */}
                 <div className="flex justify-center items-center space-x-4 mb-16">
-                    <span className={`text-sm ${billingCycle === 'monthly' ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>{t('pricing.billing.monthly')}</span>
+                    <span className={`text-sm ${billingCycle === 'monthly' ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>{getTranslation('pricing.billing.monthly', 'Monthly')}</span>
                     <button onClick={() => setBillingCycle((prev) => (prev === 'monthly' ? 'annually' : 'monthly'))} className="relative inline-flex h-6 w-11 items-center rounded-full bg-primary">
                         <span className={`inline-block h-4 w-4 transform rounded-full bg-background transition ${billingCycle === 'annually' ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                     <div className="flex items-center">
-                        <span className={`text-sm ${billingCycle === 'annually' ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>{t('pricing.billing.annual')}</span>
-                        <span className="ml-2 inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">{t('pricing.billing.save')}</span>
+                        <span className={`text-sm ${billingCycle === 'annually' ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>{getTranslation('pricing.billing.annual', 'Annual')}</span>
+                        <span className="ml-2 inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">{getTranslation('pricing.billing.save', 'Save 20%')}</span>
                     </div>
                 </div>
 
@@ -95,7 +109,7 @@ export default function Pricing() {
                             key={plan.id}
                             className={`bg-card rounded-2xl p-8 border ${plan.name.toLowerCase() === 'pro' ? 'border-primary/20 ring-1 ring-primary/20' : 'border-border'} flex flex-col`}>
                             {plan.name.toLowerCase() === 'pro' && (
-                                <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary w-fit mb-4">{t('pricing.mostPopular')}</span>
+                                <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary w-fit mb-4">{getTranslation('pricing.mostPopular', 'Most Popular')}</span>
                             )}
 
                             <div className="mb-6">
@@ -109,7 +123,7 @@ export default function Pricing() {
 
                             <div className="flex-grow">
                                 <div className="mb-6">
-                                    <h4 className="text-sm font-medium text-foreground mb-2">{t('pricing.features')}</h4>
+                                    <h4 className="text-sm font-medium text-foreground mb-2">{getTranslation('pricing.features', 'Features')}</h4>
                                     <ul className="space-y-2">
                                         {plan.features.map((feature) => (
                                             <li key={feature} className="flex items-center text-sm text-muted-foreground">
@@ -124,7 +138,7 @@ export default function Pricing() {
                             <a
                                 href={billingCycle === 'monthly' ? plan.stripeMonthlyLink : plan.stripeYearlyLink}
                                 className={`w-full py-3 px-4 rounded-md text-center font-medium transition-colors ${getButtonStyle(plan.name)}`}>
-                                {plan.name.toLowerCase() === 'enterprise' ? t('pricing.buttons.contactSales') : t('pricing.buttons.getStarted')}
+                                {plan.name.toLowerCase() === 'enterprise' ? getTranslation('pricing.buttons.contactSales', 'Contact Sales') : getTranslation('pricing.buttons.getStarted', 'Get Started')}
                             </a>
                         </div>
                     ))}

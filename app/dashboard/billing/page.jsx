@@ -147,8 +147,33 @@ export default function BillingPage() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[calc(100vh-56px)]">
-                <Loader2 className="w-8 h-8 animate-spin" />
+            <div className="container mx-auto p-6">
+                <div className="space-y-6">
+                    <div className="space-y-2">
+                        <div className="h-8 bg-gray-200 rounded animate-pulse w-48"></div>
+                        <div className="h-4 bg-gray-200 rounded animate-pulse w-96"></div>
+                    </div>
+                    <div className="bg-white rounded-lg p-6 shadow-sm border">
+                        <div className="h-6 bg-gray-200 rounded animate-pulse w-32 mb-4"></div>
+                        <div className="flex justify-between items-center">
+                            <div className="space-y-2">
+                                <div className="h-6 bg-gray-200 rounded animate-pulse w-24"></div>
+                                <div className="h-4 bg-gray-200 rounded animate-pulse w-48"></div>
+                            </div>
+                            <div className="h-8 bg-gray-200 rounded animate-pulse w-24"></div>
+                        </div>
+                    </div>
+                    <div className="bg-white rounded-lg shadow-sm border">
+                        <div className="p-6">
+                            <div className="h-6 bg-gray-200 rounded animate-pulse w-32 mb-4"></div>
+                            <div className="space-y-3">
+                                <div className="h-12 bg-gray-200 rounded animate-pulse"></div>
+                                <div className="h-12 bg-gray-200 rounded animate-pulse"></div>
+                                <div className="h-12 bg-gray-200 rounded animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

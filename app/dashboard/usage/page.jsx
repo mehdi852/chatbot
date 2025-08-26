@@ -82,11 +82,59 @@ export default function UsagePage() {
     // Show minimal loading state while fetching data
     if (isLoading) {
         return (
-            <div className="flex h-[calc(100vh-64px)] bg-gray-50 items-center justify-center">
-                <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="max-w-[1400px] mx-auto p-4 lg:p-6 space-y-8">
+                <div className="space-y-2">
+                    <div className="h-8 bg-gray-200 rounded animate-pulse w-48"></div>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-96"></div>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2 space-y-6">
+                        <div className="bg-white rounded-xl border shadow-sm">
+                            <div className="p-6 border-b">
+                                <div className="h-6 bg-gray-200 rounded animate-pulse w-32 mb-2"></div>
+                                <div className="h-4 bg-gray-200 rounded animate-pulse w-64"></div>
+                            </div>
+                            <div className="p-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="bg-gray-50 rounded-lg p-5 border">
+                                        <div className="flex items-center gap-4 mb-4">
+                                            <div className="w-12 h-12 bg-gray-200 rounded-full animate-pulse"></div>
+                                            <div className="space-y-2">
+                                                <div className="h-5 bg-gray-200 rounded animate-pulse w-32"></div>
+                                                <div className="h-4 bg-gray-200 rounded animate-pulse w-48"></div>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                                            <div className="h-2 bg-gray-200 rounded animate-pulse"></div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-50 rounded-lg p-5 border">
+                                        <div className="flex items-center gap-4 mb-4">
+                                            <div className="w-12 h-12 bg-gray-200 rounded-full animate-pulse"></div>
+                                            <div className="space-y-2">
+                                                <div className="h-5 bg-gray-200 rounded animate-pulse w-32"></div>
+                                                <div className="h-4 bg-gray-200 rounded animate-pulse w-48"></div>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                                            <div className="h-2 bg-gray-200 rounded animate-pulse"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="space-y-6">
+                        <div className="bg-white rounded-xl border shadow-sm p-6">
+                            <div className="h-6 bg-gray-200 rounded animate-pulse w-40 mb-4"></div>
+                            <div className="space-y-3">
+                                <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
+                                <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

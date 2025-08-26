@@ -252,118 +252,29 @@ export default function LandingPage() {
                             {
                                 icon: Share2,
                                 title: t('advancedFeatures.items.builder.title'),
-                                description: t('advancedFeatures.items.builder.description'),
-                                floatingPreview: (
-                                    <div className="absolute -top-4 -right-4 bg-white/90 backdrop-blur-xl rounded-xl p-3 shadow-2xl border border-white/30 transform rotate-12 hover:rotate-6 transition-transform duration-300">
-                                        <div className="space-y-2">
-                                            <div className="flex items-center space-x-2">
-                                                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                                                <div className="w-16 h-2 bg-gradient-to-r from-blue-500 to-blue-300 rounded-full"></div>
-                                            </div>
-                                            <div className="flex items-center space-x-2">
-                                                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                                                <div className="w-12 h-2 bg-gradient-to-r from-green-500 to-green-300 rounded-full"></div>
-                                            </div>
-                                            <div className="flex items-center space-x-2">
-                                                <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                                                <div className="w-14 h-2 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ),
-                                gradientFrom: 'from-blue-500/20',
-                                gradientTo: 'to-blue-500/10',
-                                borderColor: 'border-blue-500/30'
+                                description: t('advancedFeatures.items.builder.description')
                             },
                             {
                                 icon: Lightbulb,
                                 title: t('advancedFeatures.items.analytics.title'),
-                                description: t('advancedFeatures.items.analytics.description'),
-                                floatingPreview: (
-                                    <div className="absolute -top-4 -right-4 bg-white/90 backdrop-blur-xl rounded-xl p-3 shadow-2xl border border-white/30 transform -rotate-12 hover:rotate-6 transition-transform duration-300">
-                                        <div className="space-y-2">
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-xs font-medium text-green-600">📈 45%</span>
-                                                <div className="w-8 h-4 bg-gradient-to-r from-green-400 to-green-600 rounded-full"></div>
-                                            </div>
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-xs font-medium text-blue-600">👥 1.2k</span>
-                                                <div className="w-6 h-4 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"></div>
-                                            </div>
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-xs font-medium text-purple-600">⏱️ 2.5m</span>
-                                                <div className="w-7 h-4 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ),
-                                gradientFrom: 'from-emerald-500/20',
-                                gradientTo: 'to-emerald-500/10',
-                                borderColor: 'border-emerald-500/30'
+                                description: t('advancedFeatures.items.analytics.description')
                             },
                             {
                                 icon: MessageSquare,
                                 title: t('advancedFeatures.items.timing.title'),
-                                description: t('advancedFeatures.items.timing.description'),
-                                floatingPreview: (
-                                    <div className="absolute -top-4 -right-4 bg-white/90 backdrop-blur-xl rounded-xl p-3 shadow-2xl border border-white/30 transform rotate-6 hover:-rotate-6 transition-transform duration-300">
-                                        <div className="space-y-2">
-                                            <div className="flex items-center space-x-2">
-                                                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                                                <span className="text-xs text-orange-600">Page Load</span>
-                                            </div>
-                                            <div className="flex items-center space-x-2">
-                                                <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-                                                <span className="text-xs text-yellow-600">5s Delay</span>
-                                            </div>
-                                            <div className="flex items-center space-x-2">
-                                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                                                <span className="text-xs text-green-600">Exit Intent</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ),
-                                gradientFrom: 'from-orange-500/20',
-                                gradientTo: 'to-orange-500/10',
-                                borderColor: 'border-orange-500/30'
+                                description: t('advancedFeatures.items.timing.description')
                             },
                             {
                                 icon: Puzzle,
                                 title: t('advancedFeatures.items.integrations.title'),
-                                description: t('advancedFeatures.items.integrations.description'),
-                                floatingPreview: (
-                                    <div className="absolute -top-4 -right-4 bg-white/90 backdrop-blur-xl rounded-xl p-3 shadow-2xl border border-white/30 transform -rotate-6 hover:rotate-12 transition-transform duration-300">
-                                        <div className="grid grid-cols-2 gap-1">
-                                            <div className="w-5 h-5 bg-gradient-to-br from-blue-500 to-blue-700 rounded flex items-center justify-center">
-                                                <span className="text-white text-xs">📧</span>
-                                            </div>
-                                            <div className="w-5 h-5 bg-gradient-to-br from-green-500 to-green-700 rounded flex items-center justify-center">
-                                                <span className="text-white text-xs">💬</span>
-                                            </div>
-                                            <div className="w-5 h-5 bg-gradient-to-br from-purple-500 to-purple-700 rounded flex items-center justify-center">
-                                                <span className="text-white text-xs">📊</span>
-                                            </div>
-                                            <div className="w-5 h-5 bg-gradient-to-br from-red-500 to-red-700 rounded flex items-center justify-center">
-                                                <span className="text-white text-xs">🔗</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ),
-                                gradientFrom: 'from-indigo-500/20',
-                                gradientTo: 'to-indigo-500/10',
-                                borderColor: 'border-indigo-500/30'
+                                description: t('advancedFeatures.items.integrations.description')
                             },
                         ].map((feature, index) => (
                             <motion.div
                                 key={feature.title}
                                 variants={fadeInUp}
-                                className="group relative">
-                                <div className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-all duration-300 relative overflow-hidden">
-                                    {/* Subtle floating preview */}
-                                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        {feature.floatingPreview}
-                                    </div>
-                                    
+                                className="">
+                                <div className="bg-card border border-border rounded-lg p-4">
                                     {/* Content */}
                                     <div className="flex flex-col items-center text-center">
                                         <div className="mb-3">
@@ -373,11 +284,6 @@ export default function LandingPage() {
                                         </div>
                                         <h3 className="text-base font-semibold text-foreground mb-2">{feature.title}</h3>
                                         <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
-                                        
-                                        {/* Subtle indicator */}
-                                        <div className="mt-3 opacity-0 group-hover:opacity-60 transition-opacity duration-300">
-                                            <span className="text-xs text-primary font-medium">Interactive</span>
-                                        </div>
                                     </div>
                                 </div>
                             </motion.div>

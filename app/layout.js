@@ -31,10 +31,17 @@ export async function generateMetadata() {
 }
 
 export default async function RootLayout({ children }) {
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
-                <script src="http://localhost:3000/fa.js" data-website-id="256646" data-api-url="http://localhost:3000" async></script>
+                <script 
+                    src={`${appUrl}/fa.js`} 
+                    data-website-id="256646" 
+                    data-api-url={appUrl}
+                    async
+                />
             </head>
             <body className={outfit.className}>
                 <ClientLayout>
