@@ -448,12 +448,6 @@ const ChatPage = () => {
                                             </div>
                                             <p className="text-xs text-gray-600 truncate mt-0.5">{visitor.lastMessage}</p>
                                             <div className="flex items-center space-x-1.5 mt-1.5">
-                                                {visitor.country && (
-                                                    <div className="flex items-center space-x-1 bg-blue-50 px-1.5 py-0.5 rounded-md border border-blue-100">
-                                                        <span className="text-xs font-medium text-blue-700">🌍</span>
-                                                        <span className="text-xs font-medium text-blue-700">{visitor.country}</span>
-                                                    </div>
-                                                )}
                                                 {visitor.browser && (
                                                     <div className="flex items-center space-x-1 bg-gray-50 px-1.5 py-0.5 rounded-md border border-gray-200">
                                                         <span className="text-xs font-medium text-gray-600">💻</span>
@@ -677,97 +671,6 @@ const ChatPage = () => {
                                 </div>
                             </div>
                             
-                            {/* Visitor IP Geolocation Info Panel */}
-                            {currentConversation && (
-                                <div className="px-6 py-3 bg-gradient-to-r from-gray-50/50 to-white border-t border-gray-100">
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center space-x-3">
-                                            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Visitor Information</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
-                                        {/* Location */}
-                                        {currentConversation.country && (
-                                            <div className="bg-white rounded-lg border border-blue-100 p-3 shadow-sm hover:shadow-md transition-all duration-200">
-                                                <div className="flex items-center space-x-2">
-                                                    <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
-                                                        <span className="text-sm">🌍</span>
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Location</p>
-                                                        <p className="text-sm font-semibold text-gray-900 truncate">{currentConversation.country}</p>
-                                                        {currentConversation.country_code && (
-                                                            <p className="text-xs text-blue-600 font-medium">{currentConversation.country_code}</p>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                        
-                                        {/* IP Address */}
-                                        {currentConversation.visitor_ip && (
-                                            <div className="bg-white rounded-lg border border-gray-100 p-3 shadow-sm hover:shadow-md transition-all duration-200">
-                                                <div className="flex items-center space-x-2">
-                                                    <div className="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center">
-                                                        <span className="text-sm">🔢</span>
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">IP Address</p>
-                                                        <p className="text-sm font-mono font-semibold text-gray-900 truncate">{currentConversation.visitor_ip}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                        
-                                        {/* ISP */}
-                                        {currentConversation.as_name && (
-                                            <div className="bg-white rounded-lg border border-green-100 p-3 shadow-sm hover:shadow-md transition-all duration-200">
-                                                <div className="flex items-center space-x-2">
-                                                    <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
-                                                        <span className="text-sm">🏢</span>
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Internet Provider</p>
-                                                        <p className="text-sm font-semibold text-gray-900 truncate" title={currentConversation.as_name}>{currentConversation.as_name}</p>
-                                                        {currentConversation.asn && (
-                                                            <p className="text-xs text-green-600 font-medium">{currentConversation.asn}</p>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                        
-                                        {/* Continent */}
-                                        {currentConversation.continent && (
-                                            <div className="bg-white rounded-lg border border-purple-100 p-3 shadow-sm hover:shadow-md transition-all duration-200">
-                                                <div className="flex items-center space-x-2">
-                                                    <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
-                                                        <span className="text-sm">🗺️</span>
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Continent</p>
-                                                        <p className="text-sm font-semibold text-gray-900 truncate">{currentConversation.continent}</p>
-                                                        {currentConversation.continent_code && (
-                                                            <p className="text-xs text-purple-600 font-medium">{currentConversation.continent_code}</p>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                    
-                                    {/* Additional Details Row */}
-                                    {currentConversation.as_domain && (
-                                        <div className="mt-3 pt-3 border-t border-gray-100">
-                                            <div className="flex items-center space-x-2 text-xs text-gray-600">
-                                                <span className="font-medium">Network Domain:</span>
-                                                <span className="font-mono bg-gray-50 px-2 py-0.5 rounded border">{currentConversation.as_domain}</span>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
                         </div>
 
                         {/* Messages Container */}

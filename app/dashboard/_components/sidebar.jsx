@@ -103,15 +103,7 @@ export default function Sidebar() {
                     window.location.href = '/sign-in';
                 }
             },
-        },
-        {
-            name: 'sound',
-            icon: chatState.isSoundMuted ? VolumeX : Volume2,
-            iconRight: null,
-            link: '#',
-            active: false,
-            onClick: () => chatState.toggleSound(),
-        },
+        }
     ]);
 
     const audioRef = useRef(null);
