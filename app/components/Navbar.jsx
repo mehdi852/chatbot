@@ -10,7 +10,6 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { useTranslation } from 'react-i18next';
-import LanguagePicker from '@/components/LanguagePicker';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 
@@ -27,11 +26,6 @@ export default function Navbar() {
     const [pages, setPages] = useState([]);
     const [isClient, setIsClient] = useState(false);
     const navRef = useRef(null);
-
-    const changeLanguage = (e) => {
-        const newLang = e.target.value;
-        i18n.changeLanguage(newLang);
-    };
 
     const fetchPages = async () => {
         try {
@@ -60,43 +54,45 @@ export default function Navbar() {
 
     const solutions = [
         {
-            category: t('navbar.menu.solutions.coreFeatures'),
+            category: 'Chatbot Solutions',
             items: [
+                {
+                    icon: MessageCircle,
+                    title: 'AI Chat Assistant',
+                    desc: 'Intelligent conversations powered by advanced AI',
+                    href: '/solutions#ai-chat',
+                    badge: 'Popular'
+                },
                 {
                     icon: MessageSquare,
-                    title: t('navbar.menu.solutions.smartPopups.title'),
-                    desc: t('navbar.menu.solutions.smartPopups.desc'),
-                    pro: true,
-                },
-                {
-                    icon: BarChart2,
-                    title: t('navbar.menu.solutions.analytics.title'),
-                    desc: t('navbar.menu.solutions.analytics.desc'),
-                },
-                {
-                    icon: Target,
-                    title: t('navbar.menu.solutions.targeting.title'),
-                    desc: t('navbar.menu.solutions.targeting.desc'),
-                },
-            ],
-        },
-        {
-            category: t('navbar.menu.solutions.advancedTools'),
-            items: [
-                {
-                    icon: Split,
-                    title: t('navbar.menu.solutions.splitTesting.title'),
-                    desc: t('navbar.menu.solutions.splitTesting.desc'),
-                },
-                {
-                    icon: Shield,
-                    title: t('navbar.menu.solutions.security.title'),
-                    desc: t('navbar.menu.solutions.security.desc'),
+                    title: 'Live Chat Support',
+                    desc: 'Seamless handoff between AI and human agents',
+                    href: '/solutions#live-chat',
                 },
                 {
                     icon: Zap,
-                    title: t('navbar.menu.solutions.performance.title'),
-                    desc: t('navbar.menu.solutions.performance.desc'),
+                    title: 'Smart Automation',
+                    desc: 'Automate customer support and lead generation',
+                    href: '/solutions#automation',
+                },
+                {
+                    icon: Target,
+                    title: 'Visitor Targeting',
+                    desc: 'Show personalized messages based on user behavior',
+                    href: '/solutions#targeting',
+                },
+                {
+                    icon: BookOpen,
+                    title: 'Knowledge Base',
+                    desc: 'Train your AI with custom content and documents',
+                    href: '/solutions#knowledge-base',
+                    badge: 'New'
+                },
+                {
+                    icon: Settings,
+                    title: 'Customization',
+                    desc: 'Personalize your chatbot appearance and behavior',
+                    href: '/solutions#customization',
                 },
             ],
         },
@@ -108,29 +104,78 @@ export default function Navbar() {
     };
 
     const renderDropdownContent = (items) => (
-        <MotionDiv initial="hidden" animate="visible" exit="hidden" variants={dropdownVariants} className="absolute top-full left-0 w-[800px] mt-1 bg-card rounded-lg shadow-lg ring-1 ring-border p-6">
-            <div className="grid grid-cols-2 gap-8">
-                {items.map((category, idx) => (
-                    <div key={idx} className="space-y-4">
-                        <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-3">{category.category}</h3>
-                        <div className="space-y-2">
-                            {category.items.map((item, index) => (
-                                <Link key={index} href="#" className="group flex items-start p-3 rounded-lg hover:bg-muted transition-all duration-200">
-                                    <div className="flex-shrink-0 bg-primary/10 rounded-lg p-3 mr-4 group-hover:scale-105 transition-transform">
-                                        <item.icon className="h-6 w-6 text-primary" />
+        <MotionDiv 
+            initial="hidden" 
+            animate="visible" 
+            exit="hidden" 
+            variants={dropdownVariants} 
+            className="absolute top-full left-0 w-[480px] mt-3 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl ring-1 ring-gray-200/50 dark:ring-gray-700/50 p-0 border border-gray-200/50 dark:border-gray-700/50 overflow-hidden z-50"
+        >
+            {/* Header */}
+            <div className="bg-gradient-to-r from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/5 px-6 py-4 border-b border-gray-200/30 dark:border-gray-700/30">
+                <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                    <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 tracking-tight">
+                        {items[0].category}
+                    </h3>
+                </div>
+            </div>
+
+            {/* Solutions Grid */}
+            <div className="p-6">
+                <div className="grid grid-cols-2 gap-3">
+                    {items[0].items.map((item, index) => (
+                        <Link 
+                            key={index} 
+                            href={item.href || '#'} 
+                            className="group relative flex flex-col p-4 rounded-xl bg-gray-50/50 hover:bg-white dark:bg-gray-800/30 dark:hover:bg-gray-800/60 transition-all duration-300 hover:shadow-lg border border-gray-200/30 dark:border-gray-700/30 hover:border-primary/30 hover:-translate-y-0.5"
+                            onClick={() => setActiveDropdown(null)}
+                        >
+                            <div className="flex items-start gap-3 mb-2">
+                                <div className="flex-shrink-0 bg-primary/10 dark:bg-primary/20 rounded-lg p-2.5 group-hover:bg-primary/15 group-hover:scale-105 transition-all duration-300">
+                                    <item.icon className="h-4 w-4 text-primary" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-1.5 mb-1">
+                                        <h4 className="font-semibold text-sm text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors truncate">
+                                            {item.title}
+                                        </h4>
+                                        {item.badge && (
+                                            <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-1.5 py-0.5 rounded-md font-medium shadow-sm">
+                                                {item.badge}
+                                            </span>
+                                        )}
                                     </div>
-                                    <div>
-                                        <div className="flex items-center gap-2">
-                                            <h3 className="font-medium text-sm text-foreground">{item.title}</h3>
-                                            {item.pro && <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full">Enterprise</span>}
-                                        </div>
-                                        <p className="text-xs text-muted-foreground mt-0.5">{item.desc}</p>
-                                    </div>
-                                </Link>
-                            ))}
+                                    <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                                        {item.desc}
+                                    </p>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+
+            {/* Footer CTA */}
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 px-6 py-4 border-t border-gray-200/30 dark:border-gray-700/30">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                        <div className="p-1.5 bg-primary/10 rounded-lg">
+                            <MessageCircle className="h-4 w-4 text-primary" />
+                        </div>
+                        <div>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">Start building</p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400">Create your first chatbot today</p>
                         </div>
                     </div>
-                ))}
+                    <Link 
+                        href="/dashboard" 
+                        className="bg-primary hover:bg-primary/90 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-md hover:scale-105 active:scale-95"
+                        onClick={() => setActiveDropdown(null)}
+                    >
+                        Get Started
+                    </Link>
+                </div>
             </div>
         </MotionDiv>
     );
@@ -193,7 +238,6 @@ export default function Navbar() {
 
                     <div className="hidden md:flex md:items-center md:space-x-4">
                         <div className="flex items-center gap-3">
-                            <LanguagePicker />
                             <ThemeToggle />
                         </div>
                         {isSignedIn ? (
@@ -252,15 +296,46 @@ export default function Navbar() {
                                 Contact us
                             </Link>
                             <div className="border-t border-border pt-2">
-                                <p className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('navbar.solutions')}</p>
+                                <div className="px-3 py-2 flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('navbar.solutions')}</p>
+                                </div>
                                 {solutions
                                     .flatMap((category) => category.items)
                                     .map((item, index) => (
-                                        <Link key={index} href="#" className="flex items-center px-3 py-2 text-base font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-md">
-                                            <item.icon className="h-5 w-5 mr-3 text-muted-foreground" />
-                                            {item.title}
+                                        <Link 
+                                            key={index} 
+                                            href={item.href || '#'} 
+                                            className="flex items-center px-3 py-2 text-base font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-md group"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            <div className="bg-primary/10 rounded-lg p-2 mr-3 group-hover:scale-105 transition-transform">
+                                                <item.icon className="h-4 w-4 text-primary" />
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-medium">{item.title}</span>
+                                                    {item.pro && (
+                                                        <span className="bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded-full font-medium">
+                                                            Pro
+                                                        </span>
+                                                    )}
+                                                    {item.badge && !item.pro && (
+                                                        <span className="bg-green-500 text-white text-xs px-1.5 py-0.5 rounded-full font-medium">
+                                                            {item.badge}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </Link>
                                     ))}
+                                <Link 
+                                    href="/solutions" 
+                                    className="mx-3 mt-2 bg-primary/10 hover:bg-primary/20 text-primary px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-center block"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    View All Solutions →
+                                </Link>
                             </div>
                             {!isSignedIn && (
                                 <div className="border-t border-border pt-4">

@@ -112,8 +112,26 @@ export async function POST(request) {
                     })
                     .where(eq(Users.id, user[0].id));
 
+                // Try to get the invoice from the session to store proper Stripe invoice number
+                let invoiceNumber = `INV-${Date.now()}`; // Fallback
+                try {
+                    if (session.invoice) {
+                        const invoice = await stripe.invoices.retrieve(session.invoice);
+                        invoiceNumber = invoice.id; // Use Stripe invoice ID
+                    } else if (session.subscription) {
+                        // Get the latest invoice from the subscription
+                        const subscription = await stripe.subscriptions.retrieve(session.subscription, {
+                            expand: ['latest_invoice']
+                        });
+                        if (subscription.latest_invoice && typeof subscription.latest_invoice === 'object') {
+                            invoiceNumber = subscription.latest_invoice.id;
+                        }
+                    }
+                } catch (invoiceError) {
+                    console.log('Could not retrieve invoice from session, using fallback:', invoiceError.message);
+                }
+
                 // Create invoice record
-                const invoiceNumber = `INV-${Date.now()}`; // Generate unique invoice number
                 await db.insert(Invoices).values({
                     user_id: user[0].id,
                     invoice_number: invoiceNumber,
@@ -128,18 +146,19 @@ export async function POST(request) {
                 const subscription = data.object;
                 const stripeCustomerId = subscription.customer;
 
-                // If subscription is canceled, ended, or unpaid
-                if (subscription.status === 'canceled' || subscription.status === 'unpaid') {
-                    // Find the user subscription in our database
-                    const userSubscription = await db.select().from(UsersSubscriptions).where(eq(UsersSubscriptions.stripe_customer_id, stripeCustomerId)).limit(1);
+                // Find the user subscription in our database
+                const userSubscription = await db.select().from(UsersSubscriptions).where(eq(UsersSubscriptions.stripe_customer_id, stripeCustomerId)).limit(1);
 
-                    if (userSubscription.length > 0) {
-                        // Update subscription status
+                if (userSubscription.length > 0) {
+                    // Handle different subscription statuses
+                    if (subscription.status === 'canceled' || subscription.status === 'unpaid') {
+                        // Subscription is immediately cancelled
                         await db
                             .update(UsersSubscriptions)
                             .set({
                                 status: 'inactive',
                                 auto_renew: false,
+                                end_date: new Date(),
                             })
                             .where(eq(UsersSubscriptions.stripe_customer_id, stripeCustomerId));
 
@@ -148,12 +167,51 @@ export async function POST(request) {
                             .update(Users)
                             .set({
                                 subscription: false,
-                                subscription_ends_at: new Date(), // Set to current date as subscription is ended
+                                subscription_ends_at: new Date(),
                             })
                             .where(eq(Users.id, userSubscription[0].user_id));
 
                         // Reset user's project
                         await resetUserProject(userSubscription[0].user_id);
+                    } else if (subscription.cancel_at_period_end) {
+                        // Subscription is scheduled to cancel at period end
+                        await db
+                            .update(UsersSubscriptions)
+                            .set({
+                                status: 'cancelled', // Use 'cancelled' to indicate scheduled cancellation
+                                auto_renew: false,
+                                cancellation_date: new Date(),
+                                end_date: new Date(subscription.current_period_end * 1000), // When it will actually end
+                            })
+                            .where(eq(UsersSubscriptions.stripe_customer_id, stripeCustomerId));
+
+                        // Update user - keep subscription active until period end
+                        await db
+                            .update(Users)
+                            .set({
+                                subscription: true, // Still active until period end
+                                subscription_ends_at: new Date(subscription.current_period_end * 1000),
+                            })
+                            .where(eq(Users.id, userSubscription[0].user_id));
+                    } else if (subscription.status === 'active' && !subscription.cancel_at_period_end) {
+                        // Subscription is reactivated or was never cancelled
+                        await db
+                            .update(UsersSubscriptions)
+                            .set({
+                                status: 'active',
+                                auto_renew: true,
+                                cancellation_date: null,
+                            })
+                            .where(eq(UsersSubscriptions.stripe_customer_id, stripeCustomerId));
+
+                        // Update user's subscription status
+                        await db
+                            .update(Users)
+                            .set({
+                                subscription: true,
+                                subscription_ends_at: new Date(subscription.current_period_end * 1000),
+                            })
+                            .where(eq(Users.id, userSubscription[0].user_id));
                     }
                 }
                 break;
@@ -196,7 +254,7 @@ export async function POST(request) {
                 // Add new invoice record
                 await db.insert(Invoices).values({
                     user_id: userSubscription[0].user_id,
-                    invoice_number: invoice.number,
+                    invoice_number: invoice.id, // Use invoice.id for Stripe invoice ID
                     date: new Date(invoice.created * 1000), // Convert timestamp to Date
                     amount: parseFloat((invoice.amount_paid / 100).toFixed(2)), // Ensure it's stored as a number
                     status: invoice.status,

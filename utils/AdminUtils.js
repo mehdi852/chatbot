@@ -1,5 +1,5 @@
 import { db } from '@/configs/db.server'; // Your Drizzle DB config
-import { Users, UserTickets, VisitorTicketMessages, TicketMessages, MetaData, Pages, SubscriptionsTypes, SubscritpionsFeatures, Invoices, UsersSubscriptions } from '@/configs/schema'; // Your database schema
+import { Users, UserTickets, VisitorTicketMessages, TicketMessages, MetaData, Pages, SubscriptionsTypes, SubscritpionsFeatures, Invoices, UsersSubscriptions, ContactSettings, ContactFaqs, ContactStats } from '@/configs/schema'; // Your database schema
 import { count, gte, eq, desc, or, like } from 'drizzle-orm'; // Import the count function
 import { revalidatePath } from 'next/cache';
 
@@ -995,6 +995,176 @@ const createInvoice = async (userId, amount, date, invoiceNumber, status) => {
     }
 };
 
+/**
+ * Retrieves the contact settings from the database.
+ * 
+ * @returns {Promise<object>} The contact settings object
+ * @throws {Error} If there is an error while fetching the settings
+ */
+const getContactSettings = async () => {
+    try {
+        const settings = await db.select().from(ContactSettings).limit(1);
+        return settings[0] || {};
+    } catch (error) {
+        console.error('Error fetching contact settings:', error);
+        throw error;
+    }
+};
+
+/**
+ * Sets the contact settings in the database.
+ * 
+ * @param {object} contactSettings - The contact settings object to update
+ * @returns {Promise<object>} The updated contact settings object
+ * @throws {Error} If there is an error while updating the settings
+ */
+const setContactSettings = async (contactSettings) => {
+    try {
+        // Check if settings exist
+        const existingSettings = await db.select().from(ContactSettings).limit(1);
+        
+        // Remove any undefined values and clean the data, also remove timestamp fields
+        const cleanContactSettings = Object.fromEntries(
+            Object.entries(contactSettings).filter(([key, value]) => 
+                value !== undefined && key !== 'created_at' && key !== 'updated_at' && key !== 'id'
+            )
+        );
+        
+        if (existingSettings.length === 0) {
+            // Create new settings with proper timestamp
+            const newSettings = await db
+                .insert(ContactSettings)
+                .values({
+                    ...cleanContactSettings,
+                    updated_at: new Date()
+                })
+                .returning();
+            return newSettings[0];
+        } else {
+            // Update existing settings with proper timestamp
+            const updatedSettings = await db
+                .update(ContactSettings)
+                .set({
+                    ...cleanContactSettings,
+                    updated_at: new Date()
+                })
+                .where(eq(ContactSettings.id, existingSettings[0].id))
+                .returning();
+            return updatedSettings[0];
+        }
+    } catch (error) {
+        console.error('Error setting contact settings:', error);
+        throw error;
+    }
+};
+
+/**
+ * Retrieves all contact FAQs from the database.
+ * 
+ * @returns {Promise<Array>} Array of FAQ objects
+ * @throws {Error} If there is an error while fetching the FAQs
+ */
+const getContactFaqs = async () => {
+    try {
+        const faqs = await db
+            .select()
+            .from(ContactFaqs)
+            .where(eq(ContactFaqs.is_active, true))
+            .orderBy(ContactFaqs.order_index);
+        return faqs;
+    } catch (error) {
+        console.error('Error fetching contact FAQs:', error);
+        throw error;
+    }
+};
+
+/**
+ * Sets the contact FAQs in the database.
+ * 
+ * @param {Array} contactFaqs - Array of FAQ objects to update
+ * @returns {Promise<Array>} Array of updated FAQ objects
+ * @throws {Error} If there is an error while updating the FAQs
+ */
+const setContactFaqs = async (contactFaqs) => {
+    try {
+        // For simplicity, we'll clear existing FAQs and insert new ones
+        // In production, you might want a more sophisticated approach
+        await db.delete(ContactFaqs);
+        
+        if (contactFaqs && contactFaqs.length > 0) {
+            const insertedFaqs = await db
+                .insert(ContactFaqs)
+                .values(contactFaqs.map((faq, index) => ({
+                    question: faq.question,
+                    answer: faq.answer,
+                    order_index: faq.order_index || index,
+                    is_active: faq.is_active !== undefined ? faq.is_active : true,
+                    updated_at: new Date(),
+                })))
+                .returning();
+            return insertedFaqs;
+        }
+        return [];
+    } catch (error) {
+        console.error('Error setting contact FAQs:', error);
+        throw error;
+    }
+};
+
+/**
+ * Retrieves all contact stats from the database.
+ * 
+ * @returns {Promise<Array>} Array of stat objects
+ * @throws {Error} If there is an error while fetching the stats
+ */
+const getContactStats = async () => {
+    try {
+        const stats = await db
+            .select()
+            .from(ContactStats)
+            .where(eq(ContactStats.is_active, true))
+            .orderBy(ContactStats.order_index);
+        return stats;
+    } catch (error) {
+        console.error('Error fetching contact stats:', error);
+        throw error;
+    }
+};
+
+/**
+ * Sets the contact stats in the database.
+ * 
+ * @param {Array} contactStats - Array of stat objects to update
+ * @returns {Promise<Array>} Array of updated stat objects
+ * @throws {Error} If there is an error while updating the stats
+ */
+const setContactStats = async (contactStats) => {
+    try {
+        // For simplicity, we'll clear existing stats and insert new ones
+        await db.delete(ContactStats);
+        
+        if (contactStats && contactStats.length > 0) {
+            const insertedStats = await db
+                .insert(ContactStats)
+                .values(contactStats.map((stat, index) => ({
+                    number: stat.number,
+                    label: stat.label,
+                    icon: stat.icon || '⚡',
+                    order_index: stat.order_index || index,
+                    is_active: stat.is_active !== undefined ? stat.is_active : true,
+                    updated_at: new Date(),
+                })))
+                .returning();
+            return insertedStats;
+        }
+        return [];
+    } catch (error) {
+        console.error('Error setting contact stats:', error);
+        throw error;
+    }
+};
+
+
 export {
     getTotalUsers, // Fetches the total number of users in the database
     removeSubscriptionType, // Removes a subscription type and its associated features
@@ -1036,4 +1206,10 @@ export {
     getPageBySlug, // Retrieves a page by its slug
     getTotalTickets, // Retrieves the total number of tickets
     createInvoice, // Creates a new invoice
+    getContactSettings, // Retrieves the contact settings from the database
+    setContactSettings, // Sets the contact settings in the database
+    getContactFaqs, // Retrieves all contact FAQs from the database
+    setContactFaqs, // Sets the contact FAQs in the database
+    getContactStats, // Retrieves all contact stats from the database
+    setContactStats, // Sets the contact stats in the database
 };

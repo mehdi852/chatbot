@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Info, Upload, Settings as SettingsIcon, CreditCard, Shield, Loader2, Share2, Link } from 'lucide-react';
+import { Info, Upload, Settings as SettingsIcon, CreditCard, Shield, Loader2, Share2, Link, Phone } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -29,7 +29,12 @@ const Settings = () => {
     const [sitePhone, setSitePhone] = useState('');
     const [siteEmail, setSiteEmail] = useState('');
 
-    const { toast } = useToast();on
+    // Contact settings state
+    const [contactSettings, setContactSettings] = useState({});
+    const [contactFaqs, setContactFaqs] = useState([]);
+    const [contactStats, setContactStats] = useState([]);
+
+    const { toast } = useToast();
 
     const tabs = [
         {
@@ -71,6 +76,14 @@ const Settings = () => {
             description: t('adminPage.settings.tabs.footerLinks.description'),
             iconBg: 'bg-[#E8F5E9]',
             iconColor: 'text-green-500',
+        },
+        {
+            id: 'contact',
+            label: 'Contact Settings',
+            icon: <Phone className="w-4 h-4" />,
+            description: 'Configure contact page content and settings',
+            iconBg: 'bg-[#FDF2F8]',
+            iconColor: 'text-pink-600',
         },
     ];
 
@@ -125,8 +138,63 @@ const Settings = () => {
         setSiteEmail(data.generalSettings.email || '');
     };
 
+    const getContactSettingsFromDB = async () => {
+        try {
+            const response = await fetch('/api/public/get-contact-settings');
+            const data = await response.json();
+            
+            setContactSettings(data.contactSettings || {});
+            setContactFaqs(data.contactFaqs || []);
+            setContactStats(data.contactStats || []);
+        } catch (error) {
+            console.error('Error fetching contact settings:', error);
+        }
+    };
+
+    const handleContactSettingsSubmit = async (e) => {
+        if (e) e.preventDefault();
+
+        const response = await fetch('/api/admin/set-contact-settings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contactSettings,
+                contactFaqs,
+                contactStats,
+            }),
+        });
+
+        if (!response.ok) {
+            toast({
+                title: 'Error',
+                description: 'Failed to update contact settings',
+                variant: 'destructive',
+            });
+            return;
+        }
+
+        const data = await response.json();
+
+        if (data.error) {
+            toast({
+                title: 'Error',
+                description: data.error,
+                variant: 'destructive',
+            });
+            return;
+        }
+
+        toast({
+            title: 'Success',
+            description: 'Contact settings updated successfully!',
+        });
+    };
+
     useEffect(() => {
         getGeneralSettingsFromDB();
+        getContactSettingsFromDB();
     }, []);
 
     const handleGeneralSettingsSubmit = async (e) => {
@@ -1206,6 +1274,283 @@ const Settings = () => {
 
                     <TabsContent value="footer">
                         <FooterLinksManagement />
+                    </TabsContent>
+                    
+                    <TabsContent value="contact">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-2xl font-bold">Contact Settings</CardTitle>
+                                <CardDescription>Configure contact page content and settings</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                {/* Contact Information */}
+                                <div className="space-y-4">
+                                    <h3 className="text-lg font-semibold">Contact Information</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <Label htmlFor="supportEmail">Support Email</Label>
+                                            <Input
+                                                id="supportEmail"
+                                                value={contactSettings.support_email || ''}
+                                                onChange={(e) => 
+                                                    setContactSettings(prev => ({...prev, support_email: e.target.value}))
+                                                }
+                                                placeholder="support@example.com"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label htmlFor="supportPhone">Support Phone</Label>
+                                            <Input
+                                                id="supportPhone"
+                                                value={contactSettings.support_phone || ''}
+                                                onChange={(e) => 
+                                                    setContactSettings(prev => ({...prev, support_phone: e.target.value}))
+                                                }
+                                                placeholder="+1 (555) 123-4567"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label htmlFor="liveChatHours">Live Chat Hours</Label>
+                                            <Input
+                                                id="liveChatHours"
+                                                value={contactSettings.live_chat_hours || ''}
+                                                onChange={(e) => 
+                                                    setContactSettings(prev => ({...prev, live_chat_hours: e.target.value}))
+                                                }
+                                                placeholder="Available 9AM - 6PM EST"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Hero Section */}
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h3 className="text-lg font-semibold">Hero Section</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <Label htmlFor="heroTitleLine1">Hero Title Line 1</Label>
+                                            <Input
+                                                id="heroTitleLine1"
+                                                value={contactSettings.hero_title_line1 || ''}
+                                                onChange={(e) => 
+                                                    setContactSettings(prev => ({...prev, hero_title_line1: e.target.value}))
+                                                }
+                                                placeholder="Let's Start a"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label htmlFor="heroTitleLine2">Hero Title Line 2</Label>
+                                            <Input
+                                                id="heroTitleLine2"
+                                                value={contactSettings.hero_title_line2 || ''}
+                                                onChange={(e) => 
+                                                    setContactSettings(prev => ({...prev, hero_title_line2: e.target.value}))
+                                                }
+                                                placeholder="Conversation"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <Label htmlFor="heroDescription">Hero Description</Label>
+                                        <Textarea
+                                            id="heroDescription"
+                                            value={contactSettings.hero_description || ''}
+                                            onChange={(e) => 
+                                                setContactSettings(prev => ({...prev, hero_description: e.target.value}))
+                                            }
+                                            placeholder="We're here to help you succeed..."
+                                            className="h-24"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Form Section */}
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h3 className="text-lg font-semibold">Form Section</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <Label htmlFor="formTitle">Form Section Title</Label>
+                                            <Input
+                                                id="formTitle"
+                                                value={contactSettings.form_section_title || ''}
+                                                onChange={(e) => 
+                                                    setContactSettings(prev => ({...prev, form_section_title: e.target.value}))
+                                                }
+                                                placeholder="Send Us a Message"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label htmlFor="formDescription">Form Section Description</Label>
+                                            <Input
+                                                id="formDescription"
+                                                value={contactSettings.form_section_description || ''}
+                                                onChange={(e) => 
+                                                    setContactSettings(prev => ({...prev, form_section_description: e.target.value}))
+                                                }
+                                                placeholder="Fill out the form below..."
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* FAQ Section */}
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h3 className="text-lg font-semibold">FAQ Section</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <Label htmlFor="faqTitle">FAQ Section Title</Label>
+                                            <Input
+                                                id="faqTitle"
+                                                value={contactSettings.faq_section_title || ''}
+                                                onChange={(e) => 
+                                                    setContactSettings(prev => ({...prev, faq_section_title: e.target.value}))
+                                                }
+                                                placeholder="Frequently Asked Questions"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label htmlFor="faqDescription">FAQ Section Description</Label>
+                                            <Input
+                                                id="faqDescription"
+                                                value={contactSettings.faq_section_description || ''}
+                                                onChange={(e) => 
+                                                    setContactSettings(prev => ({...prev, faq_section_description: e.target.value}))
+                                                }
+                                                placeholder="Quick answers to common questions"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Contact Stats */}
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h3 className="text-lg font-semibold">Contact Stats</h3>
+                                    <p className="text-sm text-muted-foreground">Manage the statistics displayed on the contact page</p>
+                                    {contactStats.map((stat, index) => (
+                                        <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 border rounded-lg">
+                                            <div>
+                                                <Label htmlFor={`stat-number-${index}`}>Number/Value</Label>
+                                                <Input
+                                                    id={`stat-number-${index}`}
+                                                    value={stat.number || ''}
+                                                    onChange={(e) => {
+                                                        const newStats = [...contactStats];
+                                                        newStats[index] = {...newStats[index], number: e.target.value};
+                                                        setContactStats(newStats);
+                                                    }}
+                                                    placeholder="<2h"
+                                                />
+                                            </div>
+                                            <div>
+                                                <Label htmlFor={`stat-label-${index}`}>Label</Label>
+                                                <Input
+                                                    id={`stat-label-${index}`}
+                                                    value={stat.label || ''}
+                                                    onChange={(e) => {
+                                                        const newStats = [...contactStats];
+                                                        newStats[index] = {...newStats[index], label: e.target.value};
+                                                        setContactStats(newStats);
+                                                    }}
+                                                    placeholder="Average Response Time"
+                                                />
+                                            </div>
+                                            <div>
+                                                <Label htmlFor={`stat-icon-${index}`}>Icon</Label>
+                                                <Input
+                                                    id={`stat-icon-${index}`}
+                                                    value={stat.icon || ''}
+                                                    onChange={(e) => {
+                                                        const newStats = [...contactStats];
+                                                        newStats[index] = {...newStats[index], icon: e.target.value};
+                                                        setContactStats(newStats);
+                                                    }}
+                                                    placeholder="⚡"
+                                                />
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <Button 
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => {
+                                            setContactStats([...contactStats, { number: '', label: '', icon: '⚡', order_index: contactStats.length }]);
+                                        }}
+                                    >
+                                        Add Stat
+                                    </Button>
+                                </div>
+
+                                {/* Contact FAQs */}
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h3 className="text-lg font-semibold">Contact FAQs</h3>
+                                    <p className="text-sm text-muted-foreground">Manage frequently asked questions on the contact page</p>
+                                    {contactFaqs.map((faq, index) => (
+                                        <div key={index} className="space-y-4 p-4 border rounded-lg">
+                                            <div>
+                                                <Label htmlFor={`faq-question-${index}`}>Question</Label>
+                                                <Input
+                                                    id={`faq-question-${index}`}
+                                                    value={faq.question || ''}
+                                                    onChange={(e) => {
+                                                        const newFaqs = [...contactFaqs];
+                                                        newFaqs[index] = {...newFaqs[index], question: e.target.value};
+                                                        setContactFaqs(newFaqs);
+                                                    }}
+                                                    placeholder="How quickly do you respond?"
+                                                />
+                                            </div>
+                                            <div>
+                                                <Label htmlFor={`faq-answer-${index}`}>Answer</Label>
+                                                <Textarea
+                                                    id={`faq-answer-${index}`}
+                                                    value={faq.answer || ''}
+                                                    onChange={(e) => {
+                                                        const newFaqs = [...contactFaqs];
+                                                        newFaqs[index] = {...newFaqs[index], answer: e.target.value};
+                                                        setContactFaqs(newFaqs);
+                                                    }}
+                                                    placeholder="We typically respond within 2 hours..."
+                                                    className="h-20"
+                                                />
+                                            </div>
+                                            <Button 
+                                                type="button"
+                                                variant="destructive"
+                                                size="sm"
+                                                onClick={() => {
+                                                    setContactFaqs(contactFaqs.filter((_, i) => i !== index));
+                                                }}
+                                            >
+                                                Remove FAQ
+                                            </Button>
+                                        </div>
+                                    ))}
+                                    <Button 
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => {
+                                            setContactFaqs([...contactFaqs, { question: '', answer: '', order_index: contactFaqs.length }]);
+                                        }}
+                                    >
+                                        Add FAQ
+                                    </Button>
+                                </div>
+
+                                <div className="flex justify-end pt-4">
+                                    <Button 
+                                        onClick={handleContactSettingsSubmit}
+                                        className="bg-primary text-primary-foreground w-[160px] h-11 hover:bg-primary/90 transition-colors duration-200"
+                                    >
+                                        Save Changes
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
                     </TabsContent>
                 </Tabs>
             </div>

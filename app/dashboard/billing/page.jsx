@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTranslation } from 'react-i18next';
 
-const InvoiceDialog = ({ invoice, open, onOpenChange }) => {
+const InvoiceDialog = ({ invoice, open, onOpenChange, billingInfo, onDownload }) => {
     const { t } = useTranslation();
 
     return (
@@ -71,12 +71,18 @@ const InvoiceDialog = ({ invoice, open, onOpenChange }) => {
                                     <tr className="border-b">
                                         <td className="py-4">
                                             <p className="font-medium">{invoice.description || t('billingPage.invoice.monthlySubscription')}</p>
-                                            <p className="text-sm text-gray-500">
-                                                {t('billingPage.invoice.billingPeriod', {
-                                                    start: format(new Date(invoice.period_start), 'MMM dd'),
-                                                    end: format(new Date(invoice.period_end), 'MMM dd, yyyy'),
-                                                })}
-                                            </p>
+                                            {invoice.period_start && invoice.period_end ? (
+                                                <p className="text-sm text-gray-500">
+                                                    {t('billingPage.invoice.billingPeriod', {
+                                                        start: format(new Date(invoice.period_start), 'MMM dd'),
+                                                        end: format(new Date(invoice.period_end), 'MMM dd, yyyy'),
+                                                    })}
+                                                </p>
+                                            ) : (
+                                                <p className="text-sm text-gray-500">
+                                                    {format(new Date(invoice.date), 'MMM dd, yyyy')}
+                                                </p>
+                                            )}
                                         </td>
                                         <td className="py-4 text-right">
                                             <p className="font-medium">${parseFloat(invoice.amount).toFixed(2)}</p>
@@ -103,7 +109,7 @@ const InvoiceDialog = ({ invoice, open, onOpenChange }) => {
                     <Button variant="outline" onClick={() => onOpenChange(false)}>
                         {t('billingPage.invoice.buttons.close')}
                     </Button>
-                    <Button onClick={() => handleDownloadPDF(invoice)}>
+                    <Button onClick={() => onDownload(invoice)}>
                         <Download className="w-4 h-4 mr-2" />
                         {t('billingPage.invoice.buttons.download')}
                     </Button>
@@ -116,7 +122,11 @@ const InvoiceDialog = ({ invoice, open, onOpenChange }) => {
 export default function BillingPage() {
     const { t } = useTranslation();
     const [billingInfo, setBillingInfo] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState({ 
+        main: true, 
+        downloadInvoice: false,
+        managingSubscription: false 
+    });
     const [plansOpen, setPlansOpen] = useState(false);
     const { dbUser } = useUserContext();
     const [selectedInvoice, setSelectedInvoice] = useState(null);
@@ -134,7 +144,7 @@ export default function BillingPage() {
             } catch (error) {
                 console.error('Error fetching billing info:', error);
             } finally {
-                setLoading(false);
+                setLoading(prev => ({ ...prev, main: false }));
             }
         };
 
@@ -142,10 +152,62 @@ export default function BillingPage() {
     }, [dbUser]);
 
     const handleDownloadPDF = async (invoice) => {
-        console.log('Downloading invoice:', invoice);
+        try {
+            setLoading(prev => ({ ...prev, downloadInvoice: true }));
+            
+            // First, try to get the Stripe invoice download URL
+            const response = await fetch(`/api/billing/download-invoice?invoiceId=${invoice.id}&userId=${dbUser.id}`);
+            const data = await response.json();
+            
+            if (response.ok && data.downloadUrl) {
+                // Direct download from Stripe
+                window.open(data.downloadUrl, '_blank');
+            } else if (response.ok && data.hosted_invoice_url) {
+                // Open Stripe hosted invoice page
+                window.open(data.hosted_invoice_url, '_blank');
+            } else {
+                // Fallback: generate our own invoice view
+                console.log('Using fallback invoice generation for:', invoice);
+                // You could implement a PDF generation library here
+                alert('Invoice download not available for this invoice type. Please contact support.');
+            }
+        } catch (error) {
+            console.error('Error downloading invoice:', error);
+            alert('Failed to download invoice. Please try again.');
+        } finally {
+            setLoading(prev => ({ ...prev, downloadInvoice: false }));
+        }
     };
 
-    if (loading) {
+    const handleManageSubscription = async () => {
+        try {
+            setLoading(prev => ({ ...prev, managingSubscription: true }));
+            
+            const response = await fetch('/api/billing/create-portal-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId: dbUser.id }),
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok && data.url) {
+                // Redirect to Stripe Customer Portal
+                window.location.href = data.url;
+            } else {
+                alert('Unable to access billing portal. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error accessing billing portal:', error);
+            alert('Failed to access billing portal. Please try again.');
+        } finally {
+            setLoading(prev => ({ ...prev, managingSubscription: false }));
+        }
+    };
+
+    if (loading.main) {
         return (
             <div className="container mx-auto p-6">
                 <div className="space-y-6">
@@ -206,22 +268,72 @@ export default function BillingPage() {
                     <CardContent>
                         <div className="flex items-center justify-between">
                             <div>
-                                <Badge variant={billingInfo.isSubscribed ? 'default' : 'secondary'} className="text-xs py-0.5 px-2">
-                                    {billingInfo.isSubscribed ? `${billingInfo.subscriptionType.name} Plan` : t('billingPage.currentPlan.freePlan')}
+                                <Badge 
+                                    variant={
+                                        billingInfo.isSubscribed ? 
+                                        (billingInfo.userSubscription?.status === 'cancelled' ? 'destructive' : 'default') : 
+                                        'secondary'
+                                    } 
+                                    className="text-xs py-0.5 px-2"
+                                >
+                                    {billingInfo.isSubscribed ? 
+                                        (billingInfo.userSubscription?.status === 'cancelled' ? 
+                                            `${billingInfo.subscriptionType.name} Plan (Cancelled)` : 
+                                            `${billingInfo.subscriptionType.name} Plan`
+                                        ) : 
+                                        t('billingPage.currentPlan.freePlan')
+                                    }
                                 </Badge>
+                                
                                 <p className="mt-1 text-xs text-muted-foreground">
-                                    {billingInfo.isSubscribed ? t('billingPage.currentPlan.allFeatures') : t('billingPage.currentPlan.limitedFeatures')}
+                                    {billingInfo.isSubscribed ? 
+                                        (billingInfo.userSubscription?.status === 'cancelled' ? 
+                                            'Your subscription is scheduled for cancellation. You will retain access until the end date shown below.' : 
+                                            t('billingPage.currentPlan.allFeatures')
+                                        ) : 
+                                        t('billingPage.currentPlan.limitedFeatures')
+                                    }
                                 </p>
+                                
                                 {billingInfo.isSubscribed && billingInfo.subscriptionEndsAt && (
-                                    <p className="mt-1 text-xs text-muted-foreground">{`Expires: ${new Date(billingInfo.subscriptionEndsAt).toLocaleDateString()}`}</p>
+                                    <p className="mt-1 text-xs text-muted-foreground">
+                                        {billingInfo.userSubscription?.status === 'cancelled' ? 
+                                            `Subscription ends: ${new Date(billingInfo.subscriptionEndsAt).toLocaleDateString()}` : 
+                                            (billingInfo.userSubscription?.auto_renew !== false ? 
+                                                `Renews: ${new Date(billingInfo.subscriptionEndsAt).toLocaleDateString()}` :
+                                                `Expires: ${new Date(billingInfo.subscriptionEndsAt).toLocaleDateString()}`
+                                            )
+                                        }
+                                    </p>
                                 )}
                             </div>
                             {billingInfo.isSubscribed ? (
-                                <Link href="https://billing.stripe.com/p/login/test_8wMg2ldLmbzk23eaEE">
-                                    <Button variant="outline" size="sm">
-                                        {t('billingPage.currentPlan.buttons.manage')}
+                                <div className="flex flex-col gap-2">
+                                    <Button 
+                                        variant="outline" 
+                                        size="sm"
+                                        onClick={handleManageSubscription}
+                                        disabled={loading.managingSubscription}
+                                    >
+                                        {loading.managingSubscription ? (
+                                            <>
+                                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                                Loading...
+                                            </>
+                                        ) : (
+                                            t('billingPage.currentPlan.buttons.manage')
+                                        )}
                                     </Button>
-                                </Link>
+                                    {billingInfo.userSubscription?.status === 'cancelled' && (
+                                        <Button 
+                                            onClick={() => setPlansOpen(true)} 
+                                            size="sm" 
+                                            className="bg-primary text-primary-foreground hover:bg-primary/90"
+                                        >
+                                            Reactivate Subscription
+                                        </Button>
+                                    )}
+                                </div>
                             ) : (
                                 <Button onClick={() => setPlansOpen(true)} size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
                                     {t('billingPage.currentPlan.buttons.upgrade')}
@@ -269,8 +381,18 @@ export default function BillingPage() {
                                                 </TableCell>
                                                 <TableCell>
                                                     <div className="flex flex-col">
-                                                        <span className="font-medium text-sm">#{invoice.invoice_number}</span>
-                                                        <span className="text-xs text-gray-500">{invoice.description || t('billingPage.invoice.monthlySubscription')}</span>
+                                                        <span className="font-medium text-sm">
+                                                            {invoice.invoice_number.startsWith('in_') ? 
+                                                                `#${invoice.invoice_number}` : 
+                                                                `#${invoice.invoice_number}`
+                                                            }
+                                                        </span>
+                                                        <span className="text-xs text-gray-500">
+                                                            {invoice.invoice_number.startsWith('in_') ? 
+                                                                'Stripe Invoice' : 
+                                                                (invoice.description || t('billingPage.invoice.monthlySubscription'))
+                                                            }
+                                                        </span>
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>
@@ -284,9 +406,19 @@ export default function BillingPage() {
                                                 </TableCell>
                                                 <TableCell className="text-right">
                                                     <div className="flex items-center justify-end gap-2">
-                                                        <Button variant="ghost" size="sm" className="h-8" onClick={() => handleDownloadPDF(invoice)}>
-                                                            <Download className="w-4 h-4 mr-2" />
-                                                            PDF
+                                                        <Button 
+                                                            variant="ghost" 
+                                                            size="sm" 
+                                                            className="h-8" 
+                                                            onClick={() => handleDownloadPDF(invoice)}
+                                                            disabled={loading.downloadInvoice}
+                                                        >
+                                                            {loading.downloadInvoice ? (
+                                                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                                            ) : (
+                                                                <Download className="w-4 h-4 mr-2" />
+                                                            )}
+                                                            {invoice.invoice_number.startsWith('in_') ? 'Download' : 'PDF'}
                                                         </Button>
                                                         <Button variant="ghost" size="sm" className="h-8" onClick={() => setSelectedInvoice(invoice)}>
                                                             View
@@ -322,7 +454,7 @@ export default function BillingPage() {
                 </Card>
             </div>
             <Plans open={plansOpen} onOpenChange={setPlansOpen} />
-            {selectedInvoice && <InvoiceDialog invoice={selectedInvoice} open={!!selectedInvoice} onOpenChange={(open) => !open && setSelectedInvoice(null)} />}
+            {selectedInvoice && <InvoiceDialog invoice={selectedInvoice} open={!!selectedInvoice} onOpenChange={(open) => !open && setSelectedInvoice(null)} billingInfo={billingInfo} onDownload={handleDownloadPDF} />}
         </div>
     );
 }

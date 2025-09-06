@@ -144,21 +144,21 @@ export default function LandingPage() {
                                 description: t('features.items.types.description'),
                                 preview: (
                                     <div className="space-y-2">
-                                        <div className="bg-blue-50 rounded-lg p-2 border-l-4 border-blue-500">
-                                            <div className="text-xs font-medium text-blue-700">💬 Chat Widget</div>
-                                            <div className="text-xs text-blue-600">Live support</div>
+                                        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2 border-l-4 border-blue-500">
+                                            <div className="text-xs font-medium text-blue-700 dark:text-blue-300">💬 Chat Widget</div>
+                                            <div className="text-xs text-blue-600 dark:text-blue-400">Live support</div>
                                         </div>
-                                        <div className="bg-green-50 rounded-lg p-2 border-l-4 border-green-500">
-                                            <div className="text-xs font-medium text-green-700">📧 Email Capture</div>
-                                            <div className="text-xs text-green-600">Lead generation</div>
+                                        <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-2 border-l-4 border-green-500">
+                                            <div className="text-xs font-medium text-green-700 dark:text-green-300">📧 Email Capture</div>
+                                            <div className="text-xs text-green-600 dark:text-green-400">Lead generation</div>
                                         </div>
-                                        <div className="bg-purple-50 rounded-lg p-2 border-l-4 border-purple-500">
-                                            <div className="text-xs font-medium text-purple-700">🎯 Exit Intent</div>
-                                            <div className="text-xs text-purple-600">Smart triggers</div>
+                                        <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-2 border-l-4 border-purple-500">
+                                            <div className="text-xs font-medium text-purple-700 dark:text-purple-300">🎯 Exit Intent</div>
+                                            <div className="text-xs text-purple-600 dark:text-purple-400">Smart triggers</div>
                                         </div>
-                                        <div className="bg-orange-50 rounded-lg p-2 border-l-4 border-orange-500">
-                                            <div className="text-xs font-medium text-orange-700">📋 Surveys</div>
-                                            <div className="text-xs text-orange-600">Feedback forms</div>
+                                        <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-2 border-l-4 border-orange-500">
+                                            <div className="text-xs font-medium text-orange-700 dark:text-orange-300">📋 Surveys</div>
+                                            <div className="text-xs text-orange-600 dark:text-orange-400">Feedback forms</div>
                                         </div>
                                     </div>
                                 )

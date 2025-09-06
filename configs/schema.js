@@ -251,6 +251,46 @@ export const NewsletterSubscriptions = pgTable('newsletter_subscriptions', {
     subscribed_at: timestamp('subscribed_at').defaultNow().notNull(),
 });
 
+// Contact Settings table
+export const ContactSettings = pgTable('contact_settings', {
+    id: serial('id').primaryKey(),
+    support_email: varchar('support_email', { length: 255 }).notNull().default('support@example.com'),
+    support_phone: varchar('support_phone', { length: 50 }).notNull().default('+1 (555) 123-4567'),
+    live_chat_hours: varchar('live_chat_hours', { length: 255 }).notNull().default('Available 9AM - 6PM EST'),
+    hero_title_line1: varchar('hero_title_line1', { length: 255 }).notNull().default('Lets Start a'),
+    hero_title_line2: varchar('hero_title_line2', { length: 255 }).notNull().default('Conversation'),
+    hero_description: text('hero_description').notNull().default('We are here to help you succeed. Whether you have questions, need support, or want to explore how our platform can transform your business, our team is ready to assist.'),
+    form_section_title: varchar('form_section_title', { length: 255 }).notNull().default('Send Us a Message'),
+    form_section_description: varchar('form_section_description', { length: 500 }).notNull().default('Fill out the form below and we will get back to you within 24 hours'),
+    faq_section_title: varchar('faq_section_title', { length: 255 }).notNull().default('Frequently Asked Questions'),
+    faq_section_description: varchar('faq_section_description', { length: 500 }).notNull().default('Quick answers to common questions'),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at').notNull(),
+});
+
+// Contact FAQs table
+export const ContactFaqs = pgTable('contact_faqs', {
+    id: serial('id').primaryKey(),
+    question: varchar('question', { length: 500 }).notNull(),
+    answer: text('answer').notNull(),
+    order_index: integer('order_index').notNull().default(0),
+    is_active: boolean('is_active').notNull().default(true),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at').notNull(),
+});
+
+// Contact Stats table
+export const ContactStats = pgTable('contact_stats', {
+    id: serial('id').primaryKey(),
+    number: varchar('number', { length: 50 }).notNull(),
+    label: varchar('label', { length: 255 }).notNull(),
+    icon: varchar('icon', { length: 10 }).notNull().default('*'),
+    order_index: integer('order_index').notNull().default(0),
+    is_active: boolean('is_active').notNull().default(true),
+    created_at: timestamp('created_at').defaultNow().notNull(),
+    updated_at: timestamp('updated_at').notNull(),
+});
+
 //  dashboard stats
 export const DashboardStats = pgTable('dashboard_stats', {
     id: serial('id').primaryKey(),

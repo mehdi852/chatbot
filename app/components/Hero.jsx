@@ -179,7 +179,7 @@ export default function Hero() {
                     {/* Main Content */}
                     <div className="text-center relative z-10">
                         {/* Trust Badge */}
-                        <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 mb-8 shadow-sm border border-white/20">
+                        <div className="inline-flex items-center space-x-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full px-4 py-2 mb-8 shadow-sm border border-white/20 dark:border-gray-700/30">
                             <svg className="w-4 h-4 text-secondary" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"/>
                             </svg>
@@ -202,7 +202,7 @@ export default function Hero() {
                             <button className="group relative bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] shimmer overflow-hidden min-w-[180px]">
                                 <span className="relative z-10">{t('hero.buttons.trial')}</span>
                             </button>
-                            <button className="group border-2 border-border/20 bg-white/50 backdrop-blur-sm text-foreground hover:bg-white/80 hover:border-primary/20 px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] min-w-[180px]">
+                            <button className="group border-2 border-border/20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm text-foreground hover:bg-white/80 dark:hover:bg-gray-800/80 hover:border-primary/20 px-8 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] min-w-[180px]">
                                 <span className="flex items-center justify-center space-x-2">
                                     <svg className="w-4 h-4 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -237,7 +237,7 @@ export default function Hero() {
                                 className="absolute top-0 left-0 w-full h-full rounded-2xl"
                             />
                             {/* Demo overlay badge */}
-                            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-sm border border-white/20 z-10">
+                            <div className="absolute top-4 left-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-sm border border-white/20 dark:border-gray-700/30 z-10">
                                 <div className="flex items-center space-x-2">
                                     <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                                     <span className="text-xs font-medium text-foreground">Live Demo</span>

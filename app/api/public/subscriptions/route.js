@@ -32,12 +32,27 @@ export async function GET() {
                 // Fetch features
                 const features = await db.select().from(SubscritpionsFeatures).where(eq(SubscritpionsFeatures.subscription_id, sub.id));
 
+                // Generate description based on plan name and features
+                const getDescription = (name, features) => {
+                    switch (name.toLowerCase()) {
+                        case 'free':
+                            return 'Perfect for getting started with popup management';
+                        case 'pro':
+                            return 'Best for growing businesses and marketing teams';
+                        case 'enterprise':
+                            return 'Advanced features for large teams and enterprises';
+                        default:
+                            return `${name} plan with powerful features`;
+                    }
+                };
+
                 // Return the structured data
                 return {
                     id: sub.id,
                     name: sub.name,
-                    price: sub.price,
-                    yearlyPrice: sub.yearlyPrice,
+                    description: getDescription(sub.name, features),
+                    price: parseFloat(sub.price),
+                    yearlyPrice: parseFloat(sub.yearlyPrice),
                     status: sub.status,
                     stripeMonthlyLink: sub.stripeMonthlyLink,
                     stripeYearlyLink: sub.stripeYearlyLink,

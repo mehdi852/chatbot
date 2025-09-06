@@ -73,17 +73,6 @@ export function SubscriptionProvider({ children }) {
   ];
 
   useEffect(() => {
-    // For development/preview - load mock data immediately
-    const loadMockDataForPreview = () => {
-      setLoading(true);
-      // Simulate a brief loading time
-      setTimeout(() => {
-        setSubscriptions(mockSubscriptions);
-        setError(null);
-        setLoading(false);
-      }, 300);
-    };
-
     const fetchSubscriptions = async () => {
       try {
         setLoading(true);
@@ -96,13 +85,15 @@ export function SubscriptionProvider({ children }) {
         const data = await response.json();
         
         if (Array.isArray(data) && data.length > 0) {
+          console.log('✅ Successfully loaded real pricing data from database:', data);
           setSubscriptions(data);
         } else {
-          console.log('API returned empty data, using mock data for preview');
+          console.log('API returned empty data, using mock data as fallback');
           setSubscriptions(mockSubscriptions);
         }
+        setError(null);
       } catch (error) {
-        console.log('API unavailable, using mock data for preview:', error.message);
+        console.log('API unavailable, using mock data as fallback:', error.message);
         // Use mock data when API fails instead of showing error
         setSubscriptions(mockSubscriptions);
         setError(null); // Clear error since we're showing mock data
@@ -111,12 +102,8 @@ export function SubscriptionProvider({ children }) {
       }
     };
 
-    // For now, let's use mock data directly to ensure it shows up
-    // Comment this out and uncomment fetchSubscriptions() when you want to use real API
-    loadMockDataForPreview();
-    
-    // Uncomment this line when you want to try real API first:
-    // fetchSubscriptions();
+    // Try real API first, fallback to mock data if needed
+    fetchSubscriptions();
   }, []);
 
   return (
