@@ -7,7 +7,6 @@ import { Bell, MessageSquare, CheckCircle2, Info, AlertCircle, MoreHorizontal, C
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { useTranslation } from 'react-i18next';
-import LanguagePicker from '@/components/LanguagePicker';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -237,7 +236,6 @@ function Header() {
             <div className=""></div>
             {/* Right side */}
             <div className="flex justify-center items-center gap-4">
-                <LanguagePicker />
                 <ThemeToggle />
 
                 {/* Notification Button */}

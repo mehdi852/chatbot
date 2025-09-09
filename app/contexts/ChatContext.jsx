@@ -405,7 +405,22 @@ export function ChatProvider({ children }) {
             if (chatState.selectedWebsite && dbUser?.id) {
                 try {
                     await fetch('/api/socket');
-                    const socketInstance = io('http://localhost:3001', {
+                    // Use dynamic socket URL based on environment
+                    const getSocketUrl = () => {
+                        if (typeof window !== 'undefined') {
+                            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                                return 'http://localhost:3001';
+                            }
+                            const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+                            return `${protocol}//${window.location.hostname}:3001`;
+                        }
+                        return 'http://localhost:3001'; // fallback for SSR
+                    };
+                    
+                    const socketUrl = getSocketUrl();
+                    console.log('🔌 Admin connecting to socket server:', socketUrl);
+                    
+                    const socketInstance = io(socketUrl, {
                         transports: ['websocket', 'polling'],
                         reconnectionAttempts: 5,
                         reconnectionDelay: 1000,

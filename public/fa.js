@@ -831,7 +831,29 @@
                     console.warn('Failed to initialize socket server:', error);
                 }
 
-                const socketUrl = 'http://localhost:3001';
+                // Use dynamic socket URL based on environment
+                const getSocketUrl = () => {
+                    // If running on localhost during development
+                    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                        return 'http://localhost:3001';
+                    }
+                    
+                    // For production, use the same domain as the website but with port 3001
+                    // Or use the API URL if provided
+                    const baseUrl = apiUrl || window.location.origin;
+                    const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
+                    
+                    // Try to use the same base URL as the API
+                    if (apiUrl && apiUrl !== window.location.origin) {
+                        return apiUrl.replace(/:\d+$/, '') + ':3001';
+                    }
+                    
+                    // Default to same domain with port 3001
+                    return `${protocol}//${window.location.hostname}:3001`;
+                };
+                
+                const socketUrl = getSocketUrl();
+                console.log('🔌 Connecting to socket server:', socketUrl);
                 const newSocket = io(socketUrl, {
                     transports: ['websocket', 'polling'],
                     reconnectionAttempts: 5,
