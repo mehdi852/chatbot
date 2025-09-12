@@ -162,6 +162,7 @@ export function ChatProvider({ children }) {
     const loadChatHistory = async () => {
         if (!chatState.selectedWebsite || !dbUser?.id) return;
 
+        console.log('📊 Loading chat history for website:', chatState.selectedWebsite.domain, 'activeTab:', chatState.activeTab);
         setChatState((prev) => ({ ...prev, isLoadingHistory: true, historyError: null }));
 
         try {
@@ -173,15 +174,20 @@ export function ChatProvider({ children }) {
             }
 
             if (data.conversations) {
+                const historyData = data.conversations.map((conv) => ({
+                    id: conv.visitor_id,
+                    lastMessage: conv.last_message,
+                    timestamp: conv.last_message_at,
+                    messageCount: conv.message_count,
+                    unreadCount: conv.unread_count || 0,
+                }));
+                
+                const totalUnread = historyData.reduce((sum, chat) => sum + chat.unreadCount, 0);
+                console.log('✅ Chat history loaded:', historyData.length, 'conversations, total unread:', totalUnread);
+                
                 setChatState((prev) => ({
                     ...prev,
-                    chatHistory: data.conversations.map((conv) => ({
-                        id: conv.visitor_id,
-                        lastMessage: conv.last_message,
-                        timestamp: conv.last_message_at,
-                        messageCount: conv.message_count,
-                        unreadCount: conv.unread_count || 0,
-                    })),
+                    chatHistory: historyData,
                     isLoadingHistory: false,
                 }));
             }
@@ -200,12 +206,20 @@ export function ChatProvider({ children }) {
         setChatState((prev) => ({ ...prev, activeTab: tab }));
     };
 
-    // Load chat history when website changes or tab changes to history
+    // Load chat history when website changes (regardless of active tab)
+    // This ensures unread counts are available for the History tab badge
     useEffect(() => {
-        if (chatState.selectedWebsite && chatState.activeTab === 'history') {
+        if (chatState.selectedWebsite && dbUser?.id) {
             loadChatHistory();
         }
-    }, [chatState.selectedWebsite, chatState.activeTab]);
+    }, [chatState.selectedWebsite, dbUser?.id]);
+
+    // Also refresh chat history when tab changes to history (for real-time updates)
+    useEffect(() => {
+        if (chatState.selectedWebsite && chatState.activeTab === 'history' && dbUser?.id) {
+            loadChatHistory();
+        }
+    }, [chatState.activeTab]);
 
     // Fetch user's websites
     useEffect(() => {

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useUserContext } from '@/app/provider';
-import { Plus, Trash2, GripVertical, MessageCircle, Save, Loader2 } from 'lucide-react';
+import { Plus, Trash2, GripVertical, MessageCircle, Save, Loader2, Globe, CheckCircle2, Layers } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -79,7 +79,7 @@ const DraggableQuestionItem = ({
             onDragOver={onDragOver}
             onDragEnter={(e) => onDragEnter(e, question)}
             onDrop={(e) => onDrop(e, question)}
-            className={`group flex items-center gap-3 p-4 bg-white border rounded-lg cursor-move transition-all hover:shadow-md ${
+            className={`group mt-3 flex items-center gap-3 p-4 bg-white border rounded-lg cursor-move transition-all hover:shadow-md ${
                 isDraggedOver ? 'border-blue-400 bg-blue-50' : 'border-gray-200'
             }`}
         >
@@ -112,12 +112,17 @@ const WidgetTemplatePage = () => {
     const [isAdding, setIsAdding] = useState(false);
     const [websites, setWebsites] = useState([]);
     const [selectedWebsiteId, setSelectedWebsiteId] = useState(null);
+    const [isLoadingWebsites, setIsLoadingWebsites] = useState(true);
 
     // Load user websites on component mount
     useEffect(() => {
         const fetchWebsites = async () => {
-            if (!dbUser?.id) return;
+            if (!dbUser?.id) {
+                setIsLoadingWebsites(false);
+                return;
+            }
             
+            setIsLoadingWebsites(true);
             try {
                 const response = await fetch(`/api/user/get-project?userId=${dbUser.id}`);
                 if (response.ok) {
@@ -136,6 +141,8 @@ const WidgetTemplatePage = () => {
                     description: 'Failed to load websites',
                     variant: 'destructive',
                 });
+            } finally {
+                setIsLoadingWebsites(false);
             }
         };
 
@@ -324,7 +331,33 @@ const WidgetTemplatePage = () => {
         }
     };
 
-    // Show minimal loading state while fetching data
+    // Show loading state while fetching websites
+    if (isLoadingWebsites) {
+        return (
+            <div className="min-h-screen bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+                    <div className="space-y-2">
+                        <div className="h-8 bg-gray-200 rounded animate-pulse w-64"></div>
+                        <div className="h-4 bg-gray-200 rounded animate-pulse w-96"></div>
+                    </div>
+                    <div className="bg-white rounded-lg p-6 shadow-sm border">
+                        <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
+                        <div className="h-10 bg-gray-200 rounded animate-pulse w-full"></div>
+                    </div>
+                    <div className="bg-white rounded-lg p-6 shadow-sm border">
+                        <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
+                        <div className="space-y-3">
+                            <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
+                            <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
+                            <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Show loading state while fetching questions for selected website
     if (isLoading && selectedWebsiteId) {
         return (
             <div className="min-h-screen bg-gray-50">
@@ -381,22 +414,50 @@ const WidgetTemplatePage = () => {
                 {/* Website Selector */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>Select Website</CardTitle>
+                        <CardTitle className="flex items-center gap-2">
+                            <Globe className="w-5 h-5 text-primary" />
+                            Select Website
+                        </CardTitle>
                         <CardDescription>Choose which website you want to configure questions for</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <select
-                            value={selectedWebsiteId || ''}
-                            onChange={(e) => setSelectedWebsiteId(parseInt(e.target.value))}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                            <option value="">Select a website...</option>
-                            {websites.map(website => (
-                                <option key={website.id} value={website.id}>
-                                    {website.name} ({website.domain})
-                                </option>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {websites.map((website) => (
+                                <div
+                                    key={website.id}
+                                    onClick={() => setSelectedWebsiteId(website.id)}
+                                    className={`group relative flex flex-col p-4 rounded-xl border cursor-pointer transition-all hover:shadow-md ${
+                                        selectedWebsiteId === website.id
+                                            ? 'border-primary bg-primary/5 shadow-md'
+                                            : 'border-border/40 bg-card hover:border-primary/30'
+                                    }`}
+                                >
+                                    {selectedWebsiteId === website.id && (
+                                        <div className="absolute top-3 right-3">
+                                            <CheckCircle2 className="w-5 h-5 text-primary" />
+                                        </div>
+                                    )}
+                                    
+                                    <div className="flex items-center gap-3">
+                                        <div className={`w-10 h-10 ${website.color || 'bg-primary'} rounded-lg flex items-center justify-center text-primary-foreground font-semibold shadow-sm`}>
+                                            {website.favicon || website.domain[0].toUpperCase()}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="font-medium truncate text-foreground">{website.name || website.domain}</h3>
+                                            <p className="text-sm text-muted-foreground truncate">{website.domain}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             ))}
-                        </select>
+                        </div>
+                        
+                        {websites.length === 0 && (
+                            <div className="text-center py-8 text-gray-500">
+                                <Globe className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                                <p className="text-lg font-medium mb-2">No websites found</p>
+                                <p>Create a website in your dashboard first.</p>
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
 
@@ -455,8 +516,8 @@ const WidgetTemplatePage = () => {
                             </CardHeader>
                             <CardContent>
                                 {questions.length > 0 ? (
-                                    <div className="space-y-3">
-                                        <DragDropProvider onReorder={handleReorder}>
+                                    <div className="space-y-6">
+                                        <DragDropProvider  onReorder={handleReorder}>
                                             {questions.map((question) => (
                                                 <DraggableQuestionItem
                                                     key={question.id}

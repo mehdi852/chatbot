@@ -1,17 +1,66 @@
-import React, { useState } from 'react';
-import { HelpCircle, ChevronDown, Activity, X, Globe, MessageCircle, Bot, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { HelpCircle, ChevronDown, Activity, X, Globe, MessageCircle, Bot, AlertTriangle, CheckCircle, Clock, BarChart3, TrendingUp, Zap } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+        return () => setMounted(false);
+    }, []);
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape' && isOpen) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('keydown', handleKeyDown);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isOpen]);
 
     if (!usage || !subscriptionLimits) {
         return (
-            <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
-                <div className="flex items-center space-x-2">
-                    <div className="animate-pulse flex space-x-2 items-center w-full">
-                        <div className="w-4 h-4 bg-gray-300 rounded"></div>
-                        <div className="h-4 bg-gray-300 rounded flex-1"></div>
+            <div className="px-4 py-3 border-b border-border bg-white">
+                <div className="flex items-center justify-between">
+                    {/* Left Section Skeleton */}
+                    <div className="flex items-center space-x-3">
+                        <div className="skeleton w-2 h-2 rounded-full"></div>
+                        <div className="flex flex-col space-y-1">
+                            <div className="flex items-center space-x-2">
+                                <div className="skeleton h-4 w-12 rounded"></div>
+                                <div className="skeleton h-3 w-3 rounded-full"></div>
+                                <div className="skeleton h-3 w-8 rounded"></div>
+                            </div>
+                            <div className="skeleton h-3 w-16 rounded"></div>
+                        </div>
+                    </div>
+                    
+                    {/* Right Section Skeleton */}
+                    <div className="flex items-center space-x-3">
+                        <div className="skeleton h-5 w-8 rounded"></div>
+                        <div className="skeleton w-4 h-4 rounded"></div>
                     </div>
                 </div>
             </div>
@@ -64,8 +113,9 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
             max: subscriptionLimits.max_websites,
             tooltip: 'Active websites with chat widgets installed',
             icon: Globe,
-            color: 'text-blue-600',
-            bgColor: 'bg-blue-50',
+            color: 'text-primary',
+            bgColor: 'bg-primary/10',
+            gradient: 'from-primary/20 to-primary/5',
         },
         {
             label: 'Conversations',
@@ -73,8 +123,9 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
             max: subscriptionLimits.max_chat_conversations,
             tooltip: 'Total chat conversations this billing period',
             icon: MessageCircle,
-            color: 'text-purple-600',
-            bgColor: 'bg-purple-50',
+            color: 'text-secondary',
+            bgColor: 'bg-secondary/10',
+            gradient: 'from-secondary/20 to-secondary/5',
         },
         {
             label: 'AI Responses',
@@ -82,181 +133,211 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
             max: subscriptionLimits.max_ai_responses,
             tooltip: 'AI-generated responses this billing period',
             icon: Bot,
-            color: 'text-indigo-600',
-            bgColor: 'bg-indigo-50',
+            color: 'text-accent-foreground',
+            bgColor: 'bg-accent',
+            gradient: 'from-accent/20 to-accent/5',
         },
     ];
 
     return (
         <TooltipProvider>
             <div className="relative">
-                {/* Enhanced Status Header */}
+                {/* Compact Usage Header */}
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`w-full px-4 py-3 border-b border-gray-200 transition-all duration-200 flex items-center justify-between ${
-                        statusInfo.bg
-                    } hover:opacity-90`}>
+                    className="group w-full px-4 py-3 border-b border-border bg-white hover:bg-muted/40 transition-all duration-200 flex items-center justify-between focus:outline-none">
+                    
+                    {/* Left Section */}
                     <div className="flex items-center space-x-3">
-                        <div className={`p-2 rounded-lg ${statusInfo.bgColor || 'bg-gray-100'}`}>
-                            <statusInfo.icon className={`w-4 h-4 ${statusInfo.color}`} />
-                        </div>
-                        <div className="flex-1">
+                        {/* Status Indicator */}
+                        <div className={`w-2 h-2 rounded-full animate-pulse ${
+                            criticalStatus.percentage >= 95 ? 'bg-red-500' :
+                            criticalStatus.percentage >= 85 ? 'bg-amber-500' :
+                            criticalStatus.percentage >= 70 ? 'bg-blue-500' :
+                            'bg-emerald-500'
+                        }`} />
+                        
+                        {/* Main Info */}
+                        <div className="flex flex-col">
                             <div className="flex items-center space-x-2">
-                                <span className="text-sm font-semibold text-gray-900">Plan Usage</span>
-                                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                                    criticalStatus.percentage >= 95 ? 'bg-red-100 text-red-700' :
-                                    criticalStatus.percentage >= 85 ? 'bg-orange-100 text-orange-700' :
-                                    criticalStatus.percentage >= 70 ? 'bg-yellow-100 text-yellow-700' :
-                                    'bg-green-100 text-green-700'
-                                }`}>
-                                    {statusInfo.status}
-                                </span>
+                                <span className="text-sm font-medium text-foreground">Usage</span>
+                                <span className="text-xs font-medium text-muted-foreground">•</span>
+                                <span className="text-xs font-medium text-primary">{subscriptionLimits.subscription_name}</span>
                             </div>
-                            <p className="text-xs text-gray-600 mt-0.5">
-                                {criticalStatus.percentage >= 100 ? 
-                                    `${criticalStatus.name} limit reached` :
-                                    criticalStatus.percentage >= 95 ?
-                                    `${criticalStatus.name} limit almost reached` :
-                                    criticalStatus.percentage >= 70 ?
-                                    `${criticalStatus.name} usage: ${criticalStatus.percentage.toFixed(0)}%` :
-                                    `${subscriptionLimits.subscription_name} Plan Active`
-                                }
-                            </p>
+                            <span className={`text-xs font-medium ${
+                                criticalStatus.percentage >= 95 ? 'text-red-600' :
+                                criticalStatus.percentage >= 85 ? 'text-amber-600' :
+                                criticalStatus.percentage >= 70 ? 'text-blue-600' :
+                                'text-emerald-600'
+                            }`}>
+                                {criticalStatus.percentage >= 95 ? 'Critical' :
+                                 criticalStatus.percentage >= 85 ? 'High usage' :
+                                 criticalStatus.percentage >= 70 ? 'Moderate' :
+                                 'All good'} 
+                            </span>
                         </div>
                     </div>
-                    <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
+                    
+                    {/* Right Section */}
+                    <div className="flex items-center space-x-3">
+                        {/* Usage Percentage */}
+                        <div className="text-right">
+                            <div className={`text-lg font-bold ${
+                                criticalStatus.percentage >= 95 ? 'text-red-600' :
+                                criticalStatus.percentage >= 85 ? 'text-amber-600' :
+                                criticalStatus.percentage >= 70 ? 'text-blue-600' :
+                                'text-emerald-600'
+                            }`}>
+                                {criticalStatus.percentage.toFixed(0)}%
+                            </div>
+                        </div>
+                        
+                        {/* Expand Arrow */}
+                        <ChevronDown className={`w-4 h-4 text-muted-foreground group-hover:text-foreground transition-transform duration-200 ${
+                            isOpen ? 'rotate-180' : ''
+                        }`} />
+                    </div>
                 </button>
 
-                {/* Floating Panel */}
-                {isOpen && (
+                {/* Modal Portal - Renders outside of sidebar container */}
+                {isOpen && mounted && createPortal(
                     <>
-                        {/* Backdrop */}
-                        <div className="fixed inset-0 bg-black/20 z-40" onClick={() => setIsOpen(false)} />
+                        {/* Enhanced Backdrop with Blur */}
+                        <div 
+                            className="fixed inset-0 bg-black/40 backdrop-blur-md z-[9998] transition-all duration-300" 
+                            onClick={() => setIsOpen(false)}
+                            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
+                        />
 
-                        {/* Enhanced Panel */}
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 animate-in slide-in-from-top-2 duration-200 overflow-hidden">
-                            {/* Header */}
-                            <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-3">
-                                        <div className="p-2 bg-white rounded-lg shadow-sm">
-                                            <Activity className="w-5 h-5 text-blue-600" />
-                                        </div>
-                                        <div>
-                                            <h3 className="font-bold text-gray-900 text-lg">Usage Dashboard</h3>
-                                            <p className="text-sm text-gray-600">{subscriptionLimits.subscription_name} Plan</p>
-                                        </div>
+                        {/* Compact Professional Modal */}
+                        <div 
+                            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] sm:w-[80vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] max-w-4xl h-auto max-h-[80vh] bg-white rounded-xl shadow-2xl border border-border z-[9999] overflow-hidden animate-in zoom-in-95 fade-in-0 duration-300"
+                            style={{ position: 'fixed', zIndex: 9999 }}
+                        >
+                            {/* Compact Header */}
+                            <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-muted/20">
+                                <div className="flex items-center space-x-3">
+                                    <div className="p-2 bg-primary/10 rounded-lg">
+                                        <BarChart3 className="w-4 h-4 text-primary" />
                                     </div>
-                                    <button 
-                                        onClick={() => setIsOpen(false)} 
-                                        className="p-2 hover:bg-white/80 rounded-lg transition-colors text-gray-400 hover:text-gray-600"
-                                    >
-                                        <X className="w-5 h-5" />
-                                    </button>
+                                    <div>
+                                        <h2 className="text-lg font-semibold text-foreground">Usage Analytics</h2>
+                                        <p className="text-xs text-muted-foreground">{subscriptionLimits.subscription_name} Plan</p>
+                                    </div>
                                 </div>
+                                <button 
+                                    onClick={() => setIsOpen(false)} 
+                                    className="p-2 hover:bg-muted rounded-lg transition-colors text-muted-foreground hover:text-foreground"
+                                >
+                                    <X className="w-4 h-4" />
+                                </button>
                             </div>
 
-                            {/* Metrics Grid */}
-                            <div className="p-6 space-y-6">
-                                {metrics.map((metric) => {
-                                    const percentage = calculatePercentage(metric.used, metric.max);
-                                    const progressColor = getProgressColor(percentage);
-                                    const metricStatusInfo = getStatusInfo(percentage);
-                                    const remaining = Math.max(0, metric.max - metric.used);
+                            {/* Compact Metrics Grid */}
+                            <div className="p-5 space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    {metrics.map((metric) => {
+                                        const percentage = calculatePercentage(metric.used, metric.max);
+                                        const progressColor = getProgressColor(percentage);
+                                        const metricStatusInfo = getStatusInfo(percentage);
+                                        const remaining = Math.max(0, metric.max - metric.used);
 
-                                    return (
-                                        <div key={metric.label} className={`p-4 rounded-xl border-2 ${metricStatusInfo.border} ${metricStatusInfo.bg} hover:shadow-md transition-all duration-200`}>
-                                            {/* Metric Header */}
-                                            <div className="flex items-center justify-between mb-3">
-                                                <div className="flex items-center space-x-3">
-                                                    <div className={`p-2.5 rounded-lg ${metric.bgColor} shadow-sm`}>
-                                                        <metric.icon className={`w-5 h-5 ${metric.color}`} />
+                                        return (
+                                            <div key={metric.label} className="group p-4 rounded-lg border border-border bg-muted/30 hover:bg-muted/50 transition-all duration-200">
+                                                {/* Compact Header */}
+                                                <div className="flex items-center justify-between mb-3">
+                                                    <div className="flex items-center space-x-2">
+                                                        <div className={`p-1.5 rounded-md ${metric.bgColor}`}>
+                                                            <metric.icon className={`w-3 h-3 ${metric.color}`} />
+                                                        </div>
+                                                        <h4 className="font-medium text-foreground text-sm">{metric.label}</h4>
+                                                        <Tooltip>
+                                                            <TooltipTrigger asChild>
+                                                                <HelpCircle className="w-3 h-3 text-muted-foreground hover:text-foreground cursor-help" />
+                                                            </TooltipTrigger>
+                                                            <TooltipContent className="max-w-xs">
+                                                                <p className="text-xs">{metric.tooltip}</p>
+                                                            </TooltipContent>
+                                                        </Tooltip>
                                                     </div>
-                                                    <div>
-                                                        <h4 className="font-semibold text-gray-900 flex items-center gap-2">
-                                                            {metric.label}
-                                                            <Tooltip>
-                                                                <TooltipTrigger asChild>
-                                                                    <HelpCircle className="w-4 h-4 text-gray-400 cursor-help hover:text-gray-600" />
-                                                                </TooltipTrigger>
-                                                                <TooltipContent className="max-w-xs">
-                                                                    <p>{metric.tooltip}</p>
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        </h4>
-                                                        <p className="text-sm text-gray-600">
-                                                            {remaining > 0 ? `${remaining} remaining` : 'Limit reached'}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div className="text-right">
-                                                    <div className={`px-3 py-1 rounded-full text-sm font-bold ${
+                                                    <div className={`px-2 py-1 rounded-md text-xs font-medium ${
                                                         percentage >= 95 ? 'bg-red-100 text-red-700' :
-                                                        percentage >= 85 ? 'bg-orange-100 text-orange-700' :
-                                                        percentage >= 70 ? 'bg-yellow-100 text-yellow-700' :
+                                                        percentage >= 85 ? 'bg-yellow-100 text-yellow-700' :
+                                                        percentage >= 70 ? 'bg-blue-100 text-blue-700' :
                                                         'bg-green-100 text-green-700'
                                                     }`}>
                                                         {percentage.toFixed(0)}%
                                                     </div>
-                                                    <p className="text-xs text-gray-500 mt-1">
-                                                        {metric.used} / {metric.max}
+                                                </div>
+                                                
+                                                {/* Usage Stats */}
+                                                <div className="mb-3">
+                                                    <div className="flex items-baseline space-x-1 mb-1">
+                                                        <span className="text-lg font-bold text-foreground">{metric.used.toLocaleString()}</span>
+                                                        <span className="text-xs text-muted-foreground">/ {metric.max.toLocaleString()}</span>
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {remaining > 0 ? `${remaining.toLocaleString()} remaining` : 'Limit reached'}
                                                     </p>
                                                 </div>
-                                            </div>
 
-                                            {/* Enhanced Progress Bar */}
-                                            <div className="relative">
-                                                <div className="h-3 bg-gray-200 rounded-full overflow-hidden shadow-inner">
-                                                    <div 
-                                                        className={`h-full transition-all duration-500 ease-out ${progressColor} relative overflow-hidden`}
-                                                        style={{ width: `${percentage}%` }}
-                                                    >
-                                                        {/* Shimmer effect */}
-                                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
+                                                {/* Simple Progress Bar */}
+                                                <div className="mb-3">
+                                                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                                                        <div 
+                                                            className={`h-full transition-all duration-500 ease-out ${
+                                                                percentage >= 95 ? 'bg-red-500' :
+                                                                percentage >= 85 ? 'bg-yellow-500' :
+                                                                percentage >= 70 ? 'bg-blue-500' :
+                                                                'bg-green-500'
+                                                            }`}
+                                                            style={{ width: `${percentage}%` }}
+                                                        />
                                                     </div>
                                                 </div>
-                                                {/* Progress markers */}
-                                                <div className="absolute top-0 left-0 w-full h-3 flex justify-between items-center px-1">
-                                                    <div className="w-px h-2 bg-white/50" />
-                                                    <div className="w-px h-2 bg-white/50" />
-                                                    <div className="w-px h-2 bg-white/50" />
-                                                    <div className="w-px h-2 bg-white/50" />
-                                                </div>
-                                            </div>
 
-                                            {/* Status Message */}
-                                            {percentage >= 85 && (
-                                                <div className="mt-3 p-2 bg-white/50 rounded-lg border border-white/80">
-                                                    <p className={`text-xs font-medium flex items-center gap-1 ${
-                                                        percentage >= 100 ? 'text-red-800' :
-                                                        percentage >= 95 ? 'text-red-700' : 'text-orange-700'
+                                                {/* Compact Status */}
+                                                {percentage >= 85 && (
+                                                    <div className={`p-2 rounded-md text-xs ${
+                                                        percentage >= 95 ? 'bg-red-50 text-red-700 border border-red-200' :
+                                                        'bg-yellow-50 text-yellow-700 border border-yellow-200'
                                                     }`}>
-                                                        <AlertTriangle className="w-3 h-3" />
-                                                        {percentage >= 100 ?
-                                                            'Limit reached! Upgrade your plan to continue.' :
-                                                            percentage >= 95 ?
-                                                            'Almost at limit! Consider upgrading your plan.' :
-                                                            'Approaching limit. Monitor usage closely.'
-                                                        }
-                                                    </p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                })}
+                                                        <div className="flex items-center space-x-1">
+                                                            <AlertTriangle className="w-3 h-3" />
+                                                            <span className="font-medium">
+                                                                {percentage >= 100 ? 'Limit exceeded' :
+                                                                 percentage >= 95 ? 'Nearly at limit' :
+                                                                 'High usage detected'}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
 
-                                {/* Quick Actions */}
-                                <div className="pt-4 border-t border-gray-200">
-                                    <div className="flex items-center justify-between text-xs text-gray-500">
-                                        <span>Need more resources?</span>
-                                        <button className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
-                                            Upgrade Plan
-                                        </button>
+                                {/* Compact Footer */}
+                                <div className="p-4 border-t border-border bg-muted/20">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-2">
+                                            <Zap className="w-4 h-4 text-primary" />
+                                            <span className="text-sm font-medium text-foreground">Need more resources?</span>
+                                        </div>
+                                        <div className="flex space-x-2">
+                                            <button className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors">
+                                                View Plans
+                                            </button>
+                                            <button className="px-4 py-1.5 bg-primary text-primary-foreground text-xs font-medium rounded-md hover:bg-primary/90 transition-colors">
+                                                Upgrade
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </>
+                    </>,
+                    document.body
                 )}
             </div>
         </TooltipProvider>

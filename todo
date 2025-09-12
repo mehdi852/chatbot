@@ -2,8 +2,20 @@
 Todo list :
 
 
-[v] -  we need add  to the dashboard stats few fields, Number of conversations, number of ai responses, when a new ai response is done we need to add 1 to the field, same when a conversations is added we add
-       1. 
- 
 
-[x] -  cleanup of the dashboard to be production ready. 
+
+
+[v] - In the chat page we need to make the usage modal looks better and professional
+[v] - In widget templates we need to put a little of a gap between the questions
+[v] - In the same widget templates we need to handle if no website is selected rightnow its showing NaN
+[v] - In the Leads page add filters for daily and monthly etc..
+[x] - In the leads page maybe we need to improve the ui of the content of the lead.
+[x] - In the leads page we need to scroll loading,  for example when page load we get 10 leads if user scroll then we add another 10. ita lik  a scroll based pagination.
+[x] - In the chat page is not using dark theme at all.
+[x] - Widget customization is not using dark theme, when we add dark theme we need to exclude the preview  widget so it dont be affected by dark theme.
+[x] - Widget templates also not having the dark theme
+[x] - Ai agent page is not having the dark theme.
+[x] - Leads page is not having dark theme. 
+[x] -  In the chat widget when i hover over the button of chat widget the gradiant animation i need to remove it rightnow on hover it swipes to the opposist side we need to fix this behavior 
+
+

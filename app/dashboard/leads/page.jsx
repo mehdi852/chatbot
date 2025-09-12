@@ -36,13 +36,14 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, subDays, subWeeks, subMonths } from 'date-fns';
 
 const LeadsPage = () => {
     const { dbUser } = useUserContext();
     const [leads, setLeads] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [filter, setFilter] = useState('all');
+    const [dateFilter, setDateFilter] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
     const [expandedLeads, setExpandedLeads] = useState(new Set());
     const [selectedLead, setSelectedLead] = useState(null);
@@ -62,13 +63,41 @@ const LeadsPage = () => {
         if (dbUser?.id) {
             fetchLeads();
         }
-    }, [dbUser, filter]);
+    }, [dbUser, filter, dateFilter]);
+
+    // Date utility functions
+    const getDateRange = (filterType) => {
+        const now = new Date();
+        switch (filterType) {
+            case 'today':
+                return { startDate: startOfDay(now), endDate: endOfDay(now) };
+            case 'yesterday':
+                const yesterday = subDays(now, 1);
+                return { startDate: startOfDay(yesterday), endDate: endOfDay(yesterday) };
+            case 'last7Days':
+                return { startDate: startOfDay(subDays(now, 6)), endDate: endOfDay(now) };
+            case 'last30Days':
+                return { startDate: startOfDay(subDays(now, 29)), endDate: endOfDay(now) };
+            default:
+                return null;
+        }
+    };
 
     const fetchLeads = async () => {
         setIsLoading(true);
         try {
             const statusParam = filter !== 'all' ? `&status=${filter}` : '';
-            const response = await fetch(`/api/leads?userId=${dbUser.id}${statusParam}`);
+            
+            // Add date filtering
+            let dateParams = '';
+            if (dateFilter !== 'all') {
+                const dateRange = getDateRange(dateFilter);
+                if (dateRange) {
+                    dateParams = `&startDate=${dateRange.startDate.toISOString()}&endDate=${dateRange.endDate.toISOString()}`;
+                }
+            }
+            
+            const response = await fetch(`/api/leads?userId=${dbUser.id}${statusParam}${dateParams}`);
             
             if (!response.ok) throw new Error('Failed to fetch leads');
             
@@ -310,6 +339,22 @@ const LeadsPage = () => {
                                 <SelectItem value="lost">Lost</SelectItem>
                             </SelectContent>
                         </Select>
+                        
+                        <Select value={dateFilter} onValueChange={setDateFilter}>
+                            <SelectTrigger className="h-8 text-xs border-gray-200 focus:border-blue-300 focus:ring-1 focus:ring-blue-200">
+                                <div className="flex items-center gap-1.5">
+                                    <Calendar className="h-3 w-3 text-gray-400" />
+                                    <SelectValue placeholder="All Time" />
+                                </div>
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All Time</SelectItem>
+                                <SelectItem value="today">Today</SelectItem>
+                                <SelectItem value="yesterday">Yesterday</SelectItem>
+                                <SelectItem value="last7Days">Last 7 Days</SelectItem>
+                                <SelectItem value="last30Days">Last 30 Days</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
                 </div>
 
@@ -321,7 +366,7 @@ const LeadsPage = () => {
                                 <UserCheck className="h-12 w-12 text-gray-300 mx-auto mb-3" />
                                 <p className="text-sm font-medium text-gray-500 mb-1">No leads found</p>
                                 <p className="text-xs text-gray-400 max-w-[200px] leading-relaxed">
-                                    {searchTerm || filter !== 'all' 
+                                    {searchTerm || filter !== 'all' || dateFilter !== 'all'
                                         ? 'Try adjusting your search or filters'
                                         : 'Leads will appear here from chat interactions'
                                     }

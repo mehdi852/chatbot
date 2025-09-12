@@ -1,6 +1,6 @@
 import { db } from '@/configs/db.server';
 import { Leads, Websites, SaleAlerts } from '@/configs/schema';
-import { eq, and, desc, sql } from 'drizzle-orm';
+import { eq, and, desc, sql, gte, lte } from 'drizzle-orm';
 
 // GET - Fetch leads for a user
 export async function GET(request) {
@@ -9,6 +9,8 @@ export async function GET(request) {
         const userId = searchParams.get('userId');
         const websiteId = searchParams.get('websiteId');
         const status = searchParams.get('status'); // new, contacted, qualified, converted, lost
+        const startDate = searchParams.get('startDate');
+        const endDate = searchParams.get('endDate');
         const limit = parseInt(searchParams.get('limit') || '20');
         const offset = parseInt(searchParams.get('offset') || '0');
 
@@ -19,6 +21,7 @@ export async function GET(request) {
             }, { status: 400 });
         }
 
+        // Build the base query
         let query = db
             .select({
                 id: Leads.id,
@@ -53,34 +56,50 @@ export async function GET(request) {
             .from(Leads)
             .leftJoin(Websites, eq(Leads.website_id, Websites.id))
             .leftJoin(SaleAlerts, eq(Leads.sale_alert_id, SaleAlerts.id))
-            .where(eq(Leads.user_id, userId))
             .orderBy(desc(Leads.created_at))
             .limit(limit)
             .offset(offset);
 
-        // Add website filter if specified
+        // Build where conditions
+        const conditions = [eq(Leads.user_id, userId)];
+        
         if (websiteId) {
-            query = query.where(and(
-                eq(Leads.user_id, userId),
-                eq(Leads.website_id, websiteId)
-            ));
+            conditions.push(eq(Leads.website_id, websiteId));
         }
-
-        // Add status filter if specified
+        
         if (status) {
-            query = query.where(and(
-                eq(Leads.user_id, userId),
-                eq(Leads.lead_status, status)
-            ));
+            conditions.push(eq(Leads.lead_status, status));
         }
+        
+        if (startDate && endDate) {
+            conditions.push(gte(Leads.created_at, new Date(startDate)));
+            conditions.push(lte(Leads.created_at, new Date(endDate)));
+        }
+        
+        query = query.where(and(...conditions));
 
         const leads = await query;
 
-        // Get total count for pagination
+        // Get total count for pagination using the same conditions
+        const countConditions = [eq(Leads.user_id, userId)];
+        
+        if (websiteId) {
+            countConditions.push(eq(Leads.website_id, websiteId));
+        }
+        
+        if (status) {
+            countConditions.push(eq(Leads.lead_status, status));
+        }
+        
+        if (startDate && endDate) {
+            countConditions.push(gte(Leads.created_at, new Date(startDate)));
+            countConditions.push(lte(Leads.created_at, new Date(endDate)));
+        }
+        
         const totalCount = await db
             .select({ count: sql`count(*)` })
             .from(Leads)
-            .where(eq(Leads.user_id, userId));
+            .where(and(...countConditions));
 
         return Response.json({
             success: true,
