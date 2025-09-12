@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 NO CACHE TEST - Widget Final</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .test-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .success {
+            background: rgba(76, 187, 120, 0.2);
+            border-color: rgba(76, 187, 120, 0.4);
+        }
+        .warning {
+            background: rgba(255, 193, 7, 0.2);
+            border-color: rgba(255, 193, 7, 0.4);
+        }
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        .console-monitor {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .cache-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-panel success">
+        <h1>🚀 FINAL CACHE-BUSTED TEST</h1>
+        <p><strong>This page uses aggressive cache busting to ensure you get the latest widget version!</strong></p>
+        <ul>
+            <li>✅ Widget JavaScript: Cache-busted with timestamp</li>
+            <li>✅ CSS file: Cache-busted with timestamp</li>
+            <li>✅ All isolation code removed</li>
+            <li>✅ Original styling restored</li>
+        </ul>
+    </div>
+
+    <div class="test-panel warning">
+        <h3>⚠️ If you still see "🛡️ External stylesheet detected" message:</h3>
+        <p>This means your browser has cached the old JavaScript file. Try these steps:</p>
+        <ol>
+            <li>Press <code>Ctrl + Shift + R</code> (Windows) or <code>Cmd + Shift + R</code> (Mac)</li>
+            <li>Open Developer Tools → Application → Clear Storage → Clear site data</li>
+            <li>Try incognito/private browsing mode</li>
+            <li>Clear all browser data for the last 24 hours</li>
+        </ol>
+    </div>
+
+    <div class="test-panel">
+        <h3>🧪 Real-time Console Monitor</h3>
+        <p>Watch for console messages here (no need to open DevTools):</p>
+        <button onclick="clearConsoleMonitor()">Clear Monitor</button>
+        <button onclick="testWidget()">Test Widget</button>
+        <div id="console-monitor" class="console-monitor">
+            <div>📺 Console monitor started...</div>
+        </div>
+        
+        <div class="cache-info">
+            <strong>Current cache status:</strong>
+            <div id="cache-info">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Widget with aggressive cache busting -->
+    <script></script>
+    <script>
+        // Generate unique timestamp for this session
+        const sessionId = Date.now();
+        const scriptElement = document.createElement('script');
+        scriptElement.src = `https://chat.vertexit.xyz/fa.js?nocache=${sessionId}&t=${Math.random()}`;
+        scriptElement.setAttribute('data-website-id', '307028');
+        scriptElement.setAttribute('data-api-url', 'https://chat.vertexit.xyz/');
+        scriptElement.async = true;
+        document.head.appendChild(scriptElement);
+        
+        // Console monitoring
+        const consoleMonitor = document.getElementById('console-monitor');
+        const originalConsole = {
+            log: console.log,
+            warn: console.warn,
+            error: console.error
+        };
+        
+        function addToMonitor(type, message) {
+            const div = document.createElement('div');
+            const timestamp = new Date().toLocaleTimeString();
+            div.innerHTML = `<span style="color: #666;">[${timestamp}]</span> <span style="color: ${
+                type === 'error' ? '#f44' : type === 'warn' ? '#fa0' : '#0f0'
+            };">[${type.toUpperCase()}]</span> ${message}`;
+            consoleMonitor.appendChild(div);
+            consoleMonitor.scrollTop = consoleMonitor.scrollHeight;
+            
+            // Check for isolation code
+            if (message.includes('🛡️') || message.includes('External stylesheet detected') || message.includes('widget isolation')) {
+                div.style.background = '#400';
+                div.style.padding = '5px';
+                div.style.margin = '2px 0';
+                div.innerHTML = '🚨 ' + div.innerHTML + ' 🚨';
+            }
+        }
+        
+        // Override console methods
+        console.log = function(...args) {
+            originalConsole.log.apply(console, arguments);
+            addToMonitor('log', args.join(' '));
+        };
+        
+        console.warn = function(...args) {
+            originalConsole.warn.apply(console, arguments);
+            addToMonitor('warn', args.join(' '));
+        };
+        
+        console.error = function(...args) {
+            originalConsole.error.apply(console, arguments);
+            addToMonitor('error', args.join(' '));
+        };
+        
+        function clearConsoleMonitor() {
+            consoleMonitor.innerHTML = '<div>📺 Console monitor cleared...</div>';
+        }
+        
+        function testWidget() {
+            addToMonitor('log', '🧪 Starting widget test...');
+            
+            setTimeout(() => {
+                const widgetContainer = document.getElementById('fa-chat-widget-container');
+                if (widgetContainer) {
+                    addToMonitor('log', '✅ Widget container found');
+                    
+                    const launcher = widgetContainer.querySelector('.fa-chat-launcher');
+                    if (launcher) {
+                        addToMonitor('log', '✅ Chat launcher found');
+                        
+                        const computedStyle = getComputedStyle(launcher);
+                        const hasGradient = computedStyle.background.includes('gradient') || 
+                                          computedStyle.backgroundImage.includes('gradient');
+                        
+                        if (hasGradient) {
+                            addToMonitor('log', '✅ Chat launcher has gradient background - styling is correct!');
+                        } else {
+                            addToMonitor('warn', '⚠️ Chat launcher may not have gradient - check CSS loading');
+                        }
+                    } else {
+                        addToMonitor('error', '❌ Chat launcher not found');
+                    }
+                } else {
+                    addToMonitor('error', '❌ Widget container not found');
+                }
+                
+                // Check for CSS files
+                const cssLinks = document.querySelectorAll('link[rel="stylesheet"]');
+                const faStylesLink = Array.from(cssLinks).find(link => link.href.includes('fa-styles.css'));
+                
+                if (faStylesLink) {
+                    addToMonitor('log', `✅ fa-styles.css loaded from: ${faStylesLink.href}`);
+                } else {
+                    addToMonitor('error', '❌ fa-styles.css not found in page');
+                }
+            }, 2000);
+        }
+        
+        // Display cache info
+        function updateCacheInfo() {
+            const cacheInfo = document.getElementById('cache-info');
+            cacheInfo.innerHTML = `
+                <div>Session ID: ${sessionId}</div>
+                <div>Widget Script: https://chat.vertexit.xyz/fa.js?nocache=${sessionId}&t=${Math.random()}</div>
+                <div>CSS will be: https://chat.vertexit.xyz/fa-styles.css?v=[timestamp]</div>
+                <div>Page loaded: ${new Date().toLocaleString()}</div>
+            `;
+        }
+        
+        updateCacheInfo();
+        
+        // Auto-test after 3 seconds
+        setTimeout(() => {
+            addToMonitor('log', '⏰ Running automatic widget test...');
+            testWidget();
+        }, 3000);
+        
+        addToMonitor('log', `🚀 Cache-busted test page loaded with session ID: ${sessionId}`);
+        addToMonitor('log', '👀 Watching for any CSS isolation messages...');
+    </script>
+</body>
+</html>

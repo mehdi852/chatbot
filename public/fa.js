@@ -148,7 +148,7 @@
             const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.type = 'text/css';
-            link.href = `${apiUrl}/fa-styles.css`;
+            link.href = `${apiUrl}/fa-styles.css?v=${Date.now()}`;
             
             link.onload = () => {
                 console.log('✅ CSS loaded successfully');
@@ -204,6 +204,17 @@
                 --header-color: ${widgetSettings.headerColor} !important;
                 --background-primary: ${widgetSettings.backgroundColor} !important;
                 --text-primary: ${widgetSettings.textColor} !important;
+            }
+            
+            /* Additional font protection for widget */
+            #fa-chat-widget-container,
+            #fa-chat-widget-container *,
+            .fa-widget-overlay,
+            .fa-widget-overlay *,
+            .fa-chat-launcher,
+            .fa-chat-button {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+                font-synthesis: none !important;
             }
             
             /* Force override all gradient elements with !important */
@@ -344,7 +355,7 @@
 
     // Load Socket.IO client
     const script = document.createElement('script');
-    script.src = 'https://cdn.socket.io/4.5.4/socket.io.min.js';
+    script.src = 'https://cdn.socket.io/4.8.1/socket.io.min.js';
     document.head.appendChild(script);
 
     script.onload = async () => {
@@ -495,7 +506,7 @@
                                             </div>
                                             <div class="fa-agent-details">
                                                 <div class="fa-agent-name">${widgetSettings.companyName}</div>
-                                                <div class="fa-agent-status">We're here to help!</div>
+                                                <div class="fa-agent-status" id="fa-status-text-home">We're here to help!</div>
                                             </div>
                                         </div>
                                         <div class="fa-header-actions">
@@ -819,6 +830,61 @@
             // Run initial eligibility check
             checkInitialEligibility();
 
+            // Function to update agent status indicator (chat view only)
+            const updateAgentStatus = (humanAgentOnline) => {
+                isAgentOnline = humanAgentOnline;
+                
+                // Update status only in chat view (home view no longer has status indicator)
+                const statusBadgeChat = document.getElementById('fa-agent-status');
+                const statusTextChat = document.getElementById('fa-status-text');
+                
+                if (statusBadgeChat && statusTextChat) {
+                    // Always show green status (online)
+                    statusBadgeChat.classList.add('online');
+                    
+                    // Update text based on human agent availability
+                    if (humanAgentOnline) {
+                        statusTextChat.textContent = 'Agent is online';
+                        console.log('🟢 Human agent is online - showing: "Agent is online"');
+                    } else {
+                        statusTextChat.textContent = 'AI Agent online';
+                        console.log('🤖 No human agent - showing: "AI Agent online"');
+                    }
+                }
+                
+                console.log('✅ Status indicator always shows GREEN with text:', {
+                    chatStatus: !!statusBadgeChat,
+                    chatText: !!statusTextChat,
+                    humanAgentOnline: humanAgentOnline,
+                    displayText: humanAgentOnline ? 'Agent is online' : 'AI Agent online'
+                });
+            };
+
+            // Function to check agent online status
+            const checkAgentStatus = async () => {
+                try {
+                    console.log('🔍 checkAgentStatus called', {
+                        hasSocket: !!socket,
+                        isConnected: isConnected,
+                        websiteId: websiteIdNum
+                    });
+                    
+                    if (socket && isConnected) {
+                        // Request current agent status from server
+                        console.log('📡 Emitting check-agent-status to server for websiteId:', websiteIdNum);
+                        socket.emit('check-agent-status', {
+                            websiteId: websiteIdNum
+                        });
+                    } else {
+                        console.log('⚠️ No socket connection - defaulting to AI Agent online');
+                        updateAgentStatus(false); // false = no human agent, shows "AI Agent online"
+                    }
+                } catch (error) {
+                    console.error('❌ Error checking agent status:', error);
+                    updateAgentStatus(false); // false = no human agent, shows "AI Agent online"
+                }
+            };
+
             // Function to initialize socket connection
             const initializeSocket = async () => {
                 if (!isEligibleForChat) return null; // Don't initialize if not eligible
@@ -831,28 +897,46 @@
                     console.warn('Failed to initialize socket server:', error);
                 }
 
-                // Use dynamic socket URL based on environment
-                const getSocketUrl = () => {
-                    // If running on localhost during development
-                    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                        return 'http://localhost:3001';
+                // Function to get socket configuration from server
+                const getSocketConfig = async () => {
+                    try {
+                        const response = await fetch(`${apiUrl}/api/socket-config`);
+                        if (response.ok) {
+                            const config = await response.json();
+                            console.log('🔧 Socket configuration received:', config);
+                            return config;
+                        }
+                    } catch (error) {
+                        console.warn('Failed to get socket config, using fallback:', error);
                     }
                     
-                    // For production, use the same domain as the website but with port 3001
-                    // Or use the API URL if provided
-                    const baseUrl = apiUrl || window.location.origin;
-                    const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-                    
-                    // Try to use the same base URL as the API
-                    if (apiUrl && apiUrl !== window.location.origin) {
-                        return apiUrl.replace(/:\d+$/, '') + ':3001';
-                    }
-                    
-                    // Default to same domain with port 3001
-                    return `${protocol}//${window.location.hostname}:3001`;
+                    // Fallback configuration
+                    return {
+                        success: true,
+                        mode: 'production',
+                        port: '3001',
+                        isDevelopment: false
+                    };
                 };
                 
-                const socketUrl = getSocketUrl();
+                // Use dynamic socket URL based on environment configuration
+                const getSocketUrl = async () => {
+                    const config = await getSocketConfig();
+                    
+                    // If development mode is explicitly set
+                    if (config.isDevelopment) {
+                        console.log('🛠️ Using development socket configuration');
+                        return `http://localhost:${config.port}`;
+                    }
+                    
+                    // For production, use the same origin as apiUrl (where the chatbot server is hosted)
+                    console.log('🚀 Using production socket configuration');
+                    // Extract the protocol and hostname from apiUrl
+                    const apiURL = new URL(apiUrl);
+                    return `${apiURL.protocol}//${apiURL.hostname}`;
+                };
+                
+                const socketUrl = await getSocketUrl();
                 console.log('🔌 Connecting to socket server:', socketUrl);
                 const newSocket = io(socketUrl, {
                     transports: ['websocket', 'polling'],
@@ -860,6 +944,7 @@
                     reconnectionDelay: 1000,
                     timeout: 20000,
                     forceNew: true,
+                    autoConnect: true,
                     query: {
                         websiteId: websiteIdNum,
                         visitorId,
@@ -876,33 +961,48 @@
                         type: 'visitor',
                     });
                     isConnected = true;
-                    const status = document.querySelector('.fa-widget-status');
-                    if (status) {
-                        status.style.backgroundColor = '#4CAF50';
-                    }
+                    // Start with AI Agent online (green) - will switch to human agent if available
+                    updateAgentStatus(false); // false = no human agent, shows "AI Agent online"
                     
-                    // Check agent status after a short delay to ensure connection is stable
+                    // Check for human agent availability after a delay
                     setTimeout(() => {
+                        console.log('🔍 Checking for human agent availability - attempt 1');
                         checkAgentStatus();
-                    }, 1000);
+                        
+                        // Retry after another delay to catch slower admin connections
+                        setTimeout(() => {
+                            console.log('🔍 Checking for human agent availability - attempt 2 (retry)');
+                            checkAgentStatus();
+                        }, 3000);
+                    }, 2000);
                 });
 
                 newSocket.on('connect_error', (error) => {
                     console.error('Widget socket connection error:', error);
+                    console.error('Error details:', {
+                        message: error.message,
+                        description: error.description,
+                        type: error.type,
+                        context: error.context
+                    });
                     isConnected = false;
+                    
+                    // Try fallback connection after a delay
+                    if (error.message && error.message.includes('namespace')) {
+                        console.log('Namespace error detected, this may be a version compatibility issue');
+                    }
                 });
 
                 newSocket.on('error', (error) => {
                     console.error('Widget socket error:', error);
+                    console.error('Full error object:', error);
                 });
 
                 newSocket.on('disconnect', (reason) => {
                     console.log('Widget disconnected from socket server:', reason);
                     isConnected = false;
-                    const status = document.querySelector('.fa-widget-status');
-                    if (status) {
-                        status.style.backgroundColor = '#ff4444';
-                    }
+                    // Default to AI Agent online when disconnected
+                    updateAgentStatus(false); // false = no human agent, shows "AI Agent online"
                 });
 
                 newSocket.on('visitor-receive-message', handleAdminMessage);
@@ -910,9 +1010,23 @@
                 
                 // Listen for agent status updates
                 newSocket.on('agent-status-changed', (data) => {
+                    console.log('🔄 Received agent-status-changed event:', {
+                        dataWebsiteId: data.websiteId,
+                        ourWebsiteId: websiteIdNum,
+                        isMatch: data.websiteId === websiteIdNum,
+                        agentOnline: data.online,
+                        timestamp: data.timestamp
+                    });
+                    
                     if (data.websiteId === websiteIdNum) {
-                        console.log('Agent status changed:', data.online ? 'online' : 'offline');
+                        console.log(
+                            data.online 
+                                ? '✅ Human agent is ONLINE - showing "Agent is online"' 
+                                : '🤖 No human agent - showing "AI Agent online"'
+                        );
                         updateAgentStatus(data.online);
+                    } else {
+                        console.log('⚠️ Website ID mismatch - ignoring status change');
                     }
                 });
                 
@@ -1163,42 +1277,6 @@
             // Initialize emoji picker
             initializeEmojiPicker();
 
-            // Function to update agent status indicator
-            const updateAgentStatus = (online) => {
-                isAgentOnline = online;
-                const statusBadge = document.getElementById('fa-agent-status');
-                const statusText = document.getElementById('fa-status-text');
-                
-                if (statusBadge && statusText) {
-                    if (online) {
-                        statusBadge.classList.add('online');
-                        statusText.textContent = 'Agent is online';
-                    } else {
-                        statusBadge.classList.remove('online');
-                        statusText.textContent = 'We typically reply within a few minutes';
-                    }
-                }
-            };
-
-            // Function to check agent online status
-            const checkAgentStatus = async () => {
-                try {
-                    if (socket && isConnected) {
-                        // Request current agent status from server
-                        socket.emit('check-agent-status', {
-                            websiteId: websiteIdNum
-                        });
-                        console.log('Requesting agent status from server');
-                    } else {
-                        // Default to offline if no socket connection
-                        updateAgentStatus(false);
-                    }
-                } catch (error) {
-                    console.error('Error checking agent status:', error);
-                    updateAgentStatus(false);
-                }
-            };
-
             // Function to create a message element
             const createMessageElement = (message, isAdmin = false) => {
                 const messageElement = document.createElement('div');
@@ -1342,10 +1420,7 @@
             });
         } catch (error) {
             console.error('Failed to initialize widget:', error);
-            const status = document.querySelector('.fa-widget-status');
-            if (status) {
-                status.style.backgroundColor = '#ff4444';
-            }
+            // Don't need to update status here as the widget hasn't loaded yet
         }
     };
 })();

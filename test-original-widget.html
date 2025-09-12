@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Original Widget Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h1>🧪 Original Widget Test</h1>
+        <p>This page tests the widget with the original fa-styles.css file.</p>
+        
+        <h3>Expected behavior:</h3>
+        <ul>
+            <li>✅ Blue gradient chat button in bottom-right corner</li>
+            <li>✅ Smooth animations and hover effects</li>
+            <li>✅ Proper widget styling when opened</li>
+            <li>✅ Status indicator working (green when connected)</li>
+        </ul>
+        
+        <h3>Console logs to check:</h3>
+        <ul>
+            <li><code>✅ CSS loaded successfully</code></li>
+            <li><code>✅ Status indicators set to online (green)</code></li>
+            <li><code>Widget connected to socket server</code></li>
+        </ul>
+        
+        <p>Open browser Developer Tools (F12) to see console messages and network requests.</p>
+    </div>
+
+    <!-- Original widget embed -->
+    <script 
+        src="https://chat.vertexit.xyz/fa.js" 
+        data-website-id="307028" 
+        data-api-url="https://chat.vertexit.xyz/"
+        async>
+    </script>
+
+    <script>
+        // Debug CSS loading
+        setTimeout(() => {
+            const cssLinks = document.querySelectorAll('link[rel="stylesheet"]');
+            console.log('📋 CSS files loaded:', cssLinks.length);
+            
+            cssLinks.forEach((link, index) => {
+                console.log(`${index + 1}. ${link.href}`);
+            });
+            
+            // Check if fa-styles.css is loaded
+            const faStyles = Array.from(cssLinks).find(link => link.href.includes('fa-styles.css'));
+            if (faStyles) {
+                console.log('✅ fa-styles.css loaded successfully from:', faStyles.href);
+            } else {
+                console.error('❌ fa-styles.css NOT found!');
+            }
+            
+            // Check widget container
+            const widgetContainer = document.getElementById('fa-chat-widget-container');
+            if (widgetContainer) {
+                console.log('✅ Widget container found');
+                const launcher = widgetContainer.querySelector('.fa-chat-launcher');
+                if (launcher) {
+                    console.log('✅ Chat launcher found');
+                    const computedStyle = getComputedStyle(launcher);
+                    console.log('📐 Launcher computed styles:');
+                    console.log('  Background:', computedStyle.background);
+                    console.log('  Width:', computedStyle.width);
+                    console.log('  Height:', computedStyle.height);
+                    console.log('  Position:', computedStyle.position);
+                    console.log('  Z-index:', computedStyle.zIndex);
+                } else {
+                    console.error('❌ Chat launcher NOT found!');
+                }
+            } else {
+                console.error('❌ Widget container NOT found!');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Status Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .debug-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status-test {
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .online { background: #48bb78; color: white; }
+        .offline { background: #ef4444; color: white; }
+        .info { background: #3182ce; color: white; }
+    </style>
+</head>
+<body>
+    <div class="debug-panel">
+        <h2>🔧 Widget Status Indicator Debug</h2>
+        <p>This page will help you test the status indicator fix. Open browser console to see detailed logs.</p>
+        
+        <div class="status-test">
+            <h3>Status Tests:</h3>
+            <button class="online" onclick="testOnlineStatus()">🟢 Set Status Online</button>
+            <button class="offline" onclick="testOfflineStatus()">🔴 Set Status Offline</button>
+            <button class="info" onclick="checkElements()">🔍 Check Elements</button>
+            <button class="info" onclick="testSocketConnection()">🔌 Test Socket Connection</button>
+        </div>
+        
+        <div id="test-results"></div>
+    </div>
+
+    <!-- Include the chatbot widget -->
+    <script 
+        src="https://chat.vertexit.xyz/fa.js" 
+        data-website-id="307028" 
+        data-api-url="https://chat.vertexit.xyz/"
+        async>
+    </script>
+
+    <script>
+        let testResults = document.getElementById('test-results');
+        
+        function log(message, type = 'info') {
+            console.log(`[DEBUG] ${message}`);
+            const div = document.createElement('div');
+            div.innerHTML = `<strong>[${new Date().toLocaleTimeString()}]</strong> ${message}`;
+            div.style.margin = '5px 0';
+            div.style.color = type === 'error' ? '#ef4444' : type === 'success' ? '#48bb78' : '#333';
+            testResults.appendChild(div);
+            testResults.scrollTop = testResults.scrollHeight;
+        }
+
+        function checkElements() {
+            log('🔍 Checking for status elements...');
+            
+            const homeStatus = document.getElementById('fa-agent-status-home');
+            const homeText = document.getElementById('fa-status-text-home');
+            const chatStatus = document.getElementById('fa-agent-status');
+            const chatText = document.getElementById('fa-status-text');
+            
+            log(`Home status badge: ${homeStatus ? '✅ Found' : '❌ Not found'}`);
+            log(`Home status text: ${homeText ? '✅ Found' : '❌ Not found'}`);
+            log(`Chat status badge: ${chatStatus ? '✅ Found' : '❌ Not found'}`);
+            log(`Chat status text: ${chatText ? '✅ Found' : '❌ Not found'}`);
+            
+            if (homeStatus) {
+                log(`Home status classes: ${homeStatus.className}`);
+            }
+            if (chatStatus) {
+                log(`Chat status classes: ${chatStatus.className}`);
+            }
+        }
+
+        function testOnlineStatus() {
+            log('🟢 Testing ONLINE status...', 'success');
+            
+            // Wait a bit for widget to load
+            setTimeout(() => {
+                if (window.updateAgentStatus) {
+                    window.updateAgentStatus(true);
+                    log('✅ Called updateAgentStatus(true)');
+                } else {
+                    log('❌ updateAgentStatus function not found', 'error');
+                    // Try to call it directly
+                    const homeStatus = document.getElementById('fa-agent-status-home');
+                    const chatStatus = document.getElementById('fa-agent-status');
+                    
+                    if (homeStatus) {
+                        homeStatus.classList.add('online');
+                        log('✅ Manually added online class to home status');
+                    }
+                    if (chatStatus) {
+                        chatStatus.classList.add('online');
+                        log('✅ Manually added online class to chat status');
+                    }
+                }
+                checkElements();
+            }, 1000);
+        }
+
+        function testOfflineStatus() {
+            log('🔴 Testing OFFLINE status...', 'error');
+            
+            setTimeout(() => {
+                if (window.updateAgentStatus) {
+                    window.updateAgentStatus(false);
+                    log('✅ Called updateAgentStatus(false)');
+                } else {
+                    log('❌ updateAgentStatus function not found', 'error');
+                    // Try to call it directly
+                    const homeStatus = document.getElementById('fa-agent-status-home');
+                    const chatStatus = document.getElementById('fa-agent-status');
+                    
+                    if (homeStatus) {
+                        homeStatus.classList.remove('online');
+                        log('✅ Manually removed online class from home status');
+                    }
+                    if (chatStatus) {
+                        chatStatus.classList.remove('online');
+                        log('✅ Manually removed online class from chat status');
+                    }
+                }
+                checkElements();
+            }, 1000);
+        }
+
+        function testSocketConnection() {
+            log('🔌 Testing socket connection simulation...');
+            
+            setTimeout(() => {
+                log('Simulating socket connect event...');
+                const event = new CustomEvent('test-socket-connect');
+                document.dispatchEvent(event);
+                
+                // Try to trigger the same logic as socket connect
+                if (window.updateAgentStatus) {
+                    window.updateAgentStatus(true);
+                    log('✅ Simulated online status update');
+                } else {
+                    log('❌ Cannot simulate - function not available', 'error');
+                }
+            }, 1000);
+        }
+
+        // Wait for widget to load then run initial check
+        setTimeout(() => {
+            log('🚀 Widget should be loaded, running initial check...');
+            checkElements();
+        }, 3000);
+
+        // Monitor for DOM changes
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList') {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType === 1 && (
+                            node.id === 'fa-agent-status-home' || 
+                            node.id === 'fa-agent-status' ||
+                            node.querySelector && (
+                                node.querySelector('#fa-agent-status-home') ||
+                                node.querySelector('#fa-agent-status')
+                            )
+                        )) {
+                            log('🔄 Status elements detected in DOM');
+                            setTimeout(checkElements, 500);
+                        }
+                    });
+                }
+            });
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
+    </script>
+</body>
+</html>

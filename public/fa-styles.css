@@ -319,6 +319,7 @@
     flex-direction: column;
     height: 100%;
     background-color: var(--background-primary);
+    font-family: var(--font-family) !important;
 }
 
 .fa-home-body {
@@ -485,6 +486,7 @@
     height: 100%;
     background-color: var(--background-primary);
     overflow: hidden;
+    font-family: var(--font-family) !important;
 }
 
 .fa-header-back {
@@ -537,6 +539,7 @@
     position: relative;
     width: 100%;
     height: 100%;
+    font-family: var(--font-family) !important;
 }
 
 .fa-widget-backdrop {
@@ -550,7 +553,28 @@
     z-index: -1;
 }
 
-/* Chat Container */
+/* Enforce consistent font styling throughout the widget */
+#fa-chat-widget-container,
+#fa-chat-widget-container *,
+.fa-widget-overlay,
+.fa-widget-overlay *,
+.fa-chat-launcher,
+.fa-chat-button,
+.fa-chat-launcher *,
+.fa-chat-button *,
+.fa-launcher-tooltip,
+.fa-launcher-tooltip * {
+    font-family: var(--font-family) !important;
+    font-synthesis: none !important;
+}
+
+/* Prevent font inheritance from parent page for all widget elements */
+[class*="fa-"],
+[class*="fa-"] * {
+    font-family: var(--font-family) !important;
+}
+
+/* Chat Widget Container */
 .fa-chat-container {
     position: relative;
     width: 100%;
@@ -632,7 +656,7 @@
     right: -2px;
     width: 12px;
     height: 12px;
-    background: #ef4444;
+    background: #f97316;
     border-radius: var(--radius-full);
     border: 2px solid var(--background-primary);
     transition: background-color var(--transition-normal);
@@ -758,9 +782,9 @@
     width: 14px;
     height: 14px;
     border-radius: var(--radius-full);
-    background: #f44336; /* Default red for offline */
+    background: #f97316; /* Orange for offline */
     border: 2px solid white;
-    box-shadow: 0 0 6px rgba(244, 67, 54, 0.6);
+    box-shadow: 0 0 6px rgba(249, 115, 22, 0.6);
     transition: all var(--transition-normal);
     z-index: 1;
 }

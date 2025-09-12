@@ -238,18 +238,38 @@ export function ChatProvider({ children }) {
 
         // Add connection event handlers
         socketInstance.on('connect', () => {
-            console.log('Connected to socket server');
+            console.log('🟢 ADMIN socket connected to server', {
+                socketId: socketInstance.id,
+                websiteId: chatState.selectedWebsite?.id,
+                userId: dbUser?.id,
+                type: 'admin'
+            });
             setChatState((prev) => ({ ...prev, isConnected: true }));
         });
 
         socketInstance.on('disconnect', () => {
-            console.log('Disconnected from socket server');
+            console.log('🔴 ADMIN socket disconnected from server', {
+                socketId: socketInstance.id,
+                websiteId: chatState.selectedWebsite?.id,
+                userId: dbUser?.id,
+                type: 'admin'
+            });
             setChatState((prev) => ({ ...prev, isConnected: false }));
         });
 
         socketInstance.on('connect_error', (error) => {
             console.error('Socket connection error:', error);
+            console.error('Error details:', {
+                message: error.message,
+                description: error.description,
+                type: error.type,
+                context: error.context
+            });
             setChatState((prev) => ({ ...prev, isConnected: false }));
+            
+            if (error.message && error.message.includes('namespace')) {
+                console.log('Namespace error detected in admin connection, this may be a version compatibility issue');
+            }
         });
 
         // Modified socket event handler for admin-receive-message (CORRECTED)
@@ -405,19 +425,48 @@ export function ChatProvider({ children }) {
             if (chatState.selectedWebsite && dbUser?.id) {
                 try {
                     await fetch('/api/socket');
-                    // Use dynamic socket URL based on environment
-                    const getSocketUrl = () => {
-                        if (typeof window !== 'undefined') {
-                            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                                return 'http://localhost:3001';
+                    // Function to get socket configuration from server
+                    const getSocketConfig = async () => {
+                        try {
+                            const response = await fetch('/api/socket-config');
+                            if (response.ok) {
+                                const config = await response.json();
+                                console.log('🔧 Admin socket configuration received:', config);
+                                return config;
                             }
+                        } catch (error) {
+                            console.warn('Failed to get admin socket config, using fallback:', error);
+                        }
+                        
+                        // Fallback configuration
+                        return {
+                            success: true,
+                            mode: 'production',
+                            port: '3001',
+                            isDevelopment: false
+                        };
+                    };
+                    
+                    // Use dynamic socket URL based on environment configuration
+                    const getSocketUrl = async () => {
+                        if (typeof window !== 'undefined') {
+                            const config = await getSocketConfig();
+                            
+                            // If development mode is explicitly set
+                            if (config.isDevelopment) {
+                                console.log('🛠️ Admin using development socket configuration');
+                                return `http://localhost:${config.port}`;
+                            }
+                            
+                            // For production, use the same origin (reverse proxy should handle routing)
+                            console.log('🚀 Admin using production socket configuration');
                             const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
-                            return `${protocol}//${window.location.hostname}:3001`;
+                            return `${protocol}//${window.location.hostname}`;
                         }
                         return 'http://localhost:3001'; // fallback for SSR
                     };
                     
-                    const socketUrl = getSocketUrl();
+                    const socketUrl = await getSocketUrl();
                     console.log('🔌 Admin connecting to socket server:', socketUrl);
                     
                     const socketInstance = io(socketUrl, {
@@ -426,6 +475,7 @@ export function ChatProvider({ children }) {
                         reconnectionDelay: 1000,
                         timeout: 20000,
                         forceNew: true,
+                        autoConnect: true,
                         query: {
                             websiteId: chatState.selectedWebsite.id,
                             userId: dbUser.id,

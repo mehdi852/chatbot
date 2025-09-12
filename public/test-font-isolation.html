@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Isolation Test for Chat Widget</title>
+    <style>
+        /* Aggressive font styles to test widget isolation */
+        * {
+            font-family: 'Comic Sans MS', cursive !important;
+        }
+        
+        body {
+            font-family: 'Times New Roman', serif !important;
+            font-size: 24px !important;
+            font-weight: bold !important;
+            color: red !important;
+            background-color: yellow;
+            padding: 20px;
+        }
+        
+        .parent-div {
+            font-family: 'Impact', sans-serif !important;
+            font-size: 28px !important;
+            color: purple !important;
+        }
+        
+        .child-div {
+            font-family: 'Papyrus', fantasy !important;
+            font-size: 18px !important;
+            color: green !important;
+        }
+        
+        /* Try to override widget styles */
+        #fa-chat-widget-container * {
+            font-family: 'Comic Sans MS', cursive;
+            color: orange;
+        }
+        
+        [class*="fa-"] {
+            font-family: 'Times New Roman', serif;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Font Isolation Test Page</h1>
+    <p>This page has aggressive font styling to test if the chat widget maintains its own font styling.</p>
+    
+    <div class="parent-div">
+        This is a parent div with Impact font.
+        <div class="child-div">
+            This is a child div with Papyrus font.
+            
+            <!-- Chat widget should appear here and maintain its font styling -->
+            <div id="widget-area">
+                The chat widget should maintain its system font family (-apple-system, BlinkMacSystemFont, 'Segoe UI', etc.) 
+                and not inherit the aggressive font styles from this page.
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat widget script -->
+    <script src="./fa.js" data-website-id="1" data-api-url="http://localhost:3001"></script>
+</body>
+</html>

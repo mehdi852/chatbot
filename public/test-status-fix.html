@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Indicator Fix Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .test-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin: 5px;
+        }
+        
+        .status-online {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-offline {
+            background-color: #fed7aa;
+            color: #9a3412;
+            border: 1px solid #fdba74;
+        }
+        
+        .instructions {
+            background-color: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .log-section {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-section">
+        <h1>🤖🟢 Status Indicator Test - Always Green</h1>
+        <div class="instructions">
+            <h3>📝 Test Instructions:</h3>
+            <ol>
+                <li><strong>Open Widget:</strong> Click the chat launcher to open widget</li>
+                <li><strong>Go to Chat View:</strong> Click "Chat with us" to enter chat view</li>
+                <li><strong>Check Status:</strong> Should show GREEN with "AI Agent online"</li>
+                <li><strong>Connect Admin:</strong> Go to <code>app/dashboard/chat/page.jsx</code></li>
+                <li><strong>Status Text Changes:</strong> Should change to "Agent is online" (still green)</li>
+                <li><strong>Disconnect Admin:</strong> Leave dashboard - should show "AI Agent online" again</li>
+                <li><strong>Check Console:</strong> Look for detailed debug logs about agent connections</li>
+            </ol>
+        </div>
+        
+        <div class="highlight">
+            <strong>Expected Behavior:</strong>
+            <br>• <strong>Home view:</strong> No status indicator (removed)
+            <br>• <strong>Chat view:</strong> Always shows <span class="status-online">● Green</span> status indicator
+            <br>• <strong>No human agent:</strong> "AI Agent online" (green circle)
+            <br>• <strong>Human agent online:</strong> "Agent is online" (green circle)
+            <br>• <strong>Human agent leaves:</strong> Back to "AI Agent online" (green circle)
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🛠️ Test Tools</h2>
+        <button onclick="openConsole()">📊 Open Browser Console</button>
+        <button onclick="checkWidget()">🔍 Check Widget Status</button>
+        <button onclick="testConnection()">🔌 Test Socket Connection</button>
+        <button onclick="clearLogs()">🗑️ Clear Logs</button>
+        
+        <h3>Console Logs:</h3>
+        <div id="logs" class="log-section">
+            <div>Waiting for logs...</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎯 What to Look For</h2>
+        <h4>✅ Success Indicators:</h4>
+        <ul>
+            <li>Widget status is ALWAYS GREEN (circle never changes color)</li>
+            <li>Default text shows "AI Agent online" when no human agent</li>
+            <li>Text changes to "Agent is online" when admin connects</li>
+            <li>Console shows: "🟢 ADMIN socket connected to server"</li>
+            <li>Console shows: "✅ Human agent is ONLINE - showing 'Agent is online'"</li>
+            <li>Text changes happen in real-time when admin connects/disconnects</li>
+        </ul>
+        
+        <h4>❌ Failure Indicators:</h4>
+        <ul>
+            <li>Status circle changes from green to any other color</li>
+            <li>Status text doesn't change when admin connects to dashboard</li>
+            <li>Console shows socket connection errors</li>
+            <li>Status shows any offline/orange/red indicators</li>
+        </ul>
+    </div>
+
+    <!-- Chat widget script -->
+    <script src="./fa.js" data-website-id="1" data-api-url="http://localhost:3001"></script>
+
+    <script>
+        let logContainer = document.getElementById('logs');
+        
+        // Override console.log to capture logs
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            
+            // Add to our log display
+            const logEntry = document.createElement('div');
+            logEntry.textContent = new Date().toLocaleTimeString() + ': ' + args.join(' ');
+            logEntry.style.margin = '2px 0';
+            
+            // Color code different types of logs
+            if (args[0] && args[0].includes('🟢') || args[0].includes('✅')) {
+                logEntry.style.color = '#28a745';
+                logEntry.style.fontWeight = 'bold';
+            } else if (args[0] && args[0].includes('🔴') || args[0].includes('❌')) {
+                logEntry.style.color = '#dc3545';
+                logEntry.style.fontWeight = 'bold';
+            } else if (args[0] && args[0].includes('🟠') || args[0].includes('OFFLINE')) {
+                logEntry.style.color = '#f97316';
+                logEntry.style.fontWeight = 'bold';
+            } else if (args[0] && args[0].includes('🔍') || args[0].includes('📡')) {
+                logEntry.style.color = '#007bff';
+            } else if (args[0] && args[0].includes('⚠️')) {
+                logEntry.style.color = '#ffc107';
+            }
+            
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        };
+        
+        // Override console.error too
+        const originalError = console.error;
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            
+            const logEntry = document.createElement('div');
+            logEntry.textContent = new Date().toLocaleTimeString() + ' ERROR: ' + args.join(' ');
+            logEntry.style.margin = '2px 0';
+            logEntry.style.color = '#dc3545';
+            logEntry.style.fontWeight = 'bold';
+            
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        };
+        
+        function openConsole() {
+            alert('Open browser DevTools (F12) and check the Console tab for detailed debug information.');
+        }
+        
+        function checkWidget() {
+            const launcher = document.querySelector('.fa-chat-launcher');
+            const chatStatus = document.getElementById('fa-agent-status');
+            
+            console.log('🔍 Widget Elements Check:', {
+                launcher: !!launcher,
+                chatStatus: !!chatStatus,
+                chatStatusOnline: chatStatus ? chatStatus.classList.contains('online') : 'N/A',
+                note: 'Home view no longer has status indicator - only chat view shows status'
+            });
+        }
+        
+        function testConnection() {
+            if (window.checkAgentStatus) {
+                console.log('🧪 Manual agent status check triggered...');
+                window.checkAgentStatus();
+            } else {
+                console.log('❌ checkAgentStatus function not available yet');
+            }
+        }
+        
+        function clearLogs() {
+            logContainer.innerHTML = '<div>Logs cleared...</div>';
+        }
+        
+        // Add periodic status monitoring
+        setInterval(() => {
+            if (typeof window.isAgentOnline !== 'undefined') {
+                const statusText = window.isAgentOnline ? '🟢 ONLINE' : '🟠 OFFLINE';
+                document.title = `Status Test - ${statusText}`;
+            }
+        }, 1000);
+        
+        // Initial log
+        console.log('🚀 Status indicator test page loaded');
+        console.log('💡 This page will help you verify the agent status is working correctly');
+        console.log('📍 Expected: Widget should ALWAYS show GREEN circle with text that changes based on agent availability');
+        console.log('🤖 Default: "AI Agent online" | 🟢 Human agent: "Agent is online"');
+    </script>
+</body>
+</html>

@@ -128,6 +128,14 @@ export async function GET(req) {
                 const adminRoom = `admin_${socket.websiteId}`;
                 socket.join(adminRoom);
 
+                console.log(`🟢 ADMIN CONNECTED for website ${socket.websiteId}`, {
+                    socketId: socket.id,
+                    adminRoom,
+                    websiteRoom,
+                    totalAdminsForSite: Array.from(io.sockets.sockets.values())
+                        .filter(s => s.isAdmin && s.websiteId === socket.websiteId).length
+                });
+
                 // Notify all visitors in this website that an agent is online
                 socket.to(websiteRoom).emit('agent-status-changed', {
                     websiteId: socket.websiteId,
@@ -135,7 +143,7 @@ export async function GET(req) {
                     timestamp: new Date(),
                 });
 
-                console.log(`Agent connected for website ${socket.websiteId} - notifying visitors`);
+                console.log(`📢 Notifying visitors in website ${socket.websiteId} that agent is online`);
             }
 
             // Set visitor as online when they connect
@@ -208,13 +216,29 @@ export async function GET(req) {
 
             // Handle agent status check requests
             socket.on('check-agent-status', (data) => {
+                console.log('🔍 Received check-agent-status request:', {
+                    requestWebsiteId: data.websiteId,
+                    socketWebsiteId: socket.websiteId,
+                    isMatch: data.websiteId === socket.websiteId,
+                    socketType: socket.isAdmin ? 'admin' : 'visitor'
+                });
+                
                 if (data.websiteId === socket.websiteId) {
                     const isOnline = isAnyAdminOnline(io, socket.websiteId);
+                    console.log('📋 Agent status check result:', {
+                        websiteId: socket.websiteId,
+                        agentOnline: isOnline,
+                        adminSocketsCount: Array.from(io.sockets.sockets.values())
+                            .filter(s => s.isAdmin && s.websiteId === socket.websiteId).length
+                    });
+                    
                     socket.emit('agent-status-changed', {
                         websiteId: socket.websiteId,
                         online: isOnline,
                         timestamp: new Date(),
                     });
+                } else {
+                    console.log('⚠️ Website ID mismatch in agent status check - ignoring');
                 }
             });
 
@@ -231,22 +255,37 @@ export async function GET(req) {
                 socket.leave(`website_${websiteId}`);
 
                 if (wasAdmin) {
+                    console.log(`🔴 ADMIN DISCONNECTED for website ${websiteId}`, {
+                        socketId: socket.id,
+                        reason: reason
+                    });
+                    
                     socket.leave(`admin_${websiteId}`);
 
                     // Check if any other admins are still online for this website
                     // We need to check after a short delay to ensure the socket is fully disconnected
                     setTimeout(() => {
                         const stillHasAdmins = isAnyAdminOnline(io, websiteId);
+                        const remainingAdminCount = Array.from(io.sockets.sockets.values())
+                            .filter(s => s.isAdmin && s.websiteId === websiteId).length;
+                            
+                        console.log(`📋 Admin status check after disconnection:`, {
+                            websiteId,
+                            stillHasAdmins,
+                            remainingAdminCount
+                        });
+                        
                         if (!stillHasAdmins) {
                             // No admins online anymore, notify visitors
                             const websiteRoom = `website_${websiteId}`;
+                            console.log(`📢 All agents offline for website ${websiteId} - notifying visitors`);
                             io.to(websiteRoom).emit('agent-status-changed', {
                                 websiteId: websiteId,
                                 online: false,
                                 timestamp: new Date(),
                             });
-
-                            console.log(`All agents disconnected for website ${websiteId} - notifying visitors`);
+                        } else {
+                            console.log(`🟡 Other admins still online for website ${websiteId}`);
                         }
                     }, 100);
                 } else if (visitorId && !socket.isAdmin) {
