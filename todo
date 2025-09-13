@@ -18,20 +18,20 @@ Daily:
 [v] -  In the chat widget when i hover over the button of chat widget the gradiant animation i need to remove it rightnow on hover it swipes to the opposist side we need to fix this behavior 
 buy pepsi
 
-[x] - in the hero of the homepage we need to change Live activity div that is animated to show the notification when leads comes in 
-[x] - in AI-Powered Features in the homepage remove the Surveys div, also make the 3 cards same size 
-[x] - in Advanced AI Capabilities Seamless Integrations make it to say easy to install with wordpress etc we dont like the helpdesk and business tools 
-[x] - in Solutions page change Multi-Language Support to something about leads capture based on the conversation.
-[x] -  in Solutions  in Seamless Human Handoff we dont have automatic detection, actually the agent can see the conversation and  interupt whenever he wants we want you to change the text to be related to this.
-[x] -  in solutions in Smart Automation,  remove  the section also remove it from  the navbar in the homepage solutions dropdown.
-[x] -  in solutions  remove Visitor Targeting aswell.
-[x] - in  solutions Knowledge Base we dont allow upload  documents yet, instead we have a AI Agent Configuration @aiagent  that you add the data related to your service. so we need you to put  the text in solution   knowledge base related to this.
-[x] -  in solution Customization, we dont have conversation flow, so search our app to find something to put in its place.
-[x] -  in Ready to Get Started? section the darkmode is bad in this section, specially the button is not showing the content.
-[x] -  in Pricing we need to make the questions looks good maybe like panels.
-[x] -  in pricing remove anything related to trial and you can add some generic things instead
-[x] -  in Pricing ready to get started instead of using trial, do something like start now that redirect to the /dashboard
-[x] -  in Pricing Newsletter section i cant see the text of the input in the dashboard.
+[v] - in the hero of the homepage we need to change Live activity div that is animated to show the notification when leads comes in 
+[v] - in AI-Powered Features in the homepage remove the Surveys div, also make the 3 cards same size 
+[v] - in Advanced AI Capabilities Seamless Integrations make it to say easy to install with wordpress etc we dont like the helpdesk and business tools 
+[v] - in Solutions page change Multi-Language Support to something about leads capture based on the conversation.
+[v] -  in Solutions  in Seamless Human Handoff we dont have automatic detection, actually the agent can see the conversation and  interupt whenever he wants we want you to change the text to be related to this.
+[v] -  in solutions in Smart Automation,  remove  the section also remove it from  the navbar in the homepage solutions dropdown.
+[v] -  in solutions  remove Visitor Targeting aswell.
+[v] - in  solutions Knowledge Base we dont allow upload  documents yet, instead we have a AI Agent Configuration @aiagent  that you add the data related to your service. so we need you to put  the text in solution   knowledge base related to this.
+[v] -  in solution Customization, we dont have conversation flow, so search our app to find something to put in its place.
+[v] -  in Ready to Get Started? section the darkmode is bad in this section, specially the button is not showing the content.
+[v] -  in Pricing we need to make the questions looks good maybe like panels.
+[v] -  in pricing remove anything related to trial and you can add some generic things instead
+[v] -  in Pricing ready to get started instead of using trial, do something like start now that redirect to the /dashboard
+[v] -  in Pricing Newsletter section i cant see the text of the input in the darkmode.
 [x] -  In Homepage we need to add a way to the admin in settings general, to add the text of all right reserved  with the year etc
 [x] -  In admin settings we need to add a section in  the settings to  edit 2 pages,  privacy policy- terms of service, this will create 2 pages for them and they can be controlled from the admin panel. 
 [x] -  change tiptap library and use another editor, since tiptap is not compatible with our project

@@ -70,18 +70,6 @@ export default function Navbar() {
                     href: '/solutions#live-chat',
                 },
                 {
-                    icon: Zap,
-                    title: 'Smart Automation',
-                    desc: 'Automate customer support and lead generation',
-                    href: '/solutions#automation',
-                },
-                {
-                    icon: Target,
-                    title: 'Visitor Targeting',
-                    desc: 'Show personalized messages based on user behavior',
-                    href: '/solutions#targeting',
-                },
-                {
                     icon: BookOpen,
                     title: 'Knowledge Base',
                     desc: 'Train your AI with custom content and documents',

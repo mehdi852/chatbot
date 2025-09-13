@@ -169,9 +169,9 @@ export default function SolutionsPage() {
                                 iconColor: "text-yellow-500"
                             },
                             {
-                                icon: Users,
-                                title: "Multi-Language Support",
-                                description: "Communicate in multiple languages with built-in translation capabilities.",
+                                icon: Database,
+                                title: "Conversation-Based Lead Capture",
+                                description: "Automatically capture lead information through natural conversations and intelligent questioning.",
                                 color: "bg-green-500/10 border-green-500/20",
                                 iconColor: "text-green-500"
                             }
@@ -198,8 +198,8 @@ export default function SolutionsPage() {
                         </div>
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Seamless Human Handoff</h2>
                         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                            Bridge the gap between AI efficiency and human empathy with intelligent handoff 
-                            that ensures customers get the right help at the right time.
+                            Agents can monitor all conversations in real-time and step in whenever needed, 
+                            ensuring customers always get the personal touch when it matters most.
                         </p>
                     </div>
                     
@@ -208,23 +208,23 @@ export default function SolutionsPage() {
                             {
                                 step: "01",
                                 title: "AI Handles Initial Contact",
-                                description: "AI assistant immediately responds, gathering context and resolving simple issues.",
+                                description: "AI assistant immediately responds, gathering context and resolving customer queries.",
                                 icon: MessageSquare,
                                 color: "bg-blue-500/10 border-blue-500/20",
                                 iconColor: "text-blue-500"
                             },
                             {
                                 step: "02",
-                                title: "Smart Escalation Detection",
-                                description: "AI detects complex issues and intelligently escalates to human agents.",
-                                icon: ArrowRightLeft,
+                                title: "Agent Monitoring Dashboard",
+                                description: "Agents monitor all live conversations in real-time, watching for opportunities to assist.",
+                                icon: Eye,
                                 color: "bg-orange-500/10 border-orange-500/20",
                                 iconColor: "text-orange-500"
                             },
                             {
                                 step: "03",
-                                title: "Seamless Human Takeover",
-                                description: "Agents receive full context, continuing naturally without repetition.",
+                                title: "Agent-Initiated Takeover",
+                                description: "Agents can jump into any conversation instantly with full context and chat history.",
                                 icon: Users,
                                 color: "bg-green-500/10 border-green-500/20",
                                 iconColor: "text-green-500"
@@ -245,115 +245,6 @@ export default function SolutionsPage() {
                 </div>
             </section>
 
-            {/* Smart Automation Section */}
-            <section id="automation" className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/30 scroll-mt-28">
-                <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-12">
-                        <div className="inline-flex items-center space-x-2 bg-orange-500/10 rounded-full px-4 py-2 mb-6 border border-orange-500/20">
-                            <Zap className="w-4 h-4 text-orange-500" />
-                            <span className="text-sm font-medium text-orange-500">Smart Automation</span>
-                        </div>
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Automate Everything</h2>
-                        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                            Transform customer support and lead generation with intelligent automation 
-                            that works 24/7, handling routine tasks and scaling your business.
-                        </p>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {[
-                            {
-                                title: "Lead Generation & Qualification",
-                                description: "Automatically capture, qualify, and route leads based on custom criteria.",
-                                features: ["Intelligent lead scoring", "Automated follow-ups", "CRM integration"],
-                                icon: Target,
-                                color: "bg-blue-500/10 border-blue-500/20",
-                                iconColor: "text-blue-500"
-                            },
-                            {
-                                title: "Customer Support Automation",
-                                description: "Handle common requests, ticket creation, and escalation automatically.",
-                                features: ["Automated ticketing", "FAQ resolution", "Priority escalation"],
-                                icon: Bot,
-                                color: "bg-green-500/10 border-green-500/20",
-                                iconColor: "text-green-500"
-                            }
-                        ].map((automation, index) => (
-                            <div key={automation.title} className={`bg-card rounded-2xl p-6 border ${automation.color} hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}>
-                                <div className="flex items-start space-x-4 mb-4">
-                                    <div className={`w-12 h-12 ${automation.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                                        <automation.icon className={`w-6 h-6 ${automation.iconColor}`} />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold text-foreground mb-2">{automation.title}</h3>
-                                        <p className="text-muted-foreground mb-4">{automation.description}</p>
-                                    </div>
-                                </div>
-                                <div className="space-y-2">
-                                    {automation.features.map((feature, idx) => (
-                                        <div key={idx} className="flex items-center space-x-2">
-                                            <CheckCircle className={`w-4 h-4 ${automation.iconColor}`} />
-                                            <span className="text-sm text-foreground">{feature}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Visitor Targeting Section */}
-            <section id="targeting" className="py-16 px-4 sm:px-6 lg:px-8 scroll-mt-28">
-                <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-12">
-                        <div className="inline-flex items-center space-x-2 bg-purple-500/10 rounded-full px-4 py-2 mb-6 border border-purple-500/20">
-                            <Target className="w-4 h-4 text-purple-500" />
-                            <span className="text-sm font-medium text-purple-500">Visitor Targeting</span>
-                        </div>
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Personalized Messages</h2>
-                        <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                            Show the right message to the right visitor at the right time with intelligent 
-                            targeting based on behavior, location, and preferences.
-                        </p>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {[
-                            {
-                                icon: Eye,
-                                title: "Behavioral Targeting",
-                                description: "Target based on actions, time spent, scroll depth, and interaction patterns.",
-                                color: "bg-blue-500/10 border-blue-500/20",
-                                iconColor: "text-blue-500"
-                            },
-                            {
-                                icon: MapPin,
-                                title: "Geographic Targeting",
-                                description: "Show location-specific messages and offers based on visitor location.",
-                                color: "bg-green-500/10 border-green-500/20",
-                                iconColor: "text-green-500"
-                            },
-                            {
-                                icon: MousePointer,
-                                title: "Intent-Based Targeting",
-                                description: "Detect visitor intent through exit-intent and engagement metrics.",
-                                color: "bg-orange-500/10 border-orange-500/20",
-                                iconColor: "text-orange-500"
-                            }
-                        ].map((method, index) => (
-                            <div key={method.title} className={`bg-card rounded-2xl p-6 border ${method.color} hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}>
-                                <div className="bg-background/50 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
-                                    <method.icon className={`w-6 h-6 ${method.iconColor}`} />
-                                </div>
-                                <h3 className="text-xl font-bold text-foreground mb-3">{method.title}</h3>
-                                <p className="text-muted-foreground">{method.description}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
             {/* Knowledge Base Section */}
             <section id="knowledge-base" className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/30 scroll-mt-28">
                 <div className="max-w-7xl mx-auto">
@@ -363,10 +254,10 @@ export default function SolutionsPage() {
                             <span className="text-sm font-medium text-indigo-500">Knowledge Base</span>
                             <span className="bg-green-500 text-white text-xs px-1.5 py-0.5 rounded-md font-medium">New</span>
                         </div>
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Train Your AI With Your Content</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">AI Agent Configuration</h2>
                         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                            Upload documents, FAQs, and content to create a custom knowledge base. 
-                            Your AI provides accurate, company-specific answers based on your data.
+                            Configure your AI agent with custom business data and service information. 
+                            Train your chatbot to provide accurate, personalized responses about your specific offerings.
                         </p>
                     </div>
                     
@@ -374,24 +265,24 @@ export default function SolutionsPage() {
                         {[
                             {
                                 step: "01",
-                                title: "Upload Your Content",
-                                description: "Upload documents, PDFs, websites, and any content for AI learning.",
-                                icon: Upload,
+                                title: "Configure AI Agent",
+                                description: "Add your business data, services, and key information through our intuitive configuration interface.",
+                                icon: Cog,
                                 color: "bg-blue-500/10 border-blue-500/20",
                                 iconColor: "text-blue-500"
                             },
                             {
                                 step: "02",
-                                title: "AI Processing & Learning",
-                                description: "AI analyzes and learns from content, understanding context and relationships.",
+                                title: "AI Training & Learning",
+                                description: "AI processes your configuration data, understanding your business context and service offerings.",
                                 icon: Brain,
                                 color: "bg-green-500/10 border-green-500/20",
                                 iconColor: "text-green-500"
                             },
                             {
                                 step: "03",
-                                title: "Intelligent Responses",
-                                description: "AI provides accurate, contextual answers based on your knowledge base.",
+                                title: "Personalized Responses",
+                                description: "AI delivers accurate, business-specific answers tailored to your configured services and data.",
                                 icon: Zap,
                                 color: "bg-purple-500/10 border-purple-500/20",
                                 iconColor: "text-purple-500"
@@ -438,8 +329,8 @@ export default function SolutionsPage() {
                             },
                             {
                                 icon: MessageCircle,
-                                title: "Conversation Flow",
-                                description: "Design custom conversation paths and responses for different scenarios.",
+                                title: "Welcome Messages & Text",
+                                description: "Customize welcome messages, placeholder text, and all chatbot messaging to match your brand voice.",
                                 color: "bg-blue-500/10 border-blue-500/20",
                                 iconColor: "text-blue-500"
                             },
@@ -473,13 +364,13 @@ export default function SolutionsPage() {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
                             href="/dashboard"
-                            className="bg-white text-primary hover:bg-gray-100 dark:bg-gray-900 dark:text-primary-foreground py-3 px-8 rounded-lg font-medium transition-colors"
+                            className="bg-white text-primary hover:bg-gray-100 dark:bg-white dark:text-primary dark:hover:bg-gray-100 py-3 px-8 rounded-lg font-medium transition-colors shadow-lg hover:shadow-xl"
                         >
                             Start Free Trial
                         </Link>
                         <Link
                             href="/contact"
-                            className="bg-transparent border-2 border-white text-white py-3 px-8 rounded-lg font-medium hover:bg-white hover:text-primary dark:hover:bg-gray-900 dark:hover:text-primary-foreground transition-colors"
+                            className="bg-transparent border-2 border-white text-white py-3 px-8 rounded-lg font-medium hover:bg-white hover:text-primary dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-primary transition-colors"
                         >
                             Contact Sales
                         </Link>

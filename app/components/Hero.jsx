@@ -145,33 +145,135 @@ export default function Hero() {
                         </div>
                     </div>
                     
-                    {/* Live Activity Monitor */}
-                    <div className="hidden xl:block absolute -right-44 bottom-24 w-56 animate-ultra-float-4 transform hover:scale-[1.02] transition-all duration-500 z-10">
-                        <div className="glass-effect rounded-xl shadow-lg border border-white/20 p-3 backdrop-blur-xl">
-                            <div className="flex items-center justify-between mb-3">
-                                <h3 className="font-bold text-sm text-foreground">Live Activity</h3>
-                                <div className="flex items-center space-x-2">
-                                    <span className="text-xs px-2 py-1 bg-secondary/10 text-secondary rounded-full font-medium">8 online</span>
-                                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    {/* Leads Notification Panel */}
+                    <div className="hidden xl:block absolute -right-[230px] top-[600px] w-[280px] animate-ultra-float-4 transform hover:scale-[1.02] transition-all duration-500 z-10">
+                        <div className="glass-effect rounded-xl shadow-lg border border-white/20 backdrop-blur-xl overflow-hidden">
+                            {/* Header */}
+                            <div className="bg-gradient-to-r from-primary/5 to-primary/10 px-3 py-2 border-b border-white/10">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
+                                        <h3 className="font-semibold text-xs text-foreground tracking-tight">
+                                            New Leads
+                                        </h3>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <span className="bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded-md font-medium">
+                                            3
+                                        </span>
+                                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                {[
-                                    { country: 'US', action: 'Requested pricing', color: 'from-blue-500 to-blue-600', status: 'active' },
-                                    { country: 'UK', action: 'Downloaded whitepaper', color: 'from-purple-500 to-purple-600', status: 'qualified' },
-                                    { country: 'DE', action: 'Viewing enterprise features', color: 'from-green-500 to-green-600', status: 'hot' }
-                                ].map((visitor, index) => (
-                                    <div key={index} className="flex items-center space-x-3 p-2 hover:bg-muted/30 rounded-lg transition-colors">
-                                        <div className={`w-6 h-6 bg-gradient-to-r ${visitor.color} rounded-lg flex items-center justify-center text-white text-xs font-medium shadow-sm`}>
-                                            {visitor.country}
+                            
+                            {/* Notification List */}
+                            <div className="p-2">
+                                <div className="space-y-0 divide-y divide-white/10">
+                                    {[
+                                        { 
+                                            id: 1,
+                                            company: 'TechCorp Inc',
+                                            action: 'Requested pricing',
+                                            time: '2m',
+                                            priority: 'high',
+                                            value: '$12.4k',
+                                            country: 'US',
+                                            read: false
+                                        },
+                                        { 
+                                            id: 2,
+                                            company: 'Digital Solutions',
+                                            action: 'Downloaded demo',
+                                            time: '5m',
+                                            priority: 'medium',
+                                            value: '$8.2k',
+                                            country: 'UK',
+                                            read: false
+                                        },
+                                        { 
+                                            id: 3,
+                                            company: 'Innovation GmbH',
+                                            action: 'Viewed docs',
+                                            time: '8m',
+                                            priority: 'low',
+                                            value: '$5.6k',
+                                            country: 'DE',
+                                            read: true
+                                        }
+                                    ].map((lead, index) => (
+                                        <div
+                                            key={lead.id}
+                                            className={`py-2 cursor-pointer transition-all duration-200 group hover:bg-primary/10 relative overflow-hidden ${
+                                                index === 0 ? 'pt-0' : ''
+                                            } ${
+                                                !lead.read && 'bg-primary/[0.03] after:absolute after:left-0 after:top-0 after:h-full after:w-0.5 after:bg-primary'
+                                            }`}
+                                        >
+                                            <div className="flex gap-2.5">
+                                                {/* Icon */}
+                                                <div
+                                                    className={`h-7 w-7 rounded-full flex items-center justify-center shrink-0 ${
+                                                        lead.priority === 'high'
+                                                            ? 'text-orange-500 bg-orange-100/50'
+                                                            : lead.priority === 'medium'
+                                                            ? 'text-blue-500 bg-blue-100/50'
+                                                            : 'text-green-500 bg-green-100/50'
+                                                    }`}
+                                                >
+                                                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                    </svg>
+                                                </div>
+
+                                                {/* Content */}
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex items-start justify-between gap-1 mb-0.5">
+                                                        <h5 className={`text-xs line-clamp-1 ${
+                                                            !lead.read ? 'font-semibold text-foreground' : 'font-medium text-foreground/90'
+                                                        }`}>
+                                                            {lead.company}
+                                                        </h5>
+                                                        {!lead.read && <div className="h-1 w-1 rounded-full bg-primary shrink-0 mt-1.5"></div>}
+                                                    </div>
+
+                                                    <p className="text-xs text-muted-foreground line-clamp-1 mb-1">
+                                                        {lead.action}
+                                                    </p>
+
+                                                    <div className="flex items-center justify-between gap-1">
+                                                        <div className="flex items-center gap-1">
+                                                            <span className="text-xs text-muted-foreground/90">
+                                                                {lead.time}
+                                                            </span>
+                                                            <span className={`text-xs px-1 py-0.5 rounded font-medium ${
+                                                                lead.priority === 'high'
+                                                                    ? 'bg-orange-100/50 text-orange-600'
+                                                                    : lead.priority === 'medium'
+                                                                    ? 'bg-blue-100/50 text-blue-600'
+                                                                    : 'bg-green-100/50 text-green-600'
+                                                            }`}>
+                                                                {lead.country}
+                                                            </span>
+                                                        </div>
+                                                        <span className="text-xs font-semibold text-primary">
+                                                            {lead.value}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-xs font-medium text-foreground truncate">{visitor.action}</p>
-                                            <p className="text-xs text-muted-foreground">Enterprise visitor • 2m ago</p>
-                                        </div>
-                                        <div className={`w-2 h-2 rounded-full ${visitor.status === 'hot' ? 'bg-red-500 animate-pulse' : visitor.status === 'qualified' ? 'bg-orange-500' : 'bg-green-500'}`}></div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            {/* Footer */}
+                            <div className="px-2 pb-2">
+                                <button className="w-full text-xs h-6 bg-primary/10 hover:bg-primary/20 text-primary rounded-md font-medium transition-all duration-200 flex items-center justify-center gap-1">
+                                    View all
+                                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>
