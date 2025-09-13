@@ -69,6 +69,7 @@ export const MetaData = pgTable('meta_data', {
     address: varchar('address').notNull(),
     phone: varchar('phone').notNull(),
     email: varchar('email').notNull(),
+    copyright: varchar('copyright').notNull().default('© 2024 Your Company Name. All rights reserved.'),
     createdAt: timestamp('createdAt').defaultNow().notNull(), // Correct syntax
     maintenanceMode: boolean('maintenance_mode').notNull().default(false),
 });

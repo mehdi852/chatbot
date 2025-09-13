@@ -11,10 +11,10 @@ export async function POST(req) {
         return NextResponse.json({ message }, { status });
     }
 
-    const { siteTitle, siteDescription, siteKeywords, googleAnalyticsId, maintenanceMode, logoUrl, siteAddress, sitePhone, siteEmail } = await req.json();
+    const { siteTitle, siteDescription, siteKeywords, googleAnalyticsId, maintenanceMode, logoUrl, siteAddress, sitePhone, siteEmail, siteCopyright } = await req.json();
 
     try {
-        await setGeneralSettings(siteTitle, siteDescription, siteKeywords, googleAnalyticsId, maintenanceMode, logoUrl, siteAddress, sitePhone, siteEmail);
+        await setGeneralSettings(siteTitle, siteDescription, siteKeywords, googleAnalyticsId, maintenanceMode, logoUrl, siteAddress, sitePhone, siteEmail, siteCopyright);
 
         // Revalidate the settings pages
         revalidatePath('/admin/settings');

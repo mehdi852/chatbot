@@ -28,6 +28,7 @@ const Settings = () => {
     const [siteAddress, setSiteAddress] = useState('');
     const [sitePhone, setSitePhone] = useState('');
     const [siteEmail, setSiteEmail] = useState('');
+    const [siteCopyright, setSiteCopyright] = useState('');
 
     // Contact settings state
     const [contactSettings, setContactSettings] = useState({});
@@ -120,6 +121,8 @@ const Settings = () => {
             setSitePhone(e.target.value);
         } else if (e.target.name === 'siteEmail') {
             setSiteEmail(e.target.value);
+        } else if (e.target.name === 'siteCopyright') {
+            setSiteCopyright(e.target.value);
         }
     };
 
@@ -136,6 +139,7 @@ const Settings = () => {
         setSiteAddress(data.generalSettings.address || '');
         setSitePhone(data.generalSettings.phone || '');
         setSiteEmail(data.generalSettings.email || '');
+        setSiteCopyright(data.generalSettings.copyright || '');
     };
 
     const getContactSettingsFromDB = async () => {
@@ -215,6 +219,7 @@ const Settings = () => {
                 siteAddress,
                 sitePhone,
                 siteEmail,
+                siteCopyright,
             }),
         });
 
@@ -1156,6 +1161,22 @@ const Settings = () => {
                                                 id="siteEmail"
                                                 type="email"
                                                 placeholder={t('adminPage.settings.general.fields.siteEmail.placeholder')}
+                                                className="mt-1.5 border-border focus:border-ring h-11 transition-all duration-200"
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2.5">
+                                            <LabelWithTooltip
+                                                htmlFor="siteCopyright"
+                                                label="Copyright Text"
+                                                tooltip="The copyright text that will appear in the footer of your website"
+                                            />
+                                            <Input
+                                                value={siteCopyright}
+                                                onChange={inputHandler}
+                                                name="siteCopyright"
+                                                id="siteCopyright"
+                                                placeholder="© 2024 Your Company Name. All rights reserved."
                                                 className="mt-1.5 border-border focus:border-ring h-11 transition-all duration-200"
                                             />
                                         </div>

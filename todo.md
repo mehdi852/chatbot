@@ -32,9 +32,46 @@ buy pepsi
 [v] -  in pricing remove anything related to trial and you can add some generic things instead
 [v] -  in Pricing ready to get started instead of using trial, do something like start now that redirect to the /dashboard
 [v] -  in Pricing Newsletter section i cant see the text of the input in the darkmode.
-[x] -  In Homepage we need to add a way to the admin in settings general, to add the text of all right reserved  with the year etc
-[x] -  In admin settings we need to add a section in  the settings to  edit 2 pages,  privacy policy- terms of service, this will create 2 pages for them and they can be controlled from the admin panel. 
+[v] -  In Homepage we need to add a way to the admin in settings general, to add the text of all right reserved  with the year etc\
+
+
+Saturday, September 2025
+
 [x] -  change tiptap library and use another editor, since tiptap is not compatible with our project
+[x] -  In admin settings we need to add a section in  the settings to  edit 2 pages,  privacy policy- terms of service, this will create 2 pages for them and they can be controlled from the admin panel. 
+[x] -  In the notification button change the text from show all notification to Load more. then  apply the functionality for it you can search codebase and the api respnisble for getting the notifications
+       and fix to get specific number and when load click we load x amount of number and so on. 
+[x] -  The loading placeholder in @Billing is not dark moded
+
+#  Admin section
+[x] - In the User editor billing if i change the subscription directly it doesnt work i need to Subscription plan needs to be selected.
+[x] - In the user editor the security tab is empty we need to remove that section.
+[x] - In the User editor @notifications is  not showing text instead its showing us the keys for the translations, please fix that 
+[x] - In the User editor remove the activity log section.
+[x] - In the User editor we need a section to see the usage of a user/websites.
+[x] - In the @AdminDashboard we need to remove the Active Popups card and change it with total earnings, this earning needs to be incremented when a subscription is susccefully bought or  renewed.
+[x] - In the @UsersManager page we need to make sure the user editor modal is working 
+[x] - In the Subscription manager we need to make the action button works, for example cancel an active subscription.
+[x] - In the @tickets we need to make sure this is working properly i need to try to send message etc also we need to remove the input for the admin to respond instead the admin needs to respond by
+      his email
+[x] - In @adminSettings  we need to remove the Max Paths per Website	 Max Popups per Path	Features since they are not  related to our app any more
+[x] - Check the useletter if it works properly.
+[x] - In @admindashbaord in the navbar we need to remove the language picker
+[x] - 
+[x] - 
+[x] - 
+[x] - 
+[x] - 
+[x] - 
+[x] - 
+[x] - 
+[x] - 
+[x] - 
+[x] - 
+
+
+
+
 
 
 Horizon : 

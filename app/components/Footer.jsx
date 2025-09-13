@@ -244,7 +244,7 @@ export default function Footer() {
                 {/* Bottom Bar */}
                 <motion.div variants={fadeInUp} className="mt-16 pt-8 border-t border-border">
                     <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                        <p className="text-muted-foreground text-sm">{t('footer.legal.copyright', { year: new Date().getFullYear() })}</p>
+                        <p className="text-muted-foreground text-sm">{generalSettings.copyright || `© ${new Date().getFullYear()} Your Company Name. All rights reserved.`}</p>
                         <div className="flex flex-wrap justify-center md:justify-end gap-6">
                             <Link href="/privacy" className="text-muted-foreground hover:text-foreground text-sm transition-colors duration-200">
                                 {t('footer.legal.privacy')}

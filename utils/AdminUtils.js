@@ -290,7 +290,7 @@ async function getTicketByEmail(email) {
  * @returns {Promise<void>} - A promise that resolves when the settings are set.
  * @throws {Error} - If there is an error while setting the settings.
  */
-async function setGeneralSettings(siteTitle, siteDescription, siteKeywords, googleAnalyticsId, maintenanceMode, logoUrl, siteAddress, sitePhone, siteEmail) {
+async function setGeneralSettings(siteTitle, siteDescription, siteKeywords, googleAnalyticsId, maintenanceMode, logoUrl, siteAddress, sitePhone, siteEmail, copyright) {
     try {
         // First, check if we have any existing settings
         const existingSettings = await db.select().from(MetaData).limit(1);
@@ -309,6 +309,7 @@ async function setGeneralSettings(siteTitle, siteDescription, siteKeywords, goog
                     address: siteAddress,
                     phone: sitePhone,
                     email: siteEmail,
+                    copyright: copyright,
                 })
                 .returning();
 
@@ -327,6 +328,7 @@ async function setGeneralSettings(siteTitle, siteDescription, siteKeywords, goog
                     address: siteAddress,
                     phone: sitePhone,
                     email: siteEmail,
+                    copyright: copyright,
                 })
                 .where(eq(MetaData.id, existingSettings[0].id))
                 .returning();
