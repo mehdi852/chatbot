@@ -686,6 +686,10 @@
                         chatLauncherEl.style.opacity = '1';
                         chatLauncherEl.style.transform = 'translateY(0) scale(1)';
                         
+                        // Add style to prevent gradient animation on hover
+                        chatLauncherEl.style.backgroundSize = '100% 100%';
+                        chatLauncherEl.style.backgroundPosition = '0 0';
+                        
                         console.log('✨ Button should now be visible with bounce effect!');
                         
                         // Remove transition after animation completes to prevent interference
@@ -749,7 +753,7 @@
             const chatContainer = container.querySelector('.fa-chat-container');
             const homeView = container.querySelector('#fa-home-view');
             const chatView = container.querySelector('#fa-chat-view');
-            const closeBtn = container.querySelector('.fa-close-btn');
+            const closeBtns = container.querySelectorAll('.fa-close-btn'); // Get ALL close buttons
             const minimizeBtn = container.querySelector('.fa-minimize-btn');
             const backBtn = container.querySelector('#fa-back-btn');
             const startChatBtn = container.querySelector('#fa-start-chat-btn');
@@ -781,8 +785,12 @@
                 // Switch to chat view
                 switchToView('chat');
                 
-                // Initialize socket and chat
-                await checkEligibilityAndInitialize();
+                // Only initialize socket if not already connected
+                if (!socket || !isConnected) {
+                    await checkEligibilityAndInitialize();
+                } else {
+                    console.log('Socket already connected, reusing existing connection');
+                }
                 
                 // If a message is provided, send it automatically
                 if (message) {
@@ -1071,7 +1079,16 @@
                         isAIEnabled = true; // Default to allowing AI
                     }
 
-                    // Always initialize socket for chat
+                    // Clean up existing socket before creating a new one
+                    if (socket) {
+                        console.log('🧹 Cleaning up existing socket before creating new one');
+                        socket.removeAllListeners();
+                        socket.disconnect();
+                        socket = null;
+                        isConnected = false;
+                    }
+                    
+                    // Initialize socket for chat
                     socket = await initializeSocket();
                     input.disabled = false;
                     input.placeholder = 'Type a message...';
@@ -1089,15 +1106,24 @@
                     isEligibleForChat = true;
                     isAIEnabled = false;
                     
+                    // Clean up existing socket before creating a new one
+                    if (socket) {
+                        console.log('🧹 Cleaning up existing socket due to error');
+                        socket.removeAllListeners();
+                        socket.disconnect();
+                        socket = null;
+                        isConnected = false;
+                    }
+                    
                     socket = await initializeSocket();
                     input.disabled = false;
                     input.placeholder = 'Type your message...';
-                    send.disabled = false;
+                    sendBtn.disabled = false;
                     
                     const errorMessage = document.createElement('div');
                     errorMessage.className = 'fa-widget-message admin';
                     errorMessage.textContent = 'Chat connected. A human agent will assist you.';
-                    content.appendChild(errorMessage);
+                    messagesScroll.appendChild(errorMessage);
                 }
             };
 
@@ -1145,11 +1171,64 @@
                 });
             }
 
-            // Close button functionality
-            closeBtn.addEventListener('click', () => {
+            // Close button functionality - attach to ALL close buttons
+            closeBtns.forEach(closeBtn => {
+                closeBtn.addEventListener('click', () => {
+                    console.log('Close button clicked from:', closeBtn.closest('.fa-home-view') ? 'home view' : 'chat view');
+                    
+                    widgetOverlay.classList.remove('active');
+                    chatLauncher.style.display = 'flex';
+
+                    // Remove all typing indicators
+                    hideTypingIndicator();
+
+                    // Notify server that visitor is going away
+                    if (socket && isConnected) {
+                        socket.emit('visitor-away', {
+                            websiteId: websiteIdNum,
+                            visitorId: visitorId,
+                            timestamp: new Date()
+                        });
+                        console.log('Visitor going away, notifying server');
+                    }
+                    
+                    // Clean up socket when closing widget to prevent accumulation
+                    // But keep it for immediate reopening - only clean if staying closed
+                    setTimeout(() => {
+                        if (!widgetOverlay.classList.contains('active') && socket) {
+                            console.log('🧹 Cleaning up socket after widget close');
+                            socket.removeAllListeners();
+                            socket.disconnect();
+                            socket = null;
+                            isConnected = false;
+                        }
+                    }, 5000); // 5 second delay to allow for quick reopening
+                });
+            });
+
+            // Minimize button functionality
+            minimizeBtn.addEventListener('click', () => {
                 widgetOverlay.classList.remove('active');
                 chatLauncher.style.display = 'flex';
+                
+                // Don't clean up socket on minimize - user might reopen quickly
+                // Just notify server that visitor is minimizing
+                if (socket && isConnected) {
+                    socket.emit('visitor-away', {
+                        websiteId: websiteIdNum,
+                        visitorId: visitorId,
+                        timestamp: new Date()
+                    });
+                    console.log('Visitor minimizing, notifying server');
+                }
+            });
 
+            // Click on overlay backdrop to close
+            const backdrop = container.querySelector('.fa-widget-backdrop');
+            backdrop.addEventListener('click', () => {
+                widgetOverlay.classList.remove('active');
+                chatLauncher.style.display = 'flex';
+                
                 // Remove all typing indicators
                 hideTypingIndicator();
 
@@ -1160,21 +1239,19 @@
                         visitorId: visitorId,
                         timestamp: new Date()
                     });
-                    console.log('Visitor going away, notifying server');
+                    console.log('Visitor going away via backdrop click, notifying server');
                 }
-            });
-
-            // Minimize button functionality
-            minimizeBtn.addEventListener('click', () => {
-                widgetOverlay.classList.remove('active');
-                chatLauncher.style.display = 'flex';
-            });
-
-            // Click on overlay backdrop to close
-            const backdrop = container.querySelector('.fa-widget-backdrop');
-            backdrop.addEventListener('click', () => {
-                widgetOverlay.classList.remove('active');
-                chatLauncher.style.display = 'flex';
+                
+                // Clean up socket when closing widget via backdrop
+                setTimeout(() => {
+                    if (!widgetOverlay.classList.contains('active') && socket) {
+                        console.log('🧹 Cleaning up socket after backdrop close');
+                        socket.removeAllListeners();
+                        socket.disconnect();
+                        socket = null;
+                        isConnected = false;
+                    }
+                }, 5000); // 5 second delay to allow for quick reopening
             });
 
             // Input focus effects

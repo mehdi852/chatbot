@@ -281,10 +281,23 @@ const WidgetCustomizationPage = () => {
         };
 
         return (
-            <div className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden" style={widgetStyles}>
+            <div className="relative w-full h-full bg-muted rounded-lg overflow-hidden" style={widgetStyles}>
                 {/* Add fa-styles.css for exact widget styling */}
                 <style dangerouslySetInnerHTML={{
                     __html: `
+                    /* Isolate only the chat widget from dark mode */
+                    .fa-widget-overlay,
+                    .fa-widget-container,
+                    .fa-chat-container,
+                    .fa-chat-launcher {
+                        color-scheme: light !important;
+                    }
+                    .fa-widget-overlay *,
+                    .fa-widget-container *,
+                    .fa-chat-container *,
+                    .fa-chat-launcher * {
+                        color-scheme: light !important;
+                    }
                     /* Widget styles from fa-styles.css - Modified for preview */
                     .fa-chat-launcher {
                         position: absolute;
@@ -604,14 +617,14 @@ const WidgetCustomizationPage = () => {
                     `
                 }} />
                 {/* Simulated website background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-                    <div className="bg-white rounded-lg shadow-sm p-6 max-w-md">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Your Website</h3>
-                        <p className="text-gray-600 text-sm">This is how your chat widget will appear on your website. Click the chat button to test the interaction.</p>
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/10 p-8">
+                    <div className="bg-card rounded-lg shadow-sm p-6 max-w-md border border-border">
+                        <h3 className="text-lg font-semibold text-foreground mb-2">Your Website</h3>
+                        <p className="text-muted-foreground text-sm">This is how your chat widget will appear on your website. Click the chat button to test the interaction.</p>
                         <div className="mt-4 space-y-2">
-                            <div className="h-2 bg-gray-200 rounded"></div>
-                            <div className="h-2 bg-gray-200 rounded w-3/4"></div>
-                            <div className="h-2 bg-gray-200 rounded w-1/2"></div>
+                            <div className="h-2 bg-muted rounded"></div>
+                            <div className="h-2 bg-muted rounded w-3/4"></div>
+                            <div className="h-2 bg-muted rounded w-1/2"></div>
                         </div>
                     </div>
                 </div>
@@ -922,42 +935,42 @@ const WidgetCustomizationPage = () => {
     // Show minimal loading state while fetching settings
     if (isLoading) {
         return (
-            <div className="flex h-[calc(100vh-64px)] bg-gray-50">
+            <div className="flex h-[calc(100vh-64px)] bg-background">
                 {/* Settings Sidebar Loading */}
-                <div className="w-80 bg-white border-r border-gray-200 flex flex-col shadow-md p-4 space-y-4">
-                    <div className="h-8 bg-gray-200 rounded animate-pulse"></div>
+                <div className="w-80 bg-card border-r border-border flex flex-col shadow-md p-4 space-y-4">
+                    <div className="h-8 bg-muted rounded animate-pulse"></div>
                     <div className="space-y-2">
-                        <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                        <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+                        <div className="h-4 bg-muted rounded animate-pulse"></div>
+                        <div className="h-10 bg-muted rounded animate-pulse"></div>
                     </div>
                     <div className="space-y-2">
-                        <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                        <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+                        <div className="h-4 bg-muted rounded animate-pulse"></div>
+                        <div className="h-10 bg-muted rounded animate-pulse"></div>
                     </div>
                 </div>
                 {/* Preview Area Loading */}
-                <div className="flex-1 bg-white p-6">
-                    <div className="h-8 bg-gray-200 rounded animate-pulse mb-4"></div>
-                    <div className="bg-gray-100 rounded-lg h-96 animate-pulse"></div>
+                <div className="flex-1 bg-background p-6">
+                    <div className="h-8 bg-muted rounded animate-pulse mb-4"></div>
+                    <div className="bg-muted rounded-lg h-96 animate-pulse"></div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="flex h-[calc(100vh-64px)] bg-gray-50">
+        <div className="flex h-[calc(100vh-64px)] bg-background">
             {/* Settings Sidebar */}
-            <div className="w-80 bg-white border-r border-gray-200 flex flex-col shadow-md">
+            <div className="w-80 bg-card border-r border-border flex flex-col shadow-md">
                 {/* Header */}
-                <div className="border-b border-gray-200 bg-gray-50/50">
+                <div className="border-b border-border bg-muted/50">
                     <div className="px-4 py-4">
                         <div className="flex items-center space-x-2">
-                            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <Palette className="w-4 h-4 text-blue-600" />
+                            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <Palette className="w-4 h-4 text-primary" />
                             </div>
                             <div>
-                                <h2 className="text-lg font-semibold text-gray-900">Widget Customization</h2>
-                                <p className="text-sm text-gray-600">Customize your chat widget appearance</p>
+                                <h2 className="text-lg font-semibold text-foreground">Widget Customization</h2>
+                                <p className="text-sm text-muted-foreground">Customize your chat widget appearance</p>
                             </div>
                         </div>
                     </div>
@@ -967,50 +980,50 @@ const WidgetCustomizationPage = () => {
                 <div className="flex-1 overflow-y-auto p-4 space-y-6">
                     {/* Appearance */}
                     <div>
-                        <h3 className="text-sm font-semibold text-gray-800 mb-3">Appearance</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3">Appearance</h3>
                         <div className="space-y-3">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Primary Color</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">Primary Color</label>
                                 <div className="flex items-center space-x-2">
                                     <input
                                         type="color"
                                         value={widgetSettings.primaryColor}
                                         onChange={(e) => handleSettingChange('primaryColor', e.target.value)}
-                                        className="w-8 h-8 rounded border border-gray-300"
+                                        className="w-8 h-8 rounded border border-border"
                                     />
                                     <input
                                         type="text"
                                         value={widgetSettings.primaryColor}
                                         onChange={(e) => handleSettingChange('primaryColor', e.target.value)}
-                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="flex-1 px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Header Color</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">Header Color</label>
                                 <div className="flex items-center space-x-2">
                                     <input
                                         type="color"
                                         value={widgetSettings.headerColor}
                                         onChange={(e) => handleSettingChange('headerColor', e.target.value)}
-                                        className="w-8 h-8 rounded border border-gray-300"
+                                        className="w-8 h-8 rounded border border-border"
                                     />
                                     <input
                                         type="text"
                                         value={widgetSettings.headerColor}
                                         onChange={(e) => handleSettingChange('headerColor', e.target.value)}
-                                        className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="flex-1 px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Border Radius</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">Border Radius</label>
                                 <select
                                     value={widgetSettings.borderRadius}
                                     onChange={(e) => handleSettingChange('borderRadius', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                 >
                                     <option value="none">None</option>
                                     <option value="small">Small</option>
@@ -1023,14 +1036,14 @@ const WidgetCustomizationPage = () => {
 
                     {/* Button Settings */}
                     <div>
-                        <h3 className="text-sm font-semibold text-gray-800 mb-3">Button Settings</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3">Button Settings</h3>
                         <div className="space-y-3">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Button Size</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">Button Size</label>
                                 <select
                                     value={widgetSettings.buttonSize}
                                     onChange={(e) => handleSettingChange('buttonSize', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                 >
                                     <option value="small">Small</option>
                                     <option value="medium">Medium</option>
@@ -1039,11 +1052,11 @@ const WidgetCustomizationPage = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Position</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">Position</label>
                                 <select
                                     value={widgetSettings.buttonPosition}
                                     onChange={(e) => handleSettingChange('buttonPosition', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                 >
                                     <option value="bottom-right">Bottom Right</option>
                                     <option value="bottom-left">Bottom Left</option>
@@ -1052,12 +1065,12 @@ const WidgetCustomizationPage = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Button Tooltip Text</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">Button Tooltip Text</label>
                                 <input
                                     type="text"
                                     value={widgetSettings.buttonText}
                                     onChange={(e) => handleSettingChange('buttonText', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                     placeholder="Chat with us"
                                 />
                             </div>
@@ -1066,44 +1079,44 @@ const WidgetCustomizationPage = () => {
 
                     {/* Welcome Screen */}
                     <div>
-                        <h3 className="text-sm font-semibold text-gray-800 mb-3">Welcome Screen</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3">Welcome Screen</h3>
                         <div className="space-y-3">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Welcome Title</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">Welcome Title</label>
                                 <input
                                     type="text"
                                     value={widgetSettings.welcomeTitle}
                                     onChange={(e) => handleSettingChange('welcomeTitle', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                     placeholder="Hi there! 👋"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Welcome Message</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">Welcome Message</label>
                                 <textarea
                                     value={widgetSettings.welcomeMessage}
                                     onChange={(e) => handleSettingChange('welcomeMessage', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-20 resize-none"
+                                    className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground h-20 resize-none"
                                     placeholder="Hi! How can we help you today?"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">FAQ Title</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">FAQ Title</label>
                                 <input
                                     type="text"
                                     value={widgetSettings.faqTitle}
                                     onChange={(e) => handleSettingChange('faqTitle', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                     placeholder="Frequently Asked Questions:"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Start Chat Button Text</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">Start Chat Button Text</label>
                                 <input
                                     type="text"
                                     value={widgetSettings.startChatButtonText}
                                     onChange={(e) => handleSettingChange('startChatButtonText', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                     placeholder="Chat with us"
                                 />
                             </div>
@@ -1112,15 +1125,15 @@ const WidgetCustomizationPage = () => {
 
                     {/* Messages */}
                     <div>
-                        <h3 className="text-sm font-semibold text-gray-800 mb-3">Messages</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3">Messages</h3>
                         <div className="space-y-3">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                                <label className="block text-sm font-medium text-foreground mb-1">Company Name</label>
                                 <input
                                     type="text"
                                     value={widgetSettings.companyName}
                                     onChange={(e) => handleSettingChange('companyName', e.target.value)}
-                                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                     placeholder="Support Team"
                                 />
                             </div>
@@ -1129,10 +1142,10 @@ const WidgetCustomizationPage = () => {
 
                     {/* Branding */}
                     <div>
-                        <h3 className="text-sm font-semibold text-gray-800 mb-3">Branding</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3">Branding</h3>
                         <div className="space-y-3">
                             <div className="flex items-center justify-between">
-                                <label className="text-sm font-medium text-gray-700">Show Branding</label>
+                                <label className="text-sm font-medium text-foreground">Show Branding</label>
                                 <label className="relative inline-flex items-center cursor-pointer">
                                     <input 
                                         type="checkbox" 
@@ -1140,17 +1153,17 @@ const WidgetCustomizationPage = () => {
                                         checked={widgetSettings.showBranding} 
                                         onChange={(e) => handleSettingChange('showBranding', e.target.checked)} 
                                     />
-                                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                                    <div className="w-9 h-5 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-background after:content-none after:absolute after:top-[2px] after:left-[2px] after:bg-background after:border-border after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                                 </label>
                             </div>
                             {widgetSettings.showBranding && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Brand Name</label>
+                                    <label className="block text-sm font-medium text-foreground mb-1">Brand Name</label>
                                     <input
                                         type="text"
                                         value={widgetSettings.brandName}
                                         onChange={(e) => handleSettingChange('brandName', e.target.value)}
-                                        className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
                                         placeholder="Your Brand Name"
                                     />
                                 </div>
@@ -1160,14 +1173,14 @@ const WidgetCustomizationPage = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="p-4 border-t border-gray-200 bg-gray-50/50 space-y-2">
+                <div className="p-4 border-t border-border bg-muted/50 space-y-2">
                     <button
                         onClick={handleSaveSettings}
                         disabled={!hasChanges || isSaving}
                         className={`w-full flex items-center justify-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                             hasChanges && !isSaving
-                                ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg'
-                                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg'
+                                : 'bg-muted text-muted-foreground cursor-not-allowed'
                         }`}
                     >
                         <Save className="w-4 h-4" />
@@ -1176,7 +1189,7 @@ const WidgetCustomizationPage = () => {
                     
                     <button
                         onClick={handleResetToDefaults}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg font-medium transition-all duration-200"
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg font-medium transition-all duration-200"
                     >
                         <RotateCcw className="w-4 h-4" />
                         <span>Reset to Defaults</span>
@@ -1185,23 +1198,23 @@ const WidgetCustomizationPage = () => {
             </div>
 
             {/* Preview Area */}
-            <div className="flex-1 flex flex-col bg-white">
+            <div className="flex-1 flex flex-col bg-background">
                 {/* Preview Header */}
-                <div className="px-6 py-4 bg-white border-b border-gray-200 shadow-sm">
+                <div className="px-6 py-4 bg-card border-b border-border shadow-sm">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-900">Live Preview</h2>
-                            <p className="text-sm text-gray-500">See how your widget will look on your website</p>
+                            <h2 className="text-lg font-semibold text-foreground">Live Preview</h2>
+                            <p className="text-sm text-muted-foreground">See how your widget will look on your website</p>
                         </div>
-                        <div className="flex items-center space-x-2 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
-                            <Eye className="w-4 h-4 text-gray-500" />
-                            <span className="text-sm text-gray-600 font-medium">Preview Mode</span>
+                        <div className="flex items-center space-x-2 bg-muted px-3 py-1.5 rounded-full border border-border">
+                            <Eye className="w-4 h-4 text-muted-foreground" />
+                            <span className="text-sm text-foreground font-medium">Preview Mode</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Preview Container */}
-                <div className="flex-1 relative bg-gray-50">
+                <div className="flex-1 relative bg-muted/20">
                     <WidgetPreview />
                 </div>
             </div>

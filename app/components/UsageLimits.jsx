@@ -42,7 +42,7 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
 
     if (!usage || !subscriptionLimits) {
         return (
-            <div className="px-4 py-3 border-b border-border bg-white">
+            <div className="px-4 py-3 border-b border-border bg-card">
                 <div className="flex items-center justify-between">
                     {/* Left Section Skeleton */}
                     <div className="flex items-center space-x-3">
@@ -87,10 +87,10 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
     };
 
     const getStatusInfo = (percentage) => {
-        if (percentage >= 95) return { color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-200', status: 'Critical', icon: AlertTriangle };
-        if (percentage >= 85) return { color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-200', status: 'High', icon: AlertTriangle };
-        if (percentage >= 70) return { color: 'text-yellow-600', bg: 'bg-yellow-50', border: 'border-yellow-200', status: 'Medium', icon: Clock };
-        return { color: 'text-green-600', bg: 'bg-green-50', border: 'border-green-200', status: 'Good', icon: CheckCircle };
+        if (percentage >= 95) return { color: 'text-red-600 dark:text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20', status: 'Critical', icon: AlertTriangle };
+        if (percentage >= 85) return { color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20', status: 'High', icon: AlertTriangle };
+        if (percentage >= 70) return { color: 'text-yellow-600 dark:text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20', status: 'Medium', icon: Clock };
+        return { color: 'text-green-600 dark:text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20', status: 'Good', icon: CheckCircle };
     };
 
     // Get the most critical usage status
@@ -145,7 +145,7 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
                 {/* Compact Usage Header */}
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="group w-full px-4 py-3 border-b border-border bg-white hover:bg-muted/40 transition-all duration-200 flex items-center justify-between focus:outline-none">
+                    className="group w-full px-4 py-3 border-b border-border bg-card hover:bg-muted/40 transition-all duration-200 flex items-center justify-between focus:outline-none">
                     
                     {/* Left Section */}
                     <div className="flex items-center space-x-3">
@@ -211,7 +211,7 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
 
                         {/* Compact Professional Modal */}
                         <div 
-                            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] sm:w-[80vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] max-w-4xl h-auto max-h-[80vh] bg-white rounded-xl shadow-2xl border border-border z-[9999] overflow-hidden animate-in zoom-in-95 fade-in-0 duration-300"
+                            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] sm:w-[80vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] max-w-4xl h-auto max-h-[80vh] bg-card rounded-xl shadow-2xl border border-border z-[9999] overflow-hidden animate-in zoom-in-95 fade-in-0 duration-300"
                             style={{ position: 'fixed', zIndex: 9999 }}
                         >
                             {/* Compact Header */}
@@ -243,7 +243,7 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
                                         const remaining = Math.max(0, metric.max - metric.used);
 
                                         return (
-                                            <div key={metric.label} className="group p-4 rounded-lg border border-border bg-muted/30 hover:bg-muted/50 transition-all duration-200">
+                                            <div key={metric.label} className="group p-4 rounded-lg border border-border bg-background hover:bg-muted/30 transition-all duration-200">
                                                 {/* Compact Header */}
                                                 <div className="flex items-center justify-between mb-3">
                                                     <div className="flex items-center space-x-2">
@@ -261,10 +261,10 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
                                                         </Tooltip>
                                                     </div>
                                                     <div className={`px-2 py-1 rounded-md text-xs font-medium ${
-                                                        percentage >= 95 ? 'bg-red-100 text-red-700' :
-                                                        percentage >= 85 ? 'bg-yellow-100 text-yellow-700' :
-                                                        percentage >= 70 ? 'bg-blue-100 text-blue-700' :
-                                                        'bg-green-100 text-green-700'
+                                                        percentage >= 95 ? 'bg-red-500/10 text-red-600 dark:text-red-400' :
+                                                        percentage >= 85 ? 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400' :
+                                                        percentage >= 70 ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' :
+                                                        'bg-green-500/10 text-green-600 dark:text-green-400'
                                                     }`}>
                                                         {percentage.toFixed(0)}%
                                                     </div>
@@ -299,8 +299,8 @@ const UsageLimits = ({ usage, subscriptionLimits, liveWebsites }) => {
                                                 {/* Compact Status */}
                                                 {percentage >= 85 && (
                                                     <div className={`p-2 rounded-md text-xs ${
-                                                        percentage >= 95 ? 'bg-red-50 text-red-700 border border-red-200' :
-                                                        'bg-yellow-50 text-yellow-700 border border-yellow-200'
+                                                        percentage >= 95 ? 'bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20' :
+                                                        'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20'
                                                     }`}>
                                                         <div className="flex items-center space-x-1">
                                                             <AlertTriangle className="w-3 h-3" />

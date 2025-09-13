@@ -158,6 +158,8 @@
     width: 56px;
     height: 56px;
     background: var(--primary-gradient);
+    background-size: 100% 100%;
+    background-position: 0 0;
     border: none;
     border-radius: var(--radius-full);
     cursor: pointer;
@@ -179,6 +181,8 @@
     width: 56px;
     height: 56px;
     background: var(--primary-gradient);
+    background-size: 100% 100%;
+    background-position: 0 0;
     border: none;
     border-radius: var(--radius-full);
     cursor: pointer;
@@ -196,6 +200,8 @@
 .fa-chat-button:hover {
     transform: translateY(-4px) scale(1.05);
     box-shadow: var(--shadow-xl);
+    background-size: 100% 100%;
+    background-position: 0 0;
 }
 
 .fa-chat-launcher:active,
@@ -455,6 +461,8 @@
     gap: 10px;
     padding: 10px 20px;
     background: var(--primary-gradient);
+    background-size: 100% 100%;
+    background-position: 0 0;
     color: white;
     border: none;
     border-radius: var(--radius-full);
@@ -470,13 +478,26 @@
 .fa-start-chat-btn:hover {
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+    background-size: 100% 100%;
+    background-position: 0 0;
 }
 
 .fa-start-chat-btn svg {
     width: 20px;
     height: 20px;
     fill: currentColor;
+}
+
+/* Fix for gradient buttons */
+.fa-chat-launcher,
+.fa-chat-button,
+.fa-send-btn,
+.fa-widget-send,
+.fa-widget-message.user,
+.fa-widget-header,
+.fa-start-chat-btn {
+    background-size: 100% 100% !important;
+    background-position: 0 0 !important;
 }
 
 /* Chat View Styles */

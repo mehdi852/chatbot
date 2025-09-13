@@ -79,21 +79,21 @@ const DraggableQuestionItem = ({
             onDragOver={onDragOver}
             onDragEnter={(e) => onDragEnter(e, question)}
             onDrop={(e) => onDrop(e, question)}
-            className={`group mt-3 flex items-center gap-3 p-4 bg-white border rounded-lg cursor-move transition-all hover:shadow-md ${
-                isDraggedOver ? 'border-blue-400 bg-blue-50' : 'border-gray-200'
+            className={`group mt-3 flex items-center gap-3 p-4 bg-card border rounded-lg cursor-move transition-all hover:shadow-md ${
+                isDraggedOver ? 'border-primary bg-primary/5' : 'border-border'
             }`}
         >
-            <div className="flex-shrink-0 text-gray-400 group-hover:text-gray-600">
+            <div className="flex-shrink-0 text-muted-foreground group-hover:text-foreground">
                 <GripVertical size={16} />
             </div>
-            <div className="flex-1 text-gray-700 font-medium">
+            <div className="flex-1 text-foreground font-medium">
                 {question.question}
             </div>
             <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => onDelete(question.id)}
-                className="opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 hover:bg-red-50"
+                className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive hover:bg-destructive/10"
             >
                 <Trash2 size={16} />
             </Button>
@@ -334,22 +334,22 @@ const WidgetTemplatePage = () => {
     // Show loading state while fetching websites
     if (isLoadingWebsites) {
         return (
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-background">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
                     <div className="space-y-2">
-                        <div className="h-8 bg-gray-200 rounded animate-pulse w-64"></div>
-                        <div className="h-4 bg-gray-200 rounded animate-pulse w-96"></div>
+                        <div className="h-8 bg-muted rounded animate-pulse w-64"></div>
+                        <div className="h-4 bg-muted rounded animate-pulse w-96"></div>
                     </div>
-                    <div className="bg-white rounded-lg p-6 shadow-sm border">
-                        <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
-                        <div className="h-10 bg-gray-200 rounded animate-pulse w-full"></div>
+                    <div className="bg-card rounded-lg p-6 shadow-sm border">
+                        <div className="h-6 bg-muted rounded animate-pulse w-48 mb-4"></div>
+                        <div className="h-10 bg-muted rounded animate-pulse w-full"></div>
                     </div>
-                    <div className="bg-white rounded-lg p-6 shadow-sm border">
-                        <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
+                    <div className="bg-card rounded-lg p-6 shadow-sm border">
+                        <div className="h-6 bg-muted rounded animate-pulse w-48 mb-4"></div>
                         <div className="space-y-3">
-                            <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
-                            <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
-                            <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
+                            <div className="h-16 bg-muted rounded animate-pulse"></div>
+                            <div className="h-16 bg-muted rounded animate-pulse"></div>
+                            <div className="h-16 bg-muted rounded animate-pulse"></div>
                         </div>
                     </div>
                 </div>
@@ -360,22 +360,22 @@ const WidgetTemplatePage = () => {
     // Show loading state while fetching questions for selected website
     if (isLoading && selectedWebsiteId) {
         return (
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-background">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
                     <div className="space-y-2">
-                        <div className="h-8 bg-gray-200 rounded animate-pulse w-64"></div>
-                        <div className="h-4 bg-gray-200 rounded animate-pulse w-96"></div>
+                        <div className="h-8 bg-muted rounded animate-pulse w-64"></div>
+                        <div className="h-4 bg-muted rounded animate-pulse w-96"></div>
                     </div>
-                    <div className="bg-white rounded-lg p-6 shadow-sm border">
-                        <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
-                        <div className="h-10 bg-gray-200 rounded animate-pulse w-full"></div>
+                    <div className="bg-card rounded-lg p-6 shadow-sm border">
+                        <div className="h-6 bg-muted rounded animate-pulse w-48 mb-4"></div>
+                        <div className="h-10 bg-muted rounded animate-pulse w-full"></div>
                     </div>
-                    <div className="bg-white rounded-lg p-6 shadow-sm border">
-                        <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
+                    <div className="bg-card rounded-lg p-6 shadow-sm border">
+                        <div className="h-6 bg-muted rounded animate-pulse w-48 mb-4"></div>
                         <div className="space-y-3">
-                            <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
-                            <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
-                            <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
+                            <div className="h-16 bg-muted rounded animate-pulse"></div>
+                            <div className="h-16 bg-muted rounded animate-pulse"></div>
+                            <div className="h-16 bg-muted rounded animate-pulse"></div>
                         </div>
                     </div>
                 </div>
@@ -385,13 +385,13 @@ const WidgetTemplatePage = () => {
 
     if (!websites.length) {
         return (
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-background">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <Alert>
                         <MessageCircle className="h-4 w-4" />
                         <AlertDescription>
                             You need to create a website first before managing widget questions.{' '}
-                            <a href="/dashboard" className="text-blue-600 hover:underline">
+                            <a href="/dashboard" className="text-primary hover:underline">
                                 Go to Dashboard
                             </a>
                         </AlertDescription>
@@ -402,11 +402,11 @@ const WidgetTemplatePage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-background">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Widget Template</h1>
-                    <p className="text-gray-600">
+                    <h1 className="text-3xl font-bold text-foreground mb-2">Widget Template</h1>
+                    <p className="text-muted-foreground">
                         Customize the questions that appear in your chat widget. Users will see these as quick-start options.
                     </p>
                 </div>
@@ -452,7 +452,7 @@ const WidgetTemplatePage = () => {
                         </div>
                         
                         {websites.length === 0 && (
-                            <div className="text-center py-8 text-gray-500">
+                            <div className="text-center py-8 text-muted-foreground">
                                 <Globe className="w-12 h-12 mx-auto mb-4 opacity-50" />
                                 <p className="text-lg font-medium mb-2">No websites found</p>
                                 <p>Create a website in your dashboard first.</p>
@@ -528,7 +528,7 @@ const WidgetTemplatePage = () => {
                                         </DragDropProvider>
                                     </div>
                                 ) : (
-                                    <div className="text-center py-12 text-gray-500">
+                                    <div className="text-center py-12 text-muted-foreground">
                                         <MessageCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
                                         <p className="text-lg font-medium mb-2">No questions yet</p>
                                         <p>Add your first question to get started with your widget template.</p>

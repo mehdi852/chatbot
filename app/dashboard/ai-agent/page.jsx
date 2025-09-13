@@ -157,30 +157,30 @@ const AiAgentPage = () => {
     // Show minimal loading state while fetching data
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-background">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
                     <div className="space-y-2">
-                        <div className="h-10 bg-gray-200 rounded animate-pulse w-80"></div>
-                        <div className="h-4 bg-gray-200 rounded animate-pulse w-96"></div>
+                        <div className="h-10 bg-muted rounded animate-pulse w-80"></div>
+                        <div className="h-4 bg-muted rounded animate-pulse w-96"></div>
                     </div>
-                    <div className="bg-white rounded-lg p-6 shadow-sm border">
-                        <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
-                        <div className="h-10 bg-gray-200 rounded animate-pulse w-full"></div>
+                    <div className="bg-card rounded-lg p-6 shadow-sm border">
+                        <div className="h-6 bg-muted rounded animate-pulse w-48 mb-4"></div>
+                        <div className="h-10 bg-muted rounded animate-pulse w-full"></div>
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div className="bg-white rounded-lg p-6 shadow-sm border">
-                            <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
+                        <div className="bg-card rounded-lg p-6 shadow-sm border">
+                            <div className="h-6 bg-muted rounded animate-pulse w-48 mb-4"></div>
                             <div className="space-y-3">
-                                <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
-                                <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
-                                <div className="h-24 bg-gray-200 rounded animate-pulse"></div>
+                                <div className="h-10 bg-muted rounded animate-pulse"></div>
+                                <div className="h-10 bg-muted rounded animate-pulse"></div>
+                                <div className="h-24 bg-muted rounded animate-pulse"></div>
                             </div>
                         </div>
-                        <div className="bg-white rounded-lg p-6 shadow-sm border">
-                            <div className="h-6 bg-gray-200 rounded animate-pulse w-48 mb-4"></div>
+                        <div className="bg-card rounded-lg p-6 shadow-sm border">
+                            <div className="h-6 bg-muted rounded animate-pulse w-48 mb-4"></div>
                             <div className="space-y-3">
-                                <div className="h-24 bg-gray-200 rounded animate-pulse"></div>
-                                <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
+                                <div className="h-24 bg-muted rounded animate-pulse"></div>
+                                <div className="h-16 bg-muted rounded animate-pulse"></div>
                             </div>
                         </div>
                     </div>
@@ -190,7 +190,7 @@ const AiAgentPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-background">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
@@ -238,13 +238,13 @@ const AiAgentPage = () => {
                 {selectedWebsiteId && (
                     <>
                         {/* Info Card */}
-                        <Card className="mb-8 border-blue-200 bg-blue-50/50">
+                        <Card className="mb-8 border-primary/20 bg-primary/5">
                             <CardContent className="pt-6">
                                 <div className="flex items-start gap-3">
-                                    <Info className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                    <Info className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                                     <div>
-                                        <h4 className="font-medium text-blue-900 mb-1">About AI Agent Configuration</h4>
-                                        <p className="text-sm text-blue-800">
+                                        <h4 className="font-medium text-foreground mb-1">About AI Agent Configuration</h4>
+                                        <p className="text-sm text-muted-foreground">
                                             This information helps your AI agent provide accurate and contextual responses to your visitors. 
                                             The more details you provide, the better your AI agent will be at assisting customers with 
                                             questions about your business, products, services, and policies.

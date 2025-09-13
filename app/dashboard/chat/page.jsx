@@ -284,7 +284,7 @@ const ChatPage = () => {
     };
 
     return (
-        <div className="flex h-[calc(100vh-64px)] bg-gray-50">
+<div className="flex h-[calc(100vh-64px)] bg-background">
             {/* Inject typing animation CSS */}
             <style dangerouslySetInnerHTML={{ __html: typingAnimationStyle }} />
 
@@ -297,7 +297,7 @@ const ChatPage = () => {
             )}
 
             {/* Sidebar - Websites and Chats */}
-            <div className={`w-80 lg:w-80 bg-white border-r border-border flex flex-col shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+            <div className={`w-80 lg:w-80 bg-card border-r border-border flex flex-col shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
                 chatState.selectedVisitorId ? 'lg:translate-x-0 -translate-x-full' : 'translate-x-0'
             } lg:relative absolute inset-y-0 left-0`}>
                 {/* Enhanced Subscription Limits - Now Professional Modal */}
@@ -314,29 +314,29 @@ const ChatPage = () => {
                             <div
                                 key={website.id}
                                 className={`group relative rounded-lg transition-all duration-200 ${
-                                    chatState.selectedWebsite?.id === website.id ? 'bg-blue-50 border-blue-200 shadow-sm' : 'bg-white hover:bg-gray-50'
-                                } border mb-1.5 last:mb-0`}>
+                                    chatState.selectedWebsite?.id === website.id ? 'bg-primary/10 border-primary/20 shadow-sm' : 'bg-card hover:bg-accent'
+                                } border border-border mb-1.5 last:mb-0`}>
                                 <div className="flex items-center px-3 py-2">
                                     <button
-                                        className={`text-left flex-1 font-medium ${chatState.selectedWebsite?.id === website.id ? 'text-blue-700' : 'text-gray-700 group-hover:text-gray-900'}`}
+                                        className={`text-left flex-1 font-medium ${chatState.selectedWebsite?.id === website.id ? 'text-primary' : 'text-foreground group-hover:text-foreground'}`}
                                         onClick={() => selectWebsite(website)}>
                                         <div className="flex items-center space-x-2">
-                                            <div className={`w-2 h-2 rounded-full ${website.isAiEnabled ? 'bg-green-500' : 'bg-gray-400'}`} />
+                                            <div className={`w-2 h-2 rounded-full ${website.isAiEnabled ? 'bg-green-500' : 'bg-muted-foreground'}`} />
                                             <span className="text-sm truncate">{website.domain}</span>
                                         </div>
                                     </button>
                                     <div className="flex items-center pl-2">
-                                        <div className="flex items-center space-x-1 border-l border-gray-200 pl-2">
-                                            <span className="text-xs text-gray-500 font-medium">AI</span>
+                                        <div className="flex items-center space-x-1 border-l border-border pl-2">
+                                            <span className="text-xs text-muted-foreground font-medium">AI</span>
                                             <label className="relative inline-flex items-center cursor-pointer">
                                                 <input type="checkbox" className="sr-only peer" checked={website.isAiEnabled} onChange={() => toggleAI(website.id, website.isAiEnabled)} />
-                                                <div className="w-7 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-blue-600"></div>
+                                                <div className="w-7 h-4 bg-muted peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-background after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-background after:border-border after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 {chatState.selectedWebsite?.id === website.id && (
-                                    <div className="text-xs text-gray-600 bg-blue-50/80 px-3 py-1.5 rounded-b-md border-t border-blue-100">
+                                    <div className="text-xs text-muted-foreground bg-primary/5 px-3 py-1.5 rounded-b-md border-t border-primary/10">
                                         <span className="font-medium">Status:</span> {website.isAiEnabled ? 'AI Auto-responding enabled' : 'Manual mode'}
                                     </div>
                                 )}
@@ -346,12 +346,12 @@ const ChatPage = () => {
                 </div>
 
                 {/* Connection Status & Tabs */}
-                <div className="bg-white border-b border-border">
+                <div className="bg-card border-b border-border">
                     <div className="px-4">
                         <div className="flex items-center justify-between h-12">
                             <div className="flex items-center space-x-2">
                                 <div className={`w-2 h-2 rounded-full ${chatState.isConnected ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
-                                <span className="text-xs font-medium text-gray-600">{chatState.isConnected ? 'Connected' : 'Disconnected'}</span>
+                                <span className="text-xs font-medium text-muted-foreground">{chatState.isConnected ? 'Connected' : 'Disconnected'}</span>
                             </div>
                         </div>
                         <div className="flex w-full border-b border-border/50">
@@ -361,7 +361,7 @@ const ChatPage = () => {
                                 }`}
                                 onClick={() => setActiveTab('live')}>
                                 <div className="flex items-center space-x-2">
-                                    <div className={`w-2 h-2 rounded-full ${chatState.visitors.length > 0 ? 'bg-green-500' : 'bg-gray-400'}`} />
+                                    <div className={`w-2 h-2 rounded-full ${chatState.visitors.length > 0 ? 'bg-green-500' : 'bg-muted-foreground'}`} />
                                     <span>Live Chats</span>
                                     {chatState.visitors.length > 0 && (
                                         <span className="ml-1.5 text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-medium">{chatState.visitors.length}</span>
@@ -382,7 +382,7 @@ const ChatPage = () => {
                                     {(() => {
                                         const totalUnread = chatState.chatHistory.reduce((sum, chat) => sum + (chat.unreadCount || 0), 0);
                                         return totalUnread > 0 && (
-                                            <span className="ml-1.5 text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full font-medium">
+                                            <span className="ml-1.5 text-xs bg-red-500/10 text-red-600 dark:text-red-400 px-1.5 py-0.5 rounded-full font-medium">
                                                 {totalUnread > 99 ? '99+' : totalUnread}
                                             </span>
                                         );
@@ -398,24 +398,24 @@ const ChatPage = () => {
                 {/* Chat List */}
                 <div className="flex-1 overflow-y-auto">
                     {chatState.activeTab === 'live' ? (
-                        <div className="divide-y divide-gray-100">
+                        <div className="divide-y divide-border">
                             {chatState.visitors.map((visitor) => (
                                 <div
                                     key={visitor.id}
-                                    className={`group cursor-pointer transition-all duration-200 hover:bg-gray-50 relative ${
-                                        chatState.selectedVisitorId === visitor.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : 'border-l-4 border-l-transparent'
+                                    className={`group cursor-pointer transition-all duration-200 hover:bg-accent relative ${
+                                        chatState.selectedVisitorId === visitor.id ? 'bg-primary/10 border-l-4 border-l-primary' : 'border-l-4 border-l-transparent'
                                     }`}
                                     onClick={() => selectVisitor(visitor)}>
                                     <div className="px-4 py-3 flex items-center space-x-3">
                                         {/* Avatar */}
                                         <div className="relative flex-shrink-0">
-                                            <div className="w-10 h-10 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center border border-blue-200 shadow-sm">
-                                                <span className="text-blue-700 text-sm font-semibold">V{visitor.id.split('_')[1].slice(0, 2)}</span>
+                                            <div className="w-10 h-10 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center border border-primary/20 shadow-sm">
+                                                <span className="text-primary text-sm font-semibold">V{visitor.id.split('_')[1].slice(0, 2)}</span>
                                             </div>
                                             
                                             {/* Country Flag - Test with Spain first, then check for real data */}
                                             {(visitor.country_code || true) && (
-                                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full overflow-hidden border-2 border-white shadow-sm bg-white">
+                                                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full overflow-hidden border-2 border-background shadow-sm bg-background">
                                                     <img 
                                                         src={`https://flagsapi.com/${visitor.country_code || 'ES'}/flat/32.png`}
                                                         alt={`${visitor.country || 'Spain'} flag`}
@@ -432,12 +432,12 @@ const ChatPage = () => {
                                             
                                             {/* Status Indicator */}
                                             <div
-                                                className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white ${
+                                                className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background ${
                                                     chatState.visitorStatuses[visitor.id] === 'online' 
                                                         ? 'bg-green-500' 
                                                         : chatState.visitorStatuses[visitor.id] === 'away' 
                                                             ? 'bg-orange-500' 
-                                                            : 'bg-gray-400'
+                                                            : 'bg-muted-foreground'
                                                 } shadow-sm`}
                                             />
                                         </div>
@@ -446,28 +446,28 @@ const ChatPage = () => {
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center space-x-2">
-                                                    <h3 className="text-sm font-medium text-gray-900">Visitor {visitor.id.split('_')[1]}</h3>
-                                                    {visitor.unread && <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">New</span>}
+                                                    <h3 className="text-sm font-medium text-foreground">Visitor {visitor.id.split('_')[1]}</h3>
+                                                    {visitor.unread && <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">New</span>}
                                                 </div>
-                                                <span className="text-xs text-gray-500">
+                                                <span className="text-xs text-muted-foreground">
                                                     {new Date(visitor.timestamp).toLocaleTimeString([], {
                                                         hour: '2-digit',
                                                         minute: '2-digit',
                                                     })}
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-gray-600 truncate mt-0.5">{visitor.lastMessage}</p>
+                                            <p className="text-xs text-muted-foreground truncate mt-0.5">{visitor.lastMessage}</p>
                                             <div className="flex items-center space-x-1.5 mt-1.5">
                                                 {visitor.browser && (
-                                                    <div className="flex items-center space-x-1 bg-gray-50 px-1.5 py-0.5 rounded-md border border-gray-200">
-                                                        <span className="text-xs font-medium text-gray-600">💻</span>
-                                                        <span className="text-xs text-gray-600">{visitor.browser}</span>
+                                                    <div className="flex items-center space-x-1 bg-muted px-1.5 py-0.5 rounded-md border border-border">
+                                                        <span className="text-xs font-medium text-muted-foreground">💻</span>
+                                                        <span className="text-xs text-muted-foreground">{visitor.browser}</span>
                                                     </div>
                                                 )}
                                                 {visitor.isNewVisitor && (
-                                                    <div className="flex items-center space-x-1 bg-green-50 px-1.5 py-0.5 rounded-md border border-green-200">
-                                                        <span className="text-xs font-medium text-green-700">✨</span>
-                                                        <span className="text-xs font-medium text-green-700">New</span>
+                                                    <div className="flex items-center space-x-1 bg-green-500/10 px-1.5 py-0.5 rounded-md border border-green-500/20">
+                                                        <span className="text-xs font-medium text-green-600 dark:text-green-400">✨</span>
+                                                        <span className="text-xs font-medium text-green-600 dark:text-green-400">New</span>
                                                     </div>
                                                 )}
                                             </div>
@@ -480,8 +480,8 @@ const ChatPage = () => {
                                                     e.stopPropagation();
                                                     deleteConversation(visitor.id);
                                                 }}
-                                                className="p-1.5 hover:bg-red-50 rounded-full transition-colors duration-200 group/delete">
-                                                <Trash className="w-4 h-4 text-gray-400 group-hover/delete:text-red-500 transition-colors duration-200" />
+                                                className="p-1.5 hover:bg-red-500/10 rounded-full transition-colors duration-200 group/delete">
+                                                <Trash className="w-4 h-4 text-muted-foreground group-hover/delete:text-red-500 transition-colors duration-200" />
                                             </button>
                                         </div>
                                     </div>
@@ -489,43 +489,43 @@ const ChatPage = () => {
                             ))}
                             {chatState.visitors.length === 0 && (
                                 <div className="p-8 text-center">
-                                    <div className="bg-gray-50 rounded-xl p-6 border border-gray-100 shadow-sm">
-                                        <div className="text-gray-400 mb-3">
+                                    <div className="bg-muted rounded-xl p-6 border border-border shadow-sm">
+                                        <div className="text-muted-foreground mb-3">
                                             <Users className="w-12 h-12 mx-auto mb-2 opacity-50" />
                                         </div>
-                                        <p className="text-sm text-gray-700 font-medium">No active visitors</p>
-                                        <p className="text-xs text-gray-500 mt-1">Visitors will appear here when they start chatting</p>
+                                        <p className="text-sm text-foreground font-medium">No active visitors</p>
+                                        <p className="text-xs text-muted-foreground mt-1">Visitors will appear here when they start chatting</p>
                                     </div>
                                 </div>
                             )}
                         </div>
                     ) : (
-                        <div className="divide-y divide-gray-100">
+                        <div className="divide-y divide-border">
                             {chatState.isLoadingHistory ? (
                                 <div className="p-8 text-center">
-                                    <div className="bg-gray-50 rounded-xl p-6 border border-gray-100 shadow-sm">
-                                        <div className="animate-spin inline-block w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full mb-3"></div>
-                                        <p className="text-sm text-gray-700 font-medium">Loading chat history...</p>
+                                    <div className="bg-muted rounded-xl p-6 border border-border shadow-sm">
+                                        <div className="animate-spin inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full mb-3"></div>
+                                        <p className="text-sm text-foreground font-medium">Loading chat history...</p>
                                     </div>
                                 </div>
                             ) : chatState.historyError ? (
                                 <div className="p-8 text-center">
-                                    <div className="bg-red-50 rounded-xl p-6 border border-red-100 shadow-sm">
-                                        <p className="text-sm font-medium text-red-600">Error: {chatState.historyError}</p>
+                                    <div className="bg-red-500/10 rounded-xl p-6 border border-red-500/20 shadow-sm">
+                                        <p className="text-sm font-medium text-red-600 dark:text-red-400">Error: {chatState.historyError}</p>
                                         <button
                                             onClick={loadChatHistory}
-                                            className="mt-3 px-4 py-1.5 text-xs bg-white text-red-600 hover:bg-red-50 border border-red-200 rounded-md font-medium shadow-sm">
+                                            className="mt-3 px-4 py-1.5 text-xs bg-background text-red-600 hover:bg-red-500/10 border border-red-500/20 rounded-md font-medium shadow-sm">
                                             Try Again
                                         </button>
                                     </div>
                                 </div>
                             ) : chatState.chatHistory.length === 0 ? (
                                 <div className="p-8 text-center">
-                                    <div className="bg-gray-50 rounded-xl p-6 border border-gray-100 shadow-sm">
-                                        <p className="text-sm text-gray-700 font-medium">No chat history found</p>
+                                    <div className="bg-muted rounded-xl p-6 border border-border shadow-sm">
+                                        <p className="text-sm text-foreground font-medium">No chat history found</p>
                                         <button
                                             onClick={loadChatHistory}
-                                            className="mt-3 px-4 py-1.5 text-xs bg-white text-blue-600 hover:bg-blue-50 border border-blue-200 rounded-md font-medium shadow-sm">
+                                            className="mt-3 px-4 py-1.5 text-xs bg-background text-primary hover:bg-primary/10 border border-primary/20 rounded-md font-medium shadow-sm">
                                             Refresh History
                                         </button>
                                     </div>
@@ -534,8 +534,8 @@ const ChatPage = () => {
                                 chatState.chatHistory.map((chat) => (
                                     <div
                                         key={chat.id}
-                                        className={`group cursor-pointer transition-all duration-200 hover:bg-gray-50 relative ${
-                                            chatState.selectedVisitorId === chat.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : 'border-l-4 border-l-transparent'
+                                        className={`group cursor-pointer transition-all duration-200 hover:bg-accent relative ${
+                                            chatState.selectedVisitorId === chat.id ? 'bg-primary/10 border-l-4 border-l-primary' : 'border-l-4 border-l-transparent'
                                         }`}
                                         onClick={async () => {
                                             await selectVisitor({ id: chat.id });
@@ -547,12 +547,12 @@ const ChatPage = () => {
                                         <div className="px-4 py-4 flex items-start space-x-3">
                                             {/* Avatar */}
                                             <div className="flex-shrink-0 relative">
-                                                <div className="w-11 h-11 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center border border-blue-200 shadow-sm">
-                                                    <span className="text-blue-700 text-sm font-semibold">V{chat.id.split('_')[1].slice(0, 2)}</span>
+                                                <div className="w-11 h-11 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center border border-primary/20 shadow-sm">
+                                                    <span className="text-primary text-sm font-semibold">V{chat.id.split('_')[1].slice(0, 2)}</span>
                                                 </div>
                                                 {/* Unread badge */}
                                                 {chat.unreadCount > 0 && (
-                                                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                                                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center border-2 border-background shadow-sm">
                                                         <span className="text-xs font-bold text-white">{chat.unreadCount > 99 ? '99+' : chat.unreadCount}</span>
                                                     </div>
                                                 )}
@@ -563,9 +563,9 @@ const ChatPage = () => {
                                                 {/* Header row: Visitor name and timestamp */}
                                                 <div className="flex items-center justify-between mb-1">
                                                     <h3 className={`text-sm font-semibold ${
-                                                        chat.unreadCount > 0 ? 'text-gray-900' : 'text-gray-800'
+                                                        chat.unreadCount > 0 ? 'text-foreground' : 'text-foreground/80'
                                                     }`}>Visitor {chat.id.split('_')[1]}</h3>
-                                                    <span className="text-xs text-gray-500 font-medium">
+                                                    <span className="text-xs text-muted-foreground font-medium">
                                                         {new Date(chat.timestamp).toLocaleDateString('en-US', {
                                                             month: 'short',
                                                             day: 'numeric'
@@ -575,27 +575,27 @@ const ChatPage = () => {
                                                 
                                                 {/* Message preview */}
                                                 <p className={`text-sm truncate mb-2 leading-relaxed ${
-                                                    chat.unreadCount > 0 ? 'text-gray-900 font-medium' : 'text-gray-600'
+                                                    chat.unreadCount > 0 ? 'text-foreground font-medium' : 'text-muted-foreground'
                                                 }`}>{chat.lastMessage}</p>
                                                 
                                                 {/* Bottom row: Stats badges */}
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center space-x-2">
                                                         {/* Message count badge */}
-                                                        <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
+                                                        <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-muted text-muted-foreground border border-border">
                                                             <MessageCircle className="w-3 h-3 mr-1" />
                                                             {chat.messageCount}
                                                         </span>
                                                         {/* Unread count badge */}
                                                         {chat.unreadCount > 0 && (
-                                                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-red-100 text-red-700 border border-red-200">
+                                                            <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">
                                                                 <span className="w-2 h-2 bg-red-500 rounded-full mr-1"></span>
                                                                 {chat.unreadCount} unread
                                                             </span>
                                                         )}
                                                     </div>
                                                     {/* Time */}
-                                                    <span className="text-xs text-gray-400">
+                                                    <span className="text-xs text-muted-foreground/70">
                                                         {new Date(chat.timestamp).toLocaleTimeString([], {
                                                             hour: 'numeric',
                                                             minute: '2-digit',
@@ -612,8 +612,8 @@ const ChatPage = () => {
                                                         e.stopPropagation();
                                                         deleteConversation(chat.id);
                                                     }}
-                                                    className="p-1.5 hover:bg-red-50 rounded-full transition-colors duration-200 group/delete">
-                                                    <Trash className="w-4 h-4 text-gray-400 group-hover/delete:text-red-500 transition-colors duration-200" />
+                                                    className="p-1.5 hover:bg-red-500/10 rounded-full transition-colors duration-200 group/delete">
+                                                    <Trash className="w-4 h-4 text-muted-foreground group-hover/delete:text-red-500 transition-colors duration-200" />
                                                 </button>
                                             </div>
                                         </div>
@@ -626,34 +626,34 @@ const ChatPage = () => {
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 flex flex-col bg-white">
+            <div className="flex-1 flex flex-col bg-background">
                 {chatState.selectedVisitorId ? (
                     <>
                         {/* Enhanced Chat Header with Visitor Info */}
-                        <div className="bg-white border-b border-gray-200 shadow-sm">
+                        <div className="bg-card border-b border-border shadow-sm">
                             <div className="px-6 py-4">
                                 <div className="flex items-center justify-between">
                                     <div className="flex-1">
                                         <div className="flex items-center space-x-4">
                                             {/* Mobile Back Button */}
                                             <button
-                                                className="lg:hidden p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
+                                                className="lg:hidden p-2 -ml-2 hover:bg-accent rounded-full transition-colors"
                                                 onClick={() => selectVisitor(null)}
                                                 aria-label="Back to conversation list"
                                             >
-                                                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                                 </svg>
                                             </button>
                                             {/* Visitor Avatar */}
                                             <div className="relative flex-shrink-0">
-                                                <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-full flex items-center justify-center border-2 border-blue-200 shadow-sm">
-                                                    <span className="text-blue-700 text-sm font-bold">V{chatState.selectedVisitorId.split('_')[1].slice(0, 2)}</span>
+                                                <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center border-2 border-primary/20 shadow-sm">
+                                                    <span className="text-primary text-sm font-bold">V{chatState.selectedVisitorId.split('_')[1].slice(0, 2)}</span>
                                                 </div>
                                                 
                                                 {/* Country Flag */}
                                                 {currentConversation?.country_code && (
-                                                    <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full overflow-hidden border-2 border-white shadow-sm bg-white">
+                                                    <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full overflow-hidden border-2 border-background shadow-sm bg-background">
                                                         <img 
                                                             src={`https://flagsapi.com/${currentConversation.country_code}/flat/32.png`}
                                                             alt={`${currentConversation.country} flag`}
@@ -668,41 +668,41 @@ const ChatPage = () => {
                                                 )}
                                                 
                                                 {/* Status Indicator */}
-                                                <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white shadow-sm ${
+                                                <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-background shadow-sm ${
                                                     chatState.visitorStatuses[chatState.selectedVisitorId] === 'online' 
                                                         ? 'bg-green-500' 
                                                         : chatState.visitorStatuses[chatState.selectedVisitorId] === 'away' 
                                                             ? 'bg-orange-500' 
-                                                            : 'bg-gray-400'
+                                                            : 'bg-muted-foreground'
                                                 }`} />
                                             </div>
                                             
                                             {/* Visitor Details */}
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center space-x-3">
-                                                    <h2 className="text-lg font-semibold text-gray-900">Visitor {chatState.selectedVisitorId.split('_')[1]}</h2>
+                                                    <h2 className="text-lg font-semibold text-foreground">Visitor {chatState.selectedVisitorId.split('_')[1]}</h2>
                                                     <div className="flex items-center space-x-1">
                                                         <div className={`w-2 h-2 rounded-full ${
                                                             chatState.visitorStatuses[chatState.selectedVisitorId] === 'online' 
                                                                 ? 'bg-green-500' 
                                                                 : chatState.visitorStatuses[chatState.selectedVisitorId] === 'away' 
                                                                     ? 'bg-orange-500' 
-                                                                    : 'bg-gray-400'
+                                                                    : 'bg-muted-foreground'
                                                         } animate-pulse`} />
-                                                        <span className="text-sm font-medium text-gray-600 capitalize">
+                                                        <span className="text-sm font-medium text-muted-foreground capitalize">
                                                             {chatState.visitorStatuses[chatState.selectedVisitorId] || 'offline'}
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <p className="text-sm text-gray-500 mt-0.5">{chatState.activeTab === 'history' ? 'Viewing chat history' : 'Live chat session'}</p>
+                                                <p className="text-sm text-muted-foreground mt-0.5">{chatState.activeTab === 'history' ? 'Viewing chat history' : 'Live chat session'}</p>
                                             </div>
                                         </div>
                                     </div>
                                     
                                     {chatState.activeTab === 'live' && (
-                                        <div className="flex items-center space-x-2 bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
+                                        <div className="flex items-center space-x-2 bg-muted px-3 py-1.5 rounded-full border border-border">
                                             <span className={`w-2 h-2 rounded-full ${chatState.isConnected ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
-                                            <span className="text-sm text-gray-600 font-medium">{chatState.isConnected ? 'Connected' : 'Disconnected'}</span>
+                                            <span className="text-sm text-muted-foreground font-medium">{chatState.isConnected ? 'Connected' : 'Disconnected'}</span>
                                         </div>
                                     )}
                                 </div>
@@ -711,7 +711,7 @@ const ChatPage = () => {
                         </div>
 
                         {/* Messages Container */}
-                        <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-6 chat-scrollbar bg-gradient-to-b from-gray-50/50 to-white">
+                        <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-6 chat-scrollbar bg-gradient-to-b from-muted/20 to-background">
                             {/* Load More Button */}
                             {hasMoreMessages && (
                                 <div className="flex justify-center mb-4">
@@ -719,11 +719,11 @@ const ChatPage = () => {
                                         onClick={handleLoadMore}
                                         disabled={isLoadingMore}
                                         className={`px-4 py-2 text-sm font-medium rounded-md shadow-sm transition-all duration-200 ${
-                                            isLoadingMore ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white text-blue-600 hover:bg-blue-50 border border-blue-200'
+                                            isLoadingMore ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-background text-primary hover:bg-primary/5 border border-primary/20'
                                         }`}>
                                         {isLoadingMore ? (
                                             <span className="flex items-center">
-                                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                     <path
                                                         className="opacity-75"
@@ -743,12 +743,12 @@ const ChatPage = () => {
                                     <div key={`${msg.timestamp}-${idx}`} className={`flex items-end space-x-2 ${msg.type === 'visitor' ? 'justify-start' : 'justify-end'} animate-fade-in`}>
                                         {/* Avatar for visitor messages */}
                                         {msg.type === 'visitor' && (
-                                            <div className="relative flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center border border-gray-200 shadow-sm animate-slide-in">
-                                                <span className="text-gray-600 text-xs font-medium">V</span>
+                                            <div className="relative flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center border border-border shadow-sm animate-slide-in">
+                                                <span className="text-muted-foreground text-xs font-medium">V</span>
                                                 
                                                 {/* Country Flag */}
                                                 {currentConversation?.country_code && (
-                                                    <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full overflow-hidden border border-white shadow-sm bg-white">
+                                                    <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full overflow-hidden border border-background shadow-sm bg-background">
                                                         <img 
                                                             src={`https://flagsapi.com/${currentConversation.country_code}/flat/32.png`}
                                                             alt={`${currentConversation.country} flag`}
@@ -767,7 +767,7 @@ const ChatPage = () => {
                                         <div className={`group relative max-w-[70%] ${msg.type === 'visitor' ? 'ml-2' : 'mr-2'}`}>
                                             {/* Timestamp tooltip */}
                                             <div className={`absolute ${msg.type === 'visitor' ? '-left-2' : '-right-2'} -top-6 opacity-0 group-hover:opacity-100 transition-opacity duration-200`}>
-                                                <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full shadow-sm border">
+                                                <span className="text-xs text-muted-foreground bg-background px-2 py-1 rounded-full shadow-sm border border-border">
                                                     {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </span>
                                             </div>
@@ -777,15 +777,15 @@ const ChatPage = () => {
                                                     msg.type === 'visitor' ? 'message-bubble-visitor' : msg.type === 'ai' ? 'message-bubble-ai' : 'message-bubble-admin'
                                                 } relative rounded-2xl px-4 py-3 shadow-md transition-all duration-200 hover:shadow-lg ${
                                                     msg.type === 'visitor'
-                                                        ? 'bg-white border border-gray-100 text-gray-800 rounded-bl-none'
+                                                        ? 'bg-background border border-border text-foreground rounded-bl-none'
                                                         : msg.type === 'ai'
-                                                        ? 'bg-blue-50 border border-blue-100 text-blue-800 rounded-br-none'
-                                                        : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-br-none'
+                                                        ? 'bg-primary/10 border border-primary/20 text-primary rounded-br-none'
+                                                        : 'bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-br-none'
                                                 }`}>
                                                 <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">{msg.message}</p>
 
                                                 <div className="mt-1 flex items-center space-x-2 opacity-75">
-                                                    <span className={`text-xs font-medium ${msg.type === 'visitor' ? 'text-gray-500' : msg.type === 'ai' ? 'text-blue-600' : 'text-blue-50'}`}>
+                                                    <span className={`text-xs font-medium ${msg.type === 'visitor' ? 'text-muted-foreground' : msg.type === 'ai' ? 'text-primary' : 'text-primary-foreground/70'}`}>
                                                         {msg.type === 'ai' ? 'AI Assistant' : msg.type === 'admin' ? 'Admin' : 'Visitor'}
                                                     </span>
                                                 </div>
@@ -795,7 +795,7 @@ const ChatPage = () => {
                                                         {msg.type !== 'admin' && msg.browser && (
                                                             <span
                                                                 className={`text-xs px-2 py-0.5 rounded-full ${
-                                                                    msg.type === 'visitor' ? 'bg-gray-50 text-gray-500 border border-gray-100' : 'bg-blue-100/50 text-blue-600 border border-blue-200'
+                                                                    msg.type === 'visitor' ? 'bg-muted text-muted-foreground border border-border' : 'bg-primary/10 text-primary border border-primary/20'
                                                                 }`}>
                                                                 {msg.browser}
                                                             </span>
@@ -803,7 +803,7 @@ const ChatPage = () => {
                                                         {msg.country && (
                                                             <span
                                                                 className={`text-xs px-2 py-0.5 rounded-full ${
-                                                                    msg.type === 'visitor' ? 'bg-gray-50 text-gray-500 border border-gray-100' : 'bg-blue-100/50 text-blue-600 border border-blue-200'
+                                                                    msg.type === 'visitor' ? 'bg-muted text-muted-foreground border border-border' : 'bg-primary/10 text-primary border border-primary/20'
                                                                 }`}>
                                                                 {msg.country}
                                                             </span>
@@ -817,9 +817,9 @@ const ChatPage = () => {
                                         {msg.type !== 'visitor' && (
                                             <div
                                                 className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border shadow-sm animate-slide-in ${
-                                                    msg.type === 'ai' ? 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200' : 'bg-gradient-to-br from-blue-600 to-blue-700 border-blue-700'
+                                                    msg.type === 'ai' ? 'bg-gradient-to-br from-primary/10 to-primary/20 border-primary/20' : 'bg-gradient-to-br from-primary to-primary/80 border-primary'
                                                 }`}>
-                                                <span className={`text-xs font-medium ${msg.type === 'ai' ? 'text-blue-700' : 'text-white'}`}>{msg.type === 'ai' ? 'AI' : 'A'}</span>
+                                                <span className={`text-xs font-medium ${msg.type === 'ai' ? 'text-primary' : 'text-primary-foreground'}`}>{msg.type === 'ai' ? 'AI' : 'A'}</span>
                                             </div>
                                         )}
                                     </div>
@@ -828,18 +828,18 @@ const ChatPage = () => {
                                 {/* AI Typing Indicator */}
                                 {isTypingIndicatorVisible && (
                                     <div className="flex items-end space-x-2 justify-start animate-fade-in">
-                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center border border-blue-200 shadow-sm animate-slide-in">
-                                            <span className="text-blue-700 text-xs font-medium">AI</span>
+                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center border border-primary/20 shadow-sm animate-slide-in">
+                                            <span className="text-primary text-xs font-medium">AI</span>
                                         </div>
                                         <div className="group relative max-w-[70%] ml-2">
-                                            <div className="message-bubble message-bubble-ai relative rounded-2xl px-4 py-3 shadow-md bg-blue-50 border border-blue-100 text-blue-800 rounded-br-none">
+                                            <div className="message-bubble message-bubble-ai relative rounded-2xl px-4 py-3 shadow-md bg-primary/10 border border-primary/20 text-primary rounded-br-none">
                                                 <div className="typing-indicator flex items-center space-x-1.5 h-6">
-                                                    <span className="inline-block w-2.5 h-2.5 bg-blue-500 rounded-full opacity-60" style={{ animation: 'typingAnimation 1s infinite 0.2s' }}></span>
-                                                    <span className="inline-block w-2.5 h-2.5 bg-blue-500 rounded-full opacity-60" style={{ animation: 'typingAnimation 1s infinite 0.4s' }}></span>
-                                                    <span className="inline-block w-2.5 h-2.5 bg-blue-500 rounded-full opacity-60" style={{ animation: 'typingAnimation 1s infinite 0.6s' }}></span>
+                                                    <span className="inline-block w-2.5 h-2.5 bg-primary rounded-full opacity-60" style={{ animation: 'typingAnimation 1s infinite 0.2s' }}></span>
+                                                    <span className="inline-block w-2.5 h-2.5 bg-primary rounded-full opacity-60" style={{ animation: 'typingAnimation 1s infinite 0.4s' }}></span>
+                                                    <span className="inline-block w-2.5 h-2.5 bg-primary rounded-full opacity-60" style={{ animation: 'typingAnimation 1s infinite 0.6s' }}></span>
                                                 </div>
                                                 <div className="mt-1 flex items-center space-x-2 opacity-75">
-                                                    <span className="text-xs font-medium text-blue-600">AI Assistant is typing...</span>
+                                                    <span className="text-xs font-medium text-primary">AI Assistant is typing...</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -848,15 +848,15 @@ const ChatPage = () => {
                             </div>
                             <div ref={messagesEndRef} />
                         </div>
-                        <div className="p-6 bg-white border-t border-gray-200">
+                        <div className="p-6 bg-card border-t border-border">
                             <form onSubmit={handleSendMessage} className="relative">
                                 <div className="relative rounded-xl shadow-sm">
                                     <input
                                         type="text"
                                         value={inputMessage}
                                         onChange={handleInputChange}
-                                        className={`chat-input w-full border-2 rounded-xl pl-4 pr-28 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${
-                                            !chatState.isConnected || chatState.activeTab === 'history' ? 'bg-gray-50 text-gray-500 border-gray-200' : 'bg-white border-gray-200 hover:border-gray-300'
+                                        className={`chat-input w-full border-2 rounded-xl pl-4 pr-28 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 ${
+                                            !chatState.isConnected || chatState.activeTab === 'history' ? 'bg-muted text-muted-foreground border-border' : 'bg-background border-border hover:border-border/80'
                                         }`}
                                         placeholder={!chatState.isConnected ? 'Disconnected...' : chatState.activeTab === 'history' ? 'Cannot send messages in history view' : 'Type your message...'}
                                         disabled={!chatState.isConnected || chatState.activeTab === 'history'}
@@ -866,8 +866,8 @@ const ChatPage = () => {
                                             type="submit"
                                             className={`px-4 py-1.5 rounded-lg font-medium transition-all duration-200 ${
                                                 !chatState.isConnected || !inputMessage.trim() || chatState.activeTab === 'history'
-                                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                                    : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md active:transform active:scale-95'
+                                                    ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                                                    : 'bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md active:transform active:scale-95'
                                             }`}
                                             disabled={!chatState.isConnected || !inputMessage.trim() || chatState.activeTab === 'history'}>
                                             Send
@@ -878,14 +878,14 @@ const ChatPage = () => {
                         </div>
                     </>
                 ) : (
-                    <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-gradient-to-b from-gray-50/50 to-white">
-                        <div className="bg-white p-8 rounded-2xl shadow-md border border-gray-100 max-w-md">
-                            <div className="text-blue-500 mb-4">
+                    <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-gradient-to-b from-muted/20 to-background">
+                        <div className="bg-card p-8 rounded-2xl shadow-md border border-border max-w-md">
+                            <div className="text-primary mb-4">
                                 <MessageCircle className="w-16 h-16 mx-auto opacity-80" />
                             </div>
-                            <h3 className="text-xl font-semibold text-gray-900 mb-2">Welcome to Enterprise Chat</h3>
-                            <p className="text-gray-600 mb-6">Select a {chatState.activeTab === 'live' ? 'visitor' : 'chat history'} from the sidebar to start viewing the conversation</p>
-                            <div className="text-sm text-gray-500 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                            <h3 className="text-xl font-semibold text-foreground mb-2">Welcome to Enterprise Chat</h3>
+                            <p className="text-muted-foreground mb-6">Select a {chatState.activeTab === 'live' ? 'visitor' : 'chat history'} from the sidebar to start viewing the conversation</p>
+                            <div className="text-sm text-muted-foreground bg-muted p-3 rounded-lg border border-border">
                                 <p>Your AI assistant is {chatState.selectedWebsite?.isAiEnabled ? 'enabled' : 'disabled'} for the selected website</p>
                             </div>
                         </div>
